@@ -3,7 +3,12 @@ import { FiDownload } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import SocialLinks from "@/components/shared/SocialLinks";
 
-export default function Hero({ profile, socials }: { profile: Profile; socials: Social[] }) {
+export interface HeroProps {
+  profile: Profile;
+  socials: Social[];
+}
+
+export default function Hero({ profile, socials }: HeroProps) {
   return (
     <section className="min-h-screen flex items-center pt-14">
       <div className="max-w-6xl mx-auto px-6 py-24 w-full">

@@ -10,6 +10,9 @@ out/
 .env.local
 .env.*.local
 
+# test coverage output
+coverage/
+
 # misc
 .DS_Store
 *.pem

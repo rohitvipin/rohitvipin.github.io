@@ -2,7 +2,11 @@ import type { SkillCategory } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 import SkillCategoryCard from "@/components/skills/SkillCategoryCard";
 
-export default function SkillsSection({ skills }: { skills: SkillCategory[] }) {
+export interface SkillsSectionProps {
+  skills: SkillCategory[];
+}
+
+export default function SkillsSection({ skills }: SkillsSectionProps) {
   return (
     <section id="skills" className="section">
       <div className="max-w-6xl mx-auto px-6">

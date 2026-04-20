@@ -2,7 +2,11 @@ import type { Profile } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { FiMapPin, FiClock, FiCalendar } from "react-icons/fi";
 
-export default function About({ profile }: { profile: Profile }) {
+export interface AboutProps {
+  profile: Profile;
+}
+
+export default function About({ profile }: AboutProps) {
   const paragraphs = profile.bio.split("\n\n");
 
   return (

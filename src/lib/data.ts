@@ -9,6 +9,18 @@ import type {
   CommunityEntry,
   Leadership,
 } from "@/types";
+import {
+  ProfileSchema,
+  ExperienceSchema,
+  ProjectSchema,
+  SkillCategorySchema,
+  EducationSchema,
+  SocialSchema,
+  AwardSchema,
+  CommunityEntrySchema,
+  LeadershipSchema,
+} from "@/lib/schemas";
+import { z } from "zod";
 
 import profileData from "../../data/profile.json";
 import experienceData from "../../data/experience.json";
@@ -20,13 +32,12 @@ import awardsData from "../../data/awards.json";
 import communityData from "../../data/community.json";
 import leadershipData from "../../data/leadership.json";
 
-// Cast to Profile so literal union types (e.g. availability_status) are enforced by the type, not inferred from JSON
-export const profile = profileData as unknown as Profile;
-export const experience = experienceData satisfies ExperienceEntry[];
-export const projects = projectsData satisfies Project[];
-export const skills = skillsData satisfies SkillCategory[];
-export const education = educationData satisfies Education[];
-export const socials = socialsData satisfies Social[];
-export const awards = awardsData satisfies Award[];
-export const community = communityData satisfies CommunityEntry[];
-export const leadership = leadershipData satisfies Leadership;
+export const profile: Profile = ProfileSchema.parse(profileData);
+export const experience: ExperienceEntry[] = z.array(ExperienceSchema).parse(experienceData);
+export const projects: Project[] = z.array(ProjectSchema).parse(projectsData);
+export const skills: SkillCategory[] = z.array(SkillCategorySchema).parse(skillsData);
+export const education: Education[] = z.array(EducationSchema).parse(educationData);
+export const socials: Social[] = z.array(SocialSchema).parse(socialsData);
+export const awards: Award[] = z.array(AwardSchema).parse(awardsData);
+export const community: CommunityEntry[] = z.array(CommunityEntrySchema).parse(communityData);
+export const leadership: Leadership = LeadershipSchema.parse(leadershipData);

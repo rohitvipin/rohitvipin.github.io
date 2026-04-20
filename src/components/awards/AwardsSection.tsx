@@ -2,7 +2,11 @@ import type { Award } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { FaTrophy } from "react-icons/fa6";
 
-export default function AwardsSection({ awards }: { awards: Award[] }) {
+export interface AwardsSectionProps {
+  awards: Award[];
+}
+
+export default function AwardsSection({ awards }: AwardsSectionProps) {
   return (
     <section id="awards" className="section">
       <div className="max-w-6xl mx-auto px-6">

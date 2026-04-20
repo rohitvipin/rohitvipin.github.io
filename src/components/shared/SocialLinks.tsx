@@ -11,13 +11,12 @@ const iconMap: Record<string, React.ReactNode> = {
   email: <FiMail size={18} />,
 };
 
-export default function SocialLinks({
-  socials,
-  className = "",
-}: {
+export interface SocialLinksProps {
   socials: Social[];
   className?: string;
-}) {
+}
+
+export default function SocialLinks({ socials, className = "" }: SocialLinksProps) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {socials.map((s) => (

@@ -2,13 +2,53 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rohitvipin.github.io/rohit-profile/</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#about</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#experience</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#projects</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#leadership</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#skills</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#community</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#awards</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/#education</loc>
+    <lastmod>2026-04-21</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://rohitvipin.github.io/rohit-profile/Rohit_Vipin_Mathews_Resume.pdf</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-04-21</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

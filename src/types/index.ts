@@ -16,7 +16,7 @@ export interface Profile {
   years_of_experience: number;
   timezone: string;
   availability_status: "open" | "closed" | "passive";
-  profile_picture: string;
+  profile_picture?: string;
   github_avatar: string;
   key_metrics: KeyMetric[];
   tags?: string[];

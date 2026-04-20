@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
-import { lintContent } from "./lint-data-core";
+import { lintContent, validateSchema } from "./lint-data-core";
 
 const dataDir = join(process.cwd(), "data");
 const files = readdirSync(dataDir).filter((f) => f.endsWith(".json"));
@@ -20,6 +20,11 @@ for (const file of files) {
 
   for (const { line, label } of result.violations) {
     console.error(`data/${file}:${line} - forbidden character ${label}`);
+    errors++;
+  }
+
+  for (const msg of validateSchema(raw, file)) {
+    console.error(msg);
     errors++;
   }
 }

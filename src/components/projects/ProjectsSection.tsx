@@ -6,7 +6,11 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import ProjectCard from "./ProjectCard";
 import { partitionProjects } from "@/lib/projects";
 
-export default function ProjectsSection({ projects }: { projects: Project[] }) {
+export interface ProjectsSectionProps {
+  projects: Project[];
+}
+
+export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [tab, setTab] = useState<"client" | "oss">("client");
 
   const { clientProjects, ossProjects } = partitionProjects(projects);

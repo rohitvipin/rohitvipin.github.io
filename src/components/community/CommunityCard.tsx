@@ -4,12 +4,12 @@ import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import type { CommunityEntry } from "@/types";
 
-interface Props {
+export interface CommunityCardProps {
   entry: CommunityEntry;
   icon: React.ReactNode;
 }
 
-export default function CommunityCard({ entry, icon }: Props) {
+export default function CommunityCard({ entry, icon }: CommunityCardProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -30,6 +30,7 @@ export default function CommunityCard({ entry, icon }: Props) {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity"
         aria-expanded={open}
+        aria-label={open ? "Hide highlights" : `Show ${entry.highlights.length} highlights`}
       >
         <FiChevronDown
           size={14}

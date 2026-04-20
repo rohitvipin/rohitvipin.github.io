@@ -1,30 +1,26 @@
-# Rohit Vipin Mathews - Personal Profile Repository
+# Rohit Vipin Mathews - Personal Profile
 
-## Overview
+[![CI](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/ci.yml)
+[![Deploy](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/deploy.yml)
 
-This repository serves as the central hub and content aggregation platform for the personal profile website of **Rohit Vipin Mathews**. It is structured to act as a headless CMS, separating the content (JSON/Markdown) from the presentation layer (which will be built in the future).
+**Production portfolio site** for Rohit Vipin Mathews — Next.js 16 static export deployed to GitHub Pages.  
+Live: https://rohitvipin.github.io/rohit-profile
 
-## Current Phase
+## Quick Start
 
-The current phase is strictly **Planning and Content Aggregation**. No UI, HTML, or active development represents this state.
-
-## Folder Structure
-
-```text
-rohit-profile/
-├── README.md              # Project overview and setup documentation
-├── agent.md               # Guidelines and instructions for AI agents building the UI
-├── data/                  # Dynamic content to be fetched via API or read by SSG
-│   ├── profile.json       # Core profile details and bio
-│   ├── socials.json       # Social media footprint and links
-│   ├── skills.json        # Technical skills and competencies
-│   └── experience.json    # Work history and roles
-└── docs/                  # Markdown files containing extensive project documentation
-    ├── content_strategy.md# How content will be managed and updated
-    └── architecture.md    # Proposed architecture for the future frontend build
+```bash
+npm install
+npm run dev        # Dev server @ http://localhost:3000
+npm run build      # Production build
+npm run test       # Run tests
 ```
 
-## How to use this data
+## Documentation
 
-All data in the `data/` directory is structured in JSON. The future UI build allows this to be dynamically routed inside a React/Next.js/Vite application.
-The markdown files in `docs/` provide the technical structure for how to expand this repository once the development phase begins.
+**First time?** → **[Getting Started](docs/GETTING_STARTED.md)**  
+**Want to contribute?** → **[CONTRIBUTING.md](CONTRIBUTING.md)**  
+**Full reference?** → **[Documentation Index](docs/INDEX.md)**
+
+---
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow.

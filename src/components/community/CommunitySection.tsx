@@ -11,7 +11,11 @@ const iconMap: Record<string, React.ReactNode> = {
   Mentorship: <FiBookOpen size={18} />,
 };
 
-export default function CommunitySection({ community }: { community: CommunityEntry[] }) {
+export interface CommunitySectionProps {
+  community: CommunityEntry[];
+}
+
+export default function CommunitySection({ community }: CommunitySectionProps) {
   return (
     <section id="community" className="section">
       <div className="max-w-6xl mx-auto px-6">
