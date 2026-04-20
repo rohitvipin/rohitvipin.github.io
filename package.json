@@ -19,7 +19,8 @@
     "format:check": "prettier --check .",
     "preview": "npm run build && npx serve out",
     "prepare": "husky",
-    "generate-favicons": "tsx utils/generate-favicons.ts"
+    "generate-favicons": "tsx utils/generate-favicons.ts",
+    "generate-resume": "tsx utils/generate-resume.ts"
   },
   "dependencies": {
     "next": "16.2.4",
