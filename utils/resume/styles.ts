@@ -93,6 +93,12 @@ export const styles = StyleSheet.create({
     color: TEXT_PRIMARY,
     flex: 1,
   },
+  entryTitleBlock: {
+    fontSize: 9,
+    fontFamily: "Helvetica-Bold",
+    color: TEXT_PRIMARY,
+    marginBottom: 2,
+  },
   entryDuration: {
     fontSize: 8,
     color: TEXT_MUTED,
