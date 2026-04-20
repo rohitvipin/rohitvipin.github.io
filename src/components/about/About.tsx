@@ -17,7 +17,7 @@ export default function About({ profile }: { profile: Profile }) {
               </p>
             ))}
           </div>
-          <div className="space-y-4">
+          <div className="ml-auto w-fit space-y-4">
             <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
               <FiMapPin size={16} className="text-[var(--accent)] shrink-0" />
               {profile.location}
@@ -32,7 +32,7 @@ export default function About({ profile }: { profile: Profile }) {
             </div>
             <a
               href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+              className="inline-flex items-center gap-2 mt-2 px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
             >
               {profile.email}
             </a>

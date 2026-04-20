@@ -51,12 +51,15 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
               </a>
             </div>
 
-            <SocialLinks socials={socials} />
+            {/* Mobile-only socials */}
+            <div className="lg:hidden">
+              <SocialLinks socials={socials} />
+            </div>
           </div>
 
-          {/* Right — avatar */}
-          <div className="hidden lg:flex justify-center">
-            <div className="relative w-48 h-48 rounded-2xl overflow-hidden border-2 border-[var(--border)] shadow-2xl">
+          {/* Right — avatar + socials */}
+          <div className="hidden lg:flex flex-col items-end gap-5">
+            <div className="relative w-72 h-72 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
               <Image
                 src={profile.github_avatar}
                 alt={profile.name}
@@ -65,6 +68,7 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
                 priority
               />
             </div>
+            <SocialLinks socials={socials} />
           </div>
         </div>
 

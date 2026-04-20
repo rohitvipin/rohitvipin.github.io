@@ -23,5 +23,10 @@
     "platform": "Twitter",
     "url": "https://twitter.com/rohitvipin",
     "icon": "twitter"
+  },
+  {
+    "platform": "Email",
+    "url": "mailto:rohitvipin@gmail.com",
+    "icon": "email"
   }
 ]
