@@ -31,8 +31,7 @@ export function Header({ profile, socials, showKeyMetrics }: HeaderProps) {
         <Link src={`mailto:${profile.email}`} style={styles.linkText}>
           {profile.email}
         </Link>
-      </Text>
-      <Text style={styles.contactLine}>
+        {"  |  "}
         {relevantSocials.map((s, i) => (
           <React.Fragment key={s.platform}>
             {i > 0 && "  |  "}
