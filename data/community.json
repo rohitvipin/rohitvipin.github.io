@@ -1,11 +1,11 @@
 [
   {
     "type": "Community Leadership",
-    "title": "XHackers Xamarin User Group – Founder & Organizer",
+    "title": "XHackers Xamarin User Group – Founder & Organiser",
     "location": "Chennai, India",
-    "description": "Founded and led the XHackers Xamarin User Group in Chennai, organizing 20+ meetups attended by 500+ developers focused on mobile and cross-platform development.",
+    "description": "Founded and led the XHackers Xamarin User Group in Chennai, organising 20+ meetups attended by 500+ developers focused on mobile and cross-platform development.",
     "highlights": [
-      "Organized 20+ technical meetups",
+      "Organised 20+ technical meetups",
       "Built community of 500+ attendees",
       "Focused on Xamarin, MAUI, and cross-platform mobile engineering"
     ]
@@ -32,7 +32,7 @@
       "Kerala .NET / K-MUG Meetup, Kochi (recurring) — speaker at Kerala Microsoft Users Group (.NET meetup) in Kochi covering .NET architecture, cloud engineering, and cross-platform mobile development",
       "XHackers Chennai Monthly Sessions (2015–2019, Microsoft India office, Prestige Polygon, Chennai) — speaker and founding organiser across 20+ monthly sessions covering Xamarin.Forms, .NET MAUI, serverless architecture, and cross-platform engineering; community grew to 1,300+ registered members",
       ".NET Dev Summit 2020 (Virtual, August 2020) — speaker and co-organiser of virtual developer conference covering the .NET ecosystem and cloud development practices",
-      "India Microsoft Azure Community Conference 2020 (Virtual, November 2020) — speaker and co-organiser covering Azure cloud engineering and best practices",
+      "India Microsoft Azure Community Conference 2020 (Virtual, November 2020) — speaker and co-organiser covering Azure cloud engineering, service design, and operational patterns",
       "XHackers Kerala inaugural meetup (November 2014, Startup Village, Kalamassery, Kochi) — co-organised and spoke at the first-ever Xamarin User Group event in Kerala; Xamarin Evolve recap for Kochi developer community",
       "AWS Summit Chicago — Volunteer (2017, McCormick Place, Chicago, USA) — volunteered at Amazon Web Services annual US Summit during USA onshore engagement; attended deep-dive sessions on AWS cloud architecture, serverless, containers, and IoT; notably present for the live S3 demo disruption caused by the US-East-1 outage that month — one of the most memorable AWS infrastructure incidents in cloud history"
     ]
