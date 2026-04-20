@@ -6,4 +6,9 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://rohitvipin.github.io/rohit-profile/Rohit_Vipin_Mathews_Resume.pdf</loc>
+    <lastmod>2026-04-20</lastmod>
+    <priority>0.8</priority>
+  </url>
 </urlset>

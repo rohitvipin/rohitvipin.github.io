@@ -15,6 +15,8 @@ Personal portfolio site for **Rohit Vipin Mathews** — Next.js 16 static export
   - `src/lib/data.ts` — typed JSON importers (build-time only, no fetch)
   - `src/app/` — layout, page, globals.css
   - `src/components/` — section and shared components
+- `utils/` — One-off dev scripts (TypeScript, run via `tsx`)
+  - `generate-favicons.ts` — Generates full favicon + OG image suite via `sharp`; run with `npm run generate-favicons`
 - `docs/` — Architecture and content-strategy specs
 - `public/` — Static assets (resume PDF, robots.txt, sitemap.xml, og-image)
 - `.github/workflows/deploy.yml` — GitHub Actions: build → deploy to gh-pages
