@@ -19,8 +19,19 @@ let errors = 0;
 
 for (const file of files) {
   const path = join(dataDir, file);
-  const lines = readFileSync(path, "utf8").split("\n");
+  const raw = readFileSync(path, "utf8");
 
+  // Validate JSON syntax
+  try {
+    JSON.parse(raw);
+  } catch (e) {
+    console.error(`data/${file} - invalid JSON: ${(e as Error).message}`);
+    errors++;
+    continue;
+  }
+
+  // Check for forbidden characters
+  const lines = raw.split("\n");
   for (let i = 0; i < lines.length; i++) {
     for (const { char, label } of FORBIDDEN) {
       if (lines[i].includes(char)) {
@@ -32,8 +43,8 @@ for (const file of files) {
 }
 
 if (errors > 0) {
-  console.error(`\n${errors} forbidden character(s) found in data/*.json`);
+  console.error(`\n${errors} error(s) found in data/*.json`);
   process.exit(1);
 } else {
-  console.log("data/*.json - no forbidden characters found");
+  console.log("data/*.json - all valid");
 }
