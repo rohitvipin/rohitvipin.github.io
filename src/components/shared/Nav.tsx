@@ -23,7 +23,9 @@ export default function Nav({ initials }: { initials: string }) {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         <a
           href="#"
-          className="font-semibold text-sm text-[var(--text)] tracking-tight hover:text-[var(--accent)] transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded border border-[var(--accent)] text-[var(--accent)] text-sm font-bold hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+          style={{ fontFamily: "'Courier New', Courier, monospace" }}
+          aria-label="Home"
         >
           {initials}
         </a>

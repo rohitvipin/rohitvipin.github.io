@@ -17,21 +17,20 @@ function makeSvg(
   taglineFontSize = 0
 ): string {
   const radius = Math.round(size * 0.18);
-  const mainY = tagline ? Math.round(size * 0.46) : Math.round(size * 0.62);
+  const mainY = tagline ? Math.round(size * 0.46) : Math.round(size * 0.56);
   const taglineY = Math.round(size * 0.67);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <rect width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="#0f172a"/>
   <text
     x="50%" y="${mainY}"
-    font-family="Arial, Helvetica, sans-serif"
+    font-family="'Courier New', Courier, monospace"
     font-size="${fontSize}"
     font-weight="700"
     fill="#ffffff"
     text-anchor="middle"
     dominant-baseline="middle"
-    letter-spacing="${Math.round(fontSize * 0.04)}"
-  >RVM</text>
+  >R</text>
   ${
     tagline
       ? `<text
@@ -96,11 +95,11 @@ interface FaviconSpec {
 
 async function generate(): Promise<void> {
   const sizes: FaviconSpec[] = [
-    { name: "favicon-16x16.png", size: 16, fontSize: 9 },
-    { name: "favicon-32x32.png", size: 32, fontSize: 18 },
-    { name: "apple-touch-icon.png", size: 180, fontSize: 88 },
-    { name: "android-chrome-192x192.png", size: 192, fontSize: 94 },
-    { name: "android-chrome-512x512.png", size: 512, fontSize: 250 },
+    { name: "favicon-16x16.png", size: 16, fontSize: 11 },
+    { name: "favicon-32x32.png", size: 32, fontSize: 22 },
+    { name: "apple-touch-icon.png", size: 180, fontSize: 115 },
+    { name: "android-chrome-192x192.png", size: 192, fontSize: 122 },
+    { name: "android-chrome-512x512.png", size: 512, fontSize: 320 },
   ];
 
   for (const { name, size, fontSize } of sizes) {
@@ -109,7 +108,7 @@ async function generate(): Promise<void> {
     console.log(`  ✓ ${name}`);
   }
 
-  const ico32 = await sharp(Buffer.from(makeSvg(32, 18)))
+  const ico32 = await sharp(Buffer.from(makeSvg(32, 22)))
     .png()
     .toBuffer();
   fs.writeFileSync(path.join(__dirname, "../src/app/favicon.ico"), ico32);
