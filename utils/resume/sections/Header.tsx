@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Link } from "@react-pdf/renderer";
 import { styles } from "../styles";
 import type { Profile, Social, KeyMetric } from "../../../src/types";
 
@@ -21,19 +21,23 @@ function MetricsLine({ metrics }: { metrics: KeyMetric[] }) {
 export function Header({ profile, socials, showKeyMetrics }: HeaderProps) {
   const relevantSocials = socials.filter((s) => CONTACT_SOCIALS.includes(s.platform));
 
-  const contactParts = [
-    profile.email,
-    profile.location,
-    ...relevantSocials.map((s) => `${s.platform}: ${s.url}`),
-  ];
-
   return (
     <View style={styles.header}>
       <Text style={styles.name}>{profile.name}</Text>
       <Text style={styles.jobTitle}>{profile.title}</Text>
       <Text style={styles.headline}>{profile.headline}</Text>
       {showKeyMetrics && <MetricsLine metrics={profile.key_metrics} />}
-      <Text style={styles.contactLine}>{contactParts.join("  |  ")}</Text>
+      <Text style={styles.contactLine}>{profile.email}</Text>
+      <Text style={styles.contactLine}>
+        {relevantSocials.map((s, i) => (
+          <React.Fragment key={s.platform}>
+            {i > 0 && "  |  "}
+            <Link src={s.url} style={styles.linkText}>
+              {s.url}
+            </Link>
+          </React.Fragment>
+        ))}
+      </Text>
     </View>
   );
 }

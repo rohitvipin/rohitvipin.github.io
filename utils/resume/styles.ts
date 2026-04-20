@@ -48,6 +48,10 @@ export const styles = StyleSheet.create({
     color: TEXT_MUTED,
     marginBottom: 3,
   },
+  linkText: {
+    fontSize: 8,
+    color: ACCENT,
+  },
 
   // ── Key metrics (single pipe-separated text line) ──
   metricsLine: {
