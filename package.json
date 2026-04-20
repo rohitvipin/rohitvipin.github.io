@@ -12,7 +12,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
-    "lint": "eslint .",
+    "lint": "eslint . && tsx utils/lint-data.ts",
+    "lint:data": "tsx utils/lint-data.ts",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -34,6 +35,9 @@
     ],
     "*.{json,css,md}": [
       "prettier --write"
+    ],
+    "data/*.json": [
+      "tsx utils/lint-data.ts"
     ]
   },
   "devDependencies": {
