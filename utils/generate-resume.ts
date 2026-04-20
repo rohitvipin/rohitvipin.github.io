@@ -50,7 +50,8 @@ async function generate() {
     awards: awardsData as Award[],
   });
 
-  const stream = await renderToStream(element);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stream = await renderToStream(element as any);
   const out = createWriteStream(OUTPUT_PATH);
   await pipeline(stream, out);
   console.log(`Resume written to ${OUTPUT_PATH}`);

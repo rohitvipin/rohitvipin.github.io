@@ -25,7 +25,14 @@
       "Bash(npm uninstall *)",
       "Bash(npx husky *)",
       "Bash(npx tsc *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --title 'feat: SEO overhaul, dynamic resume PDF, community section, skills UX' --body ' *)",
+      "Bash(gh pr *)",
+      "Bash(gh api *)",
+      "Bash(git checkout *)",
+      "Bash(npm test *)",
+      "Bash(gh repo *)"
     ]
   }
 }

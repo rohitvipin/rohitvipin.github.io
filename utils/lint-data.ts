@@ -1,16 +1,6 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
-
-const FORBIDDEN: Array<{ char: string; label: string }> = [
-  { char: "\u2014", label: "em dash (—)" },
-  { char: "\u2013", label: "en dash (–)" },
-  { char: "\u00B7", label: "middle dot (·)" },
-  { char: "\u2026", label: "ellipsis (…)" },
-  { char: "\u201C", label: "left double quote (\u201C)" },
-  { char: "\u201D", label: "right double quote (\u201D)" },
-  { char: "\u2018", label: "left single quote (\u2018)" },
-  { char: "\u2019", label: "right single quote (\u2019)" },
-];
+import { lintContent } from "./lint-data-core";
 
 const dataDir = join(process.cwd(), "data");
 const files = readdirSync(dataDir).filter((f) => f.endsWith(".json"));
@@ -20,25 +10,17 @@ let errors = 0;
 for (const file of files) {
   const path = join(dataDir, file);
   const raw = readFileSync(path, "utf8");
+  const result = lintContent(raw);
 
-  // Validate JSON syntax
-  try {
-    JSON.parse(raw);
-  } catch (e) {
-    console.error(`data/${file} - invalid JSON: ${(e as Error).message}`);
+  if (result.parseError) {
+    console.error(`data/${file} - invalid JSON: ${result.parseError}`);
     errors++;
     continue;
   }
 
-  // Check for forbidden characters
-  const lines = raw.split("\n");
-  for (let i = 0; i < lines.length; i++) {
-    for (const { char, label } of FORBIDDEN) {
-      if (lines[i].includes(char)) {
-        console.error(`data/${file}:${i + 1} - forbidden character ${label}`);
-        errors++;
-      }
-    }
+  for (const { line, label } of result.violations) {
+    console.error(`data/${file}:${line} - forbidden character ${label}`);
+    errors++;
   }
 }
 
