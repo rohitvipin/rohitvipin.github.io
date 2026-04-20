@@ -1,0 +1,23 @@
+{
+  "pageSize": "A4",
+  "font": "Helvetica",
+  "showKeyMetrics": true,
+  "sectionOrder": [
+    "experience",
+    "skills",
+    "projects",
+    "leadership",
+    "education",
+    "community",
+    "awards"
+  ],
+  "sections": {
+    "experience": { "show": true, "sinceYear": 2016 },
+    "skills": { "show": true },
+    "projects": { "show": true, "maxItems": 3 },
+    "leadership": { "show": true },
+    "education": { "show": true },
+    "community": { "show": true, "maxItems": 3 },
+    "awards": { "show": true }
+  }
+}
