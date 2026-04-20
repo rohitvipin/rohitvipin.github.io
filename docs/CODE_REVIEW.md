@@ -113,6 +113,8 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 ## Data Validation
 
+See [DATA_STRATEGY.md](DATA_STRATEGY.md) for required fields by type and content update patterns.
+
 ### JSON Files
 
 - [ ] Schema valid (run `npm run lint:data` locally, passes in CI)

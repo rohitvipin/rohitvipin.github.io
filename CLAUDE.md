@@ -243,7 +243,7 @@ describe("formatDate", () => {
 
 **Before implementing any change:**
 
-1. Read [CODE_REVIEW.md](CODE_REVIEW.md) to understand review standards.
+1. Read [CODE_REVIEW.md](docs/CODE_REVIEW.md) to understand review standards.
 2. Ensure TypeScript types sync with JSON schemas.
 3. Validate data: `npm run lint:data`.
 4. Run tests: `npm run test`.
@@ -253,11 +253,11 @@ describe("formatDate", () => {
 
 **Trigger:** Push to `main` branch.
 **Pipeline:** GitHub Actions lint → test → build → deploy to `gh-pages`.
-**Live URL:** https://rohitvipin.github.io/rohit-profile
+**Live URL:** https://rohitvipin.github.io/
 
 **Environment variables:**
 
-- `NEXT_PUBLIC_BASE_PATH` — URL prefix. Empty (`""`) for custom domain, `/rohit-profile` for GitHub Pages subpath.
+- `NEXT_PUBLIC_BASE_PATH` — URL prefix. Currently `""` (root domain).
 
 ## Content Writing Standards
 
@@ -285,8 +285,8 @@ describe("formatDate", () => {
 
 - [README.md](README.md) — Project overview
 - [CONTRIBUTING.md](CONTRIBUTING.md) — GitHub workflow + development practices
-- [CODE_REVIEW.md](CODE_REVIEW.md) — Code review checklist + standards
-- [DEVELOPMENT.md](DEVELOPMENT.md) — Detailed dev guide + troubleshooting
+- [CODE_REVIEW.md](docs/CODE_REVIEW.md) — Code review checklist + standards
+- [DEVELOPMENT.md](docs/DEVELOPMENT.md) — Detailed dev guide + troubleshooting
 - [Next.js Docs](https://nextjs.org/docs)
 - [React Docs](https://react.dev)
 - [TypeScript Docs](https://www.typescriptlang.org/docs/)
