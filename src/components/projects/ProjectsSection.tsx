@@ -4,16 +4,12 @@ import { useState } from "react";
 import type { Project } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 import ProjectCard from "./ProjectCard";
+import { partitionProjects } from "@/lib/projects";
 
 export default function ProjectsSection({ projects }: { projects: Project[] }) {
   const [tab, setTab] = useState<"client" | "oss">("client");
 
-  const clientProjects = projects.filter(
-    (p) => p.client !== "Personal" && p.client !== "Personal / Community"
-  );
-  const ossProjects = projects.filter(
-    (p) => p.client === "Personal" || p.client === "Personal / Community"
-  );
+  const { clientProjects, ossProjects } = partitionProjects(projects);
 
   const visible = tab === "client" ? clientProjects : ossProjects;
 

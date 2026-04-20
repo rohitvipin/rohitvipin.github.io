@@ -20,7 +20,9 @@
     "preview": "npm run build && npx serve out",
     "prepare": "husky",
     "generate-favicons": "tsx utils/generate-favicons.ts",
-    "generate-resume": "tsx utils/generate-resume.ts"
+    "generate-resume": "tsx utils/generate-resume.ts",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "next": "16.2.4",
@@ -48,6 +50,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-pdf": "^6.2.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "eslint-config-prettier": "^10.1.8",
@@ -57,6 +60,7 @@
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.4"
   }
 }
