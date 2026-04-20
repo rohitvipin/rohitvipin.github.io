@@ -25,13 +25,7 @@ import {
 export default function Home() {
   return (
     <>
-      <Nav
-        initials={profile.name
-          .split(" ")
-          .map((w: string) => w[0])
-          .join("")
-          .slice(0, 3)}
-      />
+      <Nav initials={profile.name[0]} />
       <main>
         <Hero profile={profile} socials={socials} />
         <About profile={profile} />

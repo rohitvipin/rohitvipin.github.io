@@ -2,6 +2,7 @@ export interface KeyMetric {
   label: string;
   value: string;
   detail: string;
+  tier?: "primary" | "secondary";
 }
 
 export interface Profile {
@@ -18,6 +19,7 @@ export interface Profile {
   profile_picture: string;
   github_avatar: string;
   key_metrics: KeyMetric[];
+  tags?: string[];
 }
 
 export interface ExperienceEntry {
@@ -90,4 +92,26 @@ export interface LeadershipSubsection {
 export interface Leadership {
   title: string;
   sections: LeadershipSubsection[];
+}
+
+export interface ResumeSectionConfig {
+  show: boolean;
+  maxItems?: number;
+  sinceYear?: number;
+}
+
+export interface ResumeConfig {
+  pageSize: "A4" | "LETTER";
+  font: string;
+  showKeyMetrics: boolean;
+  sectionOrder: string[];
+  sections: {
+    experience?: ResumeSectionConfig;
+    skills?: ResumeSectionConfig;
+    projects?: ResumeSectionConfig;
+    leadership?: ResumeSectionConfig;
+    education?: ResumeSectionConfig;
+    community?: ResumeSectionConfig;
+    awards?: ResumeSectionConfig;
+  };
 }

@@ -1,11 +1,11 @@
 [
   {
-    "name": "K-12 HCM Platform Modernization",
+    "name": "K-12 HCM Platform Modernisation",
     "domain": "K-12 Education",
-    "client": "Confidential — Leading US K-12 HCM Provider",
+    "client": "Confidential - Leading US K-12 HCM Provider",
     "role": "Director - Engineering & Architecture",
-    "duration": "April 2024 – Present",
-    "description": "End-to-end modernization of a large-scale K-12 Human Capital Management platform serving US school districts. Unified Recruiting & Hiring, Central Document Management (CDM), and HRMS products on a modern event-driven, cloud-native architecture.",
+    "duration": "April 2024 - Present",
+    "description": "Full modernisation of a large-scale K-12 Human Capital Management platform serving US school districts. Unified Recruiting & Hiring and HR Information System & Document Management products on a modern event-driven, cloud-native architecture.",
     "products": [
       {
         "name": "Recruiting & Hiring",
@@ -21,7 +21,7 @@
       "Unified HR product pillars through Kafka, AWS, and API gateway integration",
       "AWS Bedrock RAG systems achieving 95%+ structured data extraction accuracy",
       "Claude Code and GitHub Copilot guilds improving delivery productivity 30%+",
-      "Reduced operational incidents 45% through observability and proactive monitoring"
+      "Cut operational incidents by 45% through observability and monitoring"
     ],
     "tech": [
       ".NET Core",
@@ -47,9 +47,9 @@
   {
     "name": "Agribusiness Management Platform",
     "domain": "Agriculture",
-    "client": "Confidential — Leading North American Agribusiness Software Provider",
+    "client": "Confidential - Leading North American Agribusiness Software Provider",
     "role": "Technical Architect",
-    "duration": "April 2019 – March 2022",
+    "duration": "April 2019 - March 2022",
     "description": "Cloud-native serverless platform for an integrated agribusiness management suite serving agricultural co-ops and retailers across North America. Delivered Agronomy, Grain, Grower Portal, and Accounting modules on AWS serverless infrastructure with cross-platform mobile for field teams.",
     "products": [
       {
@@ -62,7 +62,7 @@
       },
       {
         "name": "Producer Self-Service Portal",
-        "description": "Producer-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access — offline-first for field connectivity"
+        "description": "Producer-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access - offline-first for field connectivity"
       },
       {
         "name": "Accounting",
@@ -73,9 +73,9 @@
       "Serverless AWS architecture (Lambda, API Gateway, DynamoDB, PostgreSQL, SQS, Cognito, S3) supporting $5M+ annual operations",
       "Cross-platform mobile serving 50K+ agricultural professionals with 4.5+ star ratings",
       "Offline-first mobile architecture for field operations in low-connectivity environments",
-      "Data warehouse and ETL pipelines enabling predictive crop optimization and yield forecasting models",
+      "Data warehouse and ETL pipelines enabling predictive crop optimisation and yield forecasting models",
       "Docker-based integration testing framework achieving 80%+ coverage across 20+ microservices",
-      "Modernized legacy VB.NET WinForms desktop suite to cloud-native web platform on Angular 18 with agGrid for complex data grids"
+      "Modernised legacy VB.NET WinForms desktop suite to cloud-native web platform on Angular 18 with agGrid for complex data grids"
     ],
     "tech": [
       ".NET Core",
@@ -101,18 +101,18 @@
   {
     "name": "Precision Agriculture & Genomics Platform",
     "domain": "Agriculture / AgTech",
-    "client": "Confidential — Leading Agricultural Genetics Company",
+    "client": "Confidential - Leading Agricultural Genetics Company",
     "role": "Solutions Architect",
-    "duration": "April 2022 – March 2024",
+    "duration": "April 2022 - March 2024",
     "description": "Solution architecture for a precision agriculture and genomics platform supporting crop breeding programs, field trial management, genomic data pipelines, and commercial trait deployment for large-scale agricultural operations.",
     "products": [
       {
         "name": "Genomics & Breeding Pipeline",
-        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding program optimization"
+        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding program optimisation"
       },
       {
         "name": "Field Trial Management",
-        "description": "End-to-end field trial planning, phenotyping data capture, experimental design, and multi-location trial result analysis"
+        "description": "Full field trial planning, phenotyping data capture, experimental design, and multi-location trial result analysis"
       },
       {
         "name": "Commercialization Workflows",
@@ -121,8 +121,8 @@
     ],
     "highlights": [
       "Designed cloud-native architecture for genomics data pipelines handling large-scale biological datasets",
-      "Integrated field data collection with laboratory genomics systems for end-to-end breeding traceability",
-      "Established scalable data platform for multi-location trial data aggregation and analytics"
+      "Integrated field data collection with laboratory genomics systems for full breeding traceability across the programme",
+      "Built a data platform for multi-location trial data aggregation and analytics across research sites"
     ],
     "tech": [
       ".NET Core",
@@ -142,9 +142,9 @@
   {
     "name": "Farm Operations Platform & Integrations",
     "domain": "Agriculture / AgriFood",
-    "client": "Confidential — Leading Global Berry Producer",
+    "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
-    "duration": "April 2022 – March 2024",
+    "duration": "April 2022 - March 2024",
     "description": "Solution architecture for a farm operations platform and third-party integrations for a large-scale fresh produce company. Covered harvest management, supply chain visibility, cold chain logistics, labor operations, and retail/distribution integrations across multi-country farming operations.",
     "products": [
       {
@@ -153,7 +153,7 @@
       },
       {
         "name": "Supply Chain & Cold Chain",
-        "description": "End-to-end supply chain visibility from harvest to retail, including cold chain monitoring, logistics coordination, and distribution integrations"
+        "description": "Full supply chain visibility from harvest to retail, including cold chain monitoring, logistics coordination, and distribution integrations"
       },
       {
         "name": "Retail & Partner Integrations",
@@ -180,12 +180,12 @@
     ]
   },
   {
-    "name": "Logistics Platform Modernization",
+    "name": "Logistics Platform Modernisation",
     "domain": "Logistics / Freight Forwarding",
-    "client": "Confidential — Regional Freight Forwarding & Logistics Operator",
+    "client": "Confidential - Regional Freight Forwarding & Logistics Operator",
     "role": "Solutions Architect",
-    "duration": "April 2022 – March 2024",
-    "description": "Full platform rewrite of a freight forwarding and logistics operator's legacy system to a modern Blazor WASM/Server hybrid. Platform covers end-to-end freight operations including ocean and air freight, warehousing, cargo tracking, trucking dispatch, and household goods relocation — supporting high-volume daily transaction processing.",
+    "duration": "April 2022 - March 2024",
+    "description": "Full platform rewrite of a freight forwarding and logistics operator's legacy system to a modern Blazor WASM/Server hybrid. Platform covers freight operations across ocean and air freight, warehousing, cargo tracking, trucking dispatch, and household goods relocation, supporting high-volume daily transaction processing.",
     "products": [
       {
         "name": "Freight Operations",
@@ -208,7 +208,7 @@
       "Blazor WASM/Server hybrid replacing legacy .NET MVC system across freight, warehousing, and tracking modules",
       "500K+ daily transactions at production scale across freight, warehouse, and dispatch operations",
       "45% load time reduction improving dispatcher and customer portal responsiveness",
-      "$2M+ modernization investment secured on architecture proposal",
+      "$2M+ modernisation investment secured on architecture proposal",
       "Real-time cargo visibility via SignalR-powered tracking replacing batch-refresh legacy portal"
     ],
     "tech": [
@@ -229,7 +229,7 @@
     "domain": "Hospitality",
     "client": "Confidential",
     "role": "Solutions Architect",
-    "duration": "April 2022 – March 2024",
+    "duration": "April 2022 - March 2024",
     "description": "Greenfield microservices loyalty platform on Azure Kubernetes Service using Domain-Driven Design, delivering MVP in 5 months for 100K+ members.",
     "products": [
       {
@@ -242,7 +242,7 @@
       },
       {
         "name": "Member Portal",
-        "description": "Member-facing web experience for account management, points balance, reward redemption, and stay history — built on REST APIs with sub-200ms response targets"
+        "description": "Member-facing web experience for account management, points balance, reward redemption, and stay history - built on REST APIs with sub-200ms response targets"
       }
     ],
     "highlights": [

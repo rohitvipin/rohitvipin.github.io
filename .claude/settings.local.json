@@ -24,7 +24,8 @@
       "mcp__plugin_context-mode_context-mode__ctx_execute_file",
       "Bash(npm uninstall *)",
       "Bash(npx husky *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(git commit *)"
     ]
   }
 }
