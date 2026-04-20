@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
 
   // ── Header ──────────────────────────────────────
   header: {
-    marginBottom: 14,
-    paddingBottom: 10,
+    marginBottom: 8,
+    paddingBottom: 6,
     borderBottomWidth: 1.5,
     borderBottomColor: ACCENT,
   },
@@ -55,26 +55,11 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  // ── Key metrics (plain label: value list in two columns) ──
-  metricsBlock: {
-    marginBottom: 12,
-    borderTopWidth: 0,
-  },
-  metricsRow: {
-    flexDirection: "row",
-    marginBottom: 2,
-  },
-  metricItem: {
-    width: "25%",
-  },
-  metricValue: {
-    fontSize: 9,
-    fontFamily: "Helvetica-Bold",
-    color: ACCENT,
-  },
-  metricLabel: {
+  // ── Key metrics (single pipe-separated text line) ──
+  metricsLine: {
     fontSize: 7.5,
-    color: TEXT_SECONDARY,
+    color: TEXT_MUTED,
+    marginTop: 4,
   },
 
   // ── Section ─────────────────────────────────────
