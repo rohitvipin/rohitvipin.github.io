@@ -37,6 +37,13 @@ Live URL: https://rohitvipin.github.io/rohit-profile
 
 Custom domain: set `NEXT_PUBLIC_BASE_PATH=""` in workflow env.
 
+## Content Writing Standards
+
+- **No special Unicode punctuation** in `data/*.json`. Use plain ASCII only: `-` not `–` or `—`, `...` not `…`, `"` not `"` or `"`. Em dashes and en dashes are AI tells — replace with `-` or rewrite the sentence.
+- **No hollow intensifiers**: proactive, exceptional, cutting-edge, world-class, robust, seamlessly, innovative.
+- **No corporate idioms**: end-to-end, time-to-value, delivery velocity, at org scale, organizational maturity.
+- **British English**: -ise not -ize, -isation not -ization, -our not -or, organised not organized. Exception: proper nouns, product names, certification names.
+
 ## Working Conventions
 
 - **Content in `data/*.json` only.** No hardcoded strings in UI.
