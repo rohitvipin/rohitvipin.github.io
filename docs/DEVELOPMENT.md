@@ -13,7 +13,8 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 | `npm run preview`           | Build + serve locally               |
 | `npm run lint`              | ESLint + Prettier + data validation |
 | `npm run lint:fix`          | Auto-fix ESLint + Prettier          |
-| `npm run test`              | Run Vitest (watch mode: `vitest`)   |
+| `npm run test`              | Run Vitest (one-shot, CI mode)      |
+| `npm run test:ci`           | Run Vitest with verbose CI reporter |
 | `npm run test:coverage`     | Coverage report                     |
 | `npm run generate-favicons` | Rebuild favicon suite               |
 | `npm run generate-resume`   | Generate resume PDF                 |
@@ -25,7 +26,7 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Create loader:** `src/lib/data.ts` (new `getNewTypes()` function)
+3. **Export constant:** `src/lib/data.ts` — parse with Zod schema, export typed const (e.g., `export const newTypes: NewType[] = z.array(NewTypeSchema).parse(newTypeData)`)
 4. **Validate:** `npm run lint:data`
 5. **Commit:** All changes in single commit
 
@@ -145,7 +146,7 @@ describe("formatDate", () => {
 Run tests:
 
 ```bash
-npm run test             # watch mode
+npm run test             # one-shot run
 npm run test:coverage   # coverage report
 ```
 
@@ -175,7 +176,7 @@ Generates resume from React component:
 npm run generate-resume
 ```
 
-Outputs: `public/resume.pdf`  
+Outputs: `public/Rohit_Vipin_Mathews_Resume.pdf`  
 Edit: `utils/resume/ResumeDocument.tsx`
 
 ## Deployment & CI/CD
@@ -203,7 +204,7 @@ Environment: `NEXT_PUBLIC_BASE_PATH`
 | Build fails: type mismatch  | Check `src/types/index.ts` matches `data/*.json`    |
 | ESLint errors on commit     | Run `npm run lint:fix`                              |
 | Tests fail but pass in CI   | Check Node version (20.x), timezone-dependent tests |
-| Hot reload not working      | Restart dev server, clear `.next/`                  |
+| Hot reload not working      | Restart dev server, clear browser cache             |
 | Favicon/resume not updating | Run generate commands, clear build cache            |
 
 ---

@@ -50,12 +50,14 @@ A **Next.js 16 portfolio site** deployed to GitHub Pages. All content lives in J
 
 ### Quick Command Reference
 
-| What        | Command            |
-| ----------- | ------------------ |
-| Dev server  | `npm run dev`      |
-| Build       | `npm run build`    |
-| Tests       | `npm run test`     |
-| Lint        | `npm run lint`     |
-| Fix linting | `npm run lint:fix` |
+| What        | Command                 |
+| ----------- | ----------------------- |
+| Dev server  | `npm run dev`           |
+| Build       | `npm run build`         |
+| Tests       | `npm run test`          |
+| Test (CI)   | `npm run test:ci`       |
+| Coverage    | `npm run test:coverage` |
+| Lint        | `npm run lint`          |
+| Fix linting | `npm run lint:fix`      |
 
 See [docs/DEVELOPMENT.md](DEVELOPMENT.md#project-commands) for complete list.
