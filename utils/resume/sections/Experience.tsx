@@ -25,7 +25,7 @@ export function Experience({ entries, sinceYear }: ExperienceProps) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Experience</Text>
       {filtered.map((entry, i) => (
-        <View key={i} style={styles.entry} minPresenceAhead={30}>
+        <View key={i} style={styles.entry}>
           <View style={styles.entryTitleRow}>
             <Text style={styles.entryTitle}>{entry.role}</Text>
             <Text style={styles.entryDuration}>{entry.duration}</Text>

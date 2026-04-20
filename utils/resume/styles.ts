@@ -11,10 +11,10 @@ export const styles = StyleSheet.create({
     fontFamily: "Helvetica",
     fontSize: 9,
     color: TEXT_PRIMARY,
-    paddingTop: 36,
-    paddingBottom: 40,
-    paddingHorizontal: 44,
-    lineHeight: 1.5,
+    paddingTop: 24,
+    paddingBottom: 28,
+    paddingHorizontal: 40,
+    lineHeight: 1.4,
   },
 
   // ── Header ──────────────────────────────────────
@@ -34,13 +34,13 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: ACCENT,
-    marginBottom: 8,
+    marginBottom: 5,
   },
   headline: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,
-    marginBottom: 6,
-    lineHeight: 1.5,
+    marginBottom: 4,
+    lineHeight: 1.4,
   },
   // Contact items rendered as a single pipe-separated Text line
   contactLine: {
@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
 
   // ── Section ─────────────────────────────────────
   section: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   sectionTitle: {
     fontSize: 8.5,
@@ -72,15 +72,15 @@ export const styles = StyleSheet.create({
     color: ACCENT,
     textTransform: "uppercase",
     letterSpacing: 0.8,
-    marginBottom: 5,
+    marginBottom: 4,
     paddingBottom: 2,
-    borderBottomWidth: 0.75,
+    borderBottomWidth: 0.5,
     borderBottomColor: BORDER,
   },
 
   // ── Entry (experience / projects / community) ──
   entry: {
-    marginBottom: 9,
+    marginBottom: 7,
   },
   entryTitleRow: {
     flexDirection: "row",
