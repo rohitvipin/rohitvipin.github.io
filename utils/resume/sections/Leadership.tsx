@@ -9,9 +9,12 @@ export function Leadership({ data }: { data: LeadershipData }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{data.title}</Text>
       {data.sections.map((s, i) => (
-        <View key={i} style={styles.entry} wrap={false}>
-          <Text style={styles.twoColLeft}>{s.title}</Text>
-          <Text style={styles.bodyText}>{s.description}</Text>
+        <View key={i} style={styles.bulletRow}>
+          <Text style={styles.bulletMark}>-</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.twoColLeft}>{s.title}</Text>
+            <Text style={styles.bodyText}>{s.description}</Text>
+          </View>
         </View>
       ))}
     </View>
