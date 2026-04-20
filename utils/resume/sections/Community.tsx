@@ -16,16 +16,16 @@ export function Community({ entries, maxItems }: CommunityProps) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Community</Text>
       {list.map((e, i) => (
-        <View key={i} style={styles.entry}>
-          <View style={styles.entryHeader}>
+        <View key={i} style={styles.entry} wrap={false}>
+          <View style={styles.twoColRow}>
             <Text style={styles.entryTitle}>{e.title}</Text>
-            <Text style={styles.entryMeta}>{e.type}</Text>
+            <Text style={styles.twoColRight}>{e.type}</Text>
           </View>
           {e.location && <Text style={styles.entrySubtitle}>{e.location}</Text>}
           <Text style={styles.entryDescription}>{e.description}</Text>
           {e.highlights.map((h, j) => (
             <View key={j} style={styles.bulletRow}>
-              <Text style={styles.bullet}>·</Text>
+              <Text style={styles.bulletMark}>-</Text>
               <Text style={styles.bulletText}>{h}</Text>
             </View>
           ))}

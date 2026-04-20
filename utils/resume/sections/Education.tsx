@@ -9,13 +9,13 @@ export function Education({ entries }: { entries: EducationData[] }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Education</Text>
       {entries.map((e, i) => (
-        <View key={i} style={[styles.entry, { marginBottom: 4 }]}>
-          <View style={styles.twoCol}>
-            <Text style={styles.boldText}>{e.degree}</Text>
-            <Text style={styles.mutedText}>{e.year}</Text>
+        <View key={i} style={styles.entry} wrap={false}>
+          <View style={styles.twoColRow}>
+            <Text style={styles.twoColLeft}>{e.degree}</Text>
+            <Text style={styles.twoColRight}>{e.year}</Text>
           </View>
           <Text style={styles.subText}>
-            {e.institution} · {e.location}
+            {e.institution} - {e.location}
           </Text>
         </View>
       ))}

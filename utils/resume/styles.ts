@@ -4,8 +4,7 @@ const ACCENT = "#1a56db";
 const TEXT_PRIMARY = "#111827";
 const TEXT_SECONDARY = "#4b5563";
 const TEXT_MUTED = "#6b7280";
-const BORDER = "#e5e7eb";
-const BG_LIGHT = "#f9fafb";
+const BORDER = "#d1d5db";
 
 export const styles = StyleSheet.create({
   page: {
@@ -13,133 +12,106 @@ export const styles = StyleSheet.create({
     fontSize: 9,
     color: TEXT_PRIMARY,
     paddingTop: 36,
-    paddingBottom: 36,
+    paddingBottom: 40,
     paddingHorizontal: 44,
-    lineHeight: 1.4,
+    lineHeight: 1.5,
   },
 
-  // Header
+  // ── Header ──────────────────────────────────────
   header: {
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 2,
+    marginBottom: 14,
+    paddingBottom: 10,
+    borderBottomWidth: 1.5,
     borderBottomColor: ACCENT,
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
     marginBottom: 2,
-    letterSpacing: 0.5,
   },
-  title: {
-    fontSize: 11,
-    color: ACCENT,
+  jobTitle: {
+    fontSize: 10,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 6,
-    letterSpacing: 0.3,
+    color: ACCENT,
+    marginBottom: 4,
   },
   headline: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: TEXT_SECONDARY,
-    marginBottom: 8,
+    marginBottom: 6,
     lineHeight: 1.5,
   },
-  contactRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 12,
-    marginBottom: 6,
-  },
-  contactItem: {
+  // Contact items rendered as a single pipe-separated Text line
+  contactLine: {
     fontSize: 8,
     color: TEXT_SECONDARY,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 3,
+    marginBottom: 3,
   },
-  contactLabel: {
+  // Tags rendered as a single plain-text line
+  tagsLine: {
+    fontSize: 7.5,
     color: TEXT_MUTED,
-  },
-  tagRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 4,
-    marginTop: 6,
-  },
-  tag: {
-    fontSize: 7,
-    color: ACCENT,
-    backgroundColor: "#eff6ff",
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderRadius: 3,
+    marginTop: 2,
   },
 
-  // Key metrics
+  // ── Key metrics (plain label: value list in two columns) ──
+  metricsBlock: {
+    marginBottom: 12,
+    borderTopWidth: 0,
+  },
   metricsRow: {
     flexDirection: "row",
-    gap: 8,
-    marginBottom: 16,
-    backgroundColor: BG_LIGHT,
-    padding: 10,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: BORDER,
+    marginBottom: 2,
   },
-  metricBox: {
-    flex: 1,
-    alignItems: "center",
+  metricItem: {
+    width: "25%",
   },
   metricValue: {
-    fontSize: 13,
+    fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: ACCENT,
-    marginBottom: 1,
   },
   metricLabel: {
-    fontSize: 7,
+    fontSize: 7.5,
     color: TEXT_SECONDARY,
-    textAlign: "center",
-  },
-  metricDetail: {
-    fontSize: 6.5,
-    color: TEXT_MUTED,
-    textAlign: "center",
   },
 
-  // Section
+  // ── Section ─────────────────────────────────────
   section: {
-    marginBottom: 14,
+    marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 9,
+    fontSize: 8.5,
     fontFamily: "Helvetica-Bold",
     color: ACCENT,
     textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: 6,
-    paddingBottom: 3,
-    borderBottomWidth: 1,
+    letterSpacing: 0.8,
+    marginBottom: 5,
+    paddingBottom: 2,
+    borderBottomWidth: 0.75,
     borderBottomColor: BORDER,
   },
 
-  // Experience / Projects
-  entryHeader: {
+  // ── Entry (experience / projects / community) ──
+  entry: {
+    marginBottom: 9,
+  },
+  entryTitleRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
     marginBottom: 1,
   },
   entryTitle: {
-    fontSize: 9.5,
+    fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
     flex: 1,
   },
-  entryMeta: {
+  entryDuration: {
     fontSize: 8,
     color: TEXT_MUTED,
+    // fixed width so it never crowds the title
+    width: 90,
     textAlign: "right",
   },
   entrySubtitle: {
@@ -153,85 +125,78 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
     lineHeight: 1.5,
   },
-  entry: {
-    marginBottom: 10,
-  },
 
-  // Bullets
+  // ── Bullets ─────────────────────────────────────
   bulletRow: {
     flexDirection: "row",
     marginBottom: 2,
-    paddingLeft: 2,
   },
-  bullet: {
+  bulletMark: {
     fontSize: 8.5,
-    color: ACCENT,
-    marginRight: 4,
-    marginTop: 1,
+    color: TEXT_MUTED,
+    width: 10,
+    flexShrink: 0,
   },
   bulletText: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,
     flex: 1,
-    lineHeight: 1.45,
+    lineHeight: 1.5,
   },
 
-  // Skills
+  // ── Tech / Stack (plain text label + value) ──────
+  techLine: {
+    fontSize: 7.5,
+    color: TEXT_MUTED,
+    marginTop: 3,
+  },
+
+  // ── Skills (label: value rows) ───────────────────
   skillRow: {
     flexDirection: "row",
-    marginBottom: 4,
-    alignItems: "flex-start",
+    marginBottom: 3,
   },
-  skillCategory: {
+  skillLabel: {
     fontSize: 8.5,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
-    width: 100,
+    width: 110,
     flexShrink: 0,
   },
-  skillList: {
+  skillValue: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,
     flex: 1,
-    lineHeight: 1.4,
+    lineHeight: 1.5,
   },
 
-  // Tech stack chips
-  techRow: {
+  // ── Education / Awards (label + right-aligned year) ──
+  twoColRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 3,
-    marginTop: 3,
+    marginBottom: 1,
   },
-  techChip: {
-    fontSize: 7,
-    color: TEXT_SECONDARY,
-    backgroundColor: BG_LIGHT,
-    paddingHorizontal: 4,
-    paddingVertical: 1.5,
-    borderRadius: 2,
-    borderWidth: 0.5,
-    borderColor: BORDER,
-  },
-
-  // Education / Awards
-  twoCol: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  boldText: {
+  twoColLeft: {
     fontSize: 9,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
+    flex: 1,
   },
-  mutedText: {
+  twoColRight: {
     fontSize: 8,
     color: TEXT_MUTED,
+    width: 60,
+    textAlign: "right",
+    flexShrink: 0,
   },
   subText: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,
-    marginTop: 1,
+    marginBottom: 3,
+  },
+  bodyText: {
+    fontSize: 8.5,
+    color: TEXT_SECONDARY,
+    lineHeight: 1.5,
+    marginBottom: 3,
   },
 });

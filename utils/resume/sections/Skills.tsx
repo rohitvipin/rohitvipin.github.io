@@ -10,8 +10,8 @@ export function Skills({ categories }: { categories: SkillCategory[] }) {
       <Text style={styles.sectionTitle}>Skills</Text>
       {categories.map((cat) => (
         <View key={cat.category} style={styles.skillRow}>
-          <Text style={styles.skillCategory}>{cat.category}</Text>
-          <Text style={styles.skillList}>{cat.skills.join(" · ")}</Text>
+          <Text style={styles.skillLabel}>{cat.category}</Text>
+          <Text style={styles.skillValue}>{cat.skills.join(", ")}</Text>
         </View>
       ))}
     </View>
