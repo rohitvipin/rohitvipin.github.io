@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
-    marginBottom: 3,
+    marginBottom: 6,
   },
   jobTitle: {
     fontSize: 10,
