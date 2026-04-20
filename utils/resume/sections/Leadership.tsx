@@ -9,9 +9,9 @@ export function Leadership({ data }: { data: LeadershipData }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{data.title}</Text>
       {data.sections.map((s, i) => (
-        <View key={i} style={{ marginBottom: 7 }}>
-          <Text style={styles.twoColLeft}>{s.title}</Text>
-          <Text style={styles.bodyText}>{s.description}</Text>
+        <View key={i} style={styles.entry}>
+          <Text style={styles.entryTitle}>{s.title}</Text>
+          <Text style={styles.entryDescription}>{s.description}</Text>
         </View>
       ))}
     </View>
