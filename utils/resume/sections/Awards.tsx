@@ -9,7 +9,7 @@ export function Awards({ awards }: { awards: Award[] }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Awards</Text>
       {awards.map((a, i) => (
-        <View key={i} style={styles.entry} wrap={false}>
+        <View key={i} style={styles.entry}>
           <View style={styles.twoColRow}>
             <Text style={styles.twoColLeft}>{a.title}</Text>
             <Text style={styles.twoColRight}>{a.year ?? ""}</Text>

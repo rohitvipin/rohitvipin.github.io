@@ -16,7 +16,7 @@ export function Projects({ projects, maxItems }: ProjectsProps) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Notable Projects</Text>
       {list.map((p, i) => (
-        <View key={i} style={styles.entry} wrap={false}>
+        <View key={i} style={styles.entry}>
           <View style={styles.entryTitleRow}>
             <Text style={styles.entryTitle}>{p.name}</Text>
             <Text style={styles.entryDuration}>{p.duration}</Text>

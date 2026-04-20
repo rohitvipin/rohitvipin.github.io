@@ -9,7 +9,7 @@ export function Education({ entries }: { entries: EducationData[] }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Education</Text>
       {entries.map((e, i) => (
-        <View key={i} style={styles.entry} wrap={false}>
+        <View key={i} style={styles.entry}>
           <View style={styles.twoColRow}>
             <Text style={styles.twoColLeft}>{e.degree}</Text>
             <Text style={styles.twoColRight}>{e.year}</Text>

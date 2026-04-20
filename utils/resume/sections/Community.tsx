@@ -16,7 +16,7 @@ export function Community({ entries, maxItems }: CommunityProps) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Community</Text>
       {list.map((e, i) => (
-        <View key={i} style={styles.entry} wrap={false}>
+        <View key={i} style={styles.entry}>
           <View style={styles.twoColRow}>
             <Text style={styles.entryTitle}>{e.title}</Text>
             <Text style={styles.twoColRight}>{e.type}</Text>
