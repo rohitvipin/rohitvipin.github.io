@@ -4,6 +4,18 @@
     {
       "title": "AI Engineering Leadership",
       "description": "Running one of the earliest enterprise-scale AI enablement practices in an engineering services context. Shipped production AWS Bedrock RAG systems achieving 95%+ structured data extraction accuracy, led org-wide Claude Code and GitHub Copilot guilds training 50+ India-based developers (30%+ delivery productivity lift), executed agentic workflow PoCs with mature context engineering discipline (evaluator separation, reset patterns, state management), and published an internal AI engineering charter covering contract-first development, deterministic debugging with Testcontainers, and observability-driven agent design using OpenTelemetry, Sentry, and Datadog."
+    },
+    {
+      "title": "Test-Driven Development",
+      "description": "Established test-first engineering practices at organisation scale, treating test coverage as a delivery constraint rather than a post-hoc quality check. Built Docker-based integration test frameworks achieving 80%+ coverage across 20+ microservices on the agribusiness platform. Codified Testcontainers-based deterministic testing and contract-first development in the internal AI engineering charter. Ran BDD / Gherkin as the shared specification language across product and engineering, enabling daily CI/CD deployments without manual release gates across 350+ engineer delivery tracks."
+    },
+    {
+      "title": "Domain-Driven Architecture",
+      "description": "Applied Domain-Driven Design as the primary decomposition strategy across multi-module platform builds. Designed the agribusiness management platform - Agronomy, Grain, Grower Portal, and Accounting - as bounded contexts with explicit domain models supporting $5M+ annual operations. Led the Azure Kubernetes Service loyalty platform architecture using DDD, delivering MVP in 5 months with 99.95% uptime and sub-200ms response times for 100K+ members. Used bounded context mapping to align engineering team structure with product domains across the K-12 HCM platform covering Recruiting & Hiring, HR Information System, and Document Management."
+    },
+    {
+      "title": "Serverless Application Development",
+      "description": "Designed and delivered production serverless architectures on AWS at scale. Architected the full serverless stack for a multi-module agribusiness platform - Lambda, API Gateway, DynamoDB, SQS, Cognito, and S3 - supporting $5M+ annual operations. Mentored 25 engineers across distributed locations in serverless design patterns, event-driven decomposition, and cold-start mitigation. Applied serverless at the service boundary in the K-12 platform modernisation alongside containerised workloads, selecting compute model per workload profile rather than applying serverless by default."
     }
   ]
 }
