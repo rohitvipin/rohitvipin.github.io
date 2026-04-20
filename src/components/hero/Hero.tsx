@@ -7,7 +7,7 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
   return (
     <section className="min-h-screen flex items-center pt-14">
       <div className="max-w-6xl mx-auto px-6 py-24 w-full">
-        <div className="grid lg:grid-cols-[1fr_auto] gap-16 items-center">
+        <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
           {/* Left */}
           <div className="space-y-6">
             {profile.tags && profile.tags.length > 0 && (
@@ -15,7 +15,7 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
                 {profile.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-mono font-medium text-[var(--accent)]"
+                    className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-medium text-[var(--accent)]"
                   >
                     {tag}
                   </span>
@@ -30,11 +30,9 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
               <p className="mt-2 text-xl font-medium gradient-text">{profile.title}</p>
             </div>
 
-            <p className="text-[var(--muted)] text-lg max-w-2xl leading-relaxed">
-              {profile.headline}
-            </p>
+            <p className="text-[var(--muted)] text-lg leading-relaxed">{profile.headline}</p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#experience"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
@@ -44,11 +42,12 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
               <a
                 href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
                 download
-                title="Download Resume"
-                aria-label="Download Resume"
-                className="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                title="Download CV"
+                aria-label="Download CV"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 <FiDownload size={16} />
+                Download CV
               </a>
             </div>
 
@@ -56,7 +55,7 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
           </div>
 
           {/* Right — avatar */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex justify-center">
             <div className="relative w-48 h-48 rounded-2xl overflow-hidden border-2 border-[var(--border)] shadow-2xl">
               <Image
                 src={profile.github_avatar}
@@ -70,10 +69,14 @@ export default function Hero({ profile, socials }: { profile: Profile; socials: 
         </div>
 
         {/* Metrics */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {profile.key_metrics?.map((m) => (
             <div key={m.label} className="card p-4 space-y-1">
-              <div className="text-2xl font-bold gradient-text">{m.value}</div>
+              <div
+                className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"} ${m.tier === "secondary" ? "opacity-65" : ""}`}
+              >
+                {m.value}
+              </div>
               <div className="text-xs text-[var(--muted)] leading-tight">{m.label}</div>
               <div className="text-xs text-[var(--muted-2)]">{m.detail}</div>
             </div>

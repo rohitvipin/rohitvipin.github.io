@@ -3,12 +3,20 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { FiMapPin, FiClock, FiCalendar } from "react-icons/fi";
 
 export default function About({ profile }: { profile: Profile }) {
+  const paragraphs = profile.bio.split("\n\n");
+
   return (
     <section id="about" className="section">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader title="About" />
         <div className="grid lg:grid-cols-[2fr_1fr] gap-12">
-          <p className="text-[var(--muted)] text-lg leading-relaxed">{profile.bio}</p>
+          <div className="space-y-4">
+            {paragraphs.map((para, i) => (
+              <p key={i} className="text-[var(--muted)] text-[17px] leading-[1.75]">
+                {para}
+              </p>
+            ))}
+          </div>
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
               <FiMapPin size={16} className="text-[var(--accent)] shrink-0" />
@@ -24,7 +32,7 @@ export default function About({ profile }: { profile: Profile }) {
             </div>
             <a
               href={`mailto:${profile.email}`}
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--text)] hover:border-[var(--accent)] transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg border border-[var(--border)] text-sm text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
             >
               {profile.email}
             </a>

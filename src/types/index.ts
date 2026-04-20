@@ -2,6 +2,7 @@ export interface KeyMetric {
   label: string;
   value: string;
   detail: string;
+  tier?: "primary" | "secondary";
 }
 
 export interface Profile {
