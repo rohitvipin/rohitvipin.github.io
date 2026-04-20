@@ -18,6 +18,7 @@ export interface Profile {
   profile_picture: string;
   github_avatar: string;
   key_metrics: KeyMetric[];
+  tags?: string[];
 }
 
 export interface ExperienceEntry {
