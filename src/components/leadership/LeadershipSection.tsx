@@ -1,7 +1,11 @@
 import type { Leadership } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 
-export default function LeadershipSection({ leadership }: { leadership: Leadership }) {
+export interface LeadershipSectionProps {
+  leadership: Leadership;
+}
+
+export default function LeadershipSection({ leadership }: LeadershipSectionProps) {
   return (
     <section id="leadership" className="section">
       <div className="max-w-6xl mx-auto px-6">

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { profile } from "@/lib/data";
 import "./globals.css";
 
 const inter = Inter({
@@ -90,8 +91,8 @@ const jsonLd = {
   name: "Rohit Vipin Mathews",
   jobTitle: "Director - Engineering & Architecture",
   url: BASE_URL,
-  email: "rohitvipin@gmail.com",
-  image: "https://avatars.githubusercontent.com/u/11459048?v=4",
+  email: profile.email,
+  image: profile.github_avatar,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Kerala",

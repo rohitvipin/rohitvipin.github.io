@@ -6,7 +6,11 @@ import TechChip from "@/components/shared/TechChip";
 import { getDomainColor } from "@/lib/colors";
 import { FiChevronDown, FiChevronUp, FiGithub } from "react-icons/fi";
 
-export default function ProjectCard({ project }: { project: Project }) {
+export interface ProjectCardProps {
+  project: Project;
+}
+
+export default function ProjectCard({ project }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
   const domainColor = getDomainColor(project.domain);
 

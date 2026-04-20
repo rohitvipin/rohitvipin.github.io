@@ -15,7 +15,11 @@ const links = [
   { label: "Education", href: "#education" },
 ];
 
-export default function Nav({ initials }: { initials: string }) {
+export interface NavProps {
+  initials: string;
+}
+
+export default function Nav({ initials }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
 
