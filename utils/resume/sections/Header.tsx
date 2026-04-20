@@ -32,8 +32,8 @@ export function Header({ profile, socials, showKeyMetrics }: HeaderProps) {
       <Text style={styles.name}>{profile.name}</Text>
       <Text style={styles.jobTitle}>{profile.title}</Text>
       <Text style={styles.headline}>{profile.headline}</Text>
-      <Text style={styles.contactLine}>{contactParts.join("  |  ")}</Text>
       {showKeyMetrics && <MetricsLine metrics={profile.key_metrics} />}
+      <Text style={styles.contactLine}>{contactParts.join("  |  ")}</Text>
     </View>
   );
 }
