@@ -84,6 +84,7 @@ export const styles = StyleSheet.create({
   },
   entryTitleRow: {
     flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 1,
   },
   entryTitle: {
@@ -95,8 +96,8 @@ export const styles = StyleSheet.create({
   entryDuration: {
     fontSize: 8,
     color: TEXT_MUTED,
-    // fixed width so it never crowds the title
     width: 90,
+    flexShrink: 0,
     textAlign: "right",
   },
   entrySubtitle: {
@@ -114,6 +115,7 @@ export const styles = StyleSheet.create({
   // ── Bullets ─────────────────────────────────────
   bulletRow: {
     flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 2,
   },
   bulletMark: {
@@ -121,6 +123,7 @@ export const styles = StyleSheet.create({
     color: TEXT_MUTED,
     width: 10,
     flexShrink: 0,
+    paddingTop: 1,
   },
   bulletText: {
     fontSize: 8.5,
@@ -139,6 +142,7 @@ export const styles = StyleSheet.create({
   // ── Skills (label: value rows) ───────────────────
   skillRow: {
     flexDirection: "row",
+    alignItems: "flex-start",
     marginBottom: 3,
   },
   skillLabel: {

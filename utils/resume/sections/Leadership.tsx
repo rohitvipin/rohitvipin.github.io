@@ -9,7 +9,7 @@ export function Leadership({ data }: { data: LeadershipData }) {
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{data.title}</Text>
       {data.sections.map((s, i) => (
-        <View key={i} style={styles.entry}>
+        <View key={i} style={styles.entry} minPresenceAhead={20}>
           <Text style={styles.entryTitle}>{s.title}</Text>
           <Text style={styles.entryDescription}>{s.description}</Text>
         </View>
