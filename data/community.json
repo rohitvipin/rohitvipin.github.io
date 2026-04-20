@@ -1,0 +1,53 @@
+[
+  {
+    "type": "Community Leadership",
+    "title": "XHackers Xamarin User Group – Founder & Organizer",
+    "location": "Chennai, India",
+    "description": "Founded and led the XHackers Xamarin User Group in Chennai, organizing 20+ meetups attended by 500+ developers focused on mobile and cross-platform development.",
+    "highlights": [
+      "Organized 20+ technical meetups",
+      "Built community of 500+ attendees",
+      "Focused on Xamarin, MAUI, and cross-platform mobile engineering"
+    ]
+  },
+  {
+    "type": "Open Source",
+    "title": "Xamarin / MAUI Library Maintainer",
+    "description": "Maintainer of open source Xamarin and .NET MAUI libraries published on NuGet, collectively downloaded 50K+ times by the developer community.",
+    "highlights": [
+      "Published multiple NuGet packages",
+      "50K+ total downloads",
+      "Libraries targeting Xamarin.Forms and .NET MAUI ecosystems"
+    ]
+  },
+  {
+    "type": "Conference Speaking",
+    "title": "Conference Speaker – .NET & Xamarin",
+    "description": "Presented at .NET and Xamarin conferences on architecture, cloud engineering, and modern development practices.",
+    "highlights": [
+      "Spoke on microservices architecture and cloud-native patterns",
+      "Presented on Xamarin and cross-platform mobile engineering",
+      "Shared expertise in AWS, Azure, and serverless systems"
+    ]
+  },
+  {
+    "type": "Technical Community",
+    "title": "Stack Overflow – Top Contributor",
+    "description": "Active Stack Overflow contributor with 10K+ reputation, answering questions across C#, .NET, Xamarin, and cloud development.",
+    "highlights": [
+      "10K+ reputation",
+      "Expertise across C#, .NET, Xamarin, and cloud technologies",
+      "Consistent contributor to the .NET and mobile developer community"
+    ]
+  },
+  {
+    "type": "Mentorship",
+    "title": "Engineering Mentorship",
+    "description": "Mentored 25+ engineers across distributed teams on .NET, cloud architecture, serverless patterns, mobile development, and AI-assisted engineering practices.",
+    "highlights": [
+      "25+ engineers mentored across onshore and offshore locations",
+      "Focus areas: .NET, AWS serverless, microservices, mobile engineering, AI tooling",
+      "Established Claude Code and GitHub Copilot guilds training 50+ developers"
+    ]
+  }
+]

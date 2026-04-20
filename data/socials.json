@@ -1,0 +1,27 @@
+[
+  {
+    "platform": "LinkedIn",
+    "url": "https://www.linkedin.com/in/rohitvipinmathews",
+    "icon": "linkedin"
+  },
+  {
+    "platform": "GitHub",
+    "url": "https://github.com/rohitvipin",
+    "icon": "github"
+  },
+  {
+    "platform": "Stack Overflow",
+    "url": "https://stackoverflow.com/users/1202166/rohit-vipin-mathews",
+    "icon": "stackoverflow"
+  },
+  {
+    "platform": "SlideShare",
+    "url": "https://www.slideshare.net/rohitvipin",
+    "icon": "slideshare"
+  },
+  {
+    "platform": "Twitter",
+    "url": "https://twitter.com/rohitvipin",
+    "icon": "twitter"
+  }
+]

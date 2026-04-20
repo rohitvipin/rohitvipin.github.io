@@ -1,0 +1,115 @@
+[
+  {
+    "company": "CES",
+    "role": "Director - Engineering & Architecture",
+    "location": "Kerala, India (Remote)",
+    "duration": "April 2024 – Present",
+    "current": true,
+    "description": "Leading modernization of a large-scale K-12 HR platform suite — Recruiting & Hiring, Central Document Management (CDM), and HRMS — for one of the largest K-12 HCM software providers in the US. Scaled distributed engineering teams, drove AI enablement, and unified interconnected HR product platforms.",
+    "techStack": [".NET Core", "C#", "TypeScript", "React", "Next.js", "AWS", "AWS ECS", "AWS Lambda", "Kafka", "AWS Bedrock", "SQL Server", "PostgreSQL", "Azure DevOps", "Terraform", "Docker", "Microservices", "Event-Driven Architecture", "RAG"],
+    "highlights": [
+      "Built and scaled engineering teams across onshore and offshore locations from 0 to 100+, establishing delivery rhythm, execution accountability, and quality standards",
+      "Directed multiple scrum teams through product engineering model, aligning business priorities across Recruiting & Hiring, CDM, and HRMS platform evolution",
+      "Managed director-level stakeholders across business, product, platform, architecture, and engineering to accelerate decisions and drive outcome ownership",
+      "Unified HR pillar products improving interoperability and cross-product connectivity between legacy and modern systems through Kafka, AWS, APIs, and gateway-led integration",
+      "Ran pilot programs and PoCs for agentic AI workflows, AI-enabled development tooling, and autonomous code generation, advancing organizational AI maturity",
+      "Established Claude Code and GitHub Copilot guilds, training 50+ developers on AI-assisted practices and improving delivery productivity 30%+",
+      "Implemented AWS Bedrock-based solutions including RAG systems and structured data extraction achieving 95%+ accuracy with optimized model selection for cost, latency, and quality",
+      "Owned architecture validation and technology selection as hands-on architect, resolving technical blockers and ensuring architectural integrity",
+      "Strengthened production operations, reducing operational incidents 45% through monitoring, observability, alerting, and proactive issue management",
+      "Drove data warehouse and analytics modernization including ETL pipeline design and AI/ML integration for predictive analytics"
+    ]
+  },
+  {
+    "company": "CES",
+    "role": "Solutions Architect",
+    "location": "Kerala, India (Remote)",
+    "duration": "April 2022 – March 2024",
+    "current": false,
+    "description": "Led project-facing solution architecture for platform modernization initiatives across logistics, hospitality, and agriculture, combining architecture ownership with hands-on delivery and engineering enablement.",
+    "techStack": [".NET Core", "C#", "Blazor WASM", "Blazor Server", "Azure Kubernetes Service", "Domain-Driven Design", "PostgreSQL", "Redis", "SQL Server", "SignalR", "Azure Service Bus", "Azure DevOps", "CI/CD", "Microservices", "Docker", "Python", "AWS ECS", "AWS S3"],
+    "highlights": [
+      "Architected complete platform rewrite of legacy logistics system to Blazor WASM/Server hybrid supporting 500K+ daily transactions, reducing load time 45% and securing $2M+ modernization investment",
+      "Designed microservices-based loyalty platform on Azure Kubernetes Service with Domain-Driven Design, delivered MVP in 5 months supporting 100K+ members with 99.95% uptime and sub-200ms response times",
+      "Led cloud migration of 3 legacy .NET MVC applications to containerized .NET Core APIs on AWS ECS, cutting infrastructure costs 55% ($180K annually)",
+      "Established CI/CD pipelines using Azure DevOps enabling daily deployments and reducing release cycles from 2 weeks to 2 days",
+      "Built reusable component ecosystems and shared service libraries across Azure Service Fabric and Blazor platforms, improving engineering velocity"
+    ]
+  },
+  {
+    "company": "CES",
+    "role": "Technical Architect",
+    "location": "Kerala, India (Remote)",
+    "duration": "April 2019 – March 2022",
+    "current": false,
+    "description": "Architected a multi-module agribusiness management platform covering Agronomy, Grain, Grower Portal, and Accounting, and led mobile engineering practice across serverless AWS infrastructure with hands-on technical leadership.",
+    "techStack": [".NET Core", "C#", "AWS Lambda", "API Gateway", "DynamoDB", "PostgreSQL", "SQL Server", "SQS", "Cognito", "S3", "Xamarin", "Angular 18", "TypeScript", "agGrid", "Docker", "Azure DevOps", "Serverless"],
+    "highlights": [
+      "Designed comprehensive serverless architecture on AWS (Lambda, API Gateway, DynamoDB, PostgreSQL, SQS, Cognito, S3) supporting $5M+ annual operations",
+      "Delivered Agronomy module: field management, soil sampling, precision crop plans, prescription management, and agronomic analytics",
+      "Delivered Grain module: elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management",
+      "Delivered Grower Portal: mobile/web portal for account visibility, field maps, agronomic data, grain positions, and invoice access",
+      "Delivered Accounting module: financial operations for ag co-ops covering A/R, A/P, G/L, and payroll workflows",
+      "Built data warehouse and ETL pipelines for agricultural analytics enabling predictive models for crop optimization and yield forecasting",
+      "Developed Docker-based testing framework enabling automated integration testing across 20+ microservices achieving 80%+ coverage",
+      "Led cross-platform mobile engineering using Xamarin serving 50K+ professionals with 4.5+ star ratings and offline-first architecture for field operations",
+      "Mentored 25 engineers across distributed locations in serverless patterns, AWS services, and microservices architecture"
+    ]
+  },
+  {
+    "company": "CES",
+    "role": "Associate Technical Architect",
+    "location": "Kerala, India",
+    "duration": "April 2017 – March 2019",
+    "current": false,
+    "description": "Expanded into architecture ownership from senior engineering, leading technical design for agriculture and mobile platform features while mentoring engineers and driving delivery quality.",
+    "techStack": [".NET Core", "C#", "Xamarin", "AWS", "SQL Server", "Azure DevOps"],
+    "highlights": [
+      "Led technical design and implementation for key agribusiness platform modules, owning end-to-end delivery from architecture to production",
+      "Drove mobile engineering initiatives using Xamarin, establishing cross-platform patterns adopted across the team",
+      "Mentored junior and mid-level engineers on .NET, cloud, and mobile development practices",
+      "Awarded CESITian Award for Outstanding Technical Contribution (2018)"
+    ]
+  },
+  {
+    "company": "CES",
+    "role": "Senior Software Engineer",
+    "location": "Kerala, India",
+    "duration": "November 2015 – March 2017",
+    "current": false,
+    "description": "Delivered features across full-stack .NET and Xamarin mobile projects, progressing into technical leadership and cross-team delivery ownership.",
+    "techStack": [".NET", "C#", "ASP.NET MVC", "Xamarin", "AWS", "SQL Server", "JavaScript"],
+    "highlights": [
+      "Built full-stack features on .NET backend services and Xamarin mobile applications across agriculture domain projects",
+      "Led technical delivery for feature streams, coordinating with product and QA for end-to-end release quality",
+      "Deepened AWS and cloud integration knowledge contributing to serverless adoption initiatives"
+    ]
+  },
+  {
+    "company": "Vofox Solutions",
+    "role": "Software Engineer",
+    "location": "Kerala, India",
+    "duration": "July 2013 – November 2015",
+    "current": false,
+    "description": "Delivered software solutions for enterprise clients, building skills across .NET, mobile, and web technologies in an agile delivery environment.",
+    "techStack": [".NET", "C#", "ASP.NET MVC", "JavaScript", "SQL Server", "Xamarin"],
+    "highlights": [
+      "Developed enterprise .NET applications and web solutions for diverse client portfolios",
+      "Built early mobile development expertise contributing to cross-platform app delivery",
+      "Awarded Best Upcoming Developer (2013)"
+    ]
+  },
+  {
+    "company": "Essel Swolutions",
+    "role": "Software Developer",
+    "location": "Kerala, India",
+    "duration": "January 2012 – July 2013",
+    "current": false,
+    "description": "First professional role — delivered software development across web and application projects, establishing foundations in .NET and C# development.",
+    "techStack": [".NET", "C#", "ASP.NET", "SQL Server", "Visual Basic .NET"],
+    "highlights": [
+      "Delivered web and desktop application features in .NET and C#",
+      "Collaborated in structured delivery teams, building professional engineering fundamentals"
+    ]
+  }
+]

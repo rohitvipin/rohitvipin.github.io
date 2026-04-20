@@ -1,0 +1,23 @@
+{
+  "name": "Rohit Vipin Mathews",
+  "title": "Director - Engineering & Architecture",
+  "headline": "Engineering leader scaling teams from 0→100+, delivering cloud-native AI-enabled platforms across education, agriculture, and logistics.",
+  "location": "Kerala, India",
+  "bio": "Director of Engineering & Architecture with 14+ years of progressive experience building and scaling engineering organizations, leading complex modernization programs, and delivering cloud-native, AI-enabled platforms across education, agriculture, and logistics domains. Known for combining organization-level leadership with technical depth across .NET, AWS, Azure, microservices, serverless systems, data platforms, and AI enablement. Champion for engineering excellence through AI-assisted development, running pilot programs in agentic AI and advanced development workflows while establishing guilds for Claude Code, GitHub Copilot, and modern engineering practices.",
+  "email": "rohitvipin@gmail.com",
+  "phone": "+91-8089361725",
+  "years_of_experience": 14,
+  "timezone": "Asia/Kolkata",
+  "availability_status": "open",
+  "profile_picture": "",
+  "github_avatar": "https://avatars.githubusercontent.com/u/11459048?v=4",
+  "key_metrics": [
+    { "label": "Infrastructure Cost Reduction", "value": "40–55%", "detail": "$180K+ annually" },
+    { "label": "Platforms Delivered", "value": "$5M+", "detail": "99.9%+ uptime" },
+    { "label": "Teams Built", "value": "0 → 100+", "detail": "onshore & offshore" },
+    { "label": "Engineering Productivity Gain", "value": "30%+", "detail": "via AI-assisted development" },
+    { "label": "Stack Overflow Reputation", "value": "10K+", "detail": "C#, .NET, Xamarin, Cloud" },
+    { "label": "Test Coverage Standard", "value": "80%+", "detail": "enforced across delivery teams" },
+    { "label": "NuGet Downloads", "value": "50K+", "detail": "open source Xamarin/MAUI libraries" }
+  ]
+}
