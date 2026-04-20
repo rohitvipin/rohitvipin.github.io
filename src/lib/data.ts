@@ -20,7 +20,7 @@ import awardsData from "../../data/awards.json";
 import communityData from "../../data/community.json";
 import leadershipData from "../../data/leadership.json";
 
-// Cast to Profile so literal union types (e.g. availability_status) are enforced by the type, not inferred from JSON
+// JSON imports widen string literals (availability_status inferred as string, not "open"|"closed"|"passive")
 export const profile = profileData as unknown as Profile;
 export const experience = experienceData satisfies ExperienceEntry[];
 export const projects = projectsData satisfies Project[];

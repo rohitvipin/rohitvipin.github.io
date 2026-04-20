@@ -2,7 +2,11 @@ import type { Education } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { FaGraduationCap } from "react-icons/fa6";
 
-export default function EducationSection({ education }: { education: Education[] }) {
+export interface EducationSectionProps {
+  education: Education[];
+}
+
+export default function EducationSection({ education }: EducationSectionProps) {
   return (
     <section id="education" className="section">
       <div className="max-w-6xl mx-auto px-6">
