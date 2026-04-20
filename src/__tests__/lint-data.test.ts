@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lintContent } from "../../utils/lint-data-core";
+import { lintContent, validateSchema } from "../../utils/lint-data-core";
 
 describe("lintContent - JSON validation", () => {
   it("accepts valid JSON", () => {
@@ -66,5 +66,61 @@ describe("lintContent - forbidden characters", () => {
     const result = lintContent('{"name": "Rohit", "role": "Director of Engineering"}');
     expect(result.valid).toBe(true);
     expect(result.violations).toHaveLength(0);
+  });
+});
+
+describe("validateSchema - Zod-backed validation", () => {
+  const validProfileJson = JSON.stringify({
+    name: "Test",
+    title: "Engineer",
+    headline: "headline",
+    location: "London",
+    bio: "bio",
+    email: "test@example.com",
+    phone: "+44-0000",
+    years_of_experience: 5,
+    timezone: "UTC",
+    availability_status: "open",
+    github_avatar: "https://avatars.githubusercontent.com/u/1",
+    key_metrics: [{ label: "L", value: "V", detail: "D" }],
+  });
+
+  it("returns no errors for valid profile.json", () => {
+    expect(validateSchema(validProfileJson, "profile.json")).toHaveLength(0);
+  });
+
+  it("reports invalid availability_status enum", () => {
+    const bad = JSON.stringify({
+      ...JSON.parse(validProfileJson),
+      availability_status: "available",
+    });
+    const errors = validateSchema(bad, "profile.json");
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors[0]).toMatch("availability_status");
+  });
+
+  it("reports invalid email", () => {
+    const bad = JSON.stringify({ ...JSON.parse(validProfileJson), email: "not-an-email" });
+    const errors = validateSchema(bad, "profile.json");
+    expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it("reports non-URL github_avatar", () => {
+    const bad = JSON.stringify({ ...JSON.parse(validProfileJson), github_avatar: "not-a-url" });
+    const errors = validateSchema(bad, "profile.json");
+    expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it("returns no errors for valid skills.json array", () => {
+    const json = JSON.stringify([{ category: "Frontend", skills: ["React"] }]);
+    expect(validateSchema(json, "skills.json")).toHaveLength(0);
+  });
+
+  it("returns empty array for unknown file", () => {
+    expect(validateSchema("{}", "unknown.json")).toHaveLength(0);
+  });
+
+  it("returns empty array on invalid JSON", () => {
+    expect(validateSchema("{bad json}", "profile.json")).toHaveLength(0);
   });
 });

@@ -1,3 +1,5 @@
+import { FILE_ZSCHEMAS } from "@/lib/schemas";
+
 export const FORBIDDEN: Array<{ char: string; label: string }> = [
   { char: "\u2014", label: "em dash (—)" },
   { char: "\u2013", label: "en dash (–)" },
@@ -21,135 +23,8 @@ export interface LintResult {
   schemaErrors: string[];
 }
 
-type FieldType = "string" | "number" | "boolean" | "array" | "object";
-
-interface FieldSchema {
-  key: string;
-  type: FieldType;
-}
-
-interface FileSchema {
-  shape: "singleton" | "array";
-  fields: FieldSchema[];
-}
-
-export const FILE_SCHEMAS: Record<string, FileSchema> = {
-  "profile.json": {
-    shape: "singleton",
-    fields: [
-      { key: "name", type: "string" },
-      { key: "title", type: "string" },
-      { key: "headline", type: "string" },
-      { key: "location", type: "string" },
-      { key: "bio", type: "string" },
-      { key: "email", type: "string" },
-      { key: "phone", type: "string" },
-      { key: "years_of_experience", type: "number" },
-      { key: "timezone", type: "string" },
-      { key: "availability_status", type: "string" },
-      { key: "github_avatar", type: "string" },
-      { key: "key_metrics", type: "array" },
-    ],
-  },
-  "experience.json": {
-    shape: "array",
-    fields: [
-      { key: "company", type: "string" },
-      { key: "role", type: "string" },
-      { key: "location", type: "string" },
-      { key: "duration", type: "string" },
-      { key: "current", type: "boolean" },
-      { key: "description", type: "string" },
-      { key: "techStack", type: "array" },
-      { key: "highlights", type: "array" },
-    ],
-  },
-  "projects.json": {
-    shape: "array",
-    fields: [
-      { key: "name", type: "string" },
-      { key: "domain", type: "string" },
-      { key: "client", type: "string" },
-      { key: "role", type: "string" },
-      { key: "duration", type: "string" },
-      { key: "description", type: "string" },
-      { key: "products", type: "array" },
-      { key: "highlights", type: "array" },
-      { key: "tech", type: "array" },
-    ],
-  },
-  "skills.json": {
-    shape: "array",
-    fields: [
-      { key: "category", type: "string" },
-      { key: "skills", type: "array" },
-    ],
-  },
-  "education.json": {
-    shape: "array",
-    fields: [
-      { key: "degree", type: "string" },
-      { key: "institution", type: "string" },
-      { key: "location", type: "string" },
-      { key: "year", type: "string" },
-    ],
-  },
-  "socials.json": {
-    shape: "array",
-    fields: [
-      { key: "platform", type: "string" },
-      { key: "url", type: "string" },
-      { key: "icon", type: "string" },
-    ],
-  },
-  "awards.json": {
-    shape: "array",
-    fields: [
-      { key: "title", type: "string" },
-      { key: "organization", type: "string" },
-      { key: "description", type: "string" },
-    ],
-  },
-  "community.json": {
-    shape: "array",
-    fields: [
-      { key: "type", type: "string" },
-      { key: "title", type: "string" },
-      { key: "description", type: "string" },
-      { key: "highlights", type: "array" },
-    ],
-  },
-  "leadership.json": {
-    shape: "singleton",
-    fields: [
-      { key: "title", type: "string" },
-      { key: "sections", type: "array" },
-    ],
-  },
-};
-
-function checkFields(
-  record: Record<string, unknown>,
-  fields: FieldSchema[],
-  context: string
-): string[] {
-  const errors: string[] = [];
-  for (const { key, type } of fields) {
-    if (!(key in record)) {
-      errors.push(`${context}: missing required field "${key}"`);
-      continue;
-    }
-    const val = record[key];
-    const actual = val === null ? "null" : Array.isArray(val) ? "array" : typeof val;
-    if (actual !== type) {
-      errors.push(`${context}: field "${key}" expected ${type}, got ${actual}`);
-    }
-  }
-  return errors;
-}
-
 export function validateSchema(raw: string, fileName: string): string[] {
-  const schema = FILE_SCHEMAS[fileName];
+  const schema = FILE_ZSCHEMAS[fileName];
   if (!schema) return [];
 
   let parsed: unknown;
@@ -159,29 +34,13 @@ export function validateSchema(raw: string, fileName: string): string[] {
     return [];
   }
 
-  if (schema.shape === "singleton") {
-    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-      return [`${fileName}: expected a JSON object at root`];
-    }
-    return checkFields(parsed as Record<string, unknown>, schema.fields, fileName);
-  }
+  const result = schema.safeParse(parsed);
+  if (result.success) return [];
 
-  if (!Array.isArray(parsed)) {
-    return [`${fileName}: expected a JSON array at root`];
-  }
-
-  const errors: string[] = [];
-  for (let i = 0; i < parsed.length; i++) {
-    const item = parsed[i];
-    if (typeof item !== "object" || item === null || Array.isArray(item)) {
-      errors.push(`${fileName}[${i}]: expected an object`);
-      continue;
-    }
-    errors.push(
-      ...checkFields(item as Record<string, unknown>, schema.fields, `${fileName}[${i}]`)
-    );
-  }
-  return errors;
+  return result.error.issues.map((issue) => {
+    const path = issue.path.length > 0 ? issue.path.join(".") : "root";
+    return `${fileName} [${path}]: ${issue.message}`;
+  });
 }
 
 export function lintContent(raw: string): LintResult {
