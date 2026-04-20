@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "Skill(gsd-update)",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "Bash(gh auth *)",
+      "mcp__plugin_context-mode_context-mode__ctx_index",
+      "Bash(npx create-next-app@latest *)",
+      "Bash(mkdir -p /tmp/nextjs-scaffold)",
+      "Read(//tmp/**)",
+      "Bash(cp /tmp/nextjs-scaffold/package.json /Users/rohit/Projects/rohit-profile/)",
+      "Bash(cp /tmp/nextjs-scaffold/package-lock.json /Users/rohit/Projects/rohit-profile/)",
+      "Bash(cp /tmp/nextjs-scaffold/next.config.ts /Users/rohit/Projects/rohit-profile/)",
+      "Bash(cp /tmp/nextjs-scaffold/tsconfig.json /Users/rohit/Projects/rohit-profile/)",
+      "Bash(cp /tmp/nextjs-scaffold/postcss.config.mjs /Users/rohit/Projects/rohit-profile/)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "Bash(npm uninstall *)",
+      "Bash(npx husky *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

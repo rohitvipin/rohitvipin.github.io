@@ -1,0 +1,67 @@
+import Nav from "@/components/shared/Nav";
+import ScrollToTop from "@/components/shared/ScrollToTop";
+import Hero from "@/components/hero/Hero";
+import About from "@/components/about/About";
+import ExperienceTimeline from "@/components/experience/ExperienceTimeline";
+import ProjectsSection from "@/components/projects/ProjectsSection";
+import SkillsSection from "@/components/skills/SkillsSection";
+import CommunitySection from "@/components/community/CommunitySection";
+import AwardsSection from "@/components/awards/AwardsSection";
+import EducationSection from "@/components/education/EducationSection";
+import LeadershipSection from "@/components/leadership/LeadershipSection";
+import SocialLinks from "@/components/shared/SocialLinks";
+import {
+  profile,
+  socials,
+  experience,
+  projects,
+  skills,
+  community,
+  awards,
+  education,
+  leadership,
+} from "@/lib/data";
+
+export default function Home() {
+  return (
+    <>
+      <Nav
+        initials={profile.name
+          .split(" ")
+          .map((w: string) => w[0])
+          .join("")
+          .slice(0, 3)}
+      />
+      <main>
+        <Hero profile={profile} socials={socials} />
+        <About profile={profile} />
+        <ExperienceTimeline
+          experience={experience}
+          yearsOfExperience={profile.years_of_experience}
+        />
+        <ProjectsSection projects={projects} />
+        <LeadershipSection leadership={leadership} />
+        <SkillsSection skills={skills} />
+        <CommunitySection community={community} />
+        <AwardsSection awards={awards} />
+        <EducationSection education={education} />
+      </main>
+      <footer className="border-t border-[var(--border)] py-8">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-[var(--muted)]">
+            © {new Date().getFullYear()} {profile.name}
+          </p>
+          <SocialLinks socials={socials} />
+          <a
+            href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
+            download
+            className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
+          >
+            Download Resume
+          </a>
+        </div>
+      </footer>
+      <ScrollToTop />
+    </>
+  );
+}

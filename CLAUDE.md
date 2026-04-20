@@ -4,31 +4,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Type
 
-Content-only repo acting as a **headless CMS** for Rohit Vipin Mathews' personal profile site. No build system, no package manager, no tests — only JSON content, markdown specs, and resume assets. UI has not been scaffolded yet; the "Development Phase" begins when the user explicitly requests it.
+Personal portfolio site for **Rohit Vipin Mathews** — Next.js 16 static export deployed to GitHub Pages. Data lives in `data/*.json` (headless CMS pattern). UI is in `src/`.
 
 ## Layout
 
-- `data/` — Canonical content consumed by the future UI. JSON only. Source of truth for anything rendered on the site.
-  - `profile.json`, `socials.json`, `skills.json`, `experience.json`, `education.json`
-- `docs/` — Architecture and content-strategy specs (`architecture.md`, `content_strategy.md`, `resume.md`). Read these before proposing structural changes.
-- `resume/` — PDF + plain-text resume. `Rohit_Resume_Final.txt` is the editable source; PDFs are exported artifacts.
-- `agent.md` — Design brief and stack constraints for UI work. Binding when building the site.
-- `README.md` — High-level repo intent.
+- `data/` — Canonical JSON content. Source of truth. Never hardcode content into UI.
+  - `profile.json`, `socials.json`, `skills.json`, `experience.json`, `education.json`, `projects.json`, `awards.json`, `community.json`
+- `src/` — Next.js App Router UI
+  - `src/types/index.ts` — TypeScript interfaces for all JSON schemas
+  - `src/lib/data.ts` — typed JSON importers (build-time only, no fetch)
+  - `src/app/` — layout, page, globals.css
+  - `src/components/` — section and shared components
+- `docs/` — Architecture and content-strategy specs
+- `public/` — Static assets (resume PDF, robots.txt, sitemap.xml, og-image)
+- `.github/workflows/deploy.yml` — GitHub Actions: build → deploy to gh-pages
+
+## Build & Dev Commands
+
+```bash
+npm run dev       # local dev server (http://localhost:3000)
+npm run build     # production static export → out/
+npm run preview   # build + serve out/ locally
+npm run lint      # ESLint
+```
+
+## Deployment
+
+Push to `main` → GitHub Actions builds with `NEXT_PUBLIC_BASE_PATH=/rohit-profile` → deploys `out/` to `gh-pages` branch.
+Live URL: https://rohitvipin.github.io/rohit-profile
+
+Custom domain: set `NEXT_PUBLIC_BASE_PATH=""` in workflow env.
 
 ## Working Conventions
 
-- **Content lives in `data/*.json`.** Never hardcode profile content into UI code. UI reads JSON at build time (SSG) or runtime (SPA fetch).
-- **Schema drift** — when adding fields to any `data/*.json`, update the matching section in `docs/architecture.md` or `docs/content_strategy.md` in the same change.
-- **Resume sync** — edits to experience/education/skills should also be reflected in `resume/Rohit_Resume_Final.txt` if the same facts appear there. PDFs are regenerated separately; don't hand-edit them.
-
-## When the User Starts UI Development
-
-Per `agent.md`:
-- Stack defaults: Vite or Next.js, React. Vanilla CSS preferred for control; TailwindCSS only if requested.
-- No default templates. Design target is dark-mode-first, premium, Inter/Outfit-class typography, micro-animations on cards/links.
-- Mandatory sections driven by JSON: Hero (`profile.json` + `socials.json`), About, Skills grid (`skills.json`), Experience timeline (`experience.json`), Education (`education.json`).
-- Initialize the UI inside this repo root (not a sibling dir) unless the user says otherwise.
-
-## No Build/Test Commands Yet
-
-There is no `package.json`, `Makefile`, or CI. Do not invent lint/test commands. If the user scaffolds a UI, add commands to this file at that point.
+- **Content in `data/*.json` only.** No hardcoded strings in UI.
+- **Schema drift** — adding JSON fields requires updating `src/types/index.ts` in the same change.
+- **`"use client"` only** on components using hooks/browser APIs. Everything else is a server component.
+- **react-icons** for all icons (FA6 brands + Feather UI icons).
+- **CSS custom properties** (`var(--accent)` etc.) for all theming — no hardcoded colors in components.

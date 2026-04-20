@@ -1,9 +1,9 @@
 {
   "name": "Rohit Vipin Mathews",
   "title": "Director - Engineering & Architecture",
-  "headline": "Engineering leader scaling teams from 0→100+, delivering cloud-native AI-enabled platforms across education, agriculture, and logistics.",
+  "headline": "Engineering leader scaling 350+ engineers across USA onshore and India offshore teams, delivering cloud-native AI-enabled platforms across education, agriculture, logistics, and hospitality.",
   "location": "Kerala, India",
-  "bio": "Director of Engineering & Architecture with 14+ years of progressive experience building and scaling engineering organizations, leading complex modernization programs, and delivering cloud-native, AI-enabled platforms across education, agriculture, and logistics domains. Known for combining organization-level leadership with technical depth across .NET, AWS, Azure, microservices, serverless systems, data platforms, and AI enablement. Champion for engineering excellence through AI-assisted development, running pilot programs in agentic AI and advanced development workflows while establishing guilds for Claude Code, GitHub Copilot, and modern engineering practices.",
+  "bio": "I build and run large-scale distributed engineering organisations while staying close enough to the architecture to unblock it personally. Over 14 years at CES I've led 350+ engineers across USA onshore and India offshore accounts, scaled four distinct product lines from zero, and owned the AI enablement practice that improved delivery velocity 30%+ org-wide.\n\nMy work spans the full director-to-architect range: I design engineering cultures where ownership is non-negotiable, teams are indistinguishable from the customer's own engineering org, and every failure is explainable and reproducible by design. I've delivered cloud-native platforms across K-12 education, precision agriculture, logistics, and hospitality — and I've run the PoCs, RFPs, architecture proposals, and tiger-team engagements that turn client problems into funded engineering programmes.\n\nI believe engineering teams don't win on cost — they win on trust. And trust is earned by solving the hard problems, not the easy ones.",
   "email": "rohitvipin@gmail.com",
   "phone": "+91-8089361725",
   "years_of_experience": 14,
@@ -13,11 +13,28 @@
   "github_avatar": "https://avatars.githubusercontent.com/u/11459048?v=4",
   "key_metrics": [
     { "label": "Infrastructure Cost Reduction", "value": "40–55%", "detail": "$180K+ annually" },
+    {
+      "label": "Engineers Led",
+      "value": "350+",
+      "detail": "USA onshore & India offshore, multi-account"
+    },
     { "label": "Platforms Delivered", "value": "$5M+", "detail": "99.9%+ uptime" },
-    { "label": "Teams Built", "value": "0 → 100+", "detail": "onshore & offshore" },
-    { "label": "Engineering Productivity Gain", "value": "30%+", "detail": "via AI-assisted development" },
+    {
+      "label": "Product Domains",
+      "value": "4",
+      "detail": "K-12 Education, Agriculture, Logistics, Hospitality"
+    },
+    {
+      "label": "Engineering Productivity Gain",
+      "value": "30%+",
+      "detail": "via AI-assisted development"
+    },
+    {
+      "label": "Test Coverage Standard",
+      "value": "80%+",
+      "detail": "enforced across delivery teams"
+    },
     { "label": "Stack Overflow Reputation", "value": "10K+", "detail": "C#, .NET, Xamarin, Cloud" },
-    { "label": "Test Coverage Standard", "value": "80%+", "detail": "enforced across delivery teams" },
     { "label": "NuGet Downloads", "value": "50K+", "detail": "open source Xamarin/MAUI libraries" }
   ]
 }

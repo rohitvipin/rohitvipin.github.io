@@ -1,27 +1,121 @@
 [
   {
+    "category": "Strategy & Org Leadership",
+    "skills": [
+      "Technology Roadmap Ownership",
+      "Engineering Culture Design",
+      "Build vs Buy Evaluation",
+      "Headcount & Budget Planning",
+      "Pre-sales & RFP Delivery",
+      "BRD / Solution Scoping",
+      "Tiger Team Leadership",
+      "Hunter Model / Account Expansion",
+      "Vendor & Partner Management",
+      "OKR Design",
+      "Succession Planning",
+      "Distributed Team Governance (USA onshore / India offshore)"
+    ]
+  },
+  {
     "category": "Leadership & Organization",
-    "skills": ["Team Scaling (0 to 100+)", "Stakeholder Management", "Engineering Culture", "Execution Excellence", "Performance Management", "Distributed Team Leadership", "Product Engineering Model", "OKR & Roadmap Ownership"]
+    "skills": [
+      "Team Scaling (0 to 350+)",
+      "Stakeholder Management",
+      "Engineering Culture",
+      "Execution Excellence",
+      "Performance Management",
+      "Distributed Team Leadership (USA onshore / India offshore)",
+      "Product Engineering Model",
+      "OKR & Roadmap Ownership"
+    ]
   },
   {
     "category": "Platform & Architecture",
-    "skills": [".NET Ecosystem", "Microservices", "Serverless", "Event-Driven Architecture", "Domain-Driven Design", "API Design", "AWS (Lambda, ECS, EKS, API Gateway, Bedrock)", "Azure (AKS, Service Fabric)", "Kubernetes", "Docker", "Terraform", "AWS CDK", "Infrastructure as Code", "IdentityServer", "OpenID Connect", "OAuth 2.0", "BDD / Gherkin", "Legacy Modernization"]
+    "skills": [
+      ".NET Ecosystem",
+      "Microservices",
+      "Serverless",
+      "Event-Driven Architecture",
+      "Domain-Driven Design",
+      "API Design",
+      "AWS (Lambda, ECS, EKS, API Gateway, Bedrock)",
+      "Azure (AKS, Service Fabric)",
+      "Kubernetes",
+      "Docker",
+      "Terraform",
+      "AWS CDK",
+      "Infrastructure as Code",
+      "IdentityServer",
+      "OpenID Connect",
+      "OAuth 2.0",
+      "BDD / Gherkin",
+      "Legacy Modernization"
+    ]
   },
   {
     "category": "Backend & Runtimes",
-    "skills": ["C#", ".NET Core", "ASP.NET Core", "Node.js", "Python", "PowerShell", "Visual Basic .NET"]
+    "skills": [
+      "C#",
+      ".NET Core",
+      "ASP.NET Core",
+      "Node.js",
+      "Python",
+      "PowerShell",
+      "Visual Basic .NET"
+    ]
   },
   {
     "category": "Frontend & Web",
-    "skills": ["React", "Next.js", "TypeScript", "JavaScript", "Angular", "AngularJS", "VueJS", "Svelte", "Blazor WASM/Server", "agGrid", "SignalR"]
+    "skills": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "Angular",
+      "AngularJS",
+      "VueJS",
+      "Svelte",
+      "Blazor WASM/Server",
+      "agGrid",
+      "SignalR"
+    ]
   },
   {
     "category": "AI & Modern Engineering",
-    "skills": ["AWS Bedrock", "Azure AI", "Agentic AI", "RAG Systems", "Semantic Kernel", "Claude Code", "GitHub Copilot", "LLM Integration", "Model Evaluation", "AI-Assisted Development", "Developer Productivity Guilds", "AWS CDK"]
+    "skills": [
+      "AWS Bedrock",
+      "Azure AI",
+      "Agentic AI",
+      "RAG Systems",
+      "Semantic Kernel",
+      "Claude Code",
+      "GitHub Copilot",
+      "LLM Integration",
+      "Model Evaluation",
+      "AI-Assisted Development",
+      "Developer Productivity Guilds",
+      "AWS CDK"
+    ]
   },
   {
     "category": "Data & Integration",
-    "skills": ["Data Warehouse Design", "ETL Pipelines", "Kafka", "REST/GraphQL APIs", "MS SQL / PostgreSQL / MySQL", "DynamoDB", "Redis", "Neo4j", "TimestreamDB", "SQLite", "Entity Framework Core", "Analytics Platforms", "Gateway Patterns", "Event Grid", "Message Queues"]
+    "skills": [
+      "Data Warehouse Design",
+      "ETL Pipelines",
+      "Kafka",
+      "REST/GraphQL APIs",
+      "MS SQL / PostgreSQL / MySQL",
+      "DynamoDB",
+      "Redis",
+      "Neo4j",
+      "TimestreamDB",
+      "SQLite",
+      "Entity Framework Core",
+      "Analytics Platforms",
+      "Gateway Patterns",
+      "Event Grid",
+      "Message Queues"
+    ]
   },
   {
     "category": "Mobile & Cross-Platform",
@@ -29,6 +123,11 @@
   },
   {
     "category": "Domain Expertise",
-    "skills": ["K-12 Education HCM", "Agriculture & Precision Agronomy", "Logistics & Supply Chain", "Hospitality & Loyalty Platforms"]
+    "skills": [
+      "K-12 Education HCM",
+      "Agriculture & Precision Agronomy",
+      "Logistics & Supply Chain",
+      "Hospitality & Loyalty Platforms"
+    ]
   }
 ]

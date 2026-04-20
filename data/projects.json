@@ -12,16 +12,12 @@
         "description": "Applicant tracking, job posting, onboarding workflows, background check integration, and certification tracking purpose-built for K-12 district hiring at scale"
       },
       {
-        "name": "Central Document Management (CDM)",
-        "description": "FERPA-compliant employee document storage, digital records management, and automated document lifecycle for school district HR teams"
-      },
-      {
-        "name": "HRMS",
-        "description": "Employee lifecycle management, benefits administration, position management, and compensation workflows for K-12 HR operations"
+        "name": "HR Information System & Document Management",
+        "description": "Integrated employee lifecycle management covering benefits administration, position management, and compensation workflows, with FERPA-compliant document storage, digital records management, and automated document lifecycle for K-12 HR operations"
       }
     ],
     "highlights": [
-      "Scaled engineering from 0 to 100+ across onshore and offshore teams",
+      "Scaled engineering from ground up across USA onshore and India offshore teams",
       "Unified HR product pillars through Kafka, AWS, and API gateway integration",
       "AWS Bedrock RAG systems achieving 95%+ structured data extraction accuracy",
       "Claude Code and GitHub Copilot guilds improving delivery productivity 30%+",
@@ -57,16 +53,16 @@
     "description": "Cloud-native serverless platform for an integrated agribusiness management suite serving agricultural co-ops and retailers across North America. Delivered Agronomy, Grain, Grower Portal, and Accounting modules on AWS serverless infrastructure with cross-platform mobile for field teams.",
     "products": [
       {
-        "name": "Agronomy",
+        "name": "Crop & Field Management",
         "description": "Field management, soil sampling, precision crop plans, prescription management, custom application tracking, and agronomic analytics for agri-retailers"
       },
       {
-        "name": "Grain",
+        "name": "Grain Operations & Settlement",
         "description": "Grain elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management for co-ops"
       },
       {
-        "name": "Grower Portal",
-        "description": "Grower-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access — offline-first for field connectivity"
+        "name": "Producer Self-Service Portal",
+        "description": "Producer-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access — offline-first for field connectivity"
       },
       {
         "name": "Accounting",
@@ -275,14 +271,15 @@
     "client": "Personal / Community",
     "role": "Creator & Maintainer",
     "duration": "2018",
-    "description": "Open source sample project showcasing custom renderer implementations in Xamarin Forms. Most-starred personal GitHub repository, referenced by the developer community for cross-platform mobile UI patterns.",
+    "description": "Open source sample project showcasing custom renderer implementations in Xamarin Forms. Referenced by the developer community for cross-platform mobile UI patterns.",
     "products": [],
     "highlights": [
-      "17 GitHub stars — most starred personal repository",
+      "Community-starred GitHub repository for Xamarin custom renderer patterns",
       "Demonstrates custom renderers for platform-specific UI in Xamarin Forms",
       "Referenced as a learning resource by the Xamarin developer community"
     ],
-    "tech": [".NET", "C#", "Xamarin.Forms", "iOS", "Android"]
+    "tech": [".NET", "C#", "Xamarin.Forms", "iOS", "Android"],
+    "github": "https://github.com/rohitvipin/Xamarin-Forms-Custom-Renderer-Samples"
   },
   {
     "name": "Dapper.Repository",
@@ -296,7 +293,8 @@
       "Auto-generated CRUD operations via Repository interface",
       "Wrapper around Dapper for clean data-access patterns in .NET"
     ],
-    "tech": [".NET", "C#", "Dapper", "SQL", "NuGet"]
+    "tech": [".NET", "C#", "Dapper", "SQL", "NuGet"],
+    "github": "https://github.com/rohitvipin/Dapper.Repository"
   },
   {
     "name": "AWS.RequestSigner",
@@ -310,7 +308,8 @@
       "AWS Signature V4 implementation for IoT WebSocket connections",
       "Fills .NET gap for connecting to AWS IoT Core via MQTT"
     ],
-    "tech": ["C#", ".NET", "AWS IoT", "MQTT", "WebSockets", "AWS Signature V4"]
+    "tech": ["C#", ".NET", "AWS IoT", "MQTT", "WebSockets", "AWS Signature V4"],
+    "github": "https://github.com/rohitvipin/AWS.RequestSigner"
   },
   {
     "name": "MongoDbMigrations",
