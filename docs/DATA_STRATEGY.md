@@ -69,12 +69,7 @@ The `data/` directory is the **single source of truth** for all content. Never h
 
 ## Writing Standards
 
-All content in `data/*.json` must follow:
-
-- **ASCII punctuation only:** `-` not `–/—`, `...` not `…`, `"` not `"/"`
-- **British English:** -ise not -ize, -our not -or, organised not organized
-- **No corporate jargon:** "world-class", "seamlessly", "end-to-end", "at org scale"
-- **No AI tells:** "proactive", "exceptional", "cutting-edge", "innovative", "robust"
+See the [Writing Standards section in CODE_REVIEW.md](CODE_REVIEW.md#writing-standards) for the full checklist (ASCII punctuation, British English, jargon rules).
 
 ## Validation
 
@@ -115,12 +110,6 @@ If adding an entirely new content type:
 7. **Push:** All changes in single commit
 
 See [DEVELOPMENT.md](DEVELOPMENT.md#working-with-data) for step-by-step examples.
-
-## Future Expansion Ideas
-
-- **RSS feed aggregation:** Fetch latest articles from Medium/Dev.to at build time
-- **GitHub stats:** Pull pinned repos + stats via GitHub API
-- **Dynamic resume:** Generate PDF from JSON data (already implemented)
 
 ---
 

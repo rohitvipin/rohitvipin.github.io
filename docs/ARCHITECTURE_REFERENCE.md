@@ -1,32 +1,6 @@
 # Architecture Reference
 
-Complete technical reference for the portfolio site architecture.
-
-## Project Overview
-
-**Rohit Vipin Mathews** — Personal portfolio. Next.js 16 static export deployed to GitHub Pages.
-
-- **Live:** https://rohitvipin.github.io/rohit-profile
-- **Repo:** https://github.com/rohitvipin/rohit-profile
-- **Stack:** Next.js 16, React 19, TypeScript 5, Tailwind, Vitest
-
-## Repository Structure
-
-- **`data/`** — JSON content (single source of truth)
-  - `profile.json`, `socials.json`, `skills.json`, `experience.json`, `education.json`, `projects.json`, `awards.json`, `community.json`
-- **`src/`** — React components + styling
-  - `app/` — Layout, pages, global CSS
-  - `components/` — Section components (organized by feature)
-  - `lib/` — Data loaders + utilities
-  - `types/` — TypeScript interfaces
-  - `__tests__/` — Tests (Vitest)
-- **`utils/`** — Build scripts (TypeScript)
-  - `generate-favicons.ts` — Favicon suite
-  - `generate-resume.ts` — PDF generation
-  - `lint-data.ts` — JSON validation
-- **`public/`** — Static assets
-- **`docs/`** — Documentation
-- **`.github/workflows/`** — CI/CD
+Complete technical reference for the portfolio site architecture. For project overview and repo structure, see [README.md](../README.md) and [CLAUDE.md](../CLAUDE.md).
 
 ## Key Architecture Decisions
 
@@ -116,10 +90,7 @@ import { ExternalLink } from "react-icons/fi";
 
 Build output: static HTML/CSS/JS in `out/` folder.
 
-Environment variable `NEXT_PUBLIC_BASE_PATH` controls:
-
-- `""` — Custom domain (root)
-- `"/rohit-profile"` — GitHub Pages subpath
+Environment variable `NEXT_PUBLIC_BASE_PATH` controls the URL prefix. Currently set to `""` (root domain).
 
 ## Data Schema
 
@@ -135,6 +106,7 @@ See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 | `projects.json`   | Array         | Portfolio projects           |
 | `awards.json`     | Array         | Awards + recognition         |
 | `community.json`  | Array         | Open source + speaking       |
+| `leadership.json` | Array         | Leadership + mentoring       |
 
 ## Component Hierarchy
 
@@ -155,11 +127,7 @@ App (layout)
 
 ## Testing Strategy
 
-- **Utilities:** 100% unit test coverage
-- **Components:** Main paths tested
-- **Overall:** 60% minimum coverage
-- **Framework:** Vitest + React Testing Library
-- **Pattern:** Semantic assertions ("what" not "how")
+See [DEVELOPMENT.md](DEVELOPMENT.md#testing) for test patterns and coverage goals.
 
 ## Performance Optimizations
 

@@ -6,11 +6,13 @@ Welcome to the project. This guide gets you from zero to running code in **5 min
 
 ```bash
 # Clone and install
-git clone https://github.com/rohitvipin/rohit-profile.git
-cd rohit-profile
+git clone https://github.com/rohitvipin/rohitvipin.github.io.git
+cd rohitvipin.github.io
 npm install
 
 # Verify everything works
+npm run lint
+npm run test
 npm run dev
 ```
 

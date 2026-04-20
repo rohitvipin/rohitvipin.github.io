@@ -80,17 +80,7 @@ Before submitting a PR, check [docs/CODE_REVIEW.md](docs/CODE_REVIEW.md):
 
 ## Local Setup
 
-```bash
-git clone https://github.com/rohitvipin/rohit-profile.git
-cd rohit-profile
-npm install
-
-# Verify setup
-npm run lint
-npm run test
-npm run build
-npm run dev
-```
+See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) for setup steps.
 
 ## CI/CD Pipeline
 

@@ -6,8 +6,8 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 
 **Rohit Vipin Mathews** — Personal portfolio site. Next.js 16 static export deployed to GitHub Pages. Data-driven (JSON headless CMS pattern). UI pulls all content from JSON files — never hardcoded.
 
-- **Live:** https://rohitvipin.github.io/rohit-profile
-- **Repo:** https://github.com/rohitvipin/rohit-profile
+- **Live:** https://rohitvipin.github.io/
+- **Repo:** https://github.com/rohitvipin/rohitvipin.github.io
 - **Stack:** Next.js 16, React 19, TypeScript, Tailwind, Vitest
 
 ## Repository Structure
