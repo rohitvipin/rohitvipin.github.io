@@ -33,9 +33,6 @@ export function Header({ profile, socials, showKeyMetrics }: HeaderProps) {
       <Text style={styles.jobTitle}>{profile.title}</Text>
       <Text style={styles.headline}>{profile.headline}</Text>
       <Text style={styles.contactLine}>{contactParts.join("  |  ")}</Text>
-      {profile.tags && profile.tags.length > 0 && (
-        <Text style={styles.tagsLine}>Keywords: {profile.tags.join(", ")}</Text>
-      )}
       {showKeyMetrics && <MetricsLine metrics={profile.key_metrics} />}
     </View>
   );

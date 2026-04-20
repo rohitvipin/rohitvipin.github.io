@@ -25,34 +25,28 @@ export const styles = StyleSheet.create({
     borderBottomColor: ACCENT,
   },
   name: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
-    marginBottom: 5,
+    marginBottom: 3,
   },
   jobTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: "Helvetica-Bold",
     color: ACCENT,
-    marginBottom: 5,
+    marginBottom: 6,
+    letterSpacing: 0.3,
   },
   headline: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,
-    marginBottom: 4,
+    marginBottom: 5,
     lineHeight: 1.4,
   },
-  // Contact items rendered as a single pipe-separated Text line
   contactLine: {
     fontSize: 8,
-    color: TEXT_SECONDARY,
-    marginBottom: 3,
-  },
-  // Tags rendered as a single plain-text line
-  tagsLine: {
-    fontSize: 7.5,
     color: TEXT_MUTED,
-    marginTop: 2,
+    marginBottom: 3,
   },
 
   // ── Key metrics (single pipe-separated text line) ──
