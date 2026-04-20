@@ -28,13 +28,13 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Helvetica-Bold",
     color: TEXT_PRIMARY,
-    marginBottom: 2,
+    marginBottom: 5,
   },
   jobTitle: {
-    fontSize: 10,
+    fontSize: 11,
     fontFamily: "Helvetica-Bold",
     color: ACCENT,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   headline: {
     fontSize: 8.5,
