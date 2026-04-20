@@ -12,7 +12,7 @@
     "awards"
   ],
   "sections": {
-    "experience": { "show": true, "sinceYear": 2016 },
+    "experience": { "show": true },
     "skills": { "show": true },
     "projects": { "show": true, "maxItems": 3 },
     "leadership": { "show": true },
