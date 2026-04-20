@@ -93,3 +93,25 @@ export interface Leadership {
   title: string;
   sections: LeadershipSubsection[];
 }
+
+export interface ResumeSectionConfig {
+  show: boolean;
+  maxItems?: number;
+  sinceYear?: number;
+}
+
+export interface ResumeConfig {
+  pageSize: "A4" | "LETTER";
+  font: string;
+  showKeyMetrics: boolean;
+  sectionOrder: string[];
+  sections: {
+    experience?: ResumeSectionConfig;
+    skills?: ResumeSectionConfig;
+    projects?: ResumeSectionConfig;
+    leadership?: ResumeSectionConfig;
+    education?: ResumeSectionConfig;
+    community?: ResumeSectionConfig;
+    awards?: ResumeSectionConfig;
+  };
+}
