@@ -29,7 +29,7 @@ export const ProfileSchema = z.object({
   github_avatar: z.string().url(),
   key_metrics: z.array(KeyMetricSchema).min(1),
   tags: z.array(z.string().min(1)).optional(),
-  cta_primary: z.string().optional(),
+  cta_primary: z.string().min(1).optional(),
 });
 
 export const ExperienceSchema = z.object({

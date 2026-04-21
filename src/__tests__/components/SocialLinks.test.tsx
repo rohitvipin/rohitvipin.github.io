@@ -22,18 +22,25 @@ describe("SocialLinks", () => {
       "href",
       "https://github.com/rohitvipin"
     );
-    expect(screen.getByRole("link", { name: "Visit my Email profile" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Send me an email" })).toHaveAttribute(
       "href",
       "mailto:test@example.com"
     );
   });
 
-  it("opens links in new tab with noopener", () => {
+  it("opens non-email links in new tab with noopener", () => {
     render(<SocialLinks socials={socials} />);
-    for (const link of screen.getAllByRole("link")) {
+    const externalLinks = [
+      screen.getByRole("link", { name: "Visit my GitHub profile" }),
+      screen.getByRole("link", { name: "Visit my LinkedIn profile" }),
+    ];
+    for (const link of externalLinks) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noopener noreferrer");
     }
+    const emailLink = screen.getByRole("link", { name: "Send me an email" });
+    expect(emailLink).not.toHaveAttribute("target");
+    expect(emailLink).not.toHaveAttribute("rel");
   });
 
   it("uses platform initial as fallback for unknown icon", () => {

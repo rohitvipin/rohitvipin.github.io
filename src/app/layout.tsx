@@ -117,7 +117,7 @@ const jsonLd = {
     "@type": "CollegeOrUniversity",
     name: "Sree Narayana Gurukulam College of Engineering",
   },
-  sameAs: socials.map((s) => s.url),
+  sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
   knowsAbout: [
     "Cloud Architecture",
     "AWS",

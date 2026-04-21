@@ -81,12 +81,12 @@ export default function Hero({ profile, socials }: HeroProps) {
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {profile.key_metrics?.map((m) => (
             <dl key={m.label} className="card p-4 space-y-1">
+              <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
               <dd
                 className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"} ${m.tier === "secondary" ? "opacity-65" : ""}`}
               >
                 {m.value}
               </dd>
-              <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
               {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
             </dl>
           ))}

@@ -42,6 +42,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        e.stopPropagation();
         setMobileOpen(false);
         toggleRef.current?.focus();
       }
