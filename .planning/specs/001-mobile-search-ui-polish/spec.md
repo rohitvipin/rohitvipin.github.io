@@ -20,6 +20,9 @@
 - Q: FR-018 animation scope — once per tab session or persist across sessions? → A: Once per tab session. `sessionStorage` resets on page refresh or new tab; animations replay in each new tab. No `localStorage` persistence.
 - Q: FR-022 FOUC prevention — approach for static export with no server-side theme detection? → A: Inline blocking `<script>` in `<head>` reads `localStorage` theme key and sets `data-theme` attribute before hydration. First-visit (no stored preference) falls back to `prefers-color-scheme`. Script MUST be inlined (not deferred or async).
 - Q: FR-013 `clamp()` middle values for fluid typography? → A: H1: `clamp(2rem, 5vw, 4rem)`; H2: `clamp(1.5rem, 3.5vw, 2.5rem)`.
+- Q: FR-016 blur direction — blur present at rest and removed while scrolling, or absent at rest and added on scroll? → A: Blur present at rest (default). Removed on first scroll pixel (any direction). Restored 100ms after last scroll event. This is intentional — `backdrop-filter` is GPU-expensive during continuous scroll; removing it during scroll prevents compositing jank on mid-range mobile. This is NOT the standard scroll-triggered glassmorphism pattern.
+- Q: FR-028 title length — `≤60 chars` constraint conflicts with the required pattern (79+ chars). Relax limit or shorten pattern? → A: Relax to ≤70 characters. Google SERP truncates display at ~55–60 chars but this is not a ranking factor. Full name + full title has stronger personal brand value. ≤70 is the safe desktop display limit.
+- Q: `SearchResult` matchStart/matchEnd when match is in non-title field (description, techStack, etc.) — sentinel value, title-only filtering, or matchField discriminant? → A: Use `matchStart: -1, matchEnd: -1` as sentinel for "no title highlight". Non-title fields still drive result inclusion; rendering component skips `<mark>` when `matchStart === -1`. No schema additions needed.
 - Q: `SearchResult` highlight marker format? → A: Index pair `{ matchStart: number; matchEnd: number }` — pure data, XSS-safe, rendering component decides visual treatment (e.g. `<mark>`).
 - Q: FR-007/FR-008 Tab key behaviour and missing `aria-activedescendant` — follow ARIA APG listbox? → A: Yes. Tab exits the widget (focus moves to next tabbable element, panel stays open); Escape closes panel and returns focus to trigger. `aria-activedescendant` on input is required, updated to the focused option's id on arrow key navigation.
 
@@ -142,7 +145,7 @@ The page `<title>` and `<meta name="description">` include role and domain keywo
 
 **Acceptance Scenarios**:
 
-1. **Given** the page `<head>`, **When** inspected, **Then** `<title>` follows the pattern "Rohit Vipin Mathews | Director of Engineering & Architecture | [Domain keyword]" and is ≤60 characters.
+1. **Given** the page `<head>`, **When** inspected, **Then** `<title>` follows the pattern "Rohit Vipin Mathews | Director of Engineering & Architecture | [Domain keyword]" and is ≤70 characters.
 2. **Given** the page `<head>`, **When** inspected, **Then** `<meta name="description">` is between 140–160 characters and includes role and domain keywords without repetition.
 
 ---
@@ -228,7 +231,7 @@ The portfolio achieves Lighthouse mobile performance ≥ 90. No visible layout s
 - **FR-025**: Open Graph tags MUST be present: `og:title`, `og:description`, `og:image` (absolute URL to pre-generated image in `public/`), `og:url`, `og:type`.
 - **FR-026**: Twitter Card tags MUST be present: `twitter:card` (value: `"summary_large_image"`), `twitter:title`, `twitter:description`, `twitter:image`.
 - **FR-027**: A `<link rel="canonical">` MUST be present with the absolute canonical URL.
-- **FR-028**: `<title>` MUST follow the pattern "Rohit Vipin Mathews | [Role] | [Domain keyword]" and MUST be ≤60 characters for SERP display safety (browsers have no official title length limit; search engines truncate display at ~55–60 characters).
+- **FR-028**: `<title>` MUST follow the pattern "Rohit Vipin Mathews | [Role] | [Domain keyword]" and MUST be ≤70 characters. Google truncates SERP display at ~55–60 chars but this is a display constraint, not a ranking factor; 70 chars is the safe desktop display limit.
 - **FR-029**: `<meta name="description">` MUST be 140–160 characters with role and domain keywords.
 - **FR-030**: All images and functional icons MUST have descriptive `alt` attributes.
 
@@ -268,7 +271,7 @@ These pure functions enable 100% unit test coverage without mocking.
 
 - `AllContentData` — aggregate input combining all 7 content arrays: `{ experience: ExperienceEntry[]; projects: Project[]; skills: SkillCategory[]; awards: Award[]; community: CommunityEntry[]; education: Education[]; leadership: Leadership[] }`
 - `SearchIndexEntry` — `{ sectionId: string; sectionLabel: string; title: string; snippet: string; scrollAnchor: string }`
-- `SearchResult` — extends `SearchIndexEntry` with `matchStart: number; matchEnd: number` — zero-based indices of the matched substring within the `title` field; pure data, rendering component decides visual treatment
+- `SearchResult` — extends `SearchIndexEntry` with `matchStart: number; matchEnd: number` — zero-based indices of the matched substring within the `title` field. When the match is in a non-title field (description, techStack, highlights, etc.), `matchStart` and `matchEnd` MUST be `-1`. Rendering component skips highlight markup when `matchStart === -1`; pure data, XSS-safe.
 
 **Canonical section order** (used for `queryIndex` result ranking):
 `experience → projects → leadership → skills → community → awards → education`
@@ -285,7 +288,7 @@ These pure functions enable 100% unit test coverage without mocking.
 
 - **AllContentData**: Aggregate input type for `buildSearchIndex` — combines all 7 content data arrays. Defined in `src/lib/search.ts`. All fields required; no optional content types.
 - **SearchIndex**: Flat array of `SearchIndexEntry` records built from all content JSON via dynamic import. Each entry holds: `sectionId`, `sectionLabel`, `title`, `snippet`, `scrollAnchor`.
-- **SearchResult**: A `SearchIndexEntry` extended with `matchStart: number` and `matchEnd: number` — zero-based indices marking the matched substring within the `title` field. Pure data; rendering component applies visual treatment.
+- **SearchResult**: A `SearchIndexEntry` extended with `matchStart: number` and `matchEnd: number` — zero-based indices marking the matched substring within the `title` field. When the match is in a non-title field, both values are `-1`; rendering component skips `<mark>` when `matchStart === -1`. Pure data; XSS-safe.
 - **AnimationObserver**: Intersection Observer instance per `<AnimateOnScroll>` wrapper. Checks `sessionStorage` before attaching; disconnects after first trigger. MUST be cleaned up in `useEffect` return function to prevent memory leaks if the component unmounts before the intersection triggers.
 
 ---
@@ -315,7 +318,7 @@ These pure functions enable 100% unit test coverage without mocking.
 - Section animations use Intersection Observer API — no additional animation library added.
 - Fluid typography uses `clamp()` — no JavaScript required.
 - Structured data and meta tags are sourced from `data/profile.json` and `data/socials.json` at build time.
-- Mobile threshold is 768px (Tailwind `md` breakpoint), consistent with existing codebase conventions.
+- Mobile threshold for the About layout fix is 1024px (Tailwind `lg` breakpoint), consistent with FR-001 and the existing two-column grid collapse point. The 768px (`md`) breakpoint governs card stacking (FR-014) only.
 - Animation session tracking uses `sessionStorage` (tab-scoped, resets on refresh or new tab) — not `localStorage`. Unavailability of `sessionStorage` (e.g. certain private browsing modes) falls back to always-animate.
 - `og:image` references a pre-generated static image in `public/` (aligns with existing `generate-favicons.ts` pipeline).
 - Canonical URL is absolute, using the live URL `https://rohitvipin.github.io/`.
