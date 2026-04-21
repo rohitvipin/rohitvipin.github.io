@@ -119,7 +119,7 @@ describe("AnimateOnScroll", () => {
     expect(wrapper.className).toContain("translate-y-0");
   });
 
-  it("fails open when sessionStorage.getItem throws", () => {
+  it("falls through to IntersectionObserver when sessionStorage.getItem throws", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
       throw new Error("storage blocked");
     });

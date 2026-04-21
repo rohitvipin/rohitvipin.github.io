@@ -21,12 +21,13 @@ import {
   awards,
   education,
   leadership,
+  navLinks,
 } from "@/lib/data";
 
 export default function Home() {
   return (
     <>
-      <Nav initials={profile.name[0]} />
+      <Nav initials={profile.name.charAt(0) || "?"} navLinks={navLinks} />
       <main id="main-content">
         <Hero profile={profile} socials={socials} />
         <AnimateOnScroll sectionId="about">
@@ -68,7 +69,7 @@ export default function Home() {
             download
             className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
           >
-            Download Resume
+            Download CV
           </a>
         </div>
       </footer>

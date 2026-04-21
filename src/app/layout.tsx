@@ -16,7 +16,16 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const BASE_URL = "https://rohitvipin.github.io/rohit-profile";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io/rohit-profile";
+
+function escapeJsonLd(json: string): string {
+  return json
+    .replace(/&/g, "\\u0026")
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(new RegExp(String.fromCharCode(0x2028), "g"), "\\u2028")
+    .replace(new RegExp(String.fromCharCode(0x2029), "g"), "\\u2029");
+}
 
 export const viewport: Viewport = {
   themeColor: [
@@ -144,7 +153,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
+          dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}
         />
       </head>
       <body suppressHydrationWarning>

@@ -20,6 +20,7 @@ export interface Profile {
   github_avatar: string;
   key_metrics: KeyMetric[];
   tags?: string[];
+  cta_primary?: string;
 }
 
 export interface ExperienceEntry {
@@ -92,6 +93,11 @@ export interface LeadershipSubsection {
 export interface Leadership {
   title: string;
   sections: LeadershipSubsection[];
+}
+
+export interface NavLink {
+  label: string;
+  href: string;
 }
 
 export interface ResumeSectionConfig {

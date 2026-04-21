@@ -1,8 +1,20 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Nav from "@/components/shared/Nav";
+import type { NavLink } from "@/types";
+
+const testNavLinks: NavLink[] = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Leadership", href: "#leadership" },
+  { label: "Skills", href: "#skills" },
+  { label: "Community", href: "#community" },
+  { label: "Awards", href: "#awards" },
+  { label: "Education", href: "#education" },
+];
 
 beforeEach(() => {
   vi.stubGlobal(
@@ -14,33 +26,37 @@ beforeEach(() => {
   );
 });
 
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 describe("Nav", () => {
   it("renders initials in home link", () => {
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     expect(screen.getByRole("link", { name: "Home" })).toHaveTextContent("R");
   });
 
   it("renders all desktop nav links", () => {
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     const nav = screen.getByRole("navigation", { name: "Main navigation" });
     expect(nav.querySelectorAll("a")).toHaveLength(8);
   });
 
   it("mobile menu is closed by default", () => {
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
   it("mobile menu opens on toggle button click", async () => {
     const user = userEvent.setup();
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
     expect(screen.getByRole("navigation", { name: "Mobile navigation" })).toBeInTheDocument();
   });
 
   it("mobile toggle button reflects open state via aria-expanded", async () => {
     const user = userEvent.setup();
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     const toggle = screen.getByRole("button", { name: "Open menu" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     await user.click(toggle);
@@ -52,10 +68,19 @@ describe("Nav", () => {
 
   it("mobile menu closes when a nav link is clicked", async () => {
     const user = userEvent.setup();
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
     await user.click(mobileNav.querySelectorAll("a")[0]);
+    expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+  });
+
+  it("mobile menu closes on Escape key", async () => {
+    const user = userEvent.setup();
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    expect(screen.getByRole("navigation", { name: "Mobile navigation" })).toBeInTheDocument();
+    await user.keyboard("{Escape}");
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
@@ -74,12 +99,13 @@ describe("Nav", () => {
 
     document.body.innerHTML = '<section id="about"></section>';
 
-    render(<Nav initials="R" />);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
 
     act(() => {
       capturedCallback!([
         {
           isIntersecting: true,
+          boundingClientRect: { top: 100 } as DOMRectReadOnly,
           target: document.getElementById("about")!,
         } as unknown as IntersectionObserverEntry,
       ]);

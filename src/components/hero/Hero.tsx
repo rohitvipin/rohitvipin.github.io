@@ -42,7 +42,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                 href="#experience"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
               >
-                View Experience
+                {profile.cta_primary ?? "View Experience"}
               </a>
               <a
                 href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}

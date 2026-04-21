@@ -1,53 +1,54 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { FiMenu, FiX } from "react-icons/fi";
-
-const links = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Leadership", href: "#leadership" },
-  { label: "Skills", href: "#skills" },
-  { label: "Community", href: "#community" },
-  { label: "Awards", href: "#awards" },
-  { label: "Education", href: "#education" },
-];
+import type { NavLink } from "@/types";
 
 export interface NavProps {
   initials: string;
+  navLinks: NavLink[];
 }
 
-export default function Nav({ initials }: NavProps) {
+export default function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const sectionIds = links.map((l) => l.href.slice(1));
-    const observers: IntersectionObserver[] = [];
+    const sectionIds = navLinks.map((l) => l.href.slice(1));
 
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      }
-    };
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (!visible.length) return;
+        const topmost = visible.reduce((a, b) =>
+          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+        );
+        setActiveSection(topmost.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(handleIntersect, {
-        rootMargin: "-40% 0px -55% 0px",
-        threshold: 0,
-      });
-      obs.observe(el);
-      observers.push(obs);
+      if (el) obs.observe(el);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
+    return () => obs.disconnect();
+  }, [navLinks]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
@@ -65,7 +66,7 @@ export default function Nav({ initials }: NavProps) {
           className="hidden md:flex items-center gap-6 flex-1 justify-center"
           aria-label="Main navigation"
         >
-          {links.map((l) => {
+          {navLinks.map((l) => {
             const isActive = activeSection === l.href.slice(1);
             return (
               <a
@@ -90,6 +91,7 @@ export default function Nav({ initials }: NavProps) {
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <ThemeToggle />
           <button
+            ref={toggleRef}
             className="md:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -109,7 +111,7 @@ export default function Nav({ initials }: NavProps) {
           className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-4 flex flex-col gap-4"
           aria-label="Mobile navigation"
         >
-          {links.map((l) => (
+          {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
