@@ -14,6 +14,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.slice(1));
@@ -45,6 +46,26 @@ export default function Nav({ initials, navLinks }: NavProps) {
         e.stopPropagation();
         setMobileOpen(false);
         toggleRef.current?.focus();
+      }
+      if (e.key === "Tab") {
+        const drawer = drawerRef.current;
+        if (!drawer) return;
+        const focusable = Array.from(
+          drawer.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     };
     document.addEventListener("keydown", onKey);
@@ -108,6 +129,9 @@ export default function Nav({ initials, navLinks }: NavProps) {
 
       {mobileOpen && (
         <nav
+          ref={drawerRef}
+          role="dialog"
+          aria-modal="true"
           className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-4 flex flex-col gap-4"
           aria-label="Mobile navigation"
         >
