@@ -13,10 +13,10 @@ export interface SkillCategoryCardProps {
 export default function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? skills : skills.slice(0, INITIAL_VISIBLE);
-  const hidden = skills.length - INITIAL_VISIBLE;
+  const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);
 
   return (
-    <div className="card p-6 space-y-4">
+    <div className="card card-hover p-6 space-y-4">
       <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wider">
         {category}
       </h3>
@@ -29,7 +29,7 @@ export default function SkillCategoryCard({ category, skills }: SkillCategoryCar
             onClick={() => setExpanded(true)}
             aria-expanded={false}
             aria-label={`Show ${hidden} more ${category} skills`}
-            className="text-xs px-3 py-1 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors"
+            className="text-xs px-3 py-2.5 min-h-[44px] rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors inline-flex items-center"
           >
             +{hidden} more
           </button>
@@ -39,7 +39,7 @@ export default function SkillCategoryCard({ category, skills }: SkillCategoryCar
             onClick={() => setExpanded(false)}
             aria-expanded={true}
             aria-label={`Show fewer ${category} skills`}
-            className="text-xs px-3 py-1 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors"
+            className="text-xs px-3 py-2.5 min-h-[44px] rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-colors inline-flex items-center"
           >
             show less
           </button>

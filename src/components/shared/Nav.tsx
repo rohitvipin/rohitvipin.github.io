@@ -1,74 +1,99 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { FiMenu, FiX } from "react-icons/fi";
-
-const links = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Leadership", href: "#leadership" },
-  { label: "Skills", href: "#skills" },
-  { label: "Community", href: "#community" },
-  { label: "Awards", href: "#awards" },
-  { label: "Education", href: "#education" },
-];
+import type { NavLink } from "@/types";
 
 export interface NavProps {
   initials: string;
+  navLinks: NavLink[];
 }
 
-export default function Nav({ initials }: NavProps) {
+export default function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const sectionIds = links.map((l) => l.href.slice(1));
-    const observers: IntersectionObserver[] = [];
+    const sectionIds = navLinks.map((l) => l.href.slice(1));
 
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      }
-    };
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (!visible.length) return;
+        const topmost = visible.reduce((a, b) =>
+          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+        );
+        setActiveSection(topmost.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(handleIntersect, {
-        rootMargin: "-40% 0px -55% 0px",
-        threshold: 0,
-      });
-      obs.observe(el);
-      observers.push(obs);
+      if (el) obs.observe(el);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
+    return () => obs.disconnect();
+  }, [navLinks]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+      }
+      if (e.key === "Tab") {
+        const drawer = drawerRef.current;
+        if (!drawer) return;
+        const focusable = Array.from(
+          drawer.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center gap-3">
         <a
           href="#"
-          className="w-8 h-8 flex items-center justify-center rounded border border-[var(--accent)] text-[var(--accent)] text-sm font-bold hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
-          style={{ fontFamily: "'Courier New', Courier, monospace" }}
+          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
           aria-label="Home"
         >
           {initials}
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
-          {links.map((l) => {
+        <nav
+          className="hidden md:flex items-center gap-6 flex-1 justify-center"
+          aria-label="Main navigation"
+        >
+          {navLinks.map((l) => {
             const isActive = activeSection === l.href.slice(1);
             return (
               <a
                 key={l.href}
                 href={l.href}
+                aria-current={isActive ? "page" : undefined}
                 className={`text-sm transition-colors duration-150 relative ${
                   isActive
                     ? "text-[var(--accent)] font-medium"
@@ -84,32 +109,37 @@ export default function Nav({ initials }: NavProps) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto shrink-0">
           <ThemeToggle />
-          {/* Mobile menu toggle */}
           <button
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+            ref={toggleRef}
+            className="md:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <FiX size={16} /> : <FiMenu size={16} />}
+            {mobileOpen ? (
+              <FiX size={16} aria-hidden="true" />
+            ) : (
+              <FiMenu size={16} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Mobile drawer */}
       {mobileOpen && (
         <nav
+          ref={drawerRef}
           className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-4 flex flex-col gap-4"
           aria-label="Mobile navigation"
         >
-          {links.map((l) => (
+          {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setMobileOpen(false)}
-              className={`text-sm transition-colors ${
+              aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
+              className={`min-h-[48px] flex items-center text-sm transition-colors ${
                 activeSection === l.href.slice(1)
                   ? "text-[var(--accent)] font-medium"
                   : "text-[var(--muted)] hover:text-[var(--text)]"

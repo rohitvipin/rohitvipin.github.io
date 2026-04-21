@@ -1,5 +1,6 @@
 import Nav from "@/components/shared/Nav";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import { AnimateOnScroll } from "@/components/shared/AnimateOnScroll";
 import Hero from "@/components/hero/Hero";
 import About from "@/components/about/About";
 import ExperienceTimeline from "@/components/experience/ExperienceTimeline";
@@ -20,25 +21,52 @@ import {
   awards,
   education,
   leadership,
+  navLinks,
 } from "@/lib/data";
 
 export default function Home() {
   return (
     <>
-      <Nav initials={profile.name[0]} />
-      <main>
+      <Nav
+        initials={
+          profile.name
+            .split(" ")
+            .map((w) => w[0] ?? "")
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "?"
+        }
+        navLinks={navLinks}
+      />
+      <main id="main-content">
         <Hero profile={profile} socials={socials} />
-        <About profile={profile} />
-        <ExperienceTimeline
-          experience={experience}
-          yearsOfExperience={profile.years_of_experience}
-        />
-        <ProjectsSection projects={projects} />
-        <LeadershipSection leadership={leadership} />
-        <SkillsSection skills={skills} />
-        <CommunitySection community={community} />
-        <AwardsSection awards={awards} />
-        <EducationSection education={education} />
+        <AnimateOnScroll sectionId="about">
+          <About profile={profile} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="experience">
+          <ExperienceTimeline
+            experience={experience}
+            yearsOfExperience={profile.years_of_experience}
+          />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="projects">
+          <ProjectsSection projects={projects} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="leadership">
+          <LeadershipSection leadership={leadership} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="skills">
+          <SkillsSection skills={skills} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="community">
+          <CommunitySection community={community} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="awards">
+          <AwardsSection awards={awards} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="education">
+          <EducationSection education={education} />
+        </AnimateOnScroll>
       </main>
       <footer className="border-t border-[var(--border)] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -51,7 +79,7 @@ export default function Home() {
             download
             className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
           >
-            Download Resume
+            Download CV
           </a>
         </div>
       </footer>

@@ -8,6 +8,7 @@ import type {
   Award,
   CommunityEntry,
   Leadership,
+  NavLink,
 } from "@/types";
 import {
   ProfileSchema,
@@ -19,6 +20,7 @@ import {
   AwardSchema,
   CommunityEntrySchema,
   LeadershipSchema,
+  NavLinkSchema,
 } from "@/lib/schemas";
 import { z } from "zod";
 
@@ -31,6 +33,7 @@ import socialsData from "../../data/socials.json";
 import awardsData from "../../data/awards.json";
 import communityData from "../../data/community.json";
 import leadershipData from "../../data/leadership.json";
+import navData from "../../data/nav.json";
 
 export const profile: Profile = ProfileSchema.parse(profileData);
 export const experience: ExperienceEntry[] = z.array(ExperienceSchema).parse(experienceData);
@@ -41,3 +44,4 @@ export const socials: Social[] = z.array(SocialSchema).parse(socialsData);
 export const awards: Award[] = z.array(AwardSchema).parse(awardsData);
 export const community: CommunityEntry[] = z.array(CommunityEntrySchema).parse(communityData);
 export const leadership: Leadership = LeadershipSchema.parse(leadershipData);
+export const navLinks: NavLink[] = z.array(NavLinkSchema).parse(navData);

@@ -40,9 +40,9 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#experience"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-medium hover:opacity-90 transition-opacity"
               >
-                View Experience
+                {profile.cta_primary ?? "View Experience"}
               </a>
               <a
                 href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
@@ -51,7 +51,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                 aria-label="Download CV"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
-                <FiDownload size={16} />
+                <FiDownload size={16} aria-hidden="true" />
                 Download CV
               </a>
             </div>
@@ -63,11 +63,11 @@ export default function Hero({ profile, socials }: HeroProps) {
           </div>
 
           {/* Right — avatar + socials */}
-          <div className="hidden lg:flex flex-col items-end gap-5">
-            <div className="relative w-72 h-72 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
+          <div className="hidden lg:flex flex-col items-center gap-5">
+            <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
               <Image
                 src={profile.github_avatar}
-                alt={profile.name}
+                alt={`Profile photo of ${profile.name}`}
                 fill
                 className="object-cover"
                 priority
@@ -78,19 +78,19 @@ export default function Hero({ profile, socials }: HeroProps) {
         </div>
 
         {/* Metrics */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <dl className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {profile.key_metrics?.map((m) => (
             <div key={m.label} className="card p-4 space-y-1">
-              <div
+              <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
+              <dd
                 className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"} ${m.tier === "secondary" ? "opacity-65" : ""}`}
               >
                 {m.value}
-              </div>
-              <div className="text-xs text-[var(--muted)] leading-tight">{m.label}</div>
-              <div className="text-xs text-[var(--muted-2)]">{m.detail}</div>
+              </dd>
+              {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

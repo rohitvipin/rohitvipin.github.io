@@ -10,9 +10,10 @@
   --accent-glow: rgba(99, 102, 241, 0.15);
   --accent-2: #22d3ee;
   --text: #e2e8f0;
-  --muted: #64748b;
-  --muted-2: #475569;
+  --muted: #8896b8;
+  --muted-2: #6b7a99;
   --success: #22c55e;
+  --shadow-card: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="light"] {
@@ -24,9 +25,10 @@
   --accent-glow: rgba(79, 70, 229, 0.1);
   --accent-2: #0891b2;
   --text: #0f172a;
-  --muted: #64748b;
-  --muted-2: #94a3b8;
+  --muted: #5d6b84;
+  --muted-2: #6b7a99;
   --success: #16a34a;
+  --shadow-card: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
@@ -60,7 +62,7 @@ body {
 /* ── Selection ── */
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* ── Scrollbar ── */
@@ -98,6 +100,41 @@ body {
   background-clip: text;
 }
 
+/* ── Fluid headings ── */
+@layer base {
+  h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  }
+}
+
+/* ── Touch target utility ── */
+.touch-target {
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Scroll offset for sticky nav ── */
+section[id] {
+  scroll-margin-top: 72px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ── Card base ── */
 .card {
   background: var(--surface);
@@ -112,4 +149,18 @@ body {
   box-shadow:
     0 0 0 1px var(--accent-glow),
     0 8px 32px var(--accent-glow);
+}
+
+/* ── Card hover lift ── */
+@media (prefers-reduced-motion: no-preference) {
+  .card-hover {
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .card-hover:hover,
+  .card-hover:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow-card);
+  }
 }

@@ -29,6 +29,7 @@ export const ProfileSchema = z.object({
   github_avatar: z.string().url(),
   key_metrics: z.array(KeyMetricSchema).min(1),
   tags: z.array(z.string().min(1)).optional(),
+  cta_primary: z.string().min(1).optional(),
 });
 
 export const ExperienceSchema = z.object({
@@ -103,6 +104,11 @@ export const LeadershipSchema = z.object({
   sections: z.array(LeadershipSubsectionSchema).min(1),
 });
 
+export const NavLinkSchema = z.object({
+  label: z.string().min(1),
+  href: z.string().min(1).startsWith("#"),
+});
+
 export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "profile.json": ProfileSchema,
   "experience.json": z.array(ExperienceSchema),
@@ -113,4 +119,5 @@ export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "awards.json": z.array(AwardSchema),
   "community.json": z.array(CommunityEntrySchema),
   "leadership.json": LeadershipSchema,
+  "nav.json": z.array(NavLinkSchema),
 };

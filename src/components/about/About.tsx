@@ -21,17 +21,17 @@ export default function About({ profile }: AboutProps) {
               </p>
             ))}
           </div>
-          <div className="ml-auto w-fit space-y-4">
+          <div className="lg:ml-auto w-fit space-y-4">
             <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
-              <FiMapPin size={16} className="text-[var(--accent)] shrink-0" />
+              <FiMapPin size={16} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
               {profile.location}
             </div>
             <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
-              <FiCalendar size={16} className="text-[var(--accent)] shrink-0" />
+              <FiCalendar size={16} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
               {profile.years_of_experience}+ years experience
             </div>
             <div className="flex items-center gap-3 text-sm text-[var(--muted)]">
-              <FiClock size={16} className="text-[var(--accent)] shrink-0" />
+              <FiClock size={16} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
               {profile.timezone}
             </div>
             <a

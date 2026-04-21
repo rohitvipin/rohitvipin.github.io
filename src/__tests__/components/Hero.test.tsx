@@ -41,7 +41,9 @@ describe("Hero", () => {
 
   it("renders avatar image with profile name as alt text", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    const img = screen.getAllByRole("img").find((el) => el.getAttribute("alt") === "Rohit Test");
+    const img = screen
+      .getAllByRole("img")
+      .find((el) => el.getAttribute("alt") === "Profile photo of Rohit Test");
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", "https://avatars.githubusercontent.com/u/123");
   });
@@ -70,6 +72,14 @@ describe("Hero", () => {
   it("renders Download CV link", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
     expect(screen.getByRole("link", { name: "Download CV" })).toHaveAttribute("download");
+  });
+
+  it("renders social links with descriptive aria-labels", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    const githubLinks = screen.getAllByRole("link", { name: "Visit my Github profile" });
+    expect(githubLinks[0]).toHaveAttribute("href", "https://github.com/test");
+    const linkedinLinks = screen.getAllByRole("link", { name: "Visit my Linkedin profile" });
+    expect(linkedinLinks[0]).toHaveAttribute("href", "https://linkedin.com/in/test");
   });
 
   it("renders no tags section when tags is empty", () => {
