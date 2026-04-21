@@ -17,6 +17,11 @@
 - Q: About sidebar scope on mobile — spec said "location and email" but About.tsx has 4 items (location, years, timezone, email). Keep all 4 or hide some on mobile? → A: Keep all 4, left-aligned (Option A). No content hidden; only `ml-auto` removed.
 - Q: Sections already in viewport on initial page load — animate or appear instantly? → A: Appear instantly in final state (Option A). `sessionStorage` flag set on mount; no animation plays on load.
 - Q: Search + mobile hamburger coexistence — simultaneous states allowed? → A: Mutually exclusive (Option A). Opening search closes hamburger; opening hamburger closes search.
+- Q: FR-018 animation scope — once per tab session or persist across sessions? → A: Once per tab session. `sessionStorage` resets on page refresh or new tab; animations replay in each new tab. No `localStorage` persistence.
+- Q: FR-022 FOUC prevention — approach for static export with no server-side theme detection? → A: Inline blocking `<script>` in `<head>` reads `localStorage` theme key and sets `data-theme` attribute before hydration. First-visit (no stored preference) falls back to `prefers-color-scheme`. Script MUST be inlined (not deferred or async).
+- Q: FR-013 `clamp()` middle values for fluid typography? → A: H1: `clamp(2rem, 5vw, 4rem)`; H2: `clamp(1.5rem, 3.5vw, 2.5rem)`.
+- Q: `SearchResult` highlight marker format? → A: Index pair `{ matchStart: number; matchEnd: number }` — pure data, XSS-safe, rendering component decides visual treatment (e.g. `<mark>`).
+- Q: FR-007/FR-008 Tab key behaviour and missing `aria-activedescendant` — follow ARIA APG listbox? → A: Yes. Tab exits the widget (focus moves to next tabbable element, panel stays open); Escape closes panel and returns focus to trigger. `aria-activedescendant` on input is required, updated to the focused option's id on arrow key navigation.
 
 ---
 
@@ -44,7 +49,7 @@ A recruiter or visitor wants to quickly find a specific skill, company, or proje
 
 **Why this priority**: Adds meaningful discoverability. Differentiates from a static page.
 
-**Independent Test**: Click search icon, type "AWS", confirm relevant results appear. Press Escape to collapse. Tab through results using keyboard arrows. Enter selects.
+**Independent Test**: Click search icon, type "AWS", confirm relevant results appear. Press Escape to collapse. Navigate results using keyboard arrow keys. Enter selects.
 
 **Acceptance Scenarios**:
 
@@ -53,7 +58,7 @@ A recruiter or visitor wants to quickly find a specific skill, company, or proje
 3. **Given** search results are shown, **When** the user selects a result (mouse click, Enter key, or screen reader activation), **Then** the page scrolls to the relevant section accounting for the fixed nav height offset, and the search input collapses.
 4. **Given** the search input is open, **When** the user presses Escape or clicks outside, **Then** the input collapses with animation and focus returns to the search trigger button.
 5. **Given** a query with no matches, **When** results are computed, **Then** a "No results found" message appears — never an empty blank area.
-6. **Given** the results panel is open, **When** the user navigates with arrow keys, **Then** focus moves through results in order; Tab closes the panel.
+6. **Given** the results panel is open, **When** the user navigates with arrow keys, **Then** focus moves through results in order; Tab moves focus out of the widget without closing the panel; Escape closes the panel.
 7. **Given** `prefers-reduced-motion: reduce` is active, **When** search expands or collapses, **Then** no animation plays — the input appears or disappears immediately.
 
 ---
@@ -68,7 +73,7 @@ A visitor on a phone can read headings comfortably and tap all interactive eleme
 
 **Acceptance Scenarios**:
 
-1. **Given** any viewport between 320px and 1440px, **When** headings render, **Then** font sizes scale continuously (H1: min 2rem → max 4rem; H2: min 1.5rem → max 2.5rem) without abrupt jumps or overflow.
+1. **Given** any viewport between 320px and 1440px, **When** headings render, **Then** font sizes scale continuously (H1: `clamp(2rem, 5vw, 4rem)`; H2: `clamp(1.5rem, 3.5vw, 2.5rem)`) without abrupt jumps or overflow.
 2. **Given** a touch device, **When** the user taps any interactive element, **Then** the touch hit area is at least 48×48px (WCAG 2.5.5 AA minimum; Google recommendation). This applies to: nav links, search icon, social icon links, scroll-to-top button, theme toggle, "View Experience" / CTA buttons.
 3. **Given** mobile viewport, **When** Experience and Projects card sections render, **Then** cards stack vertically with 16–20px internal padding and no text truncation.
 
@@ -87,25 +92,25 @@ A visitor scrolling a long portfolio on mobile can jump to any section. The nav 
 1. **Given** any viewport, **When** the user scrolls past the hero section, **Then** the navigation bar remains fixed at the top with a blur-backdrop effect; the nav height stays constant (no dimension changes on scroll that cause layout shift).
 2. **Given** the sticky nav is visible, **When** it overlaps section content, **Then** the blur backdrop ensures legibility of both the nav and the underlying content.
 3. **Given** `prefers-reduced-motion: reduce` is set, **When** the nav transitions between transparent and blurred states, **Then** no animation plays.
-4. **Given** mid-range mobile hardware, **When** the user scrolls, **Then** `backdrop-filter` does not drop frames — achieved by removing blur during active scroll events (with a 100ms debounce to restore on scroll stop) and setting `will-change: transform` on the nav element.
+4. **Given** mid-range mobile hardware, **When** the user scrolls, **Then** `backdrop-filter` does not drop frames — achieved by removing blur on the first scroll pixel (any direction) and restoring 100ms after the last scroll event, with `will-change: transform` on the nav element.
 
 ---
 
 ### User Story 5 - UI Animation & Transition Polish (Priority: P3)
 
-Sections animate smoothly on first scroll into view per session. Card interactions and theme transitions feel premium. All motion is suppressed for users who prefer reduced motion.
+Sections animate smoothly on first scroll into view per tab session. Card interactions and theme transitions feel premium. All motion is suppressed for users who prefer reduced motion.
 
 **Why this priority**: Enhances perceived quality without blocking core function.
 
-**Independent Test**: Scroll through all sections — each fades/slides in once. Scroll back — no re-animation. Enable `prefers-reduced-motion` — all animations absent. Hover cards — subtle lift/shadow. Toggle theme — smooth colour transition.
+**Independent Test**: Scroll through all sections — each fades/slides in once. Scroll back — no re-animation. Enable `prefers-reduced-motion` — all animations and transitions absent. Hover cards — subtle lift/shadow. Toggle theme — smooth colour transition with no flash.
 
 **Acceptance Scenarios**:
 
-1. **Given** a section is outside the viewport, **When** it scrolls into view for the first time in the current session, **Then** it animates in (fade + translate-up, ~400ms) once.
+1. **Given** a section is outside the viewport, **When** it scrolls into view for the first time in the current tab session, **Then** it animates in (fade + translate-up, ~400ms) once.
 2. **Given** the user scrolls back past an animated section, **When** it re-enters the viewport, **Then** it does not re-animate (session state tracks which sections have already animated, using `sessionStorage` keyed by section ID, e.g. `anim:about`).
-3. **Given** `prefers-reduced-motion: reduce` is set, **When** any animation would play (entry, hover, theme, search expand), **Then** no motion occurs — elements appear in final state immediately.
+3. **Given** `prefers-reduced-motion: reduce` is set, **When** any animation or CSS transition would play (entry, hover, theme, search expand), **Then** no motion occurs — elements appear in final state immediately, `transition-duration` is effectively 0.
 4. **Given** a card or interactive element, **When** the user hovers or focuses it, **Then** a subtle scale or shadow transition plays within 150–200ms.
-5. **Given** theme toggle is activated, **When** the theme switches, **Then** colour transitions are smooth with no flash of unstyled content.
+5. **Given** theme toggle is activated, **When** the theme switches, **Then** colour transitions are smooth with no flash of unstyled content — a blocking inline script in `<head>` applies the stored theme before hydration.
 
 ---
 
@@ -119,8 +124,8 @@ Search engines and social platforms index the portfolio accurately. JSON-LD Pers
 
 **Acceptance Scenarios**:
 
-1. **Given** the page `<head>`, **When** inspected, **Then** a JSON-LD `Person` schema block is present with: name, jobTitle, url, sameAs (social profile URLs), sourced from `data/profile.json` and `data/socials.json` at build time.
-2. **Given** the page `<head>`, **When** inspected, **Then** `og:title`, `og:description`, `og:image`, `og:url`, `twitter:card`, `twitter:image` are all present with absolute URLs.
+1. **Given** the page `<head>`, **When** inspected, **Then** a JSON-LD `Person` schema block is present with: name, givenName, familyName, jobTitle, url, sameAs (social profile URLs), worksFor (Organisation), sourced from `data/profile.json` and `data/socials.json` at build time.
+2. **Given** the page `<head>`, **When** inspected, **Then** `og:title`, `og:description`, `og:image`, `og:url`, `twitter:card` (`summary_large_image`), `twitter:image` are all present with absolute URLs.
 3. **Given** the page `<head>`, **When** inspected, **Then** a `<link rel="canonical">` tag points to the canonical URL (absolute, not relative) to prevent duplicate indexing from alternate serving paths.
 4. **Given** the page HTML, **When** inspected, **Then** exactly one `<h1>` exists (the name), section titles use `<h2>`, no heading levels are skipped.
 5. **Given** all images and functional icons, **When** inspected, **Then** each has a descriptive `alt` attribute.
@@ -137,7 +142,7 @@ The page `<title>` and `<meta name="description">` include role and domain keywo
 
 **Acceptance Scenarios**:
 
-1. **Given** the page `<head>`, **When** inspected, **Then** `<title>` follows the pattern "Rohit Vipin Mathews | Director of Engineering & Architecture | [Domain keyword]".
+1. **Given** the page `<head>`, **When** inspected, **Then** `<title>` follows the pattern "Rohit Vipin Mathews | Director of Engineering & Architecture | [Domain keyword]" and is ≤60 characters.
 2. **Given** the page `<head>`, **When** inspected, **Then** `<meta name="description">` is between 140–160 characters and includes role and domain keywords without repetition.
 
 ---
@@ -162,13 +167,15 @@ The portfolio achieves Lighthouse mobile performance ≥ 90. No visible layout s
 
 ### Edge Cases
 
-- What happens when the search query contains special characters?
+- Search query with special characters: treated as literals — `queryIndex` uses `String.prototype.includes()` (case-insensitive via `.toLowerCase()`), no regex interpretation, no injection risk.
+- A single content item can only match one section (each index entry maps to exactly one `scrollAnchor`); no deduplication logic needed.
 - Search and hamburger drawer are mutually exclusive — opening one closes the other. Single active nav state at all times.
-- What if a content item matches multiple sections — how are duplicates handled?
 - Sections already in viewport on initial page load appear instantly in final state — no animation plays. `sessionStorage` flag is set immediately so they don't animate on scroll-back either.
-- What happens to sticky nav on very short pages where no scrolling occurs?
-- What if `sessionStorage` is unavailable (private browsing restrictions)? Animations should fall back to always-animate behaviour.
+- Empty or whitespace-only search query shows placeholder state — never "No results found".
+- What happens to sticky nav on very short pages where no scrolling occurs? Nav renders in its default state (no scroll listener fires); blur treatment is optional/decorative.
+- What if `sessionStorage` is unavailable (private browsing restrictions)? Animations fall back to always-animate behaviour (fail open).
 - If the nav height changes (e.g. future redesign), `scroll-margin-top` offsets and search result scroll behaviour must be updated together.
+- Dynamic import failure (network/parse error): search trigger is visually disabled; failure logged to console; re-attempts on next activation.
 
 ---
 
@@ -187,41 +194,41 @@ The portfolio achieves Lighthouse mobile performance ≥ 90. No visible layout s
 - **FR-004**: The search input MUST debounce at 150–200ms; the in-memory query MUST complete within a single animation frame (~16ms) for the expected data size.
 - **FR-005**: Selecting a search result MUST scroll the page to the relevant section, accounting for the fixed nav height offset via `scroll-margin-top` on section elements, then collapse the search input.
 - **FR-006**: The search input MUST close on Escape key press or outside click, returning focus to the trigger button.
-- **FR-007**: The search results MUST support keyboard navigation: arrow keys move between results, Enter selects, Tab closes the panel.
-- **FR-008**: The search ARIA contract MUST include: `role="search"` on the wrapper, `aria-expanded` on the trigger button, `aria-controls` linking trigger to input, `aria-label="Search site"` on the input, `aria-live="polite"` for result count announcements, `role="listbox"` on results list, `role="option"` on each result item.
-- **FR-009**: When no results are found, a "No results found" message MUST be displayed — never an empty container.
-- **FR-010**: The search module MUST be loaded via dynamic import, triggered only on first user activation, to avoid blocking initial Time to Interactive.
+- **FR-007**: The search results MUST support keyboard navigation following the ARIA APG listbox pattern: arrow keys move between results, Enter selects, Tab moves focus out of the widget (panel stays open), Escape closes the panel and returns focus to the trigger button.
+- **FR-008**: The search ARIA contract MUST include: `role="search"` on the wrapper, `aria-expanded` on the trigger button, `aria-controls` linking trigger to input, `aria-label="Search site"` on the input, `aria-activedescendant` on the input (updated to the currently focused `role="option"` element's id on arrow key navigation), `aria-live="polite"` for result count announcements, `role="listbox"` on results list, `role="option"` on each result item (each with a unique `id`).
+- **FR-009**: When no results are found for a non-empty query, a "No results found" message MUST be displayed — never an empty container. An empty or whitespace-only query MUST show a placeholder state (e.g. "Type to search…") — never "No results found".
+- **FR-010**: The search module MUST be loaded via dynamic import, triggered only on first user activation, to avoid blocking initial Time to Interactive. If the dynamic import fails (network error, parse error), the search trigger MUST be visually disabled and the failure logged to console; the trigger re-attempts import on the next user activation.
 - **FR-011**: Under `prefers-reduced-motion: reduce`, all search expand/collapse animations MUST be suppressed.
 - **FR-011a**: Search and the mobile hamburger drawer are mutually exclusive states. Opening the search input MUST close the hamburger drawer; opening the hamburger drawer MUST close the search input. Only one may be active at a time.
 
 **Touch & Typography**
 
-- **FR-012**: All interactive elements MUST have a touch hit area of at least 48×48px. Applies to: nav links, search trigger, social icon links, scroll-to-top button, theme toggle, CTA buttons.
-- **FR-013**: Heading font sizes MUST scale fluidly between 320px and 1440px using `clamp()`: H1 min 2rem, max 4rem; H2 min 1.5rem, max 2.5rem.
+- **FR-012**: All interactive elements MUST have a touch hit area of at least 48×48px. Applies to: nav links, search trigger, social icon links, scroll-to-top button, theme toggle, CTA buttons. Hit area is achieved via padding (not margin) so pointer-events cover the full 48px minimum.
+- **FR-013**: Heading font sizes MUST scale fluidly between 320px and 1440px using `clamp()`: H1 `clamp(2rem, 5vw, 4rem)`; H2 `clamp(1.5rem, 3.5vw, 2.5rem)`.
 - **FR-014**: Experience and Projects cards MUST stack vertically on viewports below 768px with 16–20px internal padding and no text truncation.
 
 **Navigation**
 
 - **FR-015**: The navigation bar MUST remain fixed at the top on scroll with a blur-backdrop visual treatment. Nav height MUST remain constant during scroll (no dimension changes that cause CLS).
-- **FR-016**: The `backdrop-filter` blur MUST be removed during active scroll events (debounced, restored after ~100ms scroll stop) and `will-change: transform` set on the nav element to prevent GPU compositing drops on mid-range mobile.
+- **FR-016**: The `backdrop-filter` blur MUST be removed on the first scroll pixel (any direction) and restored 100ms after the last scroll event. `will-change: transform` MUST be set on the nav element to prevent GPU compositing drops on mid-range mobile.
 - **FR-017**: Under `prefers-reduced-motion: reduce`, nav state transitions MUST be instantaneous.
 
 **Animations**
 
-- **FR-018**: Section entry animations MUST trigger once per browsing session. Session state MUST be tracked in `sessionStorage` keyed by section ID (e.g. `anim:about`). If `sessionStorage` is unavailable, animations MUST fall back to always-playing behaviour (fail open). Sections already in the viewport on initial page load MUST appear instantly in their final state with no animation; their `sessionStorage` flag MUST be set immediately on mount.
+- **FR-018**: Section entry animations MUST trigger once per tab session (resets on page refresh or new tab — `sessionStorage` is tab-scoped; no `localStorage` persistence). Session state MUST be tracked in `sessionStorage` keyed by section ID (e.g. `anim:about`). If `sessionStorage` is unavailable, animations MUST fall back to always-playing behaviour (fail open). Sections already in the viewport on initial page load MUST appear instantly in their final state with no animation; their `sessionStorage` flag MUST be set immediately on mount.
 - **FR-019**: Animation wrappers MUST be thin `"use client"` wrapper components (e.g. `<AnimateOnScroll sectionId="about">`) so section content remains server-rendered. Sections MUST NOT be converted to client components to add animation.
-- **FR-020**: All animations and transitions MUST be suppressed when `prefers-reduced-motion: reduce` is set — elements appear in their final state immediately.
-- **FR-021**: Card and interactive element hover/focus transitions MUST complete within 150–200ms.
-- **FR-022**: Theme colour transitions MUST be smooth with no flash of unstyled content.
+- **FR-020**: All animations and CSS transitions MUST be suppressed when `prefers-reduced-motion: reduce` is set — elements appear in their final state immediately. This applies to entry animations, hover/focus transitions, theme transitions, and search expand/collapse.
+- **FR-021**: Card and interactive element hover/focus transitions MUST complete within 150–200ms. Under `prefers-reduced-motion: reduce`, `transition-duration: 0` MUST apply — CSS transitions count as motion and are suppressed alongside animations (FR-020).
+- **FR-022**: Theme colour transitions MUST be smooth with no flash of unstyled content. FOUC prevention MUST be implemented via an inline blocking `<script>` in `<head>` that reads the stored theme from `localStorage` and sets `data-theme` on `<html>` before any paint. On first visit (no stored preference), the script falls back to `prefers-color-scheme`. This script MUST be inlined (not deferred or async) to guarantee execution before hydration.
 
 **SEO**
 
 - **FR-023**: The page MUST contain exactly one `<h1>` element (the person's name); all section titles MUST use `<h2>`; no heading levels may be skipped.
-- **FR-024**: A JSON-LD `Person` schema block MUST be present in `<head>`, populated at build time from `data/profile.json` and `data/socials.json`, including: name, jobTitle, url, sameAs array.
+- **FR-024**: A JSON-LD `Person` schema block MUST be present in `<head>`, populated at build time from `data/profile.json` and `data/socials.json`, including: `name`, `givenName`, `familyName`, `jobTitle`, `url`, `sameAs` array, `worksFor` (Organisation type with `name` field).
 - **FR-025**: Open Graph tags MUST be present: `og:title`, `og:description`, `og:image` (absolute URL to pre-generated image in `public/`), `og:url`, `og:type`.
-- **FR-026**: Twitter Card tags MUST be present: `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`.
+- **FR-026**: Twitter Card tags MUST be present: `twitter:card` (value: `"summary_large_image"`), `twitter:title`, `twitter:description`, `twitter:image`.
 - **FR-027**: A `<link rel="canonical">` MUST be present with the absolute canonical URL.
-- **FR-028**: `<title>` MUST follow the pattern "Rohit Vipin Mathews | [Role] | [Domain keyword]" (140 chars max for title tag).
+- **FR-028**: `<title>` MUST follow the pattern "Rohit Vipin Mathews | [Role] | [Domain keyword]" and MUST be ≤60 characters for SERP display safety (browsers have no official title length limit; search engines truncate display at ~55–60 characters).
 - **FR-029**: `<meta name="description">` MUST be 140–160 characters with role and domain keywords.
 - **FR-030**: All images and functional icons MUST have descriptive `alt` attributes.
 
@@ -253,15 +260,33 @@ Array fields (`highlights[]`, `techStack[]`, `tech[]`, skill names) MUST be join
 The search index builder and query matcher MUST be exported pure functions in `src/lib/search.ts`:
 
 - `buildSearchIndex(data: AllContentData): SearchIndex` — deterministic, side-effect free
-- `queryIndex(index: SearchIndex, query: string): SearchResult[]` — case-insensitive substring match, returns max 10 results ranked by section order
+- `queryIndex(index: SearchIndex, query: string): SearchResult[]` — case-insensitive substring match via `String.prototype.includes()` (no regex, no injection risk), returns max 10 results ranked by canonical section order
 
 These pure functions enable 100% unit test coverage without mocking.
 
+**Type definitions required in `src/lib/search.ts`:**
+
+- `AllContentData` — aggregate input combining all 7 content arrays: `{ experience: ExperienceEntry[]; projects: Project[]; skills: SkillCategory[]; awards: Award[]; community: CommunityEntry[]; education: Education[]; leadership: Leadership[] }`
+- `SearchIndexEntry` — `{ sectionId: string; sectionLabel: string; title: string; snippet: string; scrollAnchor: string }`
+- `SearchResult` — extends `SearchIndexEntry` with `matchStart: number; matchEnd: number` — zero-based indices of the matched substring within the `title` field; pure data, rendering component decides visual treatment
+
+**Canonical section order** (used for `queryIndex` result ranking):
+`experience → projects → leadership → skills → community → awards → education`
+
+**Dynamic import ownership**: `Nav.tsx` owns the `useRef<SearchIndex | null>` cache and the `dynamic import('./search')` call. On first user activation, Nav fires the dynamic import, awaits resolution, calls `buildSearchIndex`, and stores the result in the ref. Subsequent activations use the cached ref directly.
+
+**Test requirements for `src/lib/search.ts`:**
+
+- 100% statement, branch, function, and line coverage MUST be enforced via a per-file threshold in `vitest.config.ts`.
+- `sessionStorage` and `matchMedia('(prefers-reduced-motion: reduce)')` MUST be stubbed via `vi.stubGlobal` in all tests involving animation components or search UI.
+- `IntersectionObserver` MUST be stubbed with a mock that allows manual callback invocation to test scroll-in-view logic.
+
 ### Key Entities
 
-- **SearchIndex**: Flat array of `SearchIndexEntry` records built at page load from all content JSON (dynamic import). Each entry holds: `sectionId`, `sectionLabel`, `title`, `snippet`, `scrollAnchor`.
-- **SearchResult**: A matched `SearchIndexEntry` with highlight markers on the matched substring.
-- **AnimationObserver**: Intersection Observer instance per `<AnimateOnScroll>` wrapper. Checks `sessionStorage` before attaching; disconnects after first trigger.
+- **AllContentData**: Aggregate input type for `buildSearchIndex` — combines all 7 content data arrays. Defined in `src/lib/search.ts`. All fields required; no optional content types.
+- **SearchIndex**: Flat array of `SearchIndexEntry` records built from all content JSON via dynamic import. Each entry holds: `sectionId`, `sectionLabel`, `title`, `snippet`, `scrollAnchor`.
+- **SearchResult**: A `SearchIndexEntry` extended with `matchStart: number` and `matchEnd: number` — zero-based indices marking the matched substring within the `title` field. Pure data; rendering component applies visual treatment.
+- **AnimationObserver**: Intersection Observer instance per `<AnimateOnScroll>` wrapper. Checks `sessionStorage` before attaching; disconnects after first trigger. MUST be cleaned up in `useEffect` return function to prevent memory leaks if the component unmounts before the intersection triggers.
 
 ---
 
@@ -275,7 +300,7 @@ These pure functions enable 100% unit test coverage without mocking.
 - **SC-004**: Lighthouse mobile SEO score is 95 or above on the production build.
 - **SC-005**: Lighthouse mobile Performance score is 90 or above and CLS is below 0.1 on the production build. This is a merge gate — regressions below these thresholds block merge.
 - **SC-006**: Zero content is hidden on mobile — only layout changes (single-column vs multi-column).
-- **SC-007**: All animations are absent and elements appear in final state when `prefers-reduced-motion: reduce` is active — verified by accessibility audit.
+- **SC-007**: All animations and CSS transitions are absent and elements appear in final state when `prefers-reduced-motion: reduce` is active — verified by accessibility audit.
 - **SC-008**: The search index covers all 7 content types; a query matching a term present in any of them returns at least one relevant result.
 - **SC-009**: Link preview for the portfolio URL on LinkedIn/Twitter/Slack renders correct title, description, and image — verifiable via Open Graph debugger.
 - **SC-010**: schema.org JSON-LD validator reports zero errors for the Person structured data block.
@@ -291,8 +316,10 @@ These pure functions enable 100% unit test coverage without mocking.
 - Fluid typography uses `clamp()` — no JavaScript required.
 - Structured data and meta tags are sourced from `data/profile.json` and `data/socials.json` at build time.
 - Mobile threshold is 768px (Tailwind `md` breakpoint), consistent with existing codebase conventions.
-- Animation session tracking uses `sessionStorage` (tab-scoped, clears on close) — not `localStorage` (which would persist across sessions). Unavailability of `sessionStorage` (e.g. certain private browsing modes) falls back to always-animate.
+- Animation session tracking uses `sessionStorage` (tab-scoped, resets on refresh or new tab) — not `localStorage`. Unavailability of `sessionStorage` (e.g. certain private browsing modes) falls back to always-animate.
 - `og:image` references a pre-generated static image in `public/` (aligns with existing `generate-favicons.ts` pipeline).
 - Canonical URL is absolute, using the live URL `https://rohitvipin.github.io/`.
 - Nav height is currently 56px (`h-14` in Tailwind). `scroll-margin-top` values derive from this and must be updated if nav height changes.
 - Icons remain SVG (via `react-icons`) — no icon font loading.
+- `twitter:card` type is `summary_large_image` — matches pre-generated `og:image` dimensions.
+- Theme FOUC prevention uses a blocking inline `<script>` in `<head>` reading `localStorage`; first-visit defaults to `prefers-color-scheme`. No FOUC after first visit.

@@ -35,7 +35,8 @@
       "Bash(gh repo *)",
       "Bash(git merge *)",
       "Skill(gsd-review)",
-      "Skill(gsd-review:*)"
+      "Skill(gsd-review:*)",
+      "Bash(bash .specify/scripts/bash/check-prerequisites.sh --json --paths-only)"
     ]
   }
 }
