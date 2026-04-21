@@ -22,8 +22,8 @@ export default function ExperienceTimeline({
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-px bg-[var(--border)] hidden md:block ml-[11px]" />
           <div className="space-y-6 md:pl-8">
-            {experience.map((entry, i) => (
-              <div key={i} className="relative">
+            {experience.map((entry) => (
+              <div key={`${entry.company}-${entry.role}`} className="relative">
                 <div
                   className="absolute -left-8 top-6 w-3 h-3 rounded-full border-2 bg-[var(--bg)] hidden md:block"
                   style={{ borderColor: getCompanyColor(entry.company) }}

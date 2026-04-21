@@ -1,15 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiUsers, FiCode, FiMic, FiStar, FiBookOpen } from "react-icons/fi";
 import type { CommunityEntry } from "@/types";
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  "Community Leadership": <FiUsers size={18} />,
+  "Open Source": <FiCode size={18} />,
+  "Conference Speaking": <FiMic size={18} />,
+  "Technical Community": <FiStar size={18} />,
+  Mentorship: <FiBookOpen size={18} />,
+};
 
 export interface CommunityCardProps {
   entry: CommunityEntry;
-  icon: React.ReactNode;
 }
 
-export default function CommunityCard({ entry, icon }: CommunityCardProps) {
+export default function CommunityCard({ entry }: CommunityCardProps) {
+  const icon = ICON_MAP[entry.type] ?? <FiUsers size={18} />;
   const [open, setOpen] = useState(false);
 
   return (
