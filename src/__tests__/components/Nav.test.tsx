@@ -21,6 +21,7 @@ beforeEach(() => {
     "IntersectionObserver",
     class {
       observe() {}
+      unobserve() {}
       disconnect() {}
     }
   );
@@ -93,6 +94,7 @@ describe("Nav", () => {
           capturedCallback = cb;
         }
         observe() {}
+        unobserve() {}
         disconnect() {}
       }
     );

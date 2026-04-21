@@ -46,6 +46,8 @@ export function AnimateOnScroll({ sectionId, children, className }: AnimateOnScr
       return;
     }
 
+    if (typeof IntersectionObserver === "undefined") return;
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

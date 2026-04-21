@@ -6,12 +6,17 @@ import { AnimateOnScroll } from "@/components/shared/AnimateOnScroll";
 type IOCallback = (entries: { isIntersecting: boolean }[]) => void;
 let capturedIOCallback: IOCallback | null = null;
 
+let disconnectSpy = vi.fn();
+
 class MockIntersectionObserver {
+  disconnect: () => void;
   constructor(cb: IOCallback) {
     capturedIOCallback = cb;
+    disconnectSpy = vi.fn();
+    this.disconnect = disconnectSpy;
   }
   observe() {}
-  disconnect() {}
+  unobserve() {}
 }
 
 beforeEach(() => {
@@ -195,6 +200,7 @@ describe("AnimateOnScroll", () => {
       class {
         constructor() {}
         observe = observeSpy;
+        unobserve() {}
         disconnect() {}
       }
     );
@@ -206,5 +212,63 @@ describe("AnimateOnScroll", () => {
     );
 
     expect(observeSpy).not.toHaveBeenCalled();
+  });
+
+  it("calls disconnect on unmount (no memory leak)", () => {
+    const { unmount } = render(
+      <AnimateOnScroll sectionId="unmount-test">
+        <p>child</p>
+      </AnimateOnScroll>
+    );
+    const localDisconnect = disconnectSpy;
+    unmount();
+    expect(localDisconnect).toHaveBeenCalled();
+  });
+
+  it("does not throw when IntersectionObserver is unavailable", () => {
+    vi.stubGlobal("IntersectionObserver", undefined);
+    expect(() =>
+      render(
+        <AnimateOnScroll sectionId="no-io">
+          <p>child</p>
+        </AnimateOnScroll>
+      )
+    ).not.toThrow();
+    const wrapper = screen.getByText("child").parentElement as HTMLElement;
+    expect(wrapper.className).toContain("opacity-0");
+  });
+
+  it("second render with same sectionId reads session cache, skips IO", async () => {
+    const { unmount } = render(
+      <AnimateOnScroll sectionId="shared-id">
+        <p>first</p>
+      </AnimateOnScroll>
+    );
+    await act(async () => {
+      capturedIOCallback?.([{ isIntersecting: true }]);
+    });
+    expect(sessionStorage.getItem("anim:shared-id")).toBe("1");
+    unmount();
+
+    render(
+      <AnimateOnScroll sectionId="shared-id">
+        <p>second</p>
+      </AnimateOnScroll>
+    );
+    const wrapper = screen.getByText("second").parentElement as HTMLElement;
+    expect(wrapper.className).toContain("opacity-100");
+  });
+
+  it("disconnect called after first intersection (observe-once contract)", async () => {
+    render(
+      <AnimateOnScroll sectionId="once-test">
+        <p>child</p>
+      </AnimateOnScroll>
+    );
+    const localDisconnect = disconnectSpy;
+    await act(async () => {
+      capturedIOCallback?.([{ isIntersecting: true }]);
+    });
+    expect(localDisconnect).toHaveBeenCalled();
   });
 });

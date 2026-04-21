@@ -15,8 +15,10 @@ coverage/
 
 # misc
 .DS_Store
-.specify/
 *.pem
+
+# local AI tool permissions (machine-specific, never commit)
+.claude/settings.local.json
 npm-debug.log*
 
 # TypeScript
