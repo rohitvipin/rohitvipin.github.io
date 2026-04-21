@@ -132,12 +132,16 @@ describe("Nav", () => {
 
     render(<Nav initials="R" navLinks={testNavLinks} />);
 
+    const aboutSection = document.getElementById("about");
+    const cb = capturedCallback as ((entries: IntersectionObserverEntry[]) => void) | null;
+    if (!cb || !aboutSection) return;
+
     act(() => {
-      capturedCallback!([
+      cb([
         {
           isIntersecting: true,
           boundingClientRect: { top: 100 } as DOMRectReadOnly,
-          target: document.getElementById("about")!,
+          target: aboutSection,
         } as unknown as IntersectionObserverEntry,
       ]);
     });
