@@ -163,21 +163,32 @@ describe("buildSearchIndex", () => {
   });
 
   it("truncates snippet at word boundary within 120 chars", () => {
+    const skills = Array.from({ length: 30 }, (_, i) => `Skill${i}`);
     const longSkill: AllContentData = {
       ...mockData,
-      skills: [
-        {
-          category: "Long Category",
-          skills: Array.from({ length: 30 }, (_, i) => `Skill${i}`),
-        },
-      ],
+      skills: [{ category: "Long Category", skills }],
     };
     const idx = buildSearchIndex(longSkill);
     const skillEntry = idx.find((e) => e.sectionId === "skills") as SearchIndexEntry;
     expect(skillEntry.snippet.length).toBeLessThanOrEqual(120);
-    // snippet should not cut mid-word
-    const lastChar = skillEntry.snippet.trim().slice(-1);
-    expect(lastChar).not.toBe("l".slice(0, 0)); // just verify it's a word ending
+    // truncate() cuts at last space — next char in original combined text must be a space
+    const combined = `Long Category ${skills.join(" ")}`;
+    expect(combined.charAt(skillEntry.snippet.length)).toBe(" ");
+  });
+
+  it("returns empty index when all array content is empty (only leadership singleton)", () => {
+    const empty: AllContentData = {
+      experience: [],
+      projects: [],
+      leadership: { title: "Engineering Leadership", sections: [] },
+      skills: [],
+      community: [],
+      awards: [],
+      education: [],
+    };
+    const idx = buildSearchIndex(empty);
+    expect(idx).toHaveLength(1);
+    expect(idx[0].sectionId).toBe("leadership");
   });
 
   it("keeps snippet as-is when under 120 chars", () => {
@@ -256,12 +267,16 @@ describe("queryIndex", () => {
     expect(results[0].matchEnd).toBe("opentrack".length);
   });
 
-  it("returns -1 sentinel for non-title match", () => {
+  it("returns null for non-title match", () => {
     // "latency" appears in highlights but not in title
     const results = queryIndex(index, "latency");
     expect(results).toHaveLength(1);
-    expect(results[0].matchStart).toBe(-1);
-    expect(results[0].matchEnd).toBe(-1);
+    expect(results[0].matchStart).toBeNull();
+    expect(results[0].matchEnd).toBeNull();
+  });
+
+  it("returns empty array for empty index", () => {
+    expect(queryIndex([], "aws")).toHaveLength(0);
   });
 
   it("matchEnd equals matchStart plus query length for mid-title match", () => {

@@ -16,13 +16,13 @@ describe("ThemeToggle", () => {
 
   it("renders toggle button after mount", () => {
     render(<ThemeToggle />);
-    expect(screen.getByRole("button", { name: "Toggle theme" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Switch to light theme" })).toBeInTheDocument();
   });
 
   it("calls setTheme with light when current theme is dark", async () => {
     const user = userEvent.setup();
     render(<ThemeToggle />);
-    await user.click(screen.getByRole("button", { name: "Toggle theme" }));
+    await user.click(screen.getByRole("button", { name: "Switch to light theme" }));
     expect(mockSetTheme).toHaveBeenCalledWith("light");
   });
 });

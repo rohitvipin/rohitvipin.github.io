@@ -33,8 +33,8 @@ export interface SearchResult {
   sectionId: string;
   sectionLabel: string;
   scrollAnchor: string;
-  matchStart: number;
-  matchEnd: number;
+  matchStart: number | null;
+  matchEnd: number | null;
 }
 
 export type SearchIndex = SearchIndexEntry[];
@@ -152,8 +152,8 @@ export function queryIndex(index: SearchIndex, query: string): SearchResult[] {
 
     const titleLower = entry.title.toLowerCase();
     const titleIdx = titleLower.indexOf(lower);
-    const matchStart = titleIdx;
-    const matchEnd = titleIdx >= 0 ? titleIdx + trimmed.length : -1;
+    const matchStart = titleIdx >= 0 ? titleIdx : null;
+    const matchEnd = titleIdx >= 0 ? titleIdx + lower.length : null;
 
     results.push({
       title: entry.title,

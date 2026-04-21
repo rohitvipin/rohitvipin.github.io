@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const mockBuildSearchIndex = vi.fn(() => []);
@@ -82,8 +82,9 @@ describe("Nav search — panel open/close", () => {
     const user = userEvent.setup();
     render(<Nav initials="R" />);
     await user.click(screen.getByRole("button", { name: "Search site" }));
+    // Label changes to "Close search" once open
     await waitFor(() =>
-      expect(screen.getByRole("button", { name: "Search site" })).toHaveAttribute(
+      expect(screen.getByRole("button", { name: "Close search" })).toHaveAttribute(
         "aria-expanded",
         "true"
       )
@@ -143,10 +144,13 @@ describe("Nav search — keyboard navigation", () => {
 
     await user.type(screen.getByRole("combobox"), "aws");
 
-    await waitFor(() => expect(screen.getByRole("listbox")).toBeInTheDocument(), {
-      timeout: 500,
-    });
-    expect(screen.getByRole("option", { name: /AWS Work/i })).toBeInTheDocument();
+    // Wait for debounced results to populate the always-rendered listbox
+    await waitFor(
+      () => expect(screen.getByRole("option", { name: /AWS Work/i })).toBeInTheDocument(),
+      {
+        timeout: 500,
+      }
+    );
   });
 
   it("shows no results message for unmatched query", async () => {
@@ -159,9 +163,13 @@ describe("Nav search — keyboard navigation", () => {
 
     await user.type(screen.getByRole("combobox"), "zzznomatch");
 
-    await waitFor(() => expect(screen.getByText("No results found.")).toBeInTheDocument(), {
-      timeout: 500,
-    });
+    // Desktop + mobile panels both render "No results found." in jsdom (no CSS breakpoints)
+    await waitFor(
+      () => expect(screen.getAllByText("No results found.").length).toBeGreaterThan(0),
+      {
+        timeout: 500,
+      }
+    );
   });
 
   it("ArrowDown selects first result", async () => {
@@ -172,8 +180,8 @@ describe("Nav search — keyboard navigation", () => {
         sectionId: "experience",
         sectionLabel: "Experience",
         scrollAnchor: "#experience",
-        matchStart: -1,
-        matchEnd: -1,
+        matchStart: null,
+        matchEnd: null,
       },
     ]);
 
@@ -184,9 +192,13 @@ describe("Nav search — keyboard navigation", () => {
 
     await user.type(screen.getByRole("combobox"), "result");
 
-    await waitFor(() => expect(screen.getByRole("listbox")).toBeInTheDocument(), {
-      timeout: 500,
-    });
+    // Wait for debounced results before pressing ArrowDown
+    await waitFor(
+      () => expect(screen.getByRole("option", { name: /Result One/i })).toBeInTheDocument(),
+      {
+        timeout: 500,
+      }
+    );
 
     await user.keyboard("{ArrowDown}");
 
@@ -238,5 +250,128 @@ describe("Nav search — import failure", () => {
       { timeout: 1000 }
     );
     expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
+  });
+});
+
+describe("Nav search — toggle", () => {
+  it("clicking search trigger again closes the panel", async () => {
+    const user = userEvent.setup();
+    render(<Nav initials="R" />);
+    await user.click(screen.getByRole("button", { name: "Search site" }));
+    await waitFor(() => expect(screen.getByRole("combobox")).toBeInTheDocument());
+
+    await user.click(screen.getByRole("button", { name: "Close search" }));
+    await waitFor(() => expect(screen.queryByRole("combobox")).not.toBeInTheDocument());
+  });
+});
+
+describe("Nav search — keyboard extended", () => {
+  it("ArrowUp from index 0 deselects (goes to -1)", async () => {
+    mockQueryIndex.mockReturnValue([
+      {
+        title: "Result A",
+        snippet: "snippet",
+        sectionId: "experience",
+        sectionLabel: "Experience",
+        scrollAnchor: "#experience",
+        matchStart: 0,
+        matchEnd: 8,
+      },
+    ]);
+
+    const user = userEvent.setup();
+    render(<Nav initials="R" />);
+    await user.click(screen.getByRole("button", { name: "Search site" }));
+    await waitFor(() => expect(screen.getByRole("combobox")).toBeInTheDocument());
+    await user.type(screen.getByRole("combobox"), "result");
+    await waitFor(
+      () => expect(screen.getByRole("option", { name: /Result A/i })).toBeInTheDocument(),
+      { timeout: 500 }
+    );
+
+    await user.keyboard("{ArrowDown}");
+    await waitFor(() =>
+      expect(screen.getByRole("option", { name: /Result A/i })).toHaveAttribute(
+        "aria-selected",
+        "true"
+      )
+    );
+
+    await user.keyboard("{ArrowUp}");
+    await waitFor(() =>
+      expect(screen.getByRole("option", { name: /Result A/i })).toHaveAttribute(
+        "aria-selected",
+        "false"
+      )
+    );
+  });
+
+  it("Tab key does not close the search panel", async () => {
+    const user = userEvent.setup();
+    render(<Nav initials="R" />);
+    await user.click(screen.getByRole("button", { name: "Search site" }));
+    await waitFor(() => expect(screen.getByRole("combobox")).toBeInTheDocument());
+
+    fireEvent.keyDown(screen.getByRole("combobox"), { key: "Tab" });
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+  });
+
+  it("Enter with active result selects it and closes panel", async () => {
+    mockQueryIndex.mockReturnValue([
+      {
+        title: "AWS Result",
+        snippet: "Built with AWS",
+        sectionId: "experience",
+        sectionLabel: "Experience",
+        scrollAnchor: "#experience",
+        matchStart: 0,
+        matchEnd: 3,
+      },
+    ]);
+
+    // jsdom doesn't define scrollIntoView — define it so selectResult doesn't throw
+    Object.defineProperty(Element.prototype, "scrollIntoView", {
+      value: vi.fn(),
+      writable: true,
+      configurable: true,
+    });
+    const section = document.createElement("section");
+    section.id = "experience";
+    document.body.appendChild(section);
+
+    const user = userEvent.setup();
+    render(<Nav initials="R" />);
+    await user.click(screen.getByRole("button", { name: "Search site" }));
+    await waitFor(() => expect(screen.getByRole("combobox")).toBeInTheDocument());
+    await user.type(screen.getByRole("combobox"), "aws");
+    await waitFor(
+      () => expect(screen.getByRole("option", { name: /AWS Result/i })).toBeInTheDocument(),
+      { timeout: 500 }
+    );
+
+    await user.keyboard("{ArrowDown}");
+    await waitFor(() =>
+      expect(screen.getByRole("option", { name: /AWS Result/i })).toHaveAttribute(
+        "aria-selected",
+        "true"
+      )
+    );
+
+    await user.keyboard("{Enter}");
+    await waitFor(() => expect(screen.queryByRole("combobox")).not.toBeInTheDocument());
+
+    document.body.removeChild(section);
+  });
+});
+
+describe("Nav search — outside click", () => {
+  it("mousedown outside search panel closes the panel", async () => {
+    const user = userEvent.setup();
+    render(<Nav initials="R" />);
+    await user.click(screen.getByRole("button", { name: "Search site" }));
+    await waitFor(() => expect(screen.getByRole("combobox")).toBeInTheDocument());
+
+    fireEvent.mouseDown(document.body);
+    await waitFor(() => expect(screen.queryByRole("combobox")).not.toBeInTheDocument());
   });
 });

@@ -165,6 +165,28 @@ describe("AnimateOnScroll", () => {
     expect(wrapper.className).toContain("mt-4");
   });
 
+  it("shows immediately when prefers-reduced-motion is set", () => {
+    vi.stubGlobal("matchMedia", (_query: string) => ({
+      matches: true,
+      media: _query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    render(
+      <AnimateOnScroll sectionId="reduced-motion">
+        <p>child</p>
+      </AnimateOnScroll>
+    );
+    const wrapper = screen.getByText("child").parentElement as HTMLElement;
+    expect(wrapper.className).toContain("opacity-100");
+    expect(wrapper.className).toContain("translate-y-0");
+  });
+
   it("skips IO setup when already visible", () => {
     sessionStorage.setItem("anim:skip-io", "1");
     const observeSpy = vi.fn();

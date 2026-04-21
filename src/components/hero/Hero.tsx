@@ -64,7 +64,7 @@ export default function Hero({ profile, socials }: HeroProps) {
 
           {/* Right — avatar + socials */}
           <div className="hidden lg:flex flex-col items-end gap-5">
-            <div className="relative w-72 h-72 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
+            <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
               <Image
                 src={profile.github_avatar}
                 alt={`Profile photo of ${profile.name}`}
@@ -73,7 +73,9 @@ export default function Hero({ profile, socials }: HeroProps) {
                 priority
               />
             </div>
-            <SocialLinks socials={socials} />
+            <div className="w-80 flex justify-end">
+              <SocialLinks socials={socials} />
+            </div>
           </div>
         </div>
 
