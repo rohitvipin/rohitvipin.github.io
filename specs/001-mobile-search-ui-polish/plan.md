@@ -180,11 +180,20 @@ const [searchQuery, setSearchQuery] = useState("");
 const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 const [searchLoading, setSearchLoading] = useState(false);
 const [searchError, setSearchError] = useState(false);
-const [activeResultIndex, setActiveResultIndex] = useState(-1);
+const [activeResultIndex, setActiveResultIndex] = useState(-1); // -1 = no selection; drives aria-activedescendant
 const searchIndexRef = useRef<SearchIndex | null>(null);
-const searchInputRef = useRef<HTMLInputElement>(null);
+const searchModuleRef = useRef<typeof import("@/lib/search") | null>(null); // caches full module so queryIndex is accessible without re-import
+const searchInputRef = useRef<HTMLInputElement>(null); // focus management: focus on open, return focus on close
+const searchTriggerRef = useRef<HTMLButtonElement>(null); // focus return target after close/Escape
 const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 ```
+
+**Focus management contract** (FR-006, FR-007):
+
+- On `activateSearch()`: call `searchInputRef.current?.focus()` after state update (use `useEffect` on `searchOpen` to handle async).
+- On close (Escape, outside click, result select): call `searchTriggerRef.current?.focus()` to restore focus.
+- `aria-activedescendant` on input = `search-result-${activeResultIndex}` when `activeResultIndex >= 0`, else `undefined`.
+- Reset `activeResultIndex` to `-1` on each new query (`setActiveResultIndex(-1)` inside the debounce callback).
 
 **Dynamic import flow** (on first activation):
 
@@ -192,43 +201,46 @@ const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 async function activateSearch() {
   if (mobileOpen) setMobileOpen(false); // FR-011a: mutually exclusive
   setSearchOpen(true);
-  if (searchIndexRef.current) return; // cached
+  // focus handled by useEffect watching searchOpen
+  if (searchIndexRef.current) return; // index already built
   setSearchLoading(true);
   try {
-    const { buildSearchIndex } = await import("@/lib/search");
-    // import all data inline (build-time, not fetch)
-    const { experience, projects, skills, awards, community, education, leadership } =
-      await import("@/lib/data");
-    searchIndexRef.current = buildSearchIndex({
-      experience,
-      projects,
-      skills,
-      awards,
-      community,
-      education,
-      leadership,
+    const mod = await import("@/lib/search");
+    searchModuleRef.current = mod; // cache full module
+    const data = await import("@/lib/data");
+    searchIndexRef.current = mod.buildSearchIndex({
+      experience: data.experience,
+      projects: data.projects,
+      skills: data.skills,
+      awards: data.awards,
+      community: data.community,
+      education: data.education,
+      leadership: data.leadership,
     });
-  } catch {
+  } catch (err) {
+    console.error("[Search] Failed to load search module:", err);
     setSearchError(true);
     setSearchOpen(false);
+    // re-attempt on next activation: searchModuleRef stays null, allowing retry
   } finally {
     setSearchLoading(false);
   }
 }
 ```
 
-**Debounced query** (150–200ms):
+**Error state**: `searchError === true` → trigger button receives `disabled` attribute and `opacity-50 cursor-not-allowed` visual. On next click, reset `searchError` to `false` before re-attempting import (allows retry without page reload).
+
+**Debounced query** (175ms, within FR-004 150–200ms range):
 
 ```ts
 useEffect(() => {
-  if (!searchOpen || !searchIndexRef.current) return;
+  if (!searchOpen || !searchIndexRef.current || !searchModuleRef.current) return;
   if (debounceRef.current) clearTimeout(debounceRef.current);
   debounceRef.current = setTimeout(() => {
-    if (searchQuery.trim()) {
-      const {
-        queryIndex,
-      } = // already imported via the module ref
-        setSearchResults(queryIndex(searchIndexRef.current!, searchQuery));
+    const trimmed = searchQuery.trim();
+    if (trimmed) {
+      setActiveResultIndex(-1); // reset selection on new query
+      setSearchResults(searchModuleRef.current!.queryIndex(searchIndexRef.current!, trimmed));
     } else {
       setSearchResults([]);
     }
@@ -238,8 +250,6 @@ useEffect(() => {
   };
 }, [searchQuery, searchOpen]);
 ```
-
-Note: `queryIndex` must also be cached on the module ref. Adjust import to store module object in a separate `useRef<typeof import('@/lib/search') | null>`.
 
 **Close handlers:**
 
@@ -530,10 +540,10 @@ Or via Tailwind: `motion-safe:hover:-translate-y-0.5 motion-safe:transition-tran
 
 - Add `givenName: "Rohit"` and `familyName: "Vipin Mathews"` to the Person object.
 - `sameAs` currently hardcoded. Source from `data/socials.json` via `socials.map(s => s.url)` — already imported as `profile` from `data.ts`. Add `import { socials } from '@/lib/data'` and use `socials.map(s => s.url)`.
-- Move `<script type="application/ld+json">` from `<body>` to inside `<head>` — currently it is after `</body>` which is invalid placement. In Next.js App Router, use the `<head>` segment or place in the layout's `<html>` before `<body>`. Actually in App Router, metadata handles `<head>`. Place JSON-LD in layout as a `<script>` inside the returned JSX within the body is standard for Next.js — keep current placement but verify it renders in `<head>` via Next.js script injection. Next.js places body-level `<script>` at end of body — acceptable per Google guidelines, but `<head>` is cleaner. Keep current approach (body) unless Lighthouse flags it.
+- Place `<script type="application/ld+json">` inside `<head>` via Next.js App Router. In `layout.tsx`, add the JSON-LD `<script>` as the first child inside `<head>` using the App Router `<head>` export or directly in the layout JSX before `<body>`. Next.js App Router renders elements returned before `<body>` into `<head>` automatically. This satisfies Google's recommendation and schema.org validator requirements. Do not place it in `<body>`.
 
-**Title update** (FR-028, ≤60 chars):
-Current: `"Rohit Vipin Mathews — Director of Engineering & Architecture"` = 59 chars. PASS — no change needed.
+**Title update** (FR-028, ≤70 chars):
+Current: `"Rohit Vipin Mathews — Director of Engineering & Architecture"` = 59 chars. PASS — no change needed. (Limit is ≤70 chars per spec clarification — not ≤60.)
 
 **Description** (FR-029, 140–160 chars):
 Current: 167 chars. Trim by ~10 chars: remove "Cloud-native, AI-enabled platforms across" → "Cloud-native AI platforms across K-12 Education, Agriculture, Logistics, and Hospitality."

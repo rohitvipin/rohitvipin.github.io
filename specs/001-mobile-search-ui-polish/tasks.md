@@ -24,7 +24,14 @@ MVP scope: complete US1 alone for an immediately shippable fix.
 
 ## Phase 1: Setup
 
-- [ ] T001 Update `vitest.config.ts` to add per-file 100% statement/branch/function/line coverage threshold for `src/lib/search.ts`
+- [ ] T001 Update `vitest.config.ts` to add per-file 100% statement/branch/function/line coverage threshold for `src/lib/search.ts`. Use Vitest's per-file threshold syntax:
+  ```ts
+  // vitest.config.ts — inside defineConfig > test > coverage
+  thresholds: {
+    'src/lib/search.ts': { statements: 100, branches: 100, functions: 100, lines: 100 },
+  },
+  ```
+  Confirm `coverage.provider` is `'v8'` or `'istanbul'` (both support per-file thresholds). Run `npm run test:coverage` to verify threshold enforcement before committing `search.ts`.
 
 ---
 
@@ -102,7 +109,8 @@ MVP scope: complete US1 alone for an immediately shippable fix.
 - [ ] T020 [US5] Add `.card-hover` CSS class with `motion-safe` guarded `transform 150ms` and `box-shadow 150ms` transitions to `src/app/globals.css`
 - [ ] T021 [US5] Create `src/components/shared/AnimateOnScroll.tsx`: `"use client"` wrapper with `IntersectionObserver` (threshold 0.1), `sessionStorage` keyed by `sectionId`, viewport-on-mount instant-show, and `motion-reduce:transition-none` Tailwind class
 - [ ] T022 [US5] Wrap all section components in `src/app/page.tsx` with `<AnimateOnScroll sectionId="...">` — sections remain server components
-- [ ] T023 [US5] Add inline blocking FOUC script to `src/app/layout.tsx` (before `<body>`) reading `localStorage` theme key and setting `data-theme` on `<html>`; skip if `next-themes` already injects equivalent script (verify by inspecting rendered HTML first)
+- [ ] T023 [US5] Check whether `next-themes` already injects a FOUC-prevention script: run `npm run build && grep -r 'data-theme\|prefers-color-scheme' out/index.html` and inspect the rendered `<head>`. If an equivalent blocking script is already present, skip T023a. If absent, proceed to T023a.
+- [ ] T023a [US5] Add inline blocking FOUC script to `src/app/layout.tsx` as first child of `<body>` (Next.js App Router renders it before hydration). Script reads `localStorage` theme key, sets `data-theme` on `<html>`, falls back to `prefers-color-scheme` on first visit. Must use `dangerouslySetInnerHTML` with a minified IIFE. Must NOT use `async`/`defer` attributes (FR-022).
 - [ ] T024 [US5] Apply `.card-hover` class to Experience, Projects, Skills, and Awards card components in `src/components/`
 - [ ] T025 [US5] Write `src/__tests__/AnimateOnScroll.test.tsx`: stub `IntersectionObserver` and `sessionStorage` via `vi.stubGlobal`; cover already-in-viewport (instant show + sessionStorage set), out-of-viewport (invisible until IO fires), session-cached re-mount (visible without IO), and sessionStorage-unavailable (fail-open) paths
 
@@ -116,7 +124,7 @@ MVP scope: complete US1 alone for an immediately shippable fix.
 - [ ] T026 [US2] Create `src/lib/search.ts` — export `AllContentData`, `SearchIndexEntry`, `SearchResult` (with `matchStart`/`matchEnd`, `-1` sentinel for non-title matches), and `SearchIndex` type aliases
 - [ ] T027 [US2] Implement `buildSearchIndex(data: AllContentData): SearchIndex` in `src/lib/search.ts` — canonical order: experience → projects → leadership → skills → community → awards → education; per-type snippet and title per plan field manifest; array fields joined with space; snippet truncated at 120 chars at word boundary
 - [ ] T028 [US2] Implement `queryIndex(index: SearchIndex, query: string): SearchResult[]` in `src/lib/search.ts` — case-insensitive `includes()` on full-text string; `matchStart`/`matchEnd` from `title` field only; max 10 results; canonical section order; empty/whitespace query returns `[]`
-- [ ] T029 [US2] Add search state (`searchOpen`, `searchQuery`, `searchResults`, `searchLoading`, `searchError`, `activeResultIndex`) and refs (`searchIndexRef`, `searchModuleRef`, `searchInputRef`, `debounceRef`) to `src/components/shared/Nav.tsx`
+- [ ] T029 [US2] Add search state (`searchOpen`, `searchQuery`, `searchResults`, `searchLoading`, `searchError`, `activeResultIndex`) and refs (`searchIndexRef`, `searchModuleRef`, `searchInputRef`, `searchTriggerRef`, `debounceRef`) to `src/components/shared/Nav.tsx`. `searchTriggerRef` attaches to the trigger button for focus-return on close (FR-006).
 - [ ] T030 [US2] Implement `activateSearch()` in `src/components/shared/Nav.tsx`: close hamburger if open (FR-011a), set `searchOpen`, dynamic import `@/lib/search` + `@/lib/data` on first call, build and cache index in `searchIndexRef`; handle import failure by setting `searchError` and logging; reset `searchError` before re-attempt
 - [ ] T031 [US2] Implement 175ms debounced query `useEffect` in `src/components/shared/Nav.tsx`: call `queryIndex` when `searchOpen` and index cached; clear results on empty/whitespace query; clean up timer in effect return
 - [ ] T032 [US2] Add hamburger mutual exclusivity to `src/components/shared/Nav.tsx`: opening hamburger closes search (`setSearchOpen(false)`); opening search closes hamburger (`setMobileOpen(false)`)
@@ -125,6 +133,7 @@ MVP scope: complete US1 alone for an immediately shippable fix.
 - [ ] T035 [US2] Add `mousedown` outside-click close handler via `useEffect` in `src/components/shared/Nav.tsx`; clean up listener in effect return
 - [ ] T036 [US2] Add "No results found" empty state (non-empty query + zero results) and "Type to search..." placeholder (empty/whitespace query) to search panel in `src/components/shared/Nav.tsx`
 - [ ] T037 [US2] Write `src/__tests__/search.test.ts` covering all branches to satisfy 100% threshold: `buildSearchIndex` entry count per content type, `scrollAnchor` values, array field joining (no commas), snippet truncation at word boundary; `queryIndex` case-insensitive match, max-10 cap, canonical section order, `matchStart`/`matchEnd` title indices, `-1` sentinel for non-title match, empty query, whitespace query, special chars as literals, no-match query
+- [ ] T037a [US2] Write Nav.tsx search integration tests in `src/__tests__/Nav.search.test.tsx`: cover dynamic import failure path (mock import to reject — verify `searchError` set, trigger disabled, re-attempt on next click resets error and retries import); cover focus management (trigger opens → input focused, Escape → trigger focused); stub `vi.stubGlobal` for `matchMedia` and any browser APIs used in Nav
 
 ---
 
@@ -144,7 +153,7 @@ MVP scope: complete US1 alone for an immediately shippable fix.
 
 ```
 T001 ─── T026 → T027 → T028 (search.ts must be complete before Nav integration)
-                             └── T029 → T030 → T031 → T032 → T033 → T034 → T035 → T036 → T037
+                             └── T029 → T030 → T031 → T032 → T033 → T034 → T035 → T036 → T037 → T037a
 T002 (independent — no blockers)
 T003 → T004 → T005 (layout.tsx SEO — sequential, same file)
 T006, T007, T008 (parallel — different files)
@@ -153,7 +162,7 @@ T011 → T012 (globals.css — sequential, same file)
 T013, T014, T015, T016 (parallel — different component files)
 T017 (independent audit)
 T018 → T019 (Nav.tsx scroll state — sequential, same file)
-T020 → T021 → T022 → T023 → T024 → T025 (animation chain — T020 globals first, then component)
+T020 → T021 → T022 → T023 → T023a → T024 → T025 (animation chain; T023 is verify-only, T023a is conditional)
 T038–T044 (all after implementation phases complete)
 ```
 
@@ -180,7 +189,7 @@ T038–T044 (all after implementation phases complete)
 | Phase 5   | US8 (P3)   | 2      |
 | Phase 6   | US3 (P2)   | 7      |
 | Phase 7   | US4 (P3)   | 2      |
-| Phase 8   | US5 (P3)   | 6      |
-| Phase 9   | US2 (P2)   | 12     |
+| Phase 8   | US5 (P3)   | 7      |
+| Phase 9   | US2 (P2)   | 14     |
 | Polish    | —          | 7      |
-| **Total** |            | **44** |
+| **Total** |            | **47** |
