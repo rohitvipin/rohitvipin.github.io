@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { profile } from "@/lib/data";
+import { profile, socials } from "@/lib/data";
 import "./globals.css";
 
 const inter = Inter({
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: "Rohit Vipin Mathews — Director of Engineering & Architecture",
   description:
-    "Director of Engineering & Architecture with 14+ years scaling 350+ engineers across USA and India. Cloud-native, AI-enabled platforms across K-12 Education, Agriculture, Logistics, and Hospitality.",
+    "Engineering leader with 14+ years scaling 350+ engineers. Cloud-native, AI-enabled platforms across K-12 Education, Agriculture, Logistics, and Hospitality.",
   keywords: [
     "Rohit Vipin Mathews",
     "Director of Engineering",
@@ -89,6 +89,8 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Rohit Vipin Mathews",
+  givenName: "Rohit",
+  familyName: "Vipin Mathews",
   jobTitle: "Director - Engineering & Architecture",
   url: BASE_URL,
   email: profile.email,
@@ -106,12 +108,7 @@ const jsonLd = {
     "@type": "CollegeOrUniversity",
     name: "Sree Narayana Gurukulam College of Engineering",
   },
-  sameAs: [
-    "https://github.com/rohitvipin",
-    "https://www.linkedin.com/in/rohitvipinmathews",
-    "https://stackoverflow.com/users/1202166/rohit-vipin-mathews",
-    "https://twitter.com/rohitvipin",
-  ],
+  sameAs: socials.map((s) => s.url),
   knowsAbout: [
     "Cloud Architecture",
     "AWS",
@@ -144,14 +141,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       suppressHydrationWarning
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body suppressHydrationWarning>
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
-          {children}
-        </ThemeProvider>
+      <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
         />
+      </head>
+      <body suppressHydrationWarning>
+        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-white focus:rounded-lg focus:outline-none"
+          >
+            Skip to main content
+          </a>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

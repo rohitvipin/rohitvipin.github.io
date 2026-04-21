@@ -15,7 +15,10 @@ export default function ExperienceCard({ entry }: ExperienceCardProps) {
   const companyColor = getCompanyColor(entry.company);
 
   return (
-    <div className="card p-6 space-y-4 border-l-2" style={{ borderLeftColor: companyColor }}>
+    <div
+      className="card card-hover p-6 space-y-4 border-l-2"
+      style={{ borderLeftColor: companyColor }}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
@@ -43,7 +46,11 @@ export default function ExperienceCard({ entry }: ExperienceCardProps) {
           }
           className="shrink-0 w-7 h-7 flex items-center justify-center rounded-md border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
         >
-          {expanded ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
+          {expanded ? (
+            <FiChevronUp size={14} aria-hidden="true" />
+          ) : (
+            <FiChevronDown size={14} aria-hidden="true" />
+          )}
         </button>
       </div>
 

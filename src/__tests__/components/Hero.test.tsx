@@ -41,7 +41,9 @@ describe("Hero", () => {
 
   it("renders avatar image with profile name as alt text", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    const img = screen.getAllByRole("img").find((el) => el.getAttribute("alt") === "Rohit Test");
+    const img = screen
+      .getAllByRole("img")
+      .find((el) => el.getAttribute("alt") === "Profile photo of Rohit Test");
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", "https://avatars.githubusercontent.com/u/123");
   });

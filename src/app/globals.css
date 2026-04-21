@@ -98,6 +98,39 @@ body {
   background-clip: text;
 }
 
+/* ── Fluid headings ── */
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+/* ── Touch target utility ── */
+.touch-target {
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Scroll offset for sticky nav ── */
+section[id] {
+  scroll-margin-top: 72px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ── Card base ── */
 .card {
   background: var(--surface);
@@ -112,4 +145,18 @@ body {
   box-shadow:
     0 0 0 1px var(--accent-glow),
     0 8px 32px var(--accent-glow);
+}
+
+/* ── Card hover lift ── */
+@media (prefers-reduced-motion: no-preference) {
+  .card-hover {
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .card-hover:hover,
+  .card-hover:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
 }

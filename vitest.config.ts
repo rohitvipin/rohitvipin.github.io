@@ -15,6 +15,7 @@ export default defineConfig({
         branches: 60,
         functions: 60,
         lines: 60,
+        "src/lib/search.ts": { statements: 100, branches: 100, functions: 100, lines: 100 },
       },
     },
   },

@@ -16,7 +16,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <div
-      className="card p-6 space-y-4 flex flex-col border-l-2"
+      className="card card-hover p-6 space-y-4 flex flex-col border-l-2"
       style={{ borderLeftColor: domainColor }}
     >
       <div>
@@ -31,7 +31,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 aria-label="GitHub repository"
                 className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0"
               >
-                <FiGithub size={14} />
+                <FiGithub size={14} aria-hidden="true" />
               </a>
             )}
           </div>

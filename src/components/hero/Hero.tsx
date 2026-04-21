@@ -51,7 +51,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                 aria-label="Download CV"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
-                <FiDownload size={16} />
+                <FiDownload size={16} aria-hidden="true" />
                 Download CV
               </a>
             </div>
@@ -67,7 +67,7 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="relative w-72 h-72 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
               <Image
                 src={profile.github_avatar}
-                alt={profile.name}
+                alt={`Profile photo of ${profile.name}`}
                 fill
                 className="object-cover"
                 priority
@@ -80,15 +80,15 @@ export default function Hero({ profile, socials }: HeroProps) {
         {/* Metrics */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {profile.key_metrics?.map((m) => (
-            <div key={m.label} className="card p-4 space-y-1">
-              <div
+            <dl key={m.label} className="card p-4 space-y-1">
+              <dd
                 className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"} ${m.tier === "secondary" ? "opacity-65" : ""}`}
               >
                 {m.value}
-              </div>
-              <div className="text-xs text-[var(--muted)] leading-tight">{m.label}</div>
-              <div className="text-xs text-[var(--muted-2)]">{m.detail}</div>
-            </div>
+              </dd>
+              <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
+              {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
+            </dl>
           ))}
         </div>
       </div>

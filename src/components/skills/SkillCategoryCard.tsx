@@ -16,7 +16,7 @@ export default function SkillCategoryCard({ category, skills }: SkillCategoryCar
   const hidden = skills.length - INITIAL_VISIBLE;
 
   return (
-    <div className="card p-6 space-y-4">
+    <div className="card card-hover p-6 space-y-4">
       <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wider">
         {category}
       </h3>

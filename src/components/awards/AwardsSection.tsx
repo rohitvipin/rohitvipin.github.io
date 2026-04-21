@@ -13,9 +13,13 @@ export default function AwardsSection({ awards }: AwardsSectionProps) {
         <SectionHeader title="Awards & Recognition" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {awards.map((a) => (
-            <div key={a.title} className="card p-5 space-y-2">
+            <div key={a.title} className="card card-hover p-5 space-y-2">
               <div className="flex items-start justify-between gap-3">
-                <FaTrophy size={16} className="text-[var(--accent)] mt-0.5 shrink-0" />
+                <FaTrophy
+                  size={16}
+                  className="text-[var(--accent)] mt-0.5 shrink-0"
+                  aria-hidden="true"
+                />
                 {a.year && <span className="text-xs font-mono text-[var(--muted)]">{a.year}</span>}
               </div>
               <h3 className="font-semibold text-sm text-[var(--text)]">{a.title}</h3>
