@@ -1,8 +1,8 @@
 {
-  "title": "Leadership",
+  "title": "Engineering Leadership",
   "sections": [
     {
-      "title": "AI Engineering Leadership",
+      "title": "AI Engineering",
       "description": "Running one of the earliest enterprise-scale AI enablement practices in an engineering services context. Shipped production AWS Bedrock RAG systems achieving 95%+ structured data extraction accuracy, led org-wide Claude Code and GitHub Copilot guilds training 50+ India-based developers (30%+ delivery productivity lift), executed agentic workflow PoCs with mature context engineering discipline (evaluator separation, reset patterns, state management), and published an internal AI engineering charter covering contract-first development, deterministic debugging with Testcontainers, and observability-driven agent design using OpenTelemetry, Sentry, and Datadog."
     },
     {
