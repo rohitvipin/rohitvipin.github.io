@@ -74,6 +74,14 @@ describe("Hero", () => {
     expect(screen.getByRole("link", { name: "Download CV" })).toHaveAttribute("download");
   });
 
+  it("renders social links with descriptive aria-labels", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    const githubLinks = screen.getAllByRole("link", { name: "Visit my Github profile" });
+    expect(githubLinks[0]).toHaveAttribute("href", "https://github.com/test");
+    const linkedinLinks = screen.getAllByRole("link", { name: "Visit my Linkedin profile" });
+    expect(linkedinLinks[0]).toHaveAttribute("href", "https://linkedin.com/in/test");
+  });
+
   it("renders no tags section when tags is empty", () => {
     render(<Hero profile={{ ...baseProfile, tags: [] }} socials={baseSocials} />);
     expect(screen.queryByText("Architect")).not.toBeInTheDocument();

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Nav from "@/components/shared/Nav";
 
@@ -57,5 +57,35 @@ describe("Nav", () => {
     const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
     await user.click(mobileNav.querySelectorAll("a")[0]);
     expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+  });
+
+  it("marks the intersecting section as active", async () => {
+    let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (entries: IntersectionObserverEntry[]) => void) {
+          capturedCallback = cb;
+        }
+        observe() {}
+        disconnect() {}
+      }
+    );
+
+    document.body.innerHTML = '<section id="about"></section>';
+
+    render(<Nav initials="R" />);
+
+    act(() => {
+      capturedCallback!([
+        {
+          isIntersecting: true,
+          target: document.getElementById("about")!,
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+
+    const aboutLink = screen.getByRole("link", { name: "About" });
+    expect(aboutLink).toHaveAttribute("aria-current", "page");
   });
 });

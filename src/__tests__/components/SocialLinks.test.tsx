@@ -18,11 +18,11 @@ describe("SocialLinks", () => {
 
   it("sets correct href on each link", () => {
     render(<SocialLinks socials={socials} />);
-    expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Visit my GitHub profile" })).toHaveAttribute(
       "href",
       "https://github.com/rohitvipin"
     );
-    expect(screen.getByRole("link", { name: "Email" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Visit my Email profile" })).toHaveAttribute(
       "href",
       "mailto:test@example.com"
     );

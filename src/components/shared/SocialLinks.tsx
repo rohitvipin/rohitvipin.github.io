@@ -25,7 +25,7 @@ export default function SocialLinks({ socials, className = "" }: SocialLinksProp
           href={s.url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={s.platform.charAt(0).toUpperCase() + s.platform.slice(1)}
+          aria-label={`Visit my ${s.platform.charAt(0).toUpperCase() + s.platform.slice(1)} profile`}
           className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all duration-200"
         >
           {iconMap[s.icon] ?? <span className="text-xs font-bold">{s.platform[0]}</span>}

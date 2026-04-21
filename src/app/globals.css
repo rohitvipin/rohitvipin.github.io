@@ -13,6 +13,7 @@
   --muted: #64748b;
   --muted-2: #475569;
   --success: #22c55e;
+  --shadow-card: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="light"] {
@@ -27,6 +28,7 @@
   --muted: #64748b;
   --muted-2: #94a3b8;
   --success: #16a34a;
+  --shadow-card: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
@@ -60,7 +62,7 @@ body {
 /* ── Selection ── */
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* ── Scrollbar ── */
@@ -157,6 +159,6 @@ section[id] {
   .card-hover:hover,
   .card-hover:focus-within {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px var(--shadow-card);
   }
 }
