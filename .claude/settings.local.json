@@ -33,7 +33,9 @@
       "Bash(git checkout *)",
       "Bash(npm test *)",
       "Bash(gh repo *)",
-      "Bash(git merge *)"
+      "Bash(git merge *)",
+      "Skill(gsd-review)",
+      "Skill(gsd-review:*)"
     ]
   }
 }
