@@ -21,7 +21,7 @@ export interface NavProps {
 
 export default function Nav({ initials }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("about");
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
     const sectionIds = links.map((l) => l.href.slice(1));
