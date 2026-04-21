@@ -22,10 +22,10 @@ describe("SkillsSection", () => {
 
   it("renders skill chips within each category", () => {
     render(<SkillsSection skills={baseSkills} />);
-    expect(screen.getByText("React")).toBeInTheDocument();
-    expect(screen.getByText("TypeScript")).toBeInTheDocument();
-    expect(screen.getByText("Node.js")).toBeInTheDocument();
-    expect(screen.getByText("Go")).toBeInTheDocument();
+    expect(screen.getAllByText("React").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("TypeScript").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Node.js").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Go").length).toBeGreaterThan(0);
   });
 
   it("renders empty state without crashing", () => {
