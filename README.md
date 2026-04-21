@@ -4,7 +4,7 @@
 [![Deploy](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/rohitvipin/rohitvipin.github.io/actions/workflows/deploy.yml)
 
 **Production portfolio site** for Rohit Vipin Mathews — Next.js 16 static export deployed to GitHub Pages.  
-Live: https://rohitvipin.github.io/rohit-profile
+Live: https://rohitvipin.github.io/
 
 ## Quick Start
 
