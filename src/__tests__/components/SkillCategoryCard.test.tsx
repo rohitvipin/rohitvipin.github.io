@@ -26,14 +26,14 @@ describe("SkillCategoryCard", () => {
 
   it("shows all skills when count is within initial limit", () => {
     render(<SkillCategoryCard category="Backend" skills={["Node.js", "Go"]} />);
-    expect(screen.getAllByText("Node.js").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Go").length).toBeGreaterThan(0);
+    expect(screen.getByText("Node.js")).toBeInTheDocument();
+    expect(screen.getByText("Go")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /more/ })).not.toBeInTheDocument();
   });
 
   it("shows first 10 skills and hides overflow by default", () => {
     render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
-    expect(screen.getAllByText("React").length).toBeGreaterThan(0);
+    expect(screen.getByText("React")).toBeInTheDocument();
     expect(screen.queryByText("Storybook")).not.toBeInTheDocument();
     expect(screen.queryByText("Figma")).not.toBeInTheDocument();
   });
@@ -47,8 +47,8 @@ describe("SkillCategoryCard", () => {
     const user = userEvent.setup();
     render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
     await user.click(screen.getByRole("button", { name: /Show 2 more Frontend skills/ }));
-    expect(screen.getAllByText("Storybook").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Figma").length).toBeGreaterThan(0);
+    expect(screen.getByText("Storybook")).toBeInTheDocument();
+    expect(screen.getByText("Figma")).toBeInTheDocument();
   });
 
   it("show less button collapses back to 10", async () => {

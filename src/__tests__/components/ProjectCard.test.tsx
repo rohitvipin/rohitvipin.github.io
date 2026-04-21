@@ -34,8 +34,8 @@ describe("ProjectCard", () => {
 
   it("renders tech chips", () => {
     render(<ProjectCard project={base} />);
-    expect(screen.getAllByText("TypeScript").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Node.js").length).toBeGreaterThan(0);
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+    expect(screen.getByText("Node.js")).toBeInTheDocument();
   });
 
   it("renders GitHub link when provided", () => {

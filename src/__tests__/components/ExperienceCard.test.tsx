@@ -51,7 +51,7 @@ describe("ExperienceCard", () => {
 
   it("renders tech stack chips", () => {
     render(<ExperienceCard entry={base} />);
-    expect(screen.getAllByText("TypeScript").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("React").length).toBeGreaterThan(0);
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+    expect(screen.getByText("React")).toBeInTheDocument();
   });
 });
