@@ -10,35 +10,38 @@ export interface AnimateOnScrollProps {
 
 export function AnimateOnScroll({ sectionId, children, className }: AnimateOnScrollProps) {
   const storageKey = `anim:${sectionId}`;
-  const [visible, setVisible] = useState(() => {
-    try {
-      if (
-        typeof window !== "undefined" &&
-        typeof window.matchMedia === "function" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        return true;
-      }
-      return !!sessionStorage.getItem(storageKey);
-    } catch {
-      return false;
-    }
-  });
+  // Always false on SSR so server/client HTML matches (fixes hydration mismatch)
+  const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (visible) return;
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setVisible(true);
+        return;
+      }
+    } catch {
+      // matchMedia unavailable
+    }
+    try {
+      if (sessionStorage.getItem(storageKey)) {
+        setVisible(true);
+        return;
+      }
+    } catch {
+      // sessionStorage unavailable
+    }
+
     const el = ref.current;
     if (!el) return;
 
     const rect = el.getBoundingClientRect();
-    const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
-    if (inViewport) {
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
       setVisible(true);
       try {
         sessionStorage.setItem(storageKey, "1");
       } catch {
-        // sessionStorage unavailable — fail open
+        // ignore
       }
       return;
     }
@@ -50,7 +53,7 @@ export function AnimateOnScroll({ sectionId, children, className }: AnimateOnScr
           try {
             sessionStorage.setItem(storageKey, "1");
           } catch {
-            // sessionStorage unavailable — fail open
+            // ignore
           }
           obs.disconnect();
         }
@@ -60,7 +63,7 @@ export function AnimateOnScroll({ sectionId, children, className }: AnimateOnScr
 
     obs.observe(el);
     return () => obs.disconnect();
-  }, [sectionId, storageKey, visible]);
+  }, [storageKey]);
 
   return (
     <div

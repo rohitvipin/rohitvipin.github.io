@@ -211,69 +211,32 @@ export default function Nav({ initials }: NavProps) {
           {initials}
         </a>
 
-        {/* Desktop nav links — hidden while search is open */}
-        {!searchOpen && (
-          <nav
-            className="hidden md:flex items-center gap-6 flex-1 justify-center"
-            aria-label="Main navigation"
-          >
-            {links.map((l) => {
-              const isActive = activeSection === l.href.slice(1);
-              return (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`text-sm transition-colors duration-150 relative ${
-                    isActive
-                      ? "text-[var(--accent)] font-medium"
-                      : "text-[var(--muted)] hover:text-[var(--text)]"
-                  }`}
-                >
-                  {l.label}
-                  {isActive && (
-                    <span className="absolute -bottom-[19px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
-                  )}
-                </a>
-              );
-            })}
-          </nav>
-        )}
-
-        {/* Desktop inline search input — expands in nav bar when open */}
-        {searchOpen && (
-          <div
-            data-search-panel
-            className="hidden md:flex flex-1 items-center gap-2 border-b border-[var(--accent)]/40 pb-[1px]"
-          >
-            <span className="sr-only" aria-live="polite" aria-atomic="true">
-              {searchResults.length > 0
-                ? `${searchResults.length} result${searchResults.length !== 1 ? "s" : ""} for ${searchQuery}`
-                : searchQuery.trim() && !searchLoading
-                  ? "No results found."
-                  : ""}
-            </span>
-            <FiSearch size={14} className="text-[var(--muted)] shrink-0" aria-hidden="true" />
-            <input
-              ref={searchInputRef}
-              id="search-input"
-              role="combobox"
-              aria-label="Search site"
-              aria-autocomplete="list"
-              aria-haspopup="listbox"
-              aria-controls="search-results"
-              aria-activedescendant={
-                activeResultIndex >= 0 ? `search-result-${activeResultIndex}` : undefined
-              }
-              aria-expanded={searchResults.length > 0}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Search..."
-              className="flex-1 bg-transparent text-[var(--text)] placeholder:text-[var(--muted)] text-sm outline-none py-1"
-            />
-          </div>
-        )}
+        {/* Desktop nav links — always visible */}
+        <nav
+          className="hidden md:flex items-center gap-6 flex-1 justify-center"
+          aria-label="Main navigation"
+        >
+          {links.map((l) => {
+            const isActive = activeSection === l.href.slice(1);
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`text-sm transition-colors duration-150 relative ${
+                  isActive
+                    ? "text-[var(--accent)] font-medium"
+                    : "text-[var(--muted)] hover:text-[var(--text)]"
+                }`}
+              >
+                {l.label}
+                {isActive && (
+                  <span className="absolute -bottom-[19px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
+                )}
+              </a>
+            );
+          })}
+        </nav>
 
         <div className="flex items-center gap-2 ml-auto shrink-0">
           <ThemeToggle />
@@ -328,104 +291,128 @@ export default function Nav({ initials }: NavProps) {
         </span>
       )}
 
-      {/* Desktop: absolute results dropdown below nav bar */}
+      {/* Command palette modal — unified desktop + mobile */}
       {searchOpen && (
         <div
-          data-search-panel
-          className="hidden md:block absolute top-full left-0 right-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-lg"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Search"
+          className="fixed inset-0 z-[200] flex items-start justify-center px-4 pt-[10vh]"
         >
-          <div className="max-w-6xl mx-auto px-6 py-3">
-            {searchLoading && (
-              <p role="status" className="text-xs text-[var(--muted)]">
-                Loading...
-              </p>
-            )}
-            {!searchQuery.trim() && !searchLoading && (
-              <p className="text-xs text-[var(--muted)]">Type to search across all sections...</p>
-            )}
-            {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
-              <p className="text-xs text-[var(--muted)]">No results found.</p>
-            )}
-            {/* Always rendered so aria-controls="search-results" is always valid */}
-            <ul
-              id="search-results"
-              role="listbox"
-              aria-label="Search results"
-              className="space-y-1 max-h-64 overflow-y-auto"
-            >
-              {searchResults.map((r, i) => (
-                <li
-                  key={`${r.sectionId}-${i}`}
-                  id={`search-result-${i}`}
-                  role="option"
-                  aria-selected={activeResultIndex === i}
-                  onMouseDown={() => selectResult(r)}
-                  className={`px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors ${
-                    activeResultIndex === i
-                      ? "bg-[var(--accent)] text-white"
-                      : "hover:bg-[var(--surface)] text-[var(--text)]"
-                  }`}
-                >
-                  <span className="font-medium block">{r.title}</span>
-                  <span className="text-xs opacity-70 block truncate">{r.snippet}</span>
-                  <span className="text-xs opacity-50">{r.sectionLabel}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
-      {/* Mobile: below-nav search panel with inline input */}
-      {searchOpen && (
-        <div
-          data-search-panel
-          role="search"
-          aria-label="Site search"
-          className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-3 shadow-lg"
-        >
-          <span className="sr-only" aria-live="polite" aria-atomic="true">
-            {searchResults.length > 0
-              ? `${searchResults.length} result${searchResults.length !== 1 ? "s" : ""} for ${searchQuery}`
-              : searchQuery.trim() && !searchLoading
-                ? "No results found."
-                : ""}
-          </span>
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Type to search..."
-            aria-label="Search site"
-            className="w-full bg-transparent text-[var(--text)] placeholder:text-[var(--muted)] text-sm outline-none py-1 border-b border-[var(--accent)]/40 mb-2"
-          />
-          {searchLoading && (
-            <p role="status" className="text-xs text-[var(--muted)] mt-2">
-              Loading...
-            </p>
-          )}
-          {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
-            <p className="text-xs text-[var(--muted)] mt-2">No results found.</p>
-          )}
-          {searchResults.length > 0 && (
-            <ul className="mt-2 space-y-1 max-h-64 overflow-y-auto">
-              {searchResults.map((r, i) => (
-                <li
-                  key={`${r.sectionId}-${i}-m`}
-                  onMouseDown={() => selectResult(r)}
-                  className={`px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors ${
-                    activeResultIndex === i
-                      ? "bg-[var(--accent)] text-white"
-                      : "hover:bg-[var(--surface)] text-[var(--text)]"
-                  }`}
-                >
-                  <span className="font-medium block">{r.title}</span>
-                  <span className="text-xs opacity-70 block truncate">{r.snippet}</span>
-                  <span className="text-xs opacity-50">{r.sectionLabel}</span>
-                </li>
+          {/* Panel */}
+          <div
+            data-search-panel
+            className="relative w-full max-w-xl flex flex-col rounded-xl border border-[var(--border)] bg-[var(--bg)] shadow-2xl overflow-hidden"
+            style={{ animation: "cmdPaletteIn 0.15s ease-out" }}
+          >
+            {/* Input row */}
+            <div className="flex items-center gap-3 px-4 border-b border-[var(--border)]">
+              <FiSearch size={15} className="shrink-0 text-[var(--muted)]" aria-hidden="true" />
+              <input
+                ref={searchInputRef}
+                id="search-input"
+                role="combobox"
+                aria-label="Search site"
+                aria-autocomplete="list"
+                aria-haspopup="listbox"
+                aria-controls="search-results"
+                aria-activedescendant={
+                  activeResultIndex >= 0 ? `search-result-${activeResultIndex}` : undefined
+                }
+                aria-expanded={searchResults.length > 0}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search..."
+                className="flex-1 bg-transparent py-4 text-sm text-[var(--text)] placeholder:text-[var(--muted)] outline-none"
+              />
+              <span className="sr-only" aria-live="polite" aria-atomic="true">
+                {searchResults.length > 0
+                  ? `${searchResults.length} result${searchResults.length !== 1 ? "s" : ""} for ${searchQuery}`
+                  : searchQuery.trim() && !searchLoading
+                    ? "No results found."
+                    : ""}
+              </span>
+              <kbd className="hidden sm:inline-flex items-center rounded border border-[var(--border)] bg-[var(--surface)] px-1.5 py-0.5 font-mono text-[11px] text-[var(--muted)]">
+                Esc
+              </kbd>
+            </div>
+
+            {/* Body */}
+            <div className="overflow-y-auto" style={{ maxHeight: "min(320px, 50vh)" }}>
+              {searchLoading && (
+                <p role="status" className="px-4 py-8 text-center text-sm text-[var(--muted)]">
+                  Searching...
+                </p>
+              )}
+              {!searchLoading && !searchQuery.trim() && (
+                <p className="px-4 py-8 text-center text-sm text-[var(--muted)]">
+                  Type to search across all sections
+                </p>
+              )}
+              {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
+                <p className="px-4 py-8 text-center text-sm text-[var(--muted)]">
+                  No results for{" "}
+                  <span className="font-medium text-[var(--text)]">
+                    &ldquo;{searchQuery}&rdquo;
+                  </span>
+                </p>
+              )}
+              <ul id="search-results" role="listbox" aria-label="Search results" className="py-1">
+                {searchResults.map((r, i) => (
+                  <li
+                    key={`${r.sectionId}-${i}`}
+                    id={`search-result-${i}`}
+                    role="option"
+                    aria-selected={activeResultIndex === i}
+                    onMouseDown={() => selectResult(r)}
+                    className={`mx-1 cursor-pointer rounded-lg px-3 py-2.5 transition-colors ${
+                      activeResultIndex === i
+                        ? "bg-[var(--accent)] text-white"
+                        : "text-[var(--text)] hover:bg-[var(--surface)]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span
+                        className={`text-[10px] font-semibold uppercase tracking-widest ${
+                          activeResultIndex === i ? "text-white/60" : "text-[var(--accent)]"
+                        }`}
+                      >
+                        {r.sectionLabel}
+                      </span>
+                    </div>
+                    <span className="block text-sm font-medium leading-snug">{r.title}</span>
+                    <span
+                      className={`block truncate text-xs mt-0.5 ${
+                        activeResultIndex === i ? "text-white/70" : "text-[var(--muted)]"
+                      }`}
+                    >
+                      {r.snippet}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Footer keyboard hints */}
+            <div className="flex items-center gap-4 border-t border-[var(--border)] px-4 py-2.5 text-[11px] text-[var(--muted)]">
+              {[
+                { key: "↑↓", label: "navigate" },
+                { key: "↵", label: "select" },
+                { key: "Esc", label: "close" },
+              ].map(({ key, label }) => (
+                <span key={key} className="flex items-center gap-1.5">
+                  <kbd className="inline-flex items-center rounded border border-[var(--border)] bg-[var(--surface)] px-1.5 py-0.5 font-mono text-[10px]">
+                    {key}
+                  </kbd>
+                  {label}
+                </span>
               ))}
-            </ul>
-          )}
+            </div>
+          </div>
         </div>
       )}
 
