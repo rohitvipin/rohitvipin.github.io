@@ -40,7 +40,7 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#experience"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-white text-sm font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-medium hover:opacity-90 transition-opacity"
               >
                 {profile.cta_primary ?? "View Experience"}
               </a>
@@ -78,9 +78,9 @@ export default function Hero({ profile, socials }: HeroProps) {
         </div>
 
         {/* Metrics */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <dl className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {profile.key_metrics?.map((m) => (
-            <dl key={m.label} className="card p-4 space-y-1">
+            <div key={m.label} className="card p-4 space-y-1">
               <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
               <dd
                 className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"} ${m.tier === "secondary" ? "opacity-65" : ""}`}
@@ -88,9 +88,9 @@ export default function Hero({ profile, socials }: HeroProps) {
                 {m.value}
               </dd>
               {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
-            </dl>
+            </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

@@ -130,8 +130,6 @@ export default function Nav({ initials, navLinks }: NavProps) {
       {mobileOpen && (
         <nav
           ref={drawerRef}
-          role="dialog"
-          aria-modal="true"
           className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-4 flex flex-col gap-4"
           aria-label="Mobile navigation"
         >

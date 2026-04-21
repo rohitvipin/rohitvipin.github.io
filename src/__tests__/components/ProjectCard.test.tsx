@@ -40,15 +40,16 @@ describe("ProjectCard", () => {
 
   it("renders GitHub link when provided", () => {
     render(<ProjectCard project={{ ...base, github: "https://github.com/test/repo" }} />);
-    expect(screen.getByRole("link", { name: "GitHub repository" })).toHaveAttribute(
-      "href",
-      "https://github.com/test/repo"
-    );
+    expect(
+      screen.getByRole("link", { name: "GitHub repository for Test Project" })
+    ).toHaveAttribute("href", "https://github.com/test/repo");
   });
 
   it("omits GitHub link when not provided", () => {
     render(<ProjectCard project={base} />);
-    expect(screen.queryByRole("link", { name: "GitHub repository" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "GitHub repository for Test Project" })
+    ).not.toBeInTheDocument();
   });
 
   it("hides products section when products array is empty", () => {

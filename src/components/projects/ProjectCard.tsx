@@ -28,7 +28,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub repository"
+                aria-label={`GitHub repository for ${project.name}`}
                 className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded"
               >
                 <FiGithub size={14} aria-hidden="true" />

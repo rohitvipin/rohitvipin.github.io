@@ -75,7 +75,7 @@ npm run generate-resume  # Generate PDF resume → public/
 ### 4. Styling & Theming
 
 - **CSS custom properties** — all colors use the design tokens below. No hardcoded hex/rgb.
-- **Define tokens** in `src/app/globals.css` under `.dark` / `.light` selectors.
+- **Define tokens** in `src/app/globals.css` under `:root` (dark default) and `[data-theme="light"]` (light theme), matching `next-themes` `attribute="data-theme"` config.
 - **Tailwind 4** for structure (layout, spacing, utilities). No `tailwind.config.*` — uses `@tailwindcss/postcss`.
 - **Icons** — `react-icons` only (FA6 brands or Feather UI). No inline SVGs.
 - **Theme switching** — `next-themes` manages dark/light mode.

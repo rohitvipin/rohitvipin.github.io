@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { profile, socials } from "@/lib/data";
+import { escapeJsonLd } from "@/lib/escape";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,15 +18,6 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io/rohit-profile";
-
-function escapeJsonLd(json: string): string {
-  return json
-    .replace(/&/g, "\\u0026")
-    .replace(/</g, "\\u003c")
-    .replace(/>/g, "\\u003e")
-    .replace(new RegExp(String.fromCharCode(0x2028), "g"), "\\u2028")
-    .replace(new RegExp(String.fromCharCode(0x2029), "g"), "\\u2029");
-}
 
 export const viewport: Viewport = {
   themeColor: [

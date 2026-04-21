@@ -13,7 +13,7 @@ export interface SkillCategoryCardProps {
 export default function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? skills : skills.slice(0, INITIAL_VISIBLE);
-  const hidden = skills.length - INITIAL_VISIBLE;
+  const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);
 
   return (
     <div className="card card-hover p-6 space-y-4">

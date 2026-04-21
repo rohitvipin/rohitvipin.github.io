@@ -27,7 +27,17 @@ import {
 export default function Home() {
   return (
     <>
-      <Nav initials={profile.name.charAt(0) || "?"} navLinks={navLinks} />
+      <Nav
+        initials={
+          profile.name
+            .split(" ")
+            .map((w) => w[0] ?? "")
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "?"
+        }
+        navLinks={navLinks}
+      />
       <main id="main-content">
         <Hero profile={profile} socials={socials} />
         <AnimateOnScroll sectionId="about">
