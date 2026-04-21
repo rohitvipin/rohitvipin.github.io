@@ -36,7 +36,9 @@
       "Bash(git merge *)",
       "Skill(gsd-review)",
       "Skill(gsd-review:*)",
-      "Bash(bash .specify/scripts/bash/check-prerequisites.sh --json --paths-only)"
+      "Bash(bash .specify/scripts/bash/check-prerequisites.sh --json --paths-only)",
+      "Bash(bash scripts/check-prerequisites.sh --json --require-tasks --include-tasks)",
+      "Bash(bash scripts/setup-plan.sh --json)"
     ]
   }
 }
