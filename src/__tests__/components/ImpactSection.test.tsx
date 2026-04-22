@@ -83,7 +83,7 @@ describe("ImpactSection", () => {
     articles.forEach((article) => {
       expect(article).toHaveAttribute("aria-labelledby");
       const labelId = article.getAttribute("aria-labelledby") ?? "";
-      expect(document.getElementById(labelId)).toBeInTheDocument();
+      expect(container.querySelector(`#${labelId}`)).toBeInTheDocument();
     });
   });
 

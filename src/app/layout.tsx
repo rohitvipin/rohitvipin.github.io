@@ -121,8 +121,6 @@ const jsonLd = {
   sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
   knowsAbout: [
     "Engineering Leadership",
-    "VP Engineering",
-    "CTO",
     "Platform Engineering",
     "Cloud Architecture",
     "AWS",

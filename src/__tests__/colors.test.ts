@@ -23,7 +23,7 @@ describe("getCompanyColor", () => {
 
 describe("getDomainColor", () => {
   it("returns color for exact prefix match", () => {
-    expect(getDomainColor("K-12 Education")).toBe("#6366f1");
+    expect(getDomainColor("Education Technology")).toBe("#6366f1");
     expect(getDomainColor("Agriculture Platform")).toBe("#22c55e");
     expect(getDomainColor("Logistics App")).toBe("#fbbf24");
     expect(getDomainColor("Hospitality SaaS")).toBe("#ec4899");

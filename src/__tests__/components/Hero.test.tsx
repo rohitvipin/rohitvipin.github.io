@@ -88,8 +88,9 @@ describe("Hero", () => {
         { label: "Engineers Led", value: "350+", detail: "USA & India", tier: "primary" },
       ],
     };
-    render(<Hero profile={noSecondary} socials={baseSocials} />);
+    const { container } = render(<Hero profile={noSecondary} socials={baseSocials} />);
     expect(screen.queryByText("Cost Reduction")).not.toBeInTheDocument();
+    expect(container.querySelectorAll("dl")).toHaveLength(1);
   });
 
   it("renders social links with descriptive aria-labels", () => {

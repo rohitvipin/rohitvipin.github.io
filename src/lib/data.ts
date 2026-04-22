@@ -50,4 +50,5 @@ export const leadership: Leadership = LeadershipSchema.parse(leadershipData);
 export const navLinks: NavLink[] = z.array(NavLinkSchema).parse(navData);
 export const impact: ImpactStory[] = z.array(ImpactStorySchema).parse(impactData);
 
-export const resumeHref = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`;
+const _basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+export const resumeHref = `${_basePath}/Rohit_Vipin_Mathews_Resume.pdf`;

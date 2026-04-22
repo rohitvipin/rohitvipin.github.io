@@ -8,10 +8,11 @@ export interface ImpactSectionProps {
 
 export default function ImpactSection({ impact }: ImpactSectionProps) {
   return (
-    <section id="impact" aria-label="Transformations" className="section">
+    <section id="impact" aria-labelledby="impact-section-title" className="section">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader
           title="Transformations"
+          headingId="impact-section-title"
           subtitle="Platform modernisation, engineering org scale, and AI enablement - in production."
         />
         <div className="space-y-6">
@@ -26,7 +27,7 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                   <span
                     className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
                     style={{
-                      borderColor: `color-mix(in srgb, ${getDomainColor(story.domain)} 27%, transparent)`,
+                      borderColor: `${getDomainColor(story.domain)}45`,
                     }}
                   >
                     {story.domain}

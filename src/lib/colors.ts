@@ -4,6 +4,8 @@ const COMPANY_COLORS: Record<string, string> = {
   "Essel Swolutions": "#f59e0b",
 };
 
+// Order matters: more-specific prefixes must appear before their generic counterparts
+// (e.g. "Precision Agriculture" before "Agriculture", "Open Source / ..." before "Open Source")
 const DOMAIN_PREFIXES: [string, string][] = [
   ["Education", "#6366f1"],
   ["Precision Agriculture", "#22c55e"],

@@ -300,7 +300,7 @@ describe("ImpactStorySchema", () => {
     expect(() => ImpactStorySchema.parse(withoutMetrics)).toThrow();
   });
 
-  it.each(["title", "domain", "problem", "scope", "led", "result"] as const)(
+  it.each(["id", "title", "domain", "problem", "scope", "led", "result"] as const)(
     "rejects empty string for required field: %s",
     (field) => {
       expect(() => ImpactStorySchema.parse({ ...validImpactStory, [field]: "" })).toThrow();
@@ -314,6 +314,13 @@ describe("ImpactStorySchema", () => {
   it("rejects id that does not match slug pattern", () => {
     expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "Has Spaces" })).toThrow();
     expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "1-starts-digit" })).toThrow();
+  });
+
+  it("accepts valid slugs with hyphens and internal digits", () => {
+    expect(ImpactStorySchema.parse({ ...validImpactStory, id: "story-1" }).id).toBe("story-1");
+    expect(ImpactStorySchema.parse({ ...validImpactStory, id: "k12-platform" }).id).toBe(
+      "k12-platform"
+    );
   });
 });
 
