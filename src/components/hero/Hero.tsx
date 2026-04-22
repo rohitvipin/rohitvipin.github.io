@@ -24,7 +24,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                 {profile.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-medium text-[var(--accent)]"
+                    className="px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs text-[var(--muted-2)]"
                   >
                     {tag}
                   </span>
