@@ -20,6 +20,10 @@ async function main() {
     if (!contentType.startsWith("image/")) {
       throw new Error(`unexpected content-type: ${contentType}`);
     }
+    const contentLength = Number(res.headers.get("content-length") ?? 0);
+    if (contentLength > MAX_BYTES) {
+      throw new Error(`content-length ${contentLength} exceeds limit of ${MAX_BYTES} bytes`);
+    }
   } catch (err) {
     if (existsSync(outputPath)) {
       console.warn(
@@ -31,7 +35,6 @@ async function main() {
       `Avatar fetch failed and no fallback exists: ${err instanceof Error ? err.message : err}`
     );
     process.exit(1);
-    return;
   }
   const buffer = Buffer.from(await res.arrayBuffer());
   if (buffer.length > MAX_BYTES) {
