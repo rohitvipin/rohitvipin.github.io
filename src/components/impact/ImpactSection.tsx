@@ -55,13 +55,13 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
               </p>
 
               <dl className="grid sm:grid-cols-3 gap-4">
-                <div className="space-y-1">
+                <div className="hidden sm:block space-y-1">
                   <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     Scope
                   </dt>
                   <dd className="text-sm text-[var(--muted)] leading-relaxed">{story.scope}</dd>
                 </div>
-                <div className="space-y-1">
+                <div className="hidden sm:block space-y-1">
                   <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     My Role
                   </dt>

@@ -14,7 +14,7 @@ export default function Hero({ profile, socials }: HeroProps) {
 
   return (
     <section className="min-h-screen flex items-center pt-14">
-      <div className="max-w-6xl mx-auto px-6 py-24 w-full">
+      <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
           {/* Left */}
           <div className="space-y-6">
@@ -58,7 +58,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                   </span>
                 )}
                 {profile.email && (
-                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                  <span className="hidden sm:flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
                     <FiMail
                       size={11}
                       className="text-[var(--muted-2)]/70 shrink-0"
@@ -140,7 +140,7 @@ export default function Hero({ profile, socials }: HeroProps) {
 
         {/* Secondary metrics */}
         {secondaryMetrics.length > 0 && (
-          <dl className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <dl className="hidden md:grid mt-3 grid-cols-2 md:grid-cols-4 gap-3">
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}
