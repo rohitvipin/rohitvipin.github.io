@@ -147,6 +147,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
+        {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+        />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
         <script
           type="application/ld+json"
@@ -157,7 +163,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-white focus:rounded-lg focus:outline-none"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-[var(--bg)] focus:rounded-lg focus:outline-none"
           >
             Skip to main content
           </a>

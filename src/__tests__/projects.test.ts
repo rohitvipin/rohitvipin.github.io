@@ -2,13 +2,13 @@ import { describe, it, expect } from "vitest";
 import { isOssProject, partitionProjects } from "@/lib/projects";
 import type { Project } from "@/types";
 
-function makeProject(client: string): Project {
+function makeProject(client: string, duration = "2024"): Project {
   return {
-    name: "Test Project",
+    name: client,
     domain: "Test",
     client,
     role: "Engineer",
-    duration: "2024",
+    duration,
     description: "",
     products: [],
     highlights: [],
@@ -73,16 +73,16 @@ describe("partitionProjects", () => {
     expect(ossProjects).toHaveLength(0);
   });
 
-  it("preserves order within each bucket", () => {
+  it("preserves insertion order within each bucket", () => {
     const projects = [
-      makeProject("A"),
-      makeProject("Personal"),
-      makeProject("B"),
-      makeProject("Personal / Community"),
-      makeProject("C"),
+      makeProject("Old Client", "March 2018"),
+      makeProject("Personal", "2020"),
+      makeProject("New Client", "April 2024 - Present"),
+      makeProject("Personal / Community", "2024"),
+      makeProject("Mid Client", "April 2022 - March 2024"),
     ];
     const { clientProjects, ossProjects } = partitionProjects(projects);
-    expect(clientProjects.map((p) => p.client)).toEqual(["A", "B", "C"]);
+    expect(clientProjects.map((p) => p.client)).toEqual(["Old Client", "New Client", "Mid Client"]);
     expect(ossProjects.map((p) => p.client)).toEqual(["Personal", "Personal / Community"]);
   });
 });

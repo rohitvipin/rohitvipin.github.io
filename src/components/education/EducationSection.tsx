@@ -15,7 +15,7 @@ export default function EducationSection({ education }: EducationSectionProps) {
           {education.map((e) => (
             <div key={e.institution} className="card p-6 flex items-start gap-4">
               <div className="w-10 h-10 rounded-lg bg-[var(--accent-glow)] flex items-center justify-center shrink-0">
-                <FaGraduationCap size={20} className="text-[var(--accent)]" />
+                <FaGraduationCap size={20} className="text-[var(--accent)]" aria-hidden="true" />
               </div>
               <div>
                 <h3 className="font-semibold text-[var(--text)]">{e.degree}</h3>

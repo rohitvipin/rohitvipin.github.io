@@ -26,21 +26,12 @@ import {
   impact,
 } from "@/lib/data";
 import { resumeHref } from "@/lib/paths";
+import { getInitials } from "@/lib/profile";
 
 export default function Home() {
   return (
     <>
-      <Nav
-        initials={
-          profile.name
-            .split(" ")
-            .map((w) => w[0] ?? "")
-            .join("")
-            .slice(0, 2)
-            .toUpperCase() || "?"
-        }
-        navLinks={navLinks}
-      />
+      <Nav initials={getInitials(profile.name)} navLinks={navLinks} />
       <main id="main-content">
         <Hero profile={profile} socials={socials} />
         <div className="scroll-animate">
@@ -86,7 +77,6 @@ export default function Home() {
                 {profile.open_to}
               </h2>
             )}
-            <p className="text-[var(--muted)] max-w-xl mx-auto">Based in {profile.location}.</p>
             {profile.availability_note && (
               <p className="text-[var(--muted)] max-w-xl mx-auto">{profile.availability_note}</p>
             )}

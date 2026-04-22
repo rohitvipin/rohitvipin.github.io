@@ -40,14 +40,16 @@ export default function Nav({ initials, navLinks }: NavProps) {
   }, [navLinks]);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    const prior = document.body.style.overflow;
+    document.body.style.overflow = mobileOpen ? "hidden" : prior;
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prior;
     };
   }, [mobileOpen]);
 
   useEffect(() => {
     if (!mobileOpen) return;
+    drawerRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.stopPropagation();
@@ -58,8 +60,11 @@ export default function Nav({ initials, navLinks }: NavProps) {
         const drawer = drawerRef.current;
         if (!drawer) return;
         const focusable = Array.from(
-          drawer.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
+          drawer.querySelectorAll<HTMLElement>(
+            'a[href], button, input, select, textarea, [contenteditable], [tabindex]:not([tabindex="-1"])'
+          )
         );
+        if (!focusable.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (e.shiftKey) {
@@ -84,7 +89,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center gap-3">
         <a
           href="#"
-          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
           aria-label="Home"
         >
           {initials}
@@ -147,7 +152,10 @@ export default function Nav({ initials, navLinks }: NavProps) {
               <a
                 key={l.href}
                 href={l.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  toggleRef.current?.focus();
+                  setMobileOpen(false);
+                }}
                 aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
                 className={`min-h-[48px] flex items-center text-sm transition-colors ${
                   activeSection === l.href.slice(1)

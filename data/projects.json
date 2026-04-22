@@ -45,60 +45,6 @@
     ]
   },
   {
-    "name": "Agribusiness Management Platform",
-    "domain": "Agriculture",
-    "client": "Confidential - Leading North American Agribusiness Software Provider",
-    "role": "Technical Architect",
-    "duration": "April 2019 - March 2022",
-    "description": "Cloud-native serverless platform for an integrated agribusiness management suite serving agricultural co-ops and retailers across North America. Delivered Agronomy, Grain, Grower Portal, and Accounting modules on AWS serverless infrastructure with cross-platform mobile for field teams.",
-    "products": [
-      {
-        "name": "Crop & Field Management",
-        "description": "Field management, soil sampling, precision crop plans, prescription management, custom application tracking, and agronomic analytics for agri-retailers"
-      },
-      {
-        "name": "Grain Operations & Settlement",
-        "description": "Grain elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management for co-ops"
-      },
-      {
-        "name": "Producer Self-Service Portal",
-        "description": "Producer-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access - offline-first for field connectivity"
-      },
-      {
-        "name": "Accounting",
-        "description": "Integrated financial operations for ag co-ops covering accounts receivable, accounts payable, general ledger, and payroll workflows"
-      }
-    ],
-    "highlights": [
-      "Serverless AWS architecture (Lambda, API Gateway, DynamoDB, PostgreSQL, SQS, Cognito, S3) supporting $5M+ annual operations",
-      "Cross-platform mobile serving 50K+ agricultural professionals with 4.5+ star ratings",
-      "Offline-first mobile architecture for field operations in low-connectivity environments",
-      "Data warehouse and ETL pipelines enabling predictive crop optimisation and yield forecasting models",
-      "Docker-based integration testing framework achieving 80%+ coverage across 20+ microservices",
-      "Modernised legacy VB.NET WinForms desktop suite to cloud-native web platform on Angular 18 with agGrid for complex data grids"
-    ],
-    "tech": [
-      ".NET Core",
-      "C#",
-      "Angular 18",
-      "TypeScript",
-      "agGrid",
-      "AWS Lambda",
-      "API Gateway",
-      "DynamoDB",
-      "PostgreSQL",
-      "SQL Server",
-      "SQS",
-      "Cognito",
-      "S3",
-      "Xamarin",
-      "Serverless",
-      "Docker",
-      "Azure DevOps",
-      "Visual Basic .NET"
-    ]
-  },
-  {
     "name": "Precision Agriculture & Genomics Platform",
     "domain": "Agriculture",
     "client": "Confidential - Leading Agricultural Genetics Company",
@@ -266,20 +212,58 @@
     ]
   },
   {
-    "name": "Xamarin Forms Custom Renderer Samples",
-    "domain": "Open Source / Mobile",
-    "client": "Personal / Community",
-    "role": "Creator & Maintainer",
-    "duration": "2018",
-    "description": "Open source sample project showcasing custom renderer implementations in Xamarin Forms. Referenced by the developer community for cross-platform mobile UI patterns.",
-    "products": [],
-    "highlights": [
-      "Community-starred GitHub repository for Xamarin custom renderer patterns",
-      "Demonstrates custom renderers for platform-specific UI in Xamarin Forms",
-      "Referenced as a learning resource by the Xamarin developer community"
+    "name": "Agribusiness Management Platform",
+    "domain": "Agriculture",
+    "client": "Confidential - Leading North American Agribusiness Software Provider",
+    "role": "Technical Architect",
+    "duration": "April 2019 - March 2022",
+    "description": "Cloud-native serverless platform for an integrated agribusiness management suite serving agricultural co-ops and retailers across North America. Delivered Agronomy, Grain, Grower Portal, and Accounting modules on AWS serverless infrastructure with cross-platform mobile for field teams.",
+    "products": [
+      {
+        "name": "Crop & Field Management",
+        "description": "Field management, soil sampling, precision crop plans, prescription management, custom application tracking, and agronomic analytics for agri-retailers"
+      },
+      {
+        "name": "Grain Operations & Settlement",
+        "description": "Grain elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management for co-ops"
+      },
+      {
+        "name": "Producer Self-Service Portal",
+        "description": "Producer-facing mobile and web portal for account visibility, field maps, agronomic data, grain positions, and invoice access - offline-first for field connectivity"
+      },
+      {
+        "name": "Accounting",
+        "description": "Integrated financial operations for ag co-ops covering accounts receivable, accounts payable, general ledger, and payroll workflows"
+      }
     ],
-    "tech": [".NET", "C#", "Xamarin.Forms", "iOS", "Android"],
-    "github": "https://github.com/rohitvipin/Xamarin-Forms-Custom-Renderer-Samples"
+    "highlights": [
+      "Serverless AWS architecture (Lambda, API Gateway, DynamoDB, PostgreSQL, SQS, Cognito, S3) supporting $5M+ annual operations",
+      "Cross-platform mobile serving 50K+ agricultural professionals with 4.5+ star ratings",
+      "Offline-first mobile architecture for field operations in low-connectivity environments",
+      "Data warehouse and ETL pipelines enabling predictive crop optimisation and yield forecasting models",
+      "Docker-based integration testing framework achieving 80%+ coverage across 20+ microservices",
+      "Modernised legacy VB.NET WinForms desktop suite to cloud-native web platform on Angular 18 with agGrid for complex data grids"
+    ],
+    "tech": [
+      ".NET Core",
+      "C#",
+      "Angular 18",
+      "TypeScript",
+      "agGrid",
+      "AWS Lambda",
+      "API Gateway",
+      "DynamoDB",
+      "PostgreSQL",
+      "SQL Server",
+      "SQS",
+      "Cognito",
+      "S3",
+      "Xamarin",
+      "Serverless",
+      "Docker",
+      "Azure DevOps",
+      "Visual Basic .NET"
+    ]
   },
   {
     "name": "Dapper.Repository",
@@ -324,5 +308,21 @@
       "Published on NuGet for the .NET developer community"
     ],
     "tech": [".NET", "C#", "MongoDB", "NuGet"]
+  },
+  {
+    "name": "Xamarin Forms Custom Renderer Samples",
+    "domain": "Open Source / Mobile",
+    "client": "Personal / Community",
+    "role": "Creator & Maintainer",
+    "duration": "2018",
+    "description": "Open source sample project showcasing custom renderer implementations in Xamarin Forms. Referenced by the developer community for cross-platform mobile UI patterns.",
+    "products": [],
+    "highlights": [
+      "Community-starred GitHub repository for Xamarin custom renderer patterns",
+      "Demonstrates custom renderers for platform-specific UI in Xamarin Forms",
+      "Referenced as a learning resource by the Xamarin developer community"
+    ],
+    "tech": [".NET", "C#", "Xamarin.Forms", "iOS", "Android"],
+    "github": "https://github.com/rohitvipin/Xamarin-Forms-Custom-Renderer-Samples"
   }
 ]

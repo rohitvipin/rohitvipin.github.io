@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(__dirname, "../public");
 
-function makeSvg(
+export function makeSvg(
   size: number,
   fontSize: number,
   tagline: string | null = null,
@@ -48,7 +48,7 @@ function makeSvg(
 </svg>`;
 }
 
-function makeOgSvg(): string {
+export function makeOgSvg(): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#0f172a"/>
   <line x1="0" y1="315" x2="1200" y2="315" stroke="#1e293b" stroke-width="1"/>
@@ -93,7 +93,7 @@ interface FaviconSpec {
   fontSize: number;
 }
 
-async function generate(): Promise<void> {
+export async function generate(): Promise<void> {
   const sizes: FaviconSpec[] = [
     { name: "favicon-16x16.png", size: 16, fontSize: 11 },
     { name: "favicon-32x32.png", size: 32, fontSize: 22 },
@@ -125,7 +125,9 @@ async function generate(): Promise<void> {
   console.log("\nDone. All assets written to public/");
 }
 
-generate().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.env.NODE_ENV !== "test") {
+  generate().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

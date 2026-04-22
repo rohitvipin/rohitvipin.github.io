@@ -15,10 +15,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const domainColor = getDomainColor(project.domain);
 
   return (
-    <div
-      className="card card-hover p-6 space-y-4 flex flex-col border-l-2"
-      style={{ borderLeftColor: domainColor }}
-    >
+    <div className="card card-hover p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
       <div>
         <div className="flex items-start justify-between gap-3 mb-1">
           <div className="flex items-center gap-2">
@@ -29,7 +26,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`GitHub repository for ${project.name}`}
-                className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded"
+                className="inline-flex items-center justify-center min-h-[48px] min-w-[48px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded-lg"
               >
                 <FiGithub size={14} aria-hidden="true" />
               </a>
@@ -42,7 +39,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <p className="text-xs font-medium uppercase tracking-wider" style={{ color: domainColor }}>
           {project.domain}
         </p>
-        <p className="text-xs text-[var(--muted-2)] mt-0.5">
+        <p className="text-xs text-[var(--muted)] mt-0.5">
           {project.role} · {project.client}
         </p>
       </div>
@@ -66,9 +63,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Hide products" : "Show products"}
             aria-expanded={open}
-            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[44px]"
+            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
           >
-            {open ? <FiChevronUp size={12} /> : <FiChevronDown size={12} />}
+            {open ? (
+              <FiChevronUp size={12} aria-hidden="true" />
+            ) : (
+              <FiChevronDown size={12} aria-hidden="true" />
+            )}
             {open ? "Hide" : "Show"} {project.products.length} product
             {project.products.length > 1 ? "s" : ""}
           </button>

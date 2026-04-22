@@ -32,7 +32,10 @@ export const ProfileSchema = z.object({
   timezone: z.string().min(1),
   availability_status: z.enum(["open", "closed", "passive"]),
   profile_picture: z.string().optional(),
-  github_avatar: z.string().url(),
+  github_avatar: z
+    .string()
+    .url()
+    .regex(/^https:\/\/avatars\.githubusercontent\.com\//, "must be a GitHub avatar URL"),
   key_metrics: z.array(KeyMetricSchema).min(1),
   tags: z.array(z.string().min(1)).optional(),
   cta_primary: z.string().min(1).optional(),
