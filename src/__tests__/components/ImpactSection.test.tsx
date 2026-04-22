@@ -12,7 +12,7 @@ const stories: ImpactStory[] = [
     scope: "350+ engineers across two geos.",
     led: "Full engineering org from architecture through delivery.",
     result: "Unified cloud-native platform with 45% fewer incidents.",
-    metric: "30%+ productivity lift. 45% incident reduction.",
+    metrics: ["30%+ productivity lift", "45% incident reduction"],
   },
   {
     id: "story-two",
@@ -22,14 +22,14 @@ const stories: ImpactStory[] = [
     scope: "Full platform rewrite across freight and warehousing.",
     led: "Architecture design and pre-sales proposal.",
     result: "500K+ daily transactions with real-time cargo tracking.",
-    metric: "$2M+ investment secured. 45% load time reduction.",
+    metrics: ["$2M+ investment secured", "45% load time reduction"],
   },
 ];
 
 describe("ImpactSection", () => {
-  it("renders section with id=impact", () => {
-    const { container } = render(<ImpactSection impact={stories} />);
-    expect(container.querySelector("#impact")).toBeInTheDocument();
+  it("renders section as a region landmark", () => {
+    render(<ImpactSection impact={stories} />);
+    expect(screen.getByRole("region", { name: "Transformations" })).toBeInTheDocument();
   });
 
   it("renders all story titles", () => {
@@ -44,10 +44,19 @@ describe("ImpactSection", () => {
     expect(screen.getByText("Freight & Logistics")).toBeInTheDocument();
   });
 
-  it("renders metric callouts as individual bullets", () => {
+  it("renders each metric in the array as a bullet", () => {
     render(<ImpactSection impact={stories} />);
     expect(screen.getByText("30%+ productivity lift")).toBeInTheDocument();
     expect(screen.getByText("45% incident reduction")).toBeInTheDocument();
+    expect(screen.getByText("$2M+ investment secured")).toBeInTheDocument();
+  });
+
+  it("renders Problem label alongside story problem text", () => {
+    render(<ImpactSection impact={stories} />);
+    expect(screen.getAllByText("Problem:").length).toBe(stories.length);
+    expect(
+      screen.getByText("Legacy platform could not scale to meet district demand.")
+    ).toBeInTheDocument();
   });
 
   it("renders scope, role, and outcome labels", () => {
@@ -58,26 +67,13 @@ describe("ImpactSection", () => {
   });
 
   it("renders empty state without error when no stories provided", () => {
-    const { container } = render(<ImpactSection impact={[]} />);
-    expect(container.querySelector("#impact")).toBeInTheDocument();
+    render(<ImpactSection impact={[]} />);
+    expect(screen.getByRole("region", { name: "Transformations" })).toBeInTheDocument();
   });
 
-  it("splits multi-sentence metric into individual bullets", () => {
-    const multiMetric: ImpactStory[] = [
-      {
-        ...stories[0],
-        metric: "First outcome. Second outcome. Third outcome.",
-      },
-    ];
-    render(<ImpactSection impact={multiMetric} />);
-    expect(screen.getByText("First outcome")).toBeInTheDocument();
-    expect(screen.getByText("Second outcome")).toBeInTheDocument();
-    expect(screen.getByText("Third outcome")).toBeInTheDocument();
-  });
-
-  it("renders single-sentence metric as one bullet without trailing period", () => {
-    const singleMetric: ImpactStory[] = [{ ...stories[0], metric: "45% cost reduction." }];
-    render(<ImpactSection impact={singleMetric} />);
+  it("renders a story with a single metric", () => {
+    const single: ImpactStory[] = [{ ...stories[0], metrics: ["45% cost reduction"] }];
+    render(<ImpactSection impact={single} />);
     expect(screen.getByText("45% cost reduction")).toBeInTheDocument();
   });
 
@@ -87,7 +83,7 @@ describe("ImpactSection", () => {
     articles.forEach((article) => {
       expect(article).toHaveAttribute("aria-labelledby");
       const labelId = article.getAttribute("aria-labelledby") ?? "";
-      expect(container.querySelector(`#${labelId}`)).toBeInTheDocument();
+      expect(document.getElementById(labelId)).toBeInTheDocument();
     });
   });
 

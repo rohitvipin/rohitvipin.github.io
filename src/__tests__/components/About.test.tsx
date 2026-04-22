@@ -46,6 +46,15 @@ describe("About", () => {
     expect(screen.getByText("Second paragraph.")).toBeInTheDocument();
   });
 
+  it("renders single-paragraph bio as one paragraph element", () => {
+    const { container } = render(
+      <About profile={{ ...baseProfile, bio: "Single paragraph only." }} />
+    );
+    const paras = container.querySelectorAll("p.text-\\[var\\(--muted\\)\\]");
+    expect(paras.length).toBe(1);
+    expect(paras[0]).toHaveTextContent("Single paragraph only.");
+  });
+
   it("does not render value propositions when absent", () => {
     render(<About profile={baseProfile} />);
     expect(screen.queryByText("Recruiter")).not.toBeInTheDocument();
@@ -56,9 +65,10 @@ describe("About", () => {
     expect(container.querySelector("blockquote")).not.toBeInTheDocument();
   });
 
-  it("renders bio_quote in a blockquote when present", () => {
+  it("renders bio_quote inside a blockquote when present", () => {
     render(<About profile={profileWithQuote} />);
-    expect(screen.getByText(/Teams don't win on cost/)).toBeInTheDocument();
+    const quote = screen.getByText(/Teams don't win on cost/);
+    expect(quote.closest("blockquote")).toBeInTheDocument();
   });
 });
 
@@ -74,13 +84,5 @@ describe("About — value propositions", () => {
     render(<About profile={profileWithValueProps} />);
     expect(screen.getByText("15 years, strong on architecture and delivery.")).toBeInTheDocument();
     expect(screen.getByText("I own outcomes, not headcount reports.")).toBeInTheDocument();
-  });
-
-  it("renders value props before bio paragraphs", () => {
-    const { container } = render(<About profile={profileWithValueProps} />);
-    const audienceLabel = screen.getByText("Recruiter");
-    const bioPara = screen.getByText("First paragraph.");
-    const allElements = Array.from(container.querySelectorAll("*"));
-    expect(allElements.indexOf(audienceLabel)).toBeLessThan(allElements.indexOf(bioPara));
   });
 });

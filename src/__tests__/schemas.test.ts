@@ -287,7 +287,7 @@ const validImpactStory = {
   scope: "350+ engineers across two geos.",
   led: "Full engineering org from architecture through delivery.",
   result: "Unified cloud-native platform with 45% fewer incidents.",
-  metric: "30%+ productivity lift. 45% incident reduction.",
+  metrics: ["30%+ productivity lift", "45% incident reduction"],
 };
 
 describe("ImpactStorySchema", () => {
@@ -296,19 +296,31 @@ describe("ImpactStorySchema", () => {
   });
 
   it("rejects missing required fields", () => {
-    const { metric: _m, ...withoutMetric } = validImpactStory;
-    expect(() => ImpactStorySchema.parse(withoutMetric)).toThrow();
+    const { metrics: _m, ...withoutMetrics } = validImpactStory;
+    expect(() => ImpactStorySchema.parse(withoutMetrics)).toThrow();
   });
 
-  it("rejects empty strings", () => {
-    expect(() => ImpactStorySchema.parse({ ...validImpactStory, domain: "" })).toThrow();
+  it.each(["title", "domain", "problem", "scope", "led", "result"] as const)(
+    "rejects empty string for required field: %s",
+    (field) => {
+      expect(() => ImpactStorySchema.parse({ ...validImpactStory, [field]: "" })).toThrow();
+    }
+  );
+
+  it("rejects empty metrics array", () => {
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, metrics: [] })).toThrow();
+  });
+
+  it("rejects id that does not match slug pattern", () => {
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "Has Spaces" })).toThrow();
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "1-starts-digit" })).toThrow();
   });
 });
 
 // ── FILE_ZSCHEMAS coverage ────────────────────────────────────────────────────
 
 describe("FILE_ZSCHEMAS", () => {
-  it("covers all 10 data files", () => {
+  it("covers all 11 data files", () => {
     const expected = [
       "profile.json",
       "experience.json",
@@ -319,6 +331,7 @@ describe("FILE_ZSCHEMAS", () => {
       "awards.json",
       "community.json",
       "leadership.json",
+      "nav.json",
       "impact.json",
     ];
     for (const file of expected) {

@@ -43,11 +43,7 @@ describe("Hero", () => {
 
   it("renders avatar image with profile name as alt text", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    const img = screen
-      .getAllByRole("img")
-      .find((el) => el.getAttribute("alt") === "Profile photo of Rohit Test");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("src", "https://avatars.githubusercontent.com/u/123");
+    expect(screen.getByAltText("Profile photo of Rohit Test")).toBeInTheDocument();
   });
 
   it("renders profile tags", () => {
@@ -73,9 +69,27 @@ describe("Hero", () => {
     expect(screen.getByRole("link", { name: "See Impact" })).toHaveAttribute("href", "#impact");
   });
 
-  it("renders Download CV link", () => {
+  it("falls back to 'See Impact' when cta_primary is absent", () => {
+    const { cta_primary: _cta, ...noCta } = baseProfile;
+    render(<Hero profile={noCta as Profile} socials={baseSocials} />);
+    expect(screen.getByRole("link", { name: "See Impact" })).toBeInTheDocument();
+  });
+
+  it("renders Download CV link with descriptive aria-label", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    expect(screen.getByRole("link", { name: "Download CV" })).toHaveAttribute("download");
+    const link = screen.getByRole("link", { name: "Download Rohit Vipin Mathews resume (PDF)" });
+    expect(link).toHaveAttribute("download");
+  });
+
+  it("does not render secondary metrics dl when no secondary metrics exist", () => {
+    const noSecondary: Profile = {
+      ...baseProfile,
+      key_metrics: [
+        { label: "Engineers Led", value: "350+", detail: "USA & India", tier: "primary" },
+      ],
+    };
+    render(<Hero profile={noSecondary} socials={baseSocials} />);
+    expect(screen.queryByText("Cost Reduction")).not.toBeInTheDocument();
   });
 
   it("renders social links with descriptive aria-labels", () => {

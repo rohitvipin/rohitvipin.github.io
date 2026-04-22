@@ -2,6 +2,7 @@ import Image from "next/image";
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import SocialLinks from "@/components/shared/SocialLinks";
+import { resumeHref } from "@/lib/data";
 
 export interface HeroProps {
   profile: Profile;
@@ -9,8 +10,8 @@ export interface HeroProps {
 }
 
 export default function Hero({ profile, socials }: HeroProps) {
-  const primaryMetrics = profile.key_metrics?.filter((m) => m.tier === "primary") ?? [];
-  const secondaryMetrics = profile.key_metrics?.filter((m) => m.tier === "secondary") ?? [];
+  const primaryMetrics = profile.key_metrics.filter((m) => m.tier === "primary");
+  const secondaryMetrics = profile.key_metrics.filter((m) => m.tier === "secondary");
 
   return (
     <section className="min-h-screen flex items-center pt-14">
@@ -87,8 +88,9 @@ export default function Hero({ profile, socials }: HeroProps) {
                 <span className="hidden sm:inline">Get in Touch</span>
               </a>
               <a
-                href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
+                href={resumeHref}
                 download
+                aria-label="Download Rohit Vipin Mathews resume (PDF)"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />

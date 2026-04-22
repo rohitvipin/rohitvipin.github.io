@@ -6,16 +6,9 @@ export interface ImpactSectionProps {
   impact: ImpactStory[];
 }
 
-function metricBullets(metric: string): string[] {
-  return metric
-    .split(/\.\s+/)
-    .map((b) => b.replace(/\.$/, "").trim())
-    .filter(Boolean);
-}
-
 export default function ImpactSection({ impact }: ImpactSectionProps) {
   return (
-    <section id="impact" className="section">
+    <section id="impact" aria-label="Transformations" className="section">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader
           title="Transformations"
@@ -32,7 +25,9 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                 <div>
                   <span
                     className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
-                    style={{ borderColor: `${getDomainColor(story.domain)}44` }}
+                    style={{
+                      borderColor: `color-mix(in srgb, ${getDomainColor(story.domain)} 27%, transparent)`,
+                    }}
                   >
                     {story.domain}
                   </span>
@@ -41,7 +36,7 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                   </h3>
                 </div>
                 <div className="flex flex-wrap gap-2" aria-label="Key outcomes">
-                  {metricBullets(story.metric).map((bullet, idx) => (
+                  {story.metrics.map((bullet, idx) => (
                     <span
                       key={`${story.id}-bullet-${idx}`}
                       className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-semibold text-[var(--accent)]"
@@ -57,14 +52,14 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                 {story.problem}
               </p>
 
-              <dl className="grid sm:grid-cols-3 gap-4">
-                <div className="hidden sm:block space-y-1">
+              <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="space-y-1">
                   <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     Scope
                   </dt>
                   <dd className="text-sm text-[var(--muted)] leading-relaxed">{story.scope}</dd>
                 </div>
-                <div className="hidden sm:block space-y-1">
+                <div className="space-y-1">
                   <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     My Role
                   </dt>

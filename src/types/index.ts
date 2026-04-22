@@ -40,7 +40,7 @@ export interface ImpactStory {
   scope: string;
   led: string;
   result: string;
-  metric: string;
+  metrics: string[];
 }
 
 export interface ExperienceEntry {

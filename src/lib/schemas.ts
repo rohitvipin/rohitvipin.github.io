@@ -7,7 +7,7 @@ const socialUrl = z
     "must start with https:// or mailto:"
   );
 
-export const KeyMetricSchema = z.object({
+const KeyMetricSchema = z.object({
   label: z.string().min(1),
   value: z.string().min(1),
   detail: z.string().min(1),
@@ -52,7 +52,7 @@ export const ExperienceSchema = z.object({
   highlights: z.array(z.string().min(1)),
 });
 
-export const ProductSchema = z.object({
+const ProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
 });
@@ -103,7 +103,7 @@ export const CommunityEntrySchema = z.object({
   highlights: z.array(z.string().min(1)),
 });
 
-export const LeadershipSubsectionSchema = z.object({
+const LeadershipSubsectionSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
 });
@@ -119,14 +119,17 @@ export const NavLinkSchema = z.object({
 });
 
 export const ImpactStorySchema = z.object({
-  id: z.string().min(1),
+  id: z
+    .string()
+    .min(1)
+    .regex(/^[a-z][a-z0-9-]*$/),
   title: z.string().min(1),
   domain: z.string().min(1),
   problem: z.string().min(1),
   scope: z.string().min(1),
   led: z.string().min(1),
   result: z.string().min(1),
-  metric: z.string().min(1),
+  metrics: z.array(z.string().min(1)).min(1),
 });
 
 export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
