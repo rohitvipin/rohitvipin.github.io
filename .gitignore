@@ -5,6 +5,9 @@ node_modules/
 .next/
 out/
 
+# Generated at build time — do not commit
+public/avatar.jpg
+
 # environment
 .env
 .env.local

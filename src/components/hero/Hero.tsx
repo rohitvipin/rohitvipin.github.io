@@ -112,7 +112,7 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-col items-center gap-5">
               <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
                 <Image
-                  src={profile.github_avatar}
+                  src="/avatar.jpg"
                   alt={`Profile photo of ${profile.name}`}
                   fill
                   className="object-cover"

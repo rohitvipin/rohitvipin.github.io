@@ -20,6 +20,7 @@
     "preview": "npm run build && npx serve out",
     "prepare": "husky",
     "generate-favicons": "tsx utils/generate-favicons.ts",
+    "fetch-avatar": "tsx utils/fetch-avatar.ts",
     "generate-resume": "tsx utils/generate-resume.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
