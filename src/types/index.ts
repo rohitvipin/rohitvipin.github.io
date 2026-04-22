@@ -28,6 +28,7 @@ export interface Profile {
   tags?: string[];
   cta_primary?: string;
   open_to?: string;
+  availability_note?: string;
   value_propositions?: ValueProposition[];
 }
 

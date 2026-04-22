@@ -81,8 +81,6 @@ export default function Hero({ profile, socials }: HeroProps) {
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                title="Get in Touch"
-                aria-label="Get in Touch"
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 transition-colors"
               >
                 <FiMail size={16} aria-hidden="true" />
@@ -91,8 +89,6 @@ export default function Hero({ profile, socials }: HeroProps) {
               <a
                 href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
                 download
-                title="Download CV"
-                aria-label="Download CV"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />

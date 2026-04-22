@@ -37,6 +37,7 @@ export const ProfileSchema = z.object({
   tags: z.array(z.string().min(1)).optional(),
   cta_primary: z.string().min(1).optional(),
   open_to: z.string().min(1).optional(),
+  availability_note: z.string().min(1).optional(),
   value_propositions: z.array(ValuePropositionSchema).optional(),
 });
 

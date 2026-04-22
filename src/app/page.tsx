@@ -77,12 +77,12 @@ export default function Home() {
         {/* Bottom CTA */}
         <section className="section border-t border-[var(--border)]">
           <div className="max-w-6xl mx-auto px-6 text-center space-y-6">
-            <h2 className="text-2xl font-bold text-[var(--text)]">
-              Open to VP Engineering, Platform, Architecture, and CTO-track roles
-            </h2>
+            {profile.open_to && (
+              <h2 className="text-2xl font-bold text-[var(--text)]">{profile.open_to}</h2>
+            )}
             <p className="text-[var(--muted)] max-w-xl mx-auto">
-              Based in Kerala, India. Available for remote and hybrid leadership roles working with
-              USA, UK, or global teams.
+              Based in {profile.location}.
+              {profile.availability_note ? ` ${profile.availability_note}` : ""}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
