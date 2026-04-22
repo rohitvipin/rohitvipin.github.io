@@ -141,8 +141,8 @@ section[id] {
   border: 1px solid var(--border);
   border-radius: 12px;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.2s cubic-bezier(0, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
 .card:hover {
   border-color: var(--accent);
@@ -155,8 +155,8 @@ section[id] {
 @media (prefers-reduced-motion: no-preference) {
   .card-hover {
     transition:
-      transform 200ms ease,
-      box-shadow 200ms ease;
+      transform 200ms cubic-bezier(0, 0, 0.2, 1),
+      box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
   }
   .card-hover:hover,
   .card-hover:focus-within {
@@ -174,10 +174,69 @@ details.card-details > summary::-webkit-details-marker {
   display: none;
 }
 details.card-details > summary .card-details-chevron {
-  transition: transform 200ms ease;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 details.card-details[open] > summary .card-details-chevron {
   transform: rotate(180deg);
+}
+
+/* ── Smooth details content reveal ── */
+@media (prefers-reduced-motion: no-preference) {
+  details.card-details > :not(summary) {
+    transition:
+      opacity 0.22s cubic-bezier(0, 0, 0.2, 1),
+      translate 0.22s cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  details.card-details[open] > :not(summary) {
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 -6px;
+    }
+  }
+
+  /* Height animation where supported (Chrome 129+, Firefox 136+) */
+  @supports (interpolate-size: allow-keywords) {
+    details.card-details {
+      interpolate-size: allow-keywords;
+    }
+
+    details.card-details > :not(summary) {
+      height: 0;
+      overflow: hidden;
+      transition:
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.22s cubic-bezier(0, 0, 0.2, 1),
+        translate 0.22s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    details.card-details[open] > :not(summary) {
+      height: auto;
+
+      @starting-style {
+        height: 0;
+        opacity: 0;
+        translate: 0 -6px;
+      }
+    }
+  }
+}
+
+/* ── Tab panel fade-in ── */
+@media (prefers-reduced-motion: no-preference) {
+  [role="tabpanel"]:not([hidden]) {
+    transition:
+      opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+      translate 0.2s cubic-bezier(0, 0, 0.2, 1);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
 }
 
 /* ── Scroll-driven reveal (progressive enhancement, ~88% browser support) ── */
