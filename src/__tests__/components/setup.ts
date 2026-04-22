@@ -50,3 +50,10 @@ vi.mock("next-themes", () => ({
   useTheme: () => ({ theme: "dark", setTheme: vi.fn() }),
   ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
+
+class MockIntersectionObserver {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+global.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver;

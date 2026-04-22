@@ -38,14 +38,39 @@ import leadershipData from "../../data/leadership.json";
 import navData from "../../data/nav.json";
 import impactData from "../../data/impact.json";
 
-export const profile: Profile = ProfileSchema.parse(profileData);
-export const experience: ExperienceEntry[] = z.array(ExperienceSchema).parse(experienceData);
-export const projects: Project[] = z.array(ProjectSchema).parse(projectsData);
-export const skills: SkillCategory[] = z.array(SkillCategorySchema).parse(skillsData);
-export const education: Education[] = z.array(EducationSchema).parse(educationData);
-export const socials: Social[] = z.array(SocialSchema).parse(socialsData);
-export const awards: Award[] = z.array(AwardSchema).parse(awardsData);
-export const community: CommunityEntry[] = z.array(CommunityEntrySchema).parse(communityData);
-export const leadership: Leadership = LeadershipSchema.parse(leadershipData);
-export const navLinks: NavLink[] = z.array(NavLinkSchema).parse(navData);
-export const impact: ImpactStory[] = z.array(ImpactStorySchema).parse(impactData);
+function parseOrThrow<T>(schema: z.ZodType<T>, data: unknown, name: string): T {
+  const result = schema.safeParse(data);
+  if (!result.success) {
+    const msgs = result.error.issues.map((i) => `  ${i.path.join(".")}: ${i.message}`).join("\n");
+    throw new Error(`[data] ${name} validation failed:\n${msgs}`);
+  }
+  return result.data;
+}
+
+export const profile: Profile = parseOrThrow(ProfileSchema, profileData, "profile");
+export const experience: ExperienceEntry[] = parseOrThrow(
+  z.array(ExperienceSchema),
+  experienceData,
+  "experience"
+);
+export const projects: Project[] = parseOrThrow(z.array(ProjectSchema), projectsData, "projects");
+export const skills: SkillCategory[] = parseOrThrow(
+  z.array(SkillCategorySchema),
+  skillsData,
+  "skills"
+);
+export const education: Education[] = parseOrThrow(
+  z.array(EducationSchema),
+  educationData,
+  "education"
+);
+export const socials: Social[] = parseOrThrow(z.array(SocialSchema), socialsData, "socials");
+export const awards: Award[] = parseOrThrow(z.array(AwardSchema), awardsData, "awards");
+export const community: CommunityEntry[] = parseOrThrow(
+  z.array(CommunityEntrySchema),
+  communityData,
+  "community"
+);
+export const leadership: Leadership = parseOrThrow(LeadershipSchema, leadershipData, "leadership");
+export const navLinks: NavLink[] = parseOrThrow(z.array(NavLinkSchema), navData, "navLinks");
+export const impact: ImpactStory[] = parseOrThrow(z.array(ImpactStorySchema), impactData, "impact");

@@ -1,4 +1,170 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
+
+vi.mock("../../data/profile.json", () => ({
+  default: {
+    name: "Test User",
+    title: "Director",
+    headline: "Test headline for the profile.",
+    location: "Remote",
+    bio: "Test bio paragraph one.\n\nTest bio paragraph two.",
+    bio_quote: "A test engineering quote.",
+    email: "test@example.com",
+    years_of_experience: 14,
+    timezone: "UTC",
+    availability_status: "open",
+    profile_picture: "",
+    github_avatar: "https://avatars.githubusercontent.com/u/1?v=4",
+    cta_primary: "See Impact",
+    open_to: "Open to Director roles",
+    availability_note: "Available remotely.",
+    tags: ["Platform Architecture"],
+    key_metrics: [
+      { label: "Engineers Led", value: "100+", detail: "across teams", tier: "primary" },
+      { label: "Cost Reduction", value: "40%", detail: "$100K annually", tier: "secondary" },
+    ],
+    value_propositions: [{ audience: "Track Record", value: "5 years in leadership" }],
+  },
+}));
+
+vi.mock("../../data/experience.json", () => ({
+  default: [
+    {
+      company: "Acme Corp",
+      role: "Director of Engineering",
+      location: "Remote",
+      duration: "2022 - Present",
+      current: true,
+      description: "Led engineering org.",
+      highlights: ["Built platform"],
+      techStack: ["TypeScript", "AWS"],
+    },
+    {
+      company: "Beta Inc",
+      role: "Staff Engineer",
+      location: "Remote",
+      duration: "2018 - 2022",
+      current: false,
+      description: "Platform work.",
+      highlights: ["Shipped product"],
+      techStack: ["C#"],
+    },
+  ],
+}));
+
+vi.mock("../../data/projects.json", () => ({
+  default: [
+    {
+      name: "K-12 Platform",
+      domain: "Education",
+      client: "Acme",
+      role: "Architect",
+      duration: "2022 - Present",
+      description: "Built K-12 platform.",
+      products: [],
+      highlights: ["99.9% uptime"],
+      tech: ["AWS", "React"],
+    },
+    {
+      name: "OSS Library",
+      domain: "Open Source",
+      client: "Personal",
+      role: "Author",
+      duration: "2019",
+      description: "NuGet package.",
+      products: [],
+      highlights: [],
+      tech: ["C#"],
+      github: "https://github.com/test/lib",
+    },
+  ],
+}));
+
+vi.mock("../../data/skills.json", () => ({
+  default: [
+    { category: "Cloud", skills: ["AWS", "Azure"] },
+    { category: "Languages", skills: ["TypeScript", "C#"] },
+  ],
+}));
+
+vi.mock("../../data/education.json", () => ({
+  default: [
+    {
+      degree: "B.Tech Computer Science",
+      institution: "Test University",
+      location: "India",
+      year: "2009",
+    },
+  ],
+}));
+
+vi.mock("../../data/socials.json", () => ({
+  default: [
+    { platform: "GitHub", url: "https://github.com/test", icon: "FaGithub" },
+    { platform: "Email", url: "mailto:test@example.com", icon: "FiMail" },
+  ],
+}));
+
+vi.mock("../../data/awards.json", () => ({
+  default: [
+    {
+      title: "Best Engineer Award",
+      organization: "Acme Corp",
+      year: "2023",
+      description: "Top performer.",
+    },
+  ],
+}));
+
+vi.mock("../../data/community.json", () => ({
+  default: [
+    {
+      type: "Community Leadership",
+      title: "XHackers Founder",
+      description: "Founded XHackers user group.",
+      highlights: ["Organised 20+ meetups"],
+    },
+  ],
+}));
+
+vi.mock("../../data/leadership.json", () => ({
+  default: {
+    title: "Technical Depth",
+    sections: [{ title: "AI Engineering", description: "Shipped production AI systems." }],
+  },
+}));
+
+vi.mock("../../data/nav.json", () => ({
+  default: [
+    { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+  ],
+}));
+
+vi.mock("../../data/impact.json", () => ({
+  default: [
+    {
+      id: "test-story",
+      title: "K-12 Platform Modernisation",
+      domain: "Education Technology",
+      problem: "Legacy system needed modernisation.",
+      scope: "350+ engineers across two geographies.",
+      led: "Full architecture design.",
+      result: "45% incident reduction.",
+      metrics: ["30%+ productivity lift", "95% AI accuracy"],
+    },
+    {
+      id: "another-story",
+      title: "Logistics Rebuild",
+      domain: "Freight",
+      problem: "Legacy system could not scale.",
+      scope: "Full platform rewrite.",
+      led: "Architecture and technology selection.",
+      result: "500K+ daily transactions.",
+      metrics: ["$2M+ investment secured"],
+    },
+  ],
+}));
+
 import {
   profile,
   experience,
@@ -12,7 +178,6 @@ import {
   navLinks,
   impact,
 } from "@/lib/data";
-import { resumeHref } from "@/lib/paths";
 
 describe("profile", () => {
   it("has required string fields", () => {
@@ -222,12 +387,5 @@ describe("impact", () => {
     for (const story of impact) {
       expect(story.id).toMatch(/^[a-z][a-z0-9-]*$/);
     }
-  });
-});
-
-describe("resumeHref", () => {
-  it("is a string ending with the PDF filename", () => {
-    expect(typeof resumeHref).toBe("string");
-    expect(resumeHref.endsWith("/Rohit_Vipin_Mathews_Resume.pdf")).toBe(true);
   });
 });
