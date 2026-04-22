@@ -1,10 +1,13 @@
-import { existsSync, writeFileSync } from "fs";
+import { createHash } from "crypto";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import profileJson from "../data/profile.json";
 import { ProfileSchema } from "../src/lib/schemas";
 
 const outputPath = join(process.cwd(), "public", "avatar.jpg");
+const digestPath = join(process.cwd(), "public", "avatar.sha256");
 const MAX_BYTES = 2 * 1024 * 1024;
+const ALLOWED_HOST = "avatars.githubusercontent.com";
 
 const JPEG_MAGIC = [0xff, 0xd8, 0xff];
 const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
@@ -14,13 +17,21 @@ function hasValidMagicBytes(buf: Buffer): boolean {
   return matchesPrefix(JPEG_MAGIC) || matchesPrefix(PNG_MAGIC);
 }
 
-async function main() {
+export async function main() {
   const { github_avatar: url } = ProfileSchema.parse(profileJson);
+
+  const parsed = new URL(url);
+  if (parsed.hostname !== ALLOWED_HOST) {
+    throw new Error(`host not allowlisted: ${parsed.hostname}`);
+  }
+
   console.log(`Fetching avatar from ${url}...`);
-  let res: Response;
   let buffer: Buffer;
   try {
-    res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "manual" });
+    if (res.status >= 300 && res.status < 400) {
+      throw new Error(`redirect not allowed: ${res.status}`);
+    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const contentType = res.headers.get("content-type") ?? "";
     if (!contentType.startsWith("image/")) {
@@ -67,16 +78,34 @@ async function main() {
       );
       return;
     }
-    console.error(
+    throw new Error(
       `Avatar fetch failed and no fallback exists: ${err instanceof Error ? err.message : err}`
     );
-    process.exit(1);
   }
+
+  // Integrity: verify SHA-256 against pinned digest, or pin on first run.
+  // Commit public/avatar.sha256 to the repo so future builds detect CDN/account tampering.
+  // To intentionally re-pin after a legitimate avatar change: delete public/avatar.sha256.
+  const digest = createHash("sha256").update(buffer).digest("hex");
+  if (existsSync(digestPath)) {
+    const pinned = readFileSync(digestPath, "utf8").trim();
+    if (pinned !== digest) {
+      throw new Error(
+        `Avatar digest mismatch — expected ${pinned}, got ${digest}. Delete public/avatar.sha256 to re-pin if the avatar changed intentionally.`
+      );
+    }
+  } else {
+    writeFileSync(digestPath, `${digest}\n`);
+    console.log(`Avatar digest pinned -> public/avatar.sha256`);
+  }
+
   writeFileSync(outputPath, buffer);
   console.log(`Avatar saved -> public/avatar.jpg (${buffer.length} bytes)`);
 }
 
-main().catch((err) => {
-  console.error(`Unexpected error: ${err instanceof Error ? err.message : err}`);
-  process.exit(1);
-});
+if (process.env.NODE_ENV !== "test") {
+  main().catch((err) => {
+    console.error(`Avatar generation failed: ${err instanceof Error ? err.message : err}`);
+    process.exit(1);
+  });
+}

@@ -59,7 +59,9 @@ export default function Nav({ initials, navLinks }: NavProps) {
         const drawer = drawerRef.current;
         if (!drawer) return;
         const focusable = Array.from(
-          drawer.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
+          drawer.querySelectorAll<HTMLElement>(
+            'a[href], button, input, select, textarea, [contenteditable], [tabindex]:not([tabindex="-1"])'
+          )
         );
         if (!focusable.length) return;
         const first = focusable[0];

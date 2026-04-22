@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { parseStartYear, byStartYearDesc } from "@/lib/duration";
 
 describe("parseStartYear", () => {
@@ -18,8 +18,11 @@ describe("parseStartYear", () => {
     expect(parseStartYear("2018")).toBe(2018);
   });
 
-  it("returns 0 for unrecognised format", () => {
+  it("returns 0 and warns for unrecognised format", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     expect(parseStartYear("Present")).toBe(0);
+    expect(warnSpy).toHaveBeenCalledWith('parseStartYear: no year found in "Present"');
+    warnSpy.mockRestore();
   });
 });
 

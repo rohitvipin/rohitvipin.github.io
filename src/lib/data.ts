@@ -39,7 +39,7 @@ import leadershipData from "../../data/leadership.json";
 import navData from "../../data/nav.json";
 import impactData from "../../data/impact.json";
 
-function parseOrThrow<T>(schema: z.ZodType<T>, data: unknown, name: string): T {
+function parseOrThrow<S extends z.ZodTypeAny>(schema: S, data: unknown, name: string): z.infer<S> {
   const result = schema.safeParse(data);
   if (!result.success) {
     const msgs = result.error.issues.map((i) => `  ${i.path.join(".")}: ${i.message}`).join("\n");

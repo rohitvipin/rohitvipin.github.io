@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ErrorPage from "@/app/error";
+import NotFound from "@/app/not-found";
 
 describe("Error page", () => {
   it("renders error heading", () => {
@@ -33,5 +34,22 @@ describe("Error page", () => {
     render(<ErrorPage error={error} reset={vi.fn()} />);
     expect(spy).toHaveBeenCalledWith(error);
     spy.mockRestore();
+  });
+});
+
+describe("NotFound page", () => {
+  it("renders 404 text", () => {
+    render(<NotFound />);
+    expect(screen.getByText("404")).toBeInTheDocument();
+  });
+
+  it("renders page not found heading", () => {
+    render(<NotFound />);
+    expect(screen.getByRole("heading", { name: /page not found/i })).toBeInTheDocument();
+  });
+
+  it("renders back to home link", () => {
+    render(<NotFound />);
+    expect(screen.getByRole("link", { name: /back to home/i })).toBeInTheDocument();
   });
 });
