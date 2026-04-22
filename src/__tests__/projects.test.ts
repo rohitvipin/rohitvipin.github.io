@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { isOssProject, partitionProjects } from "@/lib/projects";
+import { isOssProject, partitionProjects, parseStartYear } from "@/lib/projects";
 import type { Project } from "@/types";
 
-function makeProject(client: string): Project {
+function makeProject(client: string, duration = "2024"): Project {
   return {
-    name: "Test Project",
+    name: client,
     domain: "Test",
     client,
     role: "Engineer",
-    duration: "2024",
+    duration,
     description: "",
     products: [],
     highlights: [],
@@ -73,16 +73,40 @@ describe("partitionProjects", () => {
     expect(ossProjects).toHaveLength(0);
   });
 
-  it("preserves order within each bucket", () => {
+  it("sorts each bucket by start year descending", () => {
     const projects = [
-      makeProject("A"),
-      makeProject("Personal"),
-      makeProject("B"),
-      makeProject("Personal / Community"),
-      makeProject("C"),
+      makeProject("Old Client", "March 2018"),
+      makeProject("Personal", "2020"),
+      makeProject("New Client", "April 2024 - Present"),
+      makeProject("Personal / Community", "2024"),
+      makeProject("Mid Client", "April 2022 - March 2024"),
     ];
     const { clientProjects, ossProjects } = partitionProjects(projects);
+    expect(clientProjects.map((p) => p.client)).toEqual(["New Client", "Mid Client", "Old Client"]);
+    expect(ossProjects.map((p) => p.client)).toEqual(["Personal / Community", "Personal"]);
+  });
+
+  it("preserves relative order for same start year", () => {
+    const projects = [makeProject("A", "2024"), makeProject("B", "2024"), makeProject("C", "2024")];
+    const { clientProjects } = partitionProjects(projects);
     expect(clientProjects.map((p) => p.client)).toEqual(["A", "B", "C"]);
-    expect(ossProjects.map((p) => p.client)).toEqual(["Personal", "Personal / Community"]);
+  });
+});
+
+describe("parseStartYear", () => {
+  it("parses year from month-year range", () => {
+    expect(parseStartYear("April 2024 - Present")).toBe(2024);
+  });
+
+  it("parses year from month-year to month-year", () => {
+    expect(parseStartYear("April 2022 - March 2024")).toBe(2022);
+  });
+
+  it("parses bare year string", () => {
+    expect(parseStartYear("2018")).toBe(2018);
+  });
+
+  it("returns 0 for unrecognised format", () => {
+    expect(parseStartYear("Present")).toBe(0);
   });
 });
