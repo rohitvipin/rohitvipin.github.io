@@ -148,9 +148,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'`}
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
