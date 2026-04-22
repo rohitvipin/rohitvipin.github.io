@@ -149,7 +149,10 @@ export default function Nav({ initials, navLinks }: NavProps) {
               <a
                 key={l.href}
                 href={l.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => {
+                  toggleRef.current?.focus();
+                  setMobileOpen(false);
+                }}
                 aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
                 className={`min-h-[48px] flex items-center text-sm transition-colors ${
                   activeSection === l.href.slice(1)

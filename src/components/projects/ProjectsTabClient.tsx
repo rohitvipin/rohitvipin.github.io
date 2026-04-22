@@ -20,7 +20,9 @@ type TabId = (typeof TABS)[number]["id"];
 export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
   const [tab, setTab] = useState<TabId>("client");
   const { clientProjects, ossProjects } = useMemo(() => partitionProjects(projects), [projects]);
-  const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ client: null, oss: null });
+  const tabRefs = useRef(
+    Object.fromEntries(TABS.map((t) => [t.id, null])) as Record<TabId, HTMLButtonElement | null>
+  );
 
   function handleKeyDown(e: React.KeyboardEvent, current: TabId) {
     const ids = TABS.map((t) => t.id);
@@ -81,7 +83,7 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
             role="tabpanel"
             id={`tabpanel-${id}`}
             aria-labelledby={`tab-${id}`}
-            tabIndex={0}
+            tabIndex={items.length === 0 ? 0 : undefined}
             hidden={tab !== id}
             className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
           >

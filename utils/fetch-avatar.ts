@@ -1,26 +1,23 @@
 import { existsSync, writeFileSync } from "fs";
 import { join } from "path";
 import profileJson from "../data/profile.json";
+import { ProfileSchema } from "../src/lib/schemas";
 
 const outputPath = join(process.cwd(), "public", "avatar.jpg");
 const MAX_BYTES = 2 * 1024 * 1024;
 
+const JPEG_MAGIC = [0xff, 0xd8, 0xff];
+const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+function hasValidMagicBytes(buf: Buffer): boolean {
+  const matchesPrefix = (magic: number[]) => magic.every((byte, i) => buf[i] === byte);
+  return matchesPrefix(JPEG_MAGIC) || matchesPrefix(PNG_MAGIC);
+}
+
 async function main() {
-  const url = profileJson.github_avatar;
-  if (!url) {
-    console.warn("No github_avatar in profile.json - skipping avatar fetch");
-    return;
-  }
+  const { github_avatar: url } = ProfileSchema.parse(profileJson);
   console.log(`Fetching avatar from ${url}...`);
   let res: Response;
-  const JPEG_MAGIC = [0xff, 0xd8, 0xff];
-  const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
-
-  function hasValidMagicBytes(buf: Buffer): boolean {
-    const matchesPrefix = (magic: number[]) => magic.every((byte, i) => buf[i] === byte);
-    return matchesPrefix(JPEG_MAGIC) || matchesPrefix(PNG_MAGIC);
-  }
-
   let buffer: Buffer;
   try {
     res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
@@ -39,6 +36,7 @@ async function main() {
     const reader = res.body.getReader();
     const chunks: Uint8Array[] = [];
     let totalBytes = 0;
+    let magicChecked = false;
     for (;;) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -48,11 +46,20 @@ async function main() {
         throw new Error(`response body exceeds limit of ${MAX_BYTES} bytes`);
       }
       chunks.push(value);
+      // Validate magic bytes on the first chunk large enough — fail fast before buffering the rest
+      if (!magicChecked && totalBytes >= PNG_MAGIC.length) {
+        const peek = chunks.length === 1 ? Buffer.from(chunks[0]) : Buffer.concat(chunks);
+        if (!hasValidMagicBytes(peek)) {
+          await reader.cancel();
+          throw new Error("response body is not a valid JPEG or PNG");
+        }
+        magicChecked = true;
+      }
     }
-    buffer = Buffer.concat(chunks);
-    if (!hasValidMagicBytes(buffer)) {
+    if (!magicChecked) {
       throw new Error("response body is not a valid JPEG or PNG");
     }
+    buffer = Buffer.concat(chunks, totalBytes);
   } catch (err) {
     if (existsSync(outputPath)) {
       console.warn(

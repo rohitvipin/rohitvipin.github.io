@@ -111,7 +111,7 @@ npm run generate-resume  # Generate PDF resume → public/
 ### 5. Testing
 
 - **Vitest** for all tests (fast, ESM-native, jsdom environment).
-- **Minimum coverage:** 60% all metrics (enforced via `vitest.config.ts` thresholds).
+- **Minimum coverage:** 90% statements/functions/lines, 85% branches (enforced via `vitest.config.ts` thresholds).
 - **100% coverage** for utilities in `src/lib/`.
 - **New components:** test main render paths and key interactions.
 - **Semantic assertions** — test **what** the user sees, not **how** the component works internally.

@@ -33,6 +33,9 @@ jobs:
       - name: Tests
         run: npm run test:ci
 
+      - name: Generate resume PDF
+        run: npm run generate-resume
+
       - name: Fetch avatar
         run: npm run fetch-avatar
 
