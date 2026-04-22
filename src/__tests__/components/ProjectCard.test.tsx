@@ -53,22 +53,23 @@ describe("ProjectCard", () => {
   });
 
   it("hides products section when products array is empty", () => {
-    render(<ProjectCard project={base} />);
-    expect(screen.queryByRole("button", { name: /products/ })).not.toBeInTheDocument();
+    const { container } = render(<ProjectCard project={base} />);
+    expect(container.querySelector("details")).not.toBeInTheDocument();
   });
 
-  it("toggles products list on button click", async () => {
+  it("toggles products list on summary click", async () => {
     const user = userEvent.setup();
     const withProducts: Project = {
       ...base,
       products: [{ name: "Product Alpha", description: "Core platform." }],
     };
-    render(<ProjectCard project={withProducts} />);
-    const btn = screen.getByRole("button", { name: "Show products" });
-    expect(screen.queryByText("Product Alpha")).not.toBeInTheDocument();
-    await user.click(btn);
-    expect(screen.getByText("Product Alpha")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Hide products" }));
-    expect(screen.queryByText("Product Alpha")).not.toBeInTheDocument();
+    const { container } = render(<ProjectCard project={withProducts} />);
+    const details = container.querySelector("details")!;
+    const summary = screen.getByRole("button", { name: /Toggle products/ });
+    expect(details).not.toHaveAttribute("open");
+    await user.click(summary);
+    expect(details).toHaveAttribute("open");
+    await user.click(summary);
+    expect(details).not.toHaveAttribute("open");
   });
 });

@@ -26,13 +26,13 @@ describe("ExperienceCard", () => {
   });
 
   it("collapses highlights for non-current entries by default", () => {
-    render(<ExperienceCard entry={base} />);
-    expect(screen.queryByText("Shipped feature A")).not.toBeInTheDocument();
+    const { container } = render(<ExperienceCard entry={base} />);
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 
   it("auto-expands highlights for current entry", () => {
-    render(<ExperienceCard entry={{ ...base, current: true }} />);
-    expect(screen.getByText("Shipped feature A")).toBeInTheDocument();
+    const { container } = render(<ExperienceCard entry={{ ...base, current: true }} />);
+    expect(container.querySelector("details")).toHaveAttribute("open");
   });
 
   it("shows Current badge for current entry", () => {
@@ -42,11 +42,14 @@ describe("ExperienceCard", () => {
 
   it("toggle expands then collapses highlights", async () => {
     const user = userEvent.setup();
-    render(<ExperienceCard entry={base} />);
-    await user.click(screen.getByRole("button", { name: /Expand Senior Engineer/ }));
-    expect(screen.getByText("Shipped feature A")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: /Collapse Senior Engineer/ }));
-    expect(screen.queryByText("Shipped feature A")).not.toBeInTheDocument();
+    const { container } = render(<ExperienceCard entry={base} />);
+    const details = container.querySelector("details")!;
+    const summary = screen.getByRole("button", { name: /Toggle highlights for Senior Engineer/ });
+    expect(details).not.toHaveAttribute("open");
+    await user.click(summary);
+    expect(details).toHaveAttribute("open");
+    await user.click(summary);
+    expect(details).not.toHaveAttribute("open");
   });
 
   it("renders tech stack chips", () => {

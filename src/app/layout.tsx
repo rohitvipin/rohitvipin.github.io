@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { socials } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
 import { buildPersonJsonLd } from "@/lib/jsonld";
-import { avatarHref } from "@/lib/paths";
+import { avatarHref, avatarWebpHref } from "@/lib/paths";
 import "./globals.css";
 
 const inter = Inter({
@@ -106,7 +106,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           content="camera=(), microphone=(), geolocation=(), interest-cohort=()"
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
+        <link
+          rel="preload"
+          as="image"
+          href={avatarWebpHref}
+          type="image/webp"
+          fetchPriority="high"
+        />
+        <link rel="preload" as="image" href={avatarHref} type="image/jpeg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}

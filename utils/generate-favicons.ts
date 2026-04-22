@@ -122,6 +122,12 @@ export async function generate(): Promise<void> {
     .toFile(path.join(OUT, "og-image.jpg"));
   console.log("  ✓ og-image.jpg");
 
+  const avatarSrc = path.join(OUT, "avatar.jpg");
+  if (fs.existsSync(avatarSrc)) {
+    await sharp(avatarSrc).webp({ quality: 80 }).toFile(path.join(OUT, "avatar.webp"));
+    console.log("  ✓ avatar.webp");
+  }
+
   console.log("\nDone. All assets written to public/");
 }
 

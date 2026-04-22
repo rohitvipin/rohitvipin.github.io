@@ -32,25 +32,27 @@ describe("CommunityCard", () => {
     expect(screen.queryByText("London, UK")).not.toBeInTheDocument();
   });
 
-  it("shows highlight count in button before expand", () => {
+  it("shows highlight count in summary", () => {
     render(<CommunityCard entry={entry} />);
-    expect(screen.getByRole("button")).toHaveTextContent("Show 3 highlights");
+    expect(screen.getByRole("button", { name: /Show 3 highlights/ })).toBeInTheDocument();
   });
 
-  it("expands and shows highlights on click", async () => {
+  it("expands details on click", async () => {
     const user = userEvent.setup();
-    render(<CommunityCard entry={entry} />);
-    await user.click(screen.getByRole("button"));
-    expect(screen.getByText("300 attendees")).toBeInTheDocument();
-    expect(screen.getByText("Q&A session")).toBeInTheDocument();
-    expect(screen.getByRole("button")).toHaveTextContent("Hide details");
+    const { container } = render(<CommunityCard entry={entry} />);
+    const details = container.querySelector("details")!;
+    expect(details).not.toHaveAttribute("open");
+    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
+    expect(details).toHaveAttribute("open");
   });
 
-  it("collapses highlights on second click", async () => {
+  it("collapses details on second click", async () => {
     const user = userEvent.setup();
-    render(<CommunityCard entry={entry} />);
-    await user.click(screen.getByRole("button"));
-    await user.click(screen.getByRole("button"));
-    expect(screen.queryByText("300 attendees")).not.toBeInTheDocument();
+    const { container } = render(<CommunityCard entry={entry} />);
+    const details = container.querySelector("details")!;
+    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
+    expect(details).toHaveAttribute("open");
+    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
+    expect(details).not.toHaveAttribute("open");
   });
 });

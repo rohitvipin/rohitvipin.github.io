@@ -31,11 +31,10 @@ describe("SkillCategoryCard", () => {
     expect(screen.queryByRole("button", { name: /more/ })).not.toBeInTheDocument();
   });
 
-  it("shows first 10 skills and hides overflow by default", () => {
-    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+  it("shows first 10 skills and collapses overflow by default", () => {
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
     expect(screen.getByText("React")).toBeInTheDocument();
-    expect(screen.queryByText("Storybook")).not.toBeInTheDocument();
-    expect(screen.queryByText("Figma")).not.toBeInTheDocument();
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 
   it("shows expand button with hidden count", () => {
@@ -43,20 +42,19 @@ describe("SkillCategoryCard", () => {
     expect(screen.getByRole("button", { name: /Show 2 more Frontend skills/ })).toBeInTheDocument();
   });
 
-  it("expand button reveals all skills", async () => {
+  it("expand button opens the details", async () => {
     const user = userEvent.setup();
-    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
     await user.click(screen.getByRole("button", { name: /Show 2 more Frontend skills/ }));
-    expect(screen.getByText("Storybook")).toBeInTheDocument();
-    expect(screen.getByText("Figma")).toBeInTheDocument();
+    expect(container.querySelector("details")).toHaveAttribute("open");
   });
 
-  it("show less button collapses back to 10", async () => {
+  it("clicking again closes the details", async () => {
     const user = userEvent.setup();
-    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
-    await user.click(screen.getByRole("button", { name: /Show 2 more Frontend skills/ }));
-    await user.click(screen.getByRole("button", { name: /Show fewer Frontend skills/ }));
-    expect(screen.queryByText("Storybook")).not.toBeInTheDocument();
-    expect(screen.queryByText("Figma")).not.toBeInTheDocument();
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+    const summary = screen.getByRole("button", { name: /Show 2 more Frontend skills/ });
+    await user.click(summary);
+    await user.click(summary);
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 });

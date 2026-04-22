@@ -165,6 +165,21 @@ section[id] {
   }
 }
 
+/* ── Details/Summary card expansion ── */
+details.card-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.card-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.card-details > summary .card-details-chevron {
+  transition: transform 200ms ease;
+}
+details.card-details[open] > summary .card-details-chevron {
+  transform: rotate(180deg);
+}
+
 /* ── Scroll-driven reveal (progressive enhancement, ~88% browser support) ── */
 @keyframes scroll-fade-up {
   from {

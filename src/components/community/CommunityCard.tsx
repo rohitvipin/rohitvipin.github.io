@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { FiChevronDown, FiUsers, FiCode, FiMic, FiStar, FiBookOpen } from "react-icons/fi";
 import type { CommunityEntry } from "@/types";
 
@@ -18,7 +15,6 @@ export interface CommunityCardProps {
 
 export function CommunityCard({ entry }: CommunityCardProps) {
   const icon = ICON_MAP[entry.type] ?? <FiUsers size={18} aria-hidden="true" />;
-  const [open, setOpen] = useState(false);
 
   return (
     <div className="card p-6 space-y-4">
@@ -35,31 +31,23 @@ export function CommunityCard({ entry }: CommunityCardProps) {
       <p className="text-xs text-[var(--muted)] leading-relaxed">{entry.description}</p>
 
       {entry.highlights.length > 0 && (
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
-          aria-expanded={open}
-          aria-label={open ? "Hide highlights" : `Show ${entry.highlights.length} highlights`}
-        >
-          <FiChevronDown
-            size={14}
-            aria-hidden="true"
-            className="transition-transform duration-200"
-            style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-          />
-          {open ? "Hide details" : `Show ${entry.highlights.length} highlights`}
-        </button>
-      )}
-
-      {open && (
-        <ul className="space-y-2 pt-1 border-t border-[var(--border)]">
-          {entry.highlights.map((h) => (
-            <li key={h} className="text-xs text-[var(--muted)] flex items-start gap-2">
-              <span className="text-[var(--accent)] mt-0.5 shrink-0">·</span>
-              <span>{h}</span>
-            </li>
-          ))}
-        </ul>
+        <details className="card-details">
+          <summary
+            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
+            aria-label={`Show ${entry.highlights.length} highlights`}
+          >
+            <FiChevronDown size={14} aria-hidden="true" className="card-details-chevron" />
+            Show {entry.highlights.length} highlights
+          </summary>
+          <ul className="space-y-2 pt-1 border-t border-[var(--border)]">
+            {entry.highlights.map((h) => (
+              <li key={h} className="text-xs text-[var(--muted)] flex items-start gap-2">
+                <span className="text-[var(--accent)] mt-0.5 shrink-0">·</span>
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
     </div>
   );

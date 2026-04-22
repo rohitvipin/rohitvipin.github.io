@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { TechChip } from "@/components/shared/TechChip";
 
 const INITIAL_VISIBLE = 10;
@@ -11,8 +8,6 @@ export interface SkillCategoryCardProps {
 }
 
 export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? skills : skills.slice(0, INITIAL_VISIBLE);
   const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);
 
   return (
@@ -21,22 +16,25 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
         {category}
       </h3>
       <div className="flex flex-wrap gap-2">
-        {visible.map((skill) => (
+        {skills.slice(0, INITIAL_VISIBLE).map((skill) => (
           <TechChip key={skill} label={skill} />
         ))}
-        {hidden > 0 && (
-          <button
-            onClick={() => setExpanded((e) => !e)}
-            aria-expanded={expanded}
-            aria-label={
-              expanded ? `Show fewer ${category} skills` : `Show ${hidden} more ${category} skills`
-            }
-            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono"
-          >
-            {expanded ? "show less" : `+${hidden} more`}
-          </button>
-        )}
       </div>
+      {hidden > 0 && (
+        <details className="card-details">
+          <summary
+            aria-label={`Show ${hidden} more ${category} skills`}
+            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono w-fit"
+          >
+            +{hidden} more
+          </summary>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {skills.slice(INITIAL_VISIBLE).map((skill) => (
+              <TechChip key={skill} label={skill} />
+            ))}
+          </div>
+        </details>
+      )}
     </div>
   );
 }
