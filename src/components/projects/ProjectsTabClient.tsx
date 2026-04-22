@@ -16,12 +16,18 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
 
   return (
     <>
-      <div className="flex gap-1 mb-8 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit">
+      <div
+        role="tablist"
+        aria-label="Project categories"
+        className="flex gap-1 mb-8 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+      >
         {(["client", "oss"] as const).map((t) => (
           <button
             key={t}
+            role="tab"
+            aria-selected={tab === t}
             onClick={() => setTab(t)}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
+            className={`px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 ${
               tab === t
                 ? "bg-[var(--accent)] text-[var(--bg)]"
                 : "text-[var(--muted)] hover:text-[var(--text)]"

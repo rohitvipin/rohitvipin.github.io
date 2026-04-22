@@ -220,6 +220,56 @@ Icon: `FiArrowUp`, size `18`.
 - Container: `p-3 rounded-lg border border-[var(--accent)]/30`
 - Value: `text-base font-semibold text-[var(--accent)]/80`
 
+### Icon badge
+
+Used in Education and Community sections — circular container for a decorative icon:
+
+```
+w-9 h-9 (or w-10 h-10) rounded-lg
+bg-[var(--accent-glow)] flex items-center justify-center shrink-0
+text-[var(--accent)]
+```
+
+Icon inside is always decorative — `aria-hidden="true"` required.
+
+### Status pill ("Current")
+
+Live indicator on experience cards:
+
+```tsx
+<span
+  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+  bg-[var(--accent-glow)] border border-[var(--accent)]/30
+  text-xs font-medium text-[var(--accent)]"
+>
+  <span className="w-1 h-1 rounded-full bg-[var(--accent)] animate-pulse" />
+  Current
+</span>
+```
+
+### Tabs (pill group)
+
+Used in Projects section to switch between content categories:
+
+```tsx
+<div
+  role="tablist"
+  className="flex gap-1 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+>
+  <button
+    role="tab"
+    aria-selected={active}
+    className="px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150
+    /* active:   */ bg-[var(--accent)] text-[var(--bg)]
+    /* inactive: */ text-[var(--muted)] hover:text-[var(--text)]"
+  >
+    Label
+  </button>
+</div>
+```
+
+Requires `role="tablist"` on container, `role="tab"` + `aria-selected` on each button.
+
 ---
 
 ## Icons

@@ -44,7 +44,7 @@ export default function ExperienceCard({ entry }: ExperienceCardProps) {
               ? `Collapse ${entry.role} at ${entry.company}`
               : `Expand ${entry.role} at ${entry.company}`
           }
-          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-md border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
         >
           {expanded ? (
             <FiChevronUp size={14} aria-hidden="true" />

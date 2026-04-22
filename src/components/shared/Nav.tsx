@@ -84,7 +84,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center gap-3">
         <a
           href="#"
-          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
           aria-label="Home"
         >
           {initials}
