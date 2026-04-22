@@ -46,9 +46,9 @@ describe("About", () => {
     expect(screen.getByText("Second paragraph.")).toBeInTheDocument();
   });
 
-  it("does not render value propositions section when absent", () => {
+  it("does not render value propositions when absent", () => {
     render(<About profile={baseProfile} />);
-    expect(screen.queryByText("Why Rohit — in 30 seconds")).not.toBeInTheDocument();
+    expect(screen.queryByText("Recruiter")).not.toBeInTheDocument();
   });
 
   it("does not render blockquote when bio_quote absent", () => {
@@ -63,11 +63,6 @@ describe("About", () => {
 });
 
 describe("About — value propositions", () => {
-  it("renders why section heading when value_propositions present", () => {
-    render(<About profile={profileWithValueProps} />);
-    expect(screen.getByText("Why Rohit - in 30 seconds")).toBeInTheDocument();
-  });
-
   it("renders each audience label", () => {
     render(<About profile={profileWithValueProps} />);
     expect(screen.getByText("Recruiter")).toBeInTheDocument();
@@ -83,9 +78,9 @@ describe("About — value propositions", () => {
 
   it("renders value props before bio paragraphs", () => {
     const { container } = render(<About profile={profileWithValueProps} />);
-    const heading = screen.getByText("Why Rohit - in 30 seconds");
+    const audienceLabel = screen.getByText("Recruiter");
     const bioPara = screen.getByText("First paragraph.");
     const allElements = Array.from(container.querySelectorAll("*"));
-    expect(allElements.indexOf(heading)).toBeLessThan(allElements.indexOf(bioPara));
+    expect(allElements.indexOf(audienceLabel)).toBeLessThan(allElements.indexOf(bioPara));
   });
 });

@@ -99,7 +99,7 @@ const jsonLd = {
   givenName: "Rohit",
   additionalName: "Vipin",
   familyName: "Mathews",
-  jobTitle: "Director of Engineering & Architecture",
+  jobTitle: "VP Engineering | Director of Engineering & Architecture",
   description:
     "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
   url: BASE_URL,
@@ -140,7 +140,7 @@ const jsonLd = {
   ],
   hasOccupation: {
     "@type": "Occupation",
-    name: "Director of Engineering & Architecture",
+    name: "VP Engineering | Director of Engineering & Architecture",
     occupationLocation: {
       "@type": "Country",
       name: "India",

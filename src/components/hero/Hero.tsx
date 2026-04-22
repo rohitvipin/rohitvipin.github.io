@@ -146,11 +146,11 @@ export default function Hero({ profile, socials }: HeroProps) {
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}
-                className="p-3 space-y-0.5 rounded-lg border border-dashed border-[var(--accent)]/20 bg-[var(--accent)]/[0.03]"
+                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8"
               >
-                <dt className="text-xs text-[var(--muted-2)] leading-tight">{m.label}</dt>
-                <dd className="text-base font-semibold text-[var(--accent)]/60">{m.value}</dd>
-                {m.detail && <dd className="text-xs text-[var(--muted-2)]/70">{m.detail}</dd>}
+                <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
+                <dd className="text-base font-semibold text-[var(--accent)]/80">{m.value}</dd>
+                {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
               </div>
             ))}
           </dl>

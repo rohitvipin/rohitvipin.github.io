@@ -6,7 +6,7 @@
     "problem": "A large US K-12 HCM provider needed to unify two aging product lines - Recruiting & Hiring and HR Information System - while maintaining delivery continuity for school districts across the country.",
     "scope": "350+ engineers across USA onshore and India offshore. 6 delivery tracks. Multi-year programme.",
     "led": "Full engineering organisation from architecture design through team structure, AI enablement, observability strategy, and cross-geo delivery rhythm.",
-    "result": "Unified HR product platform on event-driven cloud-native architecture. Operational incidents cut 45%. AI-assisted development adopted at org scale across 50+ developers.",
+    "result": "Unified HR product platform on event-driven cloud-native architecture. Operational incidents cut 45%. AI-assisted development adopted across 50+ developers in two geographies.",
     "metric": "30%+ productivity lift via AI guilds. 95% accuracy on AWS Bedrock RAG extraction. 45% incident reduction."
   },
   {
@@ -25,8 +25,8 @@
     "domain": "Precision Agriculture",
     "problem": "A North American agribusiness software provider needed a cloud-native replacement for a legacy VB.NET WinForms desktop system covering agronomy, grain operations, grower self-service, and accounting - with a field-ready mobile experience.",
     "scope": "Multi-module platform serving 50K+ agricultural professionals across North America. Four product modules delivered concurrently.",
-    "led": "End-to-end architecture and delivery from serverless AWS design through cross-platform mobile, data warehouse, ETL pipelines, and integration testing framework.",
+    "led": "Architecture and delivery from serverless AWS design through cross-platform mobile, data warehouse, ETL pipelines, and integration testing framework.",
     "result": "Full cloud-native platform on AWS serverless supporting $5M+ annual operations, with offline-first mobile for field teams and 80%+ automated test coverage across 20+ microservices.",
-    "metric": "$5M+ annual operations supported. 50K+ mobile users. 4.5+ star ratings. 80%+ test coverage."
+    "metric": "$5M+ annual operations supported. 50K+ mobile users. 4.5+ average mobile store rating. 80%+ test coverage."
   }
 ]

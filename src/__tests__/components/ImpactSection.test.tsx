@@ -61,4 +61,39 @@ describe("ImpactSection", () => {
     const { container } = render(<ImpactSection impact={[]} />);
     expect(container.querySelector("#impact")).toBeInTheDocument();
   });
+
+  it("splits multi-sentence metric into individual bullets", () => {
+    const multiMetric: ImpactStory[] = [
+      {
+        ...stories[0],
+        metric: "First outcome. Second outcome. Third outcome.",
+      },
+    ];
+    render(<ImpactSection impact={multiMetric} />);
+    expect(screen.getByText("First outcome")).toBeInTheDocument();
+    expect(screen.getByText("Second outcome")).toBeInTheDocument();
+    expect(screen.getByText("Third outcome")).toBeInTheDocument();
+  });
+
+  it("renders single-sentence metric as one bullet without trailing period", () => {
+    const singleMetric: ImpactStory[] = [{ ...stories[0], metric: "45% cost reduction." }];
+    render(<ImpactSection impact={singleMetric} />);
+    expect(screen.getByText("45% cost reduction")).toBeInTheDocument();
+  });
+
+  it("articles have aria-labelledby referencing story title id", () => {
+    const { container } = render(<ImpactSection impact={stories} />);
+    const articles = container.querySelectorAll("article");
+    articles.forEach((article) => {
+      expect(article).toHaveAttribute("aria-labelledby");
+      const labelId = article.getAttribute("aria-labelledby")!;
+      expect(container.querySelector(`#${labelId}`)).toBeInTheDocument();
+    });
+  });
+
+  it("metric bullet container has aria-label Key outcomes", () => {
+    const { container } = render(<ImpactSection impact={stories} />);
+    const groups = container.querySelectorAll('[aria-label="Key outcomes"]');
+    expect(groups.length).toBe(stories.length);
+  });
 });

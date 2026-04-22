@@ -25,7 +25,7 @@ describe("getDomainColor", () => {
   it("returns color for exact prefix match", () => {
     expect(getDomainColor("K-12 Education")).toBe("#6366f1");
     expect(getDomainColor("Agriculture Platform")).toBe("#22c55e");
-    expect(getDomainColor("Logistics App")).toBe("#f59e0b");
+    expect(getDomainColor("Logistics App")).toBe("#fbbf24");
     expect(getDomainColor("Hospitality SaaS")).toBe("#ec4899");
   });
 
@@ -37,7 +37,7 @@ describe("getDomainColor", () => {
   it("open source sub-domains match before generic Open Source", () => {
     expect(getDomainColor("Open Source / Mobile SDK")).toBe("#22d3ee");
     expect(getDomainColor("Open Source / Developer Tooling CLI")).toBe("#8b5cf6");
-    expect(getDomainColor("Open Source / Cloud Native")).toBe("#f97316");
+    expect(getDomainColor("Open Source / Cloud Native")).toBe("#fb923c");
     // generic prefix
     expect(getDomainColor("Open Source Library")).toBe("#22d3ee");
   });

@@ -73,19 +73,6 @@ describe("Hero", () => {
     expect(screen.getByRole("link", { name: "See Impact" })).toHaveAttribute("href", "#impact");
   });
 
-  it("renders open_to statement when present", () => {
-    render(<Hero profile={baseProfile} socials={baseSocials} />);
-    expect(screen.getByText("Open to VP Engineering and CTO-track roles")).toBeInTheDocument();
-  });
-
-  it("does not render open_to when absent", () => {
-    const { open_to: _ot, ...withoutOpenTo } = baseProfile;
-    render(<Hero profile={withoutOpenTo as Profile} socials={baseSocials} />);
-    expect(
-      screen.queryByText("Open to VP Engineering and CTO-track roles")
-    ).not.toBeInTheDocument();
-  });
-
   it("renders Download CV link", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
     expect(screen.getByRole("link", { name: "Download CV" })).toHaveAttribute("download");

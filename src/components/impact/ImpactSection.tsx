@@ -23,21 +23,24 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
         />
         <div className="space-y-6">
           {impact.map((story) => (
-            <article key={story.id} className="card p-6 lg:p-8 space-y-6">
+            <article
+              key={story.id}
+              aria-labelledby={`${story.id}-title`}
+              className="card p-6 lg:p-8 space-y-6"
+            >
               <div className="space-y-3">
                 <div>
                   <span
-                    className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2"
-                    style={{
-                      color: `${getDomainColor(story.domain)}cc`,
-                      borderColor: `${getDomainColor(story.domain)}44`,
-                    }}
+                    className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
+                    style={{ borderColor: `${getDomainColor(story.domain)}44` }}
                   >
                     {story.domain}
                   </span>
-                  <h3 className="text-lg font-semibold text-[var(--text)]">{story.title}</h3>
+                  <h3 id={`${story.id}-title`} className="text-lg font-semibold text-[var(--text)]">
+                    {story.title}
+                  </h3>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2" aria-label="Key outcomes">
                   {metricBullets(story.metric).map((bullet) => (
                     <span
                       key={bullet}
