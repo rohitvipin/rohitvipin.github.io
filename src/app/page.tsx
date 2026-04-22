@@ -25,8 +25,8 @@ import {
   leadership,
   navLinks,
   impact,
-  resumeHref,
 } from "@/lib/data";
+import { resumeHref } from "@/lib/paths";
 
 export default function Home() {
   return (
@@ -76,10 +76,16 @@ export default function Home() {
         </AnimateOnScroll>
 
         {/* Bottom CTA */}
-        <section id="contact" className="section border-t border-[var(--border)]">
+        <section
+          id="contact"
+          aria-labelledby="contact-title"
+          className="section border-t border-[var(--border)]"
+        >
           <div className="max-w-6xl mx-auto px-6 text-center space-y-6">
             {profile.open_to && (
-              <h2 className="text-2xl font-bold text-[var(--text)]">{profile.open_to}</h2>
+              <h2 id="contact-title" className="text-2xl font-bold text-[var(--text)]">
+                {profile.open_to}
+              </h2>
             )}
             <p className="text-[var(--muted)] max-w-xl mx-auto">Based in {profile.location}.</p>
             {profile.availability_note && (

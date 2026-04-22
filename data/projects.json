@@ -145,7 +145,7 @@
     "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
-    "description": "Solution architecture for a farm operations platform and third-party integrations for a large-scale fresh produce company. Covered harvest management, supply chain visibility, cold chain logistics, labor operations, and retail/distribution integrations across multi-country farming operations.",
+    "description": "Solution architecture for a farm operations platform and third-party integrations for a large-scale fresh produce company. Covered harvest management, supply chain visibility, cold chain logistics, labour operations, and retail/distribution integrations across multi-country farming operations.",
     "products": [
       {
         "name": "Farm Operations Management",
@@ -197,11 +197,11 @@
       },
       {
         "name": "Warehousing & Distribution",
-        "description": "Warehouse management and inventory operations for distribution centers, supporting inbound/outbound logistics, storage, and last-mile trucking dispatch"
+        "description": "Warehouse management and inventory operations for distribution centres, supporting inbound/outbound logistics, storage, and last-mile trucking dispatch"
       },
       {
         "name": "Household Goods & Project Cargo",
-        "description": "Specialized logistics workflows for household goods relocation and oversized/project cargo including commercial and industrial equipment"
+        "description": "Specialised logistics workflows for household goods relocation and oversized/project cargo including commercial and industrial equipment"
       }
     ],
     "highlights": [
@@ -234,7 +234,7 @@
     "products": [
       {
         "name": "Member Loyalty Engine",
-        "description": "Core loyalty program management covering member enrollment, points accrual, redemption workflows, tier management, and reward catalog for hospitality guests"
+        "description": "Core loyalty program management covering member enrollment, points accrual, redemption workflows, tier management, and reward catalogue for hospitality guests"
       },
       {
         "name": "Partner Integration Layer",

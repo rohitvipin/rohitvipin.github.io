@@ -105,4 +105,28 @@ describe("Hero", () => {
     render(<Hero profile={{ ...baseProfile, tags: [] }} socials={baseSocials} />);
     expect(screen.queryByText("Architect")).not.toBeInTheDocument();
   });
+
+  it("omits metric detail when detail field is absent", () => {
+    const noDetail: Profile = {
+      ...baseProfile,
+      key_metrics: [
+        { label: "Engineers Led", value: "350+", tier: "primary" },
+        { label: "Cost Reduction", value: "40%", tier: "secondary" },
+      ],
+    };
+    render(<Hero profile={noDetail} socials={baseSocials} />);
+    expect(screen.queryByText("USA & India")).not.toBeInTheDocument();
+    expect(screen.queryByText("$180K+")).not.toBeInTheDocument();
+  });
+
+  it("applies large font class for short metric values (length <= 2)", () => {
+    const shortValue: Profile = {
+      ...baseProfile,
+      key_metrics: [{ label: "Years", value: "15", detail: "experience", tier: "primary" }],
+    };
+    const { container } = render(<Hero profile={shortValue} socials={baseSocials} />);
+    const dd = container.querySelector("dd.text-4xl");
+    expect(dd).toBeInTheDocument();
+    expect(dd).toHaveTextContent("15");
+  });
 });

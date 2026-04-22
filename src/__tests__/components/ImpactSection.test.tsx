@@ -61,9 +61,9 @@ describe("ImpactSection", () => {
 
   it("renders scope, role, and outcome labels", () => {
     render(<ImpactSection impact={stories} />);
-    expect(screen.getAllByText("Scope").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("My Role").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Outcome").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Scope").length).toBe(stories.length);
+    expect(screen.getAllByText("My Role").length).toBe(stories.length);
+    expect(screen.getAllByText("Outcome").length).toBe(stories.length);
   });
 
   it("renders empty state without error when no stories provided", () => {

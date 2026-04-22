@@ -114,6 +114,40 @@ describe("Nav", () => {
     expect(document.activeElement).toBe(focusable[focusable.length - 1]);
   });
 
+  it("does not change active section when no entries are intersecting", () => {
+    let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (entries: IntersectionObserverEntry[]) => void) {
+          capturedCallback = cb;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+
+    expect(capturedCallback).not.toBeNull();
+    const cb = capturedCallback as (entries: IntersectionObserverEntry[]) => void;
+
+    act(() => {
+      cb([
+        {
+          isIntersecting: false,
+          boundingClientRect: { top: 100 } as DOMRectReadOnly,
+          target: document.createElement("section"),
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+
+    screen.getAllByRole("link").forEach((link) => {
+      expect(link).not.toHaveAttribute("aria-current", "page");
+    });
+  });
+
   it("marks the intersecting section as active", async () => {
     let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
     vi.stubGlobal(

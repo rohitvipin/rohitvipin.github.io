@@ -49,6 +49,3 @@ export const community: CommunityEntry[] = z.array(CommunityEntrySchema).parse(c
 export const leadership: Leadership = LeadershipSchema.parse(leadershipData);
 export const navLinks: NavLink[] = z.array(NavLinkSchema).parse(navData);
 export const impact: ImpactStory[] = z.array(ImpactStorySchema).parse(impactData);
-
-const _basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
-export const resumeHref = `${_basePath}/Rohit_Vipin_Mathews_Resume.pdf`;

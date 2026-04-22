@@ -265,13 +265,15 @@ All docs live in **`docs/`**:
 
 **Always apply these rules in `data/*.json` and component text:**
 
-| Rule                   | Examples                                                                                   |
-| ---------------------- | ------------------------------------------------------------------------------------------ |
-| ASCII punctuation only | `-` not `–/—`, `...` not `…`, `"` not `"/‟`                                                |
-| British English        | -ise, -our, organised (not -ize, -or, organized)                                           |
-| No corporate speak     | Remove: "end-to-end", "time-to-value", "delivery velocity", "at org scale"                 |
-| No AI jargon           | Remove: "world-class", "exceptional", "cutting-edge", "innovative", "robust", "seamlessly" |
-| Proper nouns/products  | AWS, Google Cloud, ASP.NET, C# (case-sensitive)                                            |
+| Rule                       | Examples                                                                                                                                                                                                                                 |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ASCII punctuation only     | `-` not `–/—`, `...` not `…`, `"` not `"/‟`                                                                                                                                                                                              |
+| British English            | -ise, -our, organised (not -ize, -or, organized)                                                                                                                                                                                         |
+| No corporate speak         | Remove: "end-to-end", "time-to-value", "delivery velocity", "at org scale"                                                                                                                                                               |
+| No AI jargon               | Remove: "world-class", "exceptional", "cutting-edge", "innovative", "robust", "seamlessly"                                                                                                                                               |
+| Allowed technical verbs    | "Architected" is valid — professional verb for architecture work. Do not flag or replace.                                                                                                                                                |
+| Allowed professional terms | "Greenfield", "Brownfield", "Tiger-team", "Pre-sales", "PoC", "RFP", "BRD", "MVP", "Bounded context", "Delivery rhythm", "Serverless", "Domain-Driven Design", "DDD" — all legitimate engineering/business terms. Do not flag as jargon. |
+| Proper nouns/products      | AWS, Google Cloud, ASP.NET, C# (case-sensitive)                                                                                                                                                                                          |
 
 ## Quick Reference: Adding a Feature
 

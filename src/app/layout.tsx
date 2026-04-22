@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "Rohit Vipin Mathews | VP Engineering · CTO · Director of Engineering",
+  title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
   description:
     "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Led 350+ engineers across USA and India. AI enablement, platform modernisation, and delivery execution. Open to VP Engineering, CTO, and Director roles.",
   keywords: [
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Rohit Vipin Mathews | VP Engineering · CTO · Director of Engineering",
+    title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
     description:
       "Engineering leader with 15 years building cloud-native platforms. Led 350+ engineers across USA and India. Open to VP Engineering, CTO, and Director roles.",
     siteName: "Rohit Vipin Mathews",
@@ -69,13 +69,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Rohit Vipin Mathews | VP Engineering · CTO · Director of Engineering",
+        alt: "Rohit Vipin Mathews | Director - Engineering & Architecture",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohit Vipin Mathews | VP Engineering · CTO · Director of Engineering",
+    title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
     description:
       "Engineering leader with 15 years scaling 350+ engineers. Cloud-native platforms, AI enablement, and platform modernisation. Open to VP Engineering and CTO-track roles.",
     images: ["/og-image.jpg"],
@@ -99,7 +99,7 @@ const jsonLd = {
   givenName: "Rohit",
   additionalName: "Vipin",
   familyName: "Mathews",
-  jobTitle: "VP Engineering | Director of Engineering & Architecture",
+  jobTitle: "Director - Engineering & Architecture",
   description:
     "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
   url: BASE_URL,
@@ -138,7 +138,7 @@ const jsonLd = {
   ],
   hasOccupation: {
     "@type": "Occupation",
-    name: "VP Engineering | Director of Engineering & Architecture",
+    name: "Director - Engineering & Architecture",
     occupationLocation: {
       "@type": "Country",
       name: "India",
@@ -162,7 +162,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body suppressHydrationWarning>
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-white focus:rounded-lg focus:outline-none"

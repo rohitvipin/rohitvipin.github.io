@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import SocialLinks from "@/components/shared/SocialLinks";
-import { resumeHref } from "@/lib/data";
+import { resumeHref } from "@/lib/paths";
 
 export interface HeroProps {
   profile: Profile;
@@ -39,30 +39,30 @@ export default function Hero({ profile, socials }: HeroProps) {
               <p className="mt-2 text-xl font-medium gradient-text">{profile.title}</p>
               <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-2">
                 {profile.location && (
-                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]">
                     <FiMapPin
                       size={11}
-                      className="text-[var(--muted-2)]/70 shrink-0"
+                      className="text-[var(--muted-2)] shrink-0"
                       aria-hidden="true"
                     />
                     {profile.location}
                   </span>
                 )}
                 {profile.timezone && (
-                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]">
                     <FiClock
                       size={11}
-                      className="text-[var(--muted-2)]/70 shrink-0"
+                      className="text-[var(--muted-2)] shrink-0"
                       aria-hidden="true"
                     />
                     {profile.timezone}
                   </span>
                 )}
                 {profile.email && (
-                  <span className="hidden sm:flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                  <span className="hidden sm:flex items-center gap-1 text-xs text-[var(--muted-2)]">
                     <FiMail
                       size={11}
-                      className="text-[var(--muted-2)]/70 shrink-0"
+                      className="text-[var(--muted-2)] shrink-0"
                       aria-hidden="true"
                     />
                     {profile.email}
@@ -85,7 +85,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                 className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 transition-colors"
               >
                 <FiMail size={16} aria-hidden="true" />
-                <span className="hidden sm:inline">Get in Touch</span>
+                Get in Touch
               </a>
               <a
                 href={resumeHref}

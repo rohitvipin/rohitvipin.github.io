@@ -37,9 +37,9 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                   </h3>
                 </div>
                 <div className="flex flex-wrap gap-2" aria-label="Key outcomes">
-                  {story.metrics.map((bullet, idx) => (
+                  {story.metrics.map((bullet) => (
                     <span
-                      key={`${story.id}-bullet-${idx}`}
+                      key={`${story.id}-${bullet}`}
                       className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-semibold text-[var(--accent)]"
                     >
                       {bullet}

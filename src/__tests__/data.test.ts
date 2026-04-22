@@ -11,8 +11,8 @@ import {
   leadership,
   navLinks,
   impact,
-  resumeHref,
 } from "@/lib/data";
+import { resumeHref } from "@/lib/paths";
 
 describe("profile", () => {
   it("has required string fields", () => {
