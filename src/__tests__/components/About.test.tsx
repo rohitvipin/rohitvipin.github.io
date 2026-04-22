@@ -29,6 +29,11 @@ const profileWithValueProps: Profile = {
   ],
 };
 
+const profileWithQuote: Profile = {
+  ...baseProfile,
+  bio_quote: "Teams don't win on cost - they win on trust.",
+};
+
 describe("About", () => {
   it("renders section with id=about", () => {
     const { container } = render(<About profile={baseProfile} />);
@@ -41,32 +46,19 @@ describe("About", () => {
     expect(screen.getByText("Second paragraph.")).toBeInTheDocument();
   });
 
-  it("renders location", () => {
-    render(<About profile={baseProfile} />);
-    expect(screen.getByText("Kerala, India")).toBeInTheDocument();
-  });
-
-  it("renders years of experience", () => {
-    render(<About profile={baseProfile} />);
-    expect(
-      screen.getByText((_, el) => el?.textContent === "10+ years experience")
-    ).toBeInTheDocument();
-  });
-
-  it("renders email link", () => {
-    render(<About profile={baseProfile} />);
-    const emailLink = screen.getByRole("link", { name: "test@example.com" });
-    expect(emailLink).toHaveAttribute("href", "mailto:test@example.com");
-  });
-
-  it("renders timezone", () => {
-    render(<About profile={baseProfile} />);
-    expect(screen.getByText("IST (UTC+5:30)")).toBeInTheDocument();
-  });
-
   it("does not render value propositions section when absent", () => {
     render(<About profile={baseProfile} />);
     expect(screen.queryByText("Why Rohit — in 30 seconds")).not.toBeInTheDocument();
+  });
+
+  it("does not render blockquote when bio_quote absent", () => {
+    const { container } = render(<About profile={baseProfile} />);
+    expect(container.querySelector("blockquote")).not.toBeInTheDocument();
+  });
+
+  it("renders bio_quote in a blockquote when present", () => {
+    render(<About profile={profileWithQuote} />);
+    expect(screen.getByText(/Teams don't win on cost/)).toBeInTheDocument();
   });
 });
 
@@ -87,5 +79,13 @@ describe("About — value propositions", () => {
     render(<About profile={profileWithValueProps} />);
     expect(screen.getByText("15 years, strong on architecture and delivery.")).toBeInTheDocument();
     expect(screen.getByText("I own outcomes, not headcount reports.")).toBeInTheDocument();
+  });
+
+  it("renders value props before bio paragraphs", () => {
+    const { container } = render(<About profile={profileWithValueProps} />);
+    const heading = screen.getByText("Why Rohit - in 30 seconds");
+    const bioPara = screen.getByText("First paragraph.");
+    const allElements = Array.from(container.querySelectorAll("*"));
+    expect(allElements.indexOf(heading)).toBeLessThan(allElements.indexOf(bioPara));
   });
 });

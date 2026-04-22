@@ -16,6 +16,7 @@ export interface Profile {
   headline: string;
   location: string;
   bio: string;
+  bio_quote?: string;
   email: string;
   phone: string;
   years_of_experience: number;

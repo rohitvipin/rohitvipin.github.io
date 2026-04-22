@@ -14,16 +14,8 @@ export default function About({ profile }: AboutProps) {
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader title="About" />
 
-        <div className="space-y-4">
-          {paragraphs.map((para, i) => (
-            <p key={i} className="text-[var(--muted)] text-[17px] leading-[1.75] max-w-3xl">
-              {para}
-            </p>
-          ))}
-        </div>
-
         {valueProps.length > 0 && (
-          <div className="mt-12">
+          <div className="mb-12">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--muted-2)] mb-5">
               Why Rohit - in 30 seconds
             </h3>
@@ -39,6 +31,24 @@ export default function About({ profile }: AboutProps) {
             </div>
           </div>
         )}
+
+        <div className="grid lg:grid-cols-[3fr_2fr] gap-24 items-start">
+          <div className="space-y-4">
+            {paragraphs.map((para, i) => (
+              <p key={i} className="text-[var(--muted)] text-[17px] leading-[1.75]">
+                {para}
+              </p>
+            ))}
+          </div>
+
+          {profile.bio_quote && (
+            <blockquote className="hidden lg:block border-l border-[var(--border)] pl-5 py-1">
+              <p className="text-[var(--muted-2)] text-base font-normal leading-relaxed italic">
+                &ldquo;{profile.bio_quote}&rdquo;
+              </p>
+            </blockquote>
+          )}
+        </div>
       </div>
     </section>
   );
