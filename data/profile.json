@@ -3,7 +3,7 @@
   "title": "Director - Engineering & Architecture",
   "headline": "Engineering leader scaling 350+ engineers across USA onshore and India offshore teams, delivering cloud-native AI-enabled platforms across education, agriculture, logistics, and hospitality.",
   "location": "Kerala, India",
-  "bio": "I build and run large-scale distributed engineering organisations while staying close enough to the architecture to unblock it personally. I've led 350+ engineers across USA onshore and India offshore accounts, scaled four distinct product lines from zero, and owned the AI enablement practice that improved how fast teams shipped by 30%+ across the org.\n\nMy work spans the full director-to-architect range: I design engineering cultures where ownership is non-negotiable, teams are indistinguishable from the customer's own engineering org, and every failure is explainable and reproducible by design. I've delivered cloud-native platforms across K-12 education, precision agriculture, logistics, and hospitality - and I've run the PoCs, RFPs, architecture proposals, and tiger-team engagements that turn client problems into funded engineering programmes. My teams operate as product engineering organisations embedded with clients - not as delivery vendors. We own outcomes, not tickets.\n\nI believe engineering teams don't win on cost - they win on trust. And trust is earned by solving the hard problems, not the easy ones. I hire for ownership mindset and learning velocity above all else - because in a fast-moving engineering landscape, the ability to grow beats the ability to know.",
+  "bio": "I build and run large-scale distributed engineering organisations while staying close enough to the architecture to unblock it personally. I've led 350+ engineers across USA onshore and India offshore accounts, scaled four distinct product lines from zero, and owned the AI enablement practice that improved how fast teams shipped by 30%+ across the org.\n\nMy work spans the full director-to-architect range: I design engineering cultures where ownership is non-negotiable, teams are indistinguishable from the customer's own engineering org, and every failure is explainable and reproducible by design. I've delivered cloud-native platforms across education, precision agriculture, logistics, and hospitality - and I've run the PoCs, RFPs, architecture proposals, and tiger-team engagements that turn client problems into funded engineering programmes. My teams operate as product engineering organisations embedded with clients - not as delivery vendors. We own outcomes, not tickets.\n\nI believe engineering teams don't win on cost - they win on trust. And trust is earned by solving the hard problems, not the easy ones. I hire for ownership mindset and learning velocity above all else - because in a fast-moving engineering landscape, the ability to grow beats the ability to know.",
   "email": "rohitvipin@gmail.com",
   "phone": "+91-8089361725",
   "years_of_experience": 14,
@@ -42,7 +42,7 @@
     {
       "label": "Product Domains",
       "value": "4",
-      "detail": "K-12 Education, Agriculture, Logistics, Hospitality",
+      "detail": "Education, Agriculture, Logistics, Hospitality",
       "tier": "primary"
     },
     {
