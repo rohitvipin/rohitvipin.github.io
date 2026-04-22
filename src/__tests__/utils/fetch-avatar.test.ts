@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
 import { main } from "../../../utils/fetch-avatar";
 import { ProfileSchema } from "@/lib/schemas";
 
@@ -7,11 +7,13 @@ vi.mock("fs", () => {
   const existsSync = vi.fn();
   const readFileSync = vi.fn();
   const writeFileSync = vi.fn();
+  const renameSync = vi.fn();
   return {
     existsSync,
     readFileSync,
     writeFileSync,
-    default: { existsSync, readFileSync, writeFileSync },
+    renameSync,
+    default: { existsSync, readFileSync, writeFileSync, renameSync },
   };
 });
 
@@ -58,6 +60,7 @@ describe("fetch-avatar main()", () => {
     vi.clearAllMocks();
     vi.mocked(existsSync).mockReturnValue(false);
     vi.mocked(writeFileSync).mockImplementation(() => {});
+    vi.mocked(renameSync).mockImplementation(() => {});
     vi.mocked(readFileSync).mockReturnValue("");
     vi.mocked(ProfileSchema.parse).mockImplementation((d) => d);
   });
@@ -102,9 +105,9 @@ describe("fetch-avatar main()", () => {
     await expect(main()).rejects.toThrow("Avatar fetch failed and no fallback exists");
   });
 
-  it("throws on 3xx redirect", async () => {
+  it("throws on non-ok 3xx status (unresolved redirect chain)", async () => {
     global.fetch = vi.fn().mockResolvedValue(makeResponse({ ok: false, status: 302, body: null }));
-    await expect(main()).rejects.toThrow("redirect not allowed");
+    await expect(main()).rejects.toThrow("HTTP 302");
   });
 
   it("throws on non-image content-type", async () => {

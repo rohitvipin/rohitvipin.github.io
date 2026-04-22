@@ -9,7 +9,7 @@ const clientProject: Project = {
   domain: "Education",
   client: "Acme",
   role: "Architect",
-  duration: "2020 - Present",
+  duration: "April 2020 - Present",
   description: "Built K-12 platform.",
   products: [],
   highlights: ["99.9% uptime"],

@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
 import { join } from "path";
 import profileJson from "../data/profile.json";
 import { ProfileSchema } from "../src/lib/schemas";
@@ -28,10 +28,7 @@ export async function main() {
   console.log(`Fetching avatar from ${url}...`);
   let buffer: Buffer;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "manual" });
-    if (res.status >= 300 && res.status < 400) {
-      throw new Error(`redirect not allowed: ${res.status}`);
-    }
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "follow" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const contentType = res.headers.get("content-type") ?? "";
     if (!contentType.startsWith("image/")) {
@@ -99,7 +96,9 @@ export async function main() {
     console.log(`Avatar digest pinned -> public/avatar.sha256`);
   }
 
-  writeFileSync(outputPath, buffer);
+  const tmpPath = `${outputPath}.tmp`;
+  writeFileSync(tmpPath, buffer);
+  renameSync(tmpPath, outputPath);
   console.log(`Avatar saved -> public/avatar.jpg (${buffer.length} bytes)`);
 }
 

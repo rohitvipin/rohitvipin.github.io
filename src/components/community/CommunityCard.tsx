@@ -34,20 +34,22 @@ export default function CommunityCard({ entry }: CommunityCardProps) {
       {entry.location && <p className="text-xs text-[var(--muted-2)]">{entry.location}</p>}
       <p className="text-xs text-[var(--muted)] leading-relaxed">{entry.description}</p>
 
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
-        aria-expanded={open}
-        aria-label={open ? "Hide highlights" : `Show ${entry.highlights.length} highlights`}
-      >
-        <FiChevronDown
-          size={14}
-          aria-hidden="true"
-          className="transition-transform duration-200"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-        />
-        {open ? "Hide details" : `Show ${entry.highlights.length} highlights`}
-      </button>
+      {entry.highlights.length > 0 && (
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
+          aria-expanded={open}
+          aria-label={open ? "Hide highlights" : `Show ${entry.highlights.length} highlights`}
+        >
+          <FiChevronDown
+            size={14}
+            aria-hidden="true"
+            className="transition-transform duration-200"
+            style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+          />
+          {open ? "Hide details" : `Show ${entry.highlights.length} highlights`}
+        </button>
+      )}
 
       {open && (
         <ul className="space-y-2 pt-1 border-t border-[var(--border)]">
