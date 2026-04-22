@@ -37,6 +37,11 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
     letterSpacing: 0.3,
   },
+  openToLine: {
+    fontSize: 8,
+    color: ACCENT,
+    marginBottom: 4,
+  },
   headline: {
     fontSize: 8.5,
     color: TEXT_SECONDARY,

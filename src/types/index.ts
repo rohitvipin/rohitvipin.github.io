@@ -5,6 +5,11 @@ export interface KeyMetric {
   tier?: "primary" | "secondary";
 }
 
+export interface ValueProposition {
+  audience: string;
+  value: string;
+}
+
 export interface Profile {
   name: string;
   title: string;
@@ -21,6 +26,19 @@ export interface Profile {
   key_metrics: KeyMetric[];
   tags?: string[];
   cta_primary?: string;
+  open_to?: string;
+  value_propositions?: ValueProposition[];
+}
+
+export interface ImpactStory {
+  id: string;
+  title: string;
+  domain: string;
+  problem: string;
+  scope: string;
+  led: string;
+  result: string;
+  metric: string;
 }
 
 export interface ExperienceEntry {

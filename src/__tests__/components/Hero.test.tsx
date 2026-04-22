@@ -11,11 +11,13 @@ const baseProfile: Profile = {
   bio: "Bio text.",
   email: "test@example.com",
   phone: "+91 000 000 0000",
-  years_of_experience: 14,
+  years_of_experience: 15,
   timezone: "IST (UTC+5:30)",
   availability_status: "open",
   github_avatar: "https://avatars.githubusercontent.com/u/123",
   tags: ["Architect", "Speaker"],
+  cta_primary: "See Impact",
+  open_to: "Open to VP Engineering and CTO-track roles",
   key_metrics: [
     { label: "Engineers Led", value: "350+", detail: "USA & India", tier: "primary" },
     { label: "Cost Reduction", value: "40%", detail: "$180K+", tier: "secondary" },
@@ -54,19 +56,34 @@ describe("Hero", () => {
     expect(screen.getByText("Speaker")).toBeInTheDocument();
   });
 
-  it("renders key metrics", () => {
+  it("renders primary key metrics", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
     expect(screen.getByText("Engineers Led")).toBeInTheDocument();
     expect(screen.getByText("350+")).toBeInTheDocument();
-    expect(screen.getByText("Cost Reduction")).toBeInTheDocument();
   });
 
-  it("renders View Experience link", () => {
+  it("renders secondary metrics", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    expect(screen.getByRole("link", { name: "View Experience" })).toHaveAttribute(
-      "href",
-      "#experience"
-    );
+    expect(screen.getByText("Cost Reduction")).toBeInTheDocument();
+    expect(screen.getByText("40%")).toBeInTheDocument();
+  });
+
+  it("renders primary CTA linking to #impact", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    expect(screen.getByRole("link", { name: "See Impact" })).toHaveAttribute("href", "#impact");
+  });
+
+  it("renders open_to statement when present", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    expect(screen.getByText("Open to VP Engineering and CTO-track roles")).toBeInTheDocument();
+  });
+
+  it("does not render open_to when absent", () => {
+    const { open_to: _ot, ...withoutOpenTo } = baseProfile;
+    render(<Hero profile={withoutOpenTo as Profile} socials={baseSocials} />);
+    expect(
+      screen.queryByText("Open to VP Engineering and CTO-track roles")
+    ).not.toBeInTheDocument();
   });
 
   it("renders Download CV link", () => {

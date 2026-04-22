@@ -9,6 +9,7 @@ import {
   AwardSchema,
   CommunityEntrySchema,
   LeadershipSchema,
+  ImpactStorySchema,
   FILE_ZSCHEMAS,
 } from "@/lib/schemas";
 
@@ -276,10 +277,38 @@ describe("LeadershipSchema", () => {
   });
 });
 
+// ── ImpactStorySchema ─────────────────────────────────────────────────────────
+
+const validImpactStory = {
+  id: "k12-hcm",
+  title: "K-12 Platform Modernisation",
+  domain: "Education",
+  problem: "Legacy platform could not scale.",
+  scope: "350+ engineers across two geos.",
+  led: "Full engineering org from architecture through delivery.",
+  result: "Unified cloud-native platform with 45% fewer incidents.",
+  metric: "30%+ productivity lift. 45% incident reduction.",
+};
+
+describe("ImpactStorySchema", () => {
+  it("parses valid impact story", () => {
+    expect(ImpactStorySchema.parse(validImpactStory).id).toBe("k12-hcm");
+  });
+
+  it("rejects missing required fields", () => {
+    const { metric: _m, ...withoutMetric } = validImpactStory;
+    expect(() => ImpactStorySchema.parse(withoutMetric)).toThrow();
+  });
+
+  it("rejects empty strings", () => {
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, domain: "" })).toThrow();
+  });
+});
+
 // ── FILE_ZSCHEMAS coverage ────────────────────────────────────────────────────
 
 describe("FILE_ZSCHEMAS", () => {
-  it("covers all 9 data files", () => {
+  it("covers all 10 data files", () => {
     const expected = [
       "profile.json",
       "experience.json",
@@ -290,6 +319,7 @@ describe("FILE_ZSCHEMAS", () => {
       "awards.json",
       "community.json",
       "leadership.json",
+      "impact.json",
     ];
     for (const file of expected) {
       expect(FILE_ZSCHEMAS[file]).toBeDefined();

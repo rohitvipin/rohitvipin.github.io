@@ -3,14 +3,16 @@ import ScrollToTop from "@/components/shared/ScrollToTop";
 import { AnimateOnScroll } from "@/components/shared/AnimateOnScroll";
 import Hero from "@/components/hero/Hero";
 import About from "@/components/about/About";
+import ImpactSection from "@/components/impact/ImpactSection";
 import ExperienceTimeline from "@/components/experience/ExperienceTimeline";
+import LeadershipSection from "@/components/leadership/LeadershipSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import SkillsSection from "@/components/skills/SkillsSection";
 import CommunitySection from "@/components/community/CommunitySection";
 import AwardsSection from "@/components/awards/AwardsSection";
 import EducationSection from "@/components/education/EducationSection";
-import LeadershipSection from "@/components/leadership/LeadershipSection";
 import SocialLinks from "@/components/shared/SocialLinks";
+import { FiDownload, FiMail } from "react-icons/fi";
 import {
   profile,
   socials,
@@ -22,6 +24,7 @@ import {
   education,
   leadership,
   navLinks,
+  impact,
 } from "@/lib/data";
 
 export default function Home() {
@@ -43,17 +46,20 @@ export default function Home() {
         <AnimateOnScroll sectionId="about">
           <About profile={profile} />
         </AnimateOnScroll>
+        <AnimateOnScroll sectionId="impact">
+          <ImpactSection impact={impact} />
+        </AnimateOnScroll>
         <AnimateOnScroll sectionId="experience">
           <ExperienceTimeline
             experience={experience}
             yearsOfExperience={profile.years_of_experience}
           />
         </AnimateOnScroll>
-        <AnimateOnScroll sectionId="projects">
-          <ProjectsSection projects={projects} />
-        </AnimateOnScroll>
         <AnimateOnScroll sectionId="leadership">
           <LeadershipSection leadership={leadership} />
+        </AnimateOnScroll>
+        <AnimateOnScroll sectionId="projects">
+          <ProjectsSection projects={projects} />
         </AnimateOnScroll>
         <AnimateOnScroll sectionId="skills">
           <SkillsSection skills={skills} />
@@ -67,20 +73,44 @@ export default function Home() {
         <AnimateOnScroll sectionId="education">
           <EducationSection education={education} />
         </AnimateOnScroll>
+
+        {/* Bottom CTA */}
+        <section className="section border-t border-[var(--border)]">
+          <div className="max-w-6xl mx-auto px-6 text-center space-y-6">
+            <h2 className="text-2xl font-bold text-[var(--text)]">
+              Open to VP Engineering, Platform, Architecture, and CTO-track roles
+            </h2>
+            <p className="text-[var(--muted)] max-w-xl mx-auto">
+              Based in Kerala, India. Available for remote and hybrid leadership roles working with
+              USA, UK, or global teams.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href={`mailto:${profile.email}`}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--accent)] text-[var(--bg)] font-medium hover:opacity-90 transition-opacity"
+              >
+                <FiMail size={16} aria-hidden="true" />
+                Get in Touch
+              </a>
+              <a
+                href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
+                download
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[var(--border)] text-[var(--muted)] font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+              >
+                <FiDownload size={16} aria-hidden="true" />
+                Download CV
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
+
       <footer className="border-t border-[var(--border)] py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-[var(--muted)]">
             © {new Date().getFullYear()} {profile.name}
           </p>
           <SocialLinks socials={socials} />
-          <a
-            href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/Rohit_Vipin_Mathews_Resume.pdf`}
-            download
-            className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
-          >
-            Download CV
-          </a>
         </div>
       </footer>
       <ScrollToTop />

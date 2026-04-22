@@ -14,6 +14,11 @@ export const KeyMetricSchema = z.object({
   tier: z.enum(["primary", "secondary"]).optional(),
 });
 
+export const ValuePropositionSchema = z.object({
+  audience: z.string().min(1),
+  value: z.string().min(1),
+});
+
 export const ProfileSchema = z.object({
   name: z.string().min(1),
   title: z.string().min(1),
@@ -30,6 +35,8 @@ export const ProfileSchema = z.object({
   key_metrics: z.array(KeyMetricSchema).min(1),
   tags: z.array(z.string().min(1)).optional(),
   cta_primary: z.string().min(1).optional(),
+  open_to: z.string().min(1).optional(),
+  value_propositions: z.array(ValuePropositionSchema).optional(),
 });
 
 export const ExperienceSchema = z.object({
@@ -109,6 +116,17 @@ export const NavLinkSchema = z.object({
   href: z.string().min(1).startsWith("#"),
 });
 
+export const ImpactStorySchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  domain: z.string().min(1),
+  problem: z.string().min(1),
+  scope: z.string().min(1),
+  led: z.string().min(1),
+  result: z.string().min(1),
+  metric: z.string().min(1),
+});
+
 export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "profile.json": ProfileSchema,
   "experience.json": z.array(ExperienceSchema),
@@ -120,4 +138,5 @@ export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "community.json": z.array(CommunityEntrySchema),
   "leadership.json": LeadershipSchema,
   "nav.json": z.array(NavLinkSchema),
+  "impact.json": z.array(ImpactStorySchema),
 };
