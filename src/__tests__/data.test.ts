@@ -9,6 +9,9 @@ import {
   awards,
   community,
   leadership,
+  navLinks,
+  impact,
+  resumeHref,
 } from "@/lib/data";
 
 describe("profile", () => {
@@ -176,5 +179,55 @@ describe("leadership", () => {
       expect(typeof s.title).toBe("string");
       expect(typeof s.description).toBe("string");
     }
+  });
+});
+
+describe("navLinks", () => {
+  it("is non-empty array", () => {
+    expect(Array.isArray(navLinks)).toBe(true);
+    expect(navLinks.length).toBeGreaterThan(0);
+  });
+
+  it("each link has non-empty label and anchor href", () => {
+    for (const link of navLinks) {
+      expect(typeof link.label).toBe("string");
+      expect(link.label.length).toBeGreaterThan(0);
+      expect(link.href.startsWith("#")).toBe(true);
+    }
+  });
+});
+
+describe("impact", () => {
+  it("is non-empty array", () => {
+    expect(Array.isArray(impact)).toBe(true);
+    expect(impact.length).toBeGreaterThan(0);
+  });
+
+  it("each story has required fields", () => {
+    for (const story of impact) {
+      expect(typeof story.id).toBe("string");
+      expect(story.id.length).toBeGreaterThan(0);
+      expect(typeof story.title).toBe("string");
+      expect(typeof story.domain).toBe("string");
+      expect(typeof story.problem).toBe("string");
+      expect(typeof story.scope).toBe("string");
+      expect(typeof story.led).toBe("string");
+      expect(typeof story.result).toBe("string");
+      expect(Array.isArray(story.metrics)).toBe(true);
+      expect(story.metrics.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("each story id matches slug pattern", () => {
+    for (const story of impact) {
+      expect(story.id).toMatch(/^[a-z][a-z0-9-]*$/);
+    }
+  });
+});
+
+describe("resumeHref", () => {
+  it("is a string ending with the PDF filename", () => {
+    expect(typeof resumeHref).toBe("string");
+    expect(resumeHref.endsWith("/Rohit_Vipin_Mathews_Resume.pdf")).toBe(true);
   });
 });

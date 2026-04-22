@@ -9,6 +9,7 @@ import {
   AwardSchema,
   CommunityEntrySchema,
   LeadershipSchema,
+  NavLinkSchema,
   ImpactStorySchema,
   FILE_ZSCHEMAS,
 } from "@/lib/schemas";
@@ -204,6 +205,12 @@ describe("SocialSchema", () => {
     expect(() => SocialSchema.parse({ platform: "X", url: "/relative", icon: "x" })).toThrow();
     expect(() => SocialSchema.parse({ platform: "X", url: "not-a-url", icon: "x" })).toThrow();
   });
+
+  it("rejects http:// URLs", () => {
+    expect(() =>
+      SocialSchema.parse({ platform: "X", url: "http://example.com", icon: "x" })
+    ).toThrow();
+  });
 });
 
 // ── AwardSchema ───────────────────────────────────────────────────────────────
@@ -321,6 +328,30 @@ describe("ImpactStorySchema", () => {
     expect(ImpactStorySchema.parse({ ...validImpactStory, id: "k12-platform" }).id).toBe(
       "k12-platform"
     );
+  });
+});
+
+// ── NavLinkSchema ─────────────────────────────────────────────────────────────
+
+describe("NavLinkSchema", () => {
+  it("parses valid nav link", () => {
+    const result = NavLinkSchema.parse({ label: "About", href: "#about" });
+    expect(result.label).toBe("About");
+    expect(result.href).toBe("#about");
+  });
+
+  it("rejects href not starting with #", () => {
+    expect(() => NavLinkSchema.parse({ label: "About", href: "/about" })).toThrow();
+    expect(() => NavLinkSchema.parse({ label: "About", href: "about" })).toThrow();
+    expect(() => NavLinkSchema.parse({ label: "About", href: "https://example.com" })).toThrow();
+  });
+
+  it("rejects empty label", () => {
+    expect(() => NavLinkSchema.parse({ label: "", href: "#about" })).toThrow();
+  });
+
+  it("rejects empty href", () => {
+    expect(() => NavLinkSchema.parse({ label: "About", href: "" })).toThrow();
   });
 });
 
