@@ -23,21 +23,21 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
         <div className="space-y-6">
           {impact.map((story) => (
             <article key={story.id} className="card p-6 lg:p-8 space-y-6">
-              <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="space-y-3">
                 <div>
-                  <span className="inline-block px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-medium text-[var(--accent)] mb-2">
+                  <span className="inline-block px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs font-medium text-[var(--muted)] mb-2">
                     {story.domain}
                   </span>
                   <h3 className="text-lg font-semibold text-[var(--text)]">{story.title}</h3>
                 </div>
-                <div className="bg-[var(--accent)]/8 border border-[var(--accent)]/20 rounded-lg px-3 py-2 max-w-xs space-y-1">
+                <div className="flex flex-wrap gap-2">
                   {metricBullets(story.metric).map((bullet) => (
-                    <p
+                    <span
                       key={bullet}
-                      className="text-sm font-semibold text-[var(--accent)] leading-snug"
+                      className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-semibold text-[var(--accent)]"
                     >
                       {bullet}
-                    </p>
+                    </span>
                   ))}
                 </div>
               </div>
