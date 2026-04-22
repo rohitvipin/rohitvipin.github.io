@@ -1,4 +1,4 @@
-import { writeFileSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { join } from "path";
 import profileJson from "../data/profile.json";
 
@@ -11,16 +11,28 @@ async function main() {
     return;
   }
   console.log(`Fetching avatar from ${url}...`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status} fetching avatar`);
+  let res: Response;
+  try {
+    res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  } catch (err) {
+    if (existsSync(outputPath)) {
+      console.warn(
+        `Avatar fetch failed (${err instanceof Error ? err.message : err}) — using existing public/avatar.jpg`
+      );
+      return;
+    }
+    console.error(
+      `Avatar fetch failed and no fallback exists: ${err instanceof Error ? err.message : err}`
+    );
+    process.exit(1);
+  }
   const buffer = Buffer.from(await res.arrayBuffer());
   writeFileSync(outputPath, buffer);
   console.log(`Avatar saved → public/avatar.jpg (${buffer.length} bytes)`);
 }
 
 main().catch((err) => {
-  console.warn(
-    `Warning: avatar fetch failed — ${err instanceof Error ? err.message : err}. Build will continue.`
-  );
-  process.exit(0);
+  console.error(`Unexpected error: ${err instanceof Error ? err.message : err}`);
+  process.exit(1);
 });
