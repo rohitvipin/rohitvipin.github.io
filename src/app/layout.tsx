@@ -147,6 +147,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
+        {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
         <meta
           httpEquiv="Content-Security-Policy"
           content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"

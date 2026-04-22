@@ -73,7 +73,7 @@ describe("partitionProjects", () => {
     expect(ossProjects).toHaveLength(0);
   });
 
-  it("sorts each bucket by start year descending", () => {
+  it("preserves insertion order within each bucket", () => {
     const projects = [
       makeProject("Old Client", "March 2018"),
       makeProject("Personal", "2020"),
@@ -82,13 +82,7 @@ describe("partitionProjects", () => {
       makeProject("Mid Client", "April 2022 - March 2024"),
     ];
     const { clientProjects, ossProjects } = partitionProjects(projects);
-    expect(clientProjects.map((p) => p.client)).toEqual(["New Client", "Mid Client", "Old Client"]);
-    expect(ossProjects.map((p) => p.client)).toEqual(["Personal / Community", "Personal"]);
-  });
-
-  it("preserves relative order for same start year", () => {
-    const projects = [makeProject("A", "2024"), makeProject("B", "2024"), makeProject("C", "2024")];
-    const { clientProjects } = partitionProjects(projects);
-    expect(clientProjects.map((p) => p.client)).toEqual(["A", "B", "C"]);
+    expect(clientProjects.map((p) => p.client)).toEqual(["Old Client", "New Client", "Mid Client"]);
+    expect(ossProjects.map((p) => p.client)).toEqual(["Personal", "Personal / Community"]);
   });
 });

@@ -1,5 +1,4 @@
 import type { Project } from "@/types";
-import { byStartYearDesc } from "@/lib/duration";
 
 const OSS_CLIENTS = ["Personal", "Personal / Community"] as const;
 
@@ -22,8 +21,5 @@ export function partitionProjects(projects: Project[]): {
     }
   }
 
-  return {
-    clientProjects: clientProjects.sort(byStartYearDesc),
-    ossProjects: ossProjects.sort(byStartYearDesc),
-  };
+  return { clientProjects, ossProjects };
 }

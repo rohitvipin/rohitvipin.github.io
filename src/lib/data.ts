@@ -54,7 +54,11 @@ export const experience: ExperienceEntry[] = parseOrThrow(
   experienceData,
   "experience"
 ).sort(byStartYearDesc);
-export const projects: Project[] = parseOrThrow(z.array(ProjectSchema), projectsData, "projects");
+export const projects: Project[] = parseOrThrow(
+  z.array(ProjectSchema),
+  projectsData,
+  "projects"
+).sort(byStartYearDesc);
 export const skills: SkillCategory[] = parseOrThrow(
   z.array(SkillCategorySchema),
   skillsData,
