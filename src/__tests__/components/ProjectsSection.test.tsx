@@ -37,16 +37,16 @@ describe("ProjectsSection", () => {
 
   it("shows client projects by default", () => {
     render(<ProjectsSection projects={[clientProject, ossProject]} />);
-    expect(screen.getByText("Client Platform")).toBeInTheDocument();
-    expect(screen.queryByText("OSS Library")).not.toBeInTheDocument();
+    expect(screen.getByText("Client Platform")).toBeVisible();
+    expect(screen.getByText("OSS Library")).not.toBeVisible();
   });
 
   it("switches to OSS tab on click", async () => {
     const user = userEvent.setup();
     render(<ProjectsSection projects={[clientProject, ossProject]} />);
     await user.click(screen.getByRole("tab", { name: /Open Source/ }));
-    expect(screen.getByText("OSS Library")).toBeInTheDocument();
-    expect(screen.queryByText("Client Platform")).not.toBeInTheDocument();
+    expect(screen.getByText("OSS Library")).toBeVisible();
+    expect(screen.getByText("Client Platform")).not.toBeVisible();
   });
 
   it("switches back to Client tab on click", async () => {
@@ -54,8 +54,8 @@ describe("ProjectsSection", () => {
     render(<ProjectsSection projects={[clientProject, ossProject]} />);
     await user.click(screen.getByRole("tab", { name: /Open Source/ }));
     await user.click(screen.getByRole("tab", { name: /Client/ }));
-    expect(screen.getByText("Client Platform")).toBeInTheDocument();
-    expect(screen.queryByText("OSS Library")).not.toBeInTheDocument();
+    expect(screen.getByText("Client Platform")).toBeVisible();
+    expect(screen.getByText("OSS Library")).not.toBeVisible();
   });
 
   it("renders empty project list without crashing", () => {

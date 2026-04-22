@@ -42,7 +42,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <p className="text-xs font-medium uppercase tracking-wider" style={{ color: domainColor }}>
           {project.domain}
         </p>
-        <p className="text-xs text-[var(--muted-2)] mt-0.5">
+        <p className="text-xs text-[var(--muted)] mt-0.5">
           {project.role} · {project.client}
         </p>
       </div>
