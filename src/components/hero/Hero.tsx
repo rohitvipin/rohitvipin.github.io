@@ -115,6 +115,7 @@ export default function Hero({ profile, socials }: HeroProps) {
                   src={avatarHref}
                   alt={`Profile photo of ${profile.name}`}
                   fill
+                  sizes="320px"
                   className="object-cover"
                   priority
                 />

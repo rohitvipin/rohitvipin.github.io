@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { parseStartYear } from "../../utils/resume/sections/Experience";
 
-describe("parseStartYear", () => {
+describe("parseStartYear (resume PDF utility — utils/resume/sections/Experience)", () => {
   it("parses standard duration format", () => {
     expect(parseStartYear("Feb 2020 - Jan 2024")).toBe(2020);
     expect(parseStartYear("Jan 2015 - Dec 2019")).toBe(2015);

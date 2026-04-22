@@ -1,3 +1,6 @@
+/**
+ * Safe ONLY inside <script type="application/ld+json">. Do NOT reuse for HTML attributes — quotes are unescaped.
+ */
 export function escapeJsonLd(json: string): string {
   return json
     .replace(/&/g, "\\u0026")

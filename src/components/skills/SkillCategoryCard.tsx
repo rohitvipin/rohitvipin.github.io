@@ -24,24 +24,16 @@ export default function SkillCategoryCard({ category, skills }: SkillCategoryCar
         {visible.map((skill) => (
           <TechChip key={skill} label={skill} />
         ))}
-        {!expanded && hidden > 0 && (
+        {hidden > 0 && (
           <button
-            onClick={() => setExpanded(true)}
-            aria-expanded={false}
-            aria-label={`Show ${hidden} more ${category} skills`}
+            onClick={() => setExpanded((e) => !e)}
+            aria-expanded={expanded}
+            aria-label={
+              expanded ? `Show fewer ${category} skills` : `Show ${hidden} more ${category} skills`
+            }
             className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono"
           >
-            +{hidden} more
-          </button>
-        )}
-        {expanded && hidden > 0 && (
-          <button
-            onClick={() => setExpanded(false)}
-            aria-expanded={true}
-            aria-label={`Show fewer ${category} skills`}
-            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono"
-          >
-            show less
+            {expanded ? "show less" : `+${hidden} more`}
           </button>
         )}
       </div>

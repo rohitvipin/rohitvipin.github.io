@@ -135,6 +135,28 @@ export const ImpactStorySchema = z.object({
   metrics: z.array(z.string().min(1)).min(1),
 });
 
+export const ResumeSectionConfigSchema = z.object({
+  show: z.boolean(),
+  maxItems: z.number().int().positive().optional(),
+  sinceYear: z.number().int().positive().optional(),
+});
+
+export const ResumeConfigSchema = z.object({
+  pageSize: z.enum(["A4", "LETTER"]),
+  font: z.string().min(1),
+  showKeyMetrics: z.boolean(),
+  sectionOrder: z.array(z.string().min(1)),
+  sections: z.object({
+    experience: ResumeSectionConfigSchema.optional(),
+    skills: ResumeSectionConfigSchema.optional(),
+    projects: ResumeSectionConfigSchema.optional(),
+    leadership: ResumeSectionConfigSchema.optional(),
+    education: ResumeSectionConfigSchema.optional(),
+    community: ResumeSectionConfigSchema.optional(),
+    awards: ResumeSectionConfigSchema.optional(),
+  }),
+});
+
 export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "profile.json": ProfileSchema,
   "experience.json": z.array(ExperienceSchema),
@@ -147,4 +169,5 @@ export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "leadership.json": LeadershipSchema,
   "nav.json": z.array(NavLinkSchema),
   "impact.json": z.array(ImpactStorySchema),
+  "resume-config.json": ResumeConfigSchema,
 };

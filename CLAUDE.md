@@ -15,7 +15,7 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 - **`data/`** — Canonical JSON content (source of truth)
   - Arrays: `awards.json`, `community.json`, `education.json`, `experience.json`, `nav.json`, `projects.json`, `skills.json`, `socials.json`
   - Objects: `leadership.json` (title + sections), `profile.json` (singleton)
-  - `resume-config.json` — PDF layout config, consumed only by `utils/generate-resume.ts` (not loaded by `data.ts`, not in Zod schemas)
+  - `resume-config.json` — PDF layout config, consumed only by `utils/generate-resume.ts` (not loaded by `data.ts`; validated by `ResumeConfigSchema` in `src/lib/schemas.ts` via `npm run lint:data`)
 - **`src/`** — Next.js App Router + React components
   - `app/` — Layout, pages, global styles
   - `components/` — Section and shared components (organized by feature folder)
@@ -175,12 +175,12 @@ npm run generate-resume  # Generate PDF resume → public/
 
 **Feature folders:** `about/`, `awards/`, `community/`, `education/`, `experience/`, `hero/`, `leadership/`, `projects/`, `skills/`, `shared/`
 
-**Shared components:** `AnimateOnScroll`, `Nav`, `ScrollToTop`, `SectionHeader`, `SocialLinks`, `TechChip`, `ThemeToggle`
+**Shared components:** `Nav`, `ScrollToTop`, `SectionHeader`, `SocialLinks`, `TechChip`, `ThemeToggle`
 
 **Rules:**
 
 - ✓ **Server components by default** — no `"use client"` unless using hooks or browser APIs.
-- ✓ `"use client"` required for: `ThemeToggle`, `ScrollToTop`, `Nav`, `AnimateOnScroll` (interactive/browser-dependent).
+- ✓ `"use client"` required for: `ThemeToggle`, `ScrollToTop`, `Nav` (interactive/browser-dependent).
 - ✓ Props interface always defined and exported.
 - ✓ **No hardcoded strings** — use typed data loaders.
 - ✓ **CSS tokens only** — use `var(--accent)`, `var(--surface)`, etc. Never hardcode colours.
