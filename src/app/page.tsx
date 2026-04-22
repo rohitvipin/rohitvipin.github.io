@@ -86,7 +86,6 @@ export default function Home() {
                 {profile.open_to}
               </h2>
             )}
-            <p className="text-[var(--muted)] max-w-xl mx-auto">Based in {profile.location}.</p>
             {profile.availability_note && (
               <p className="text-[var(--muted)] max-w-xl mx-auto">{profile.availability_note}</p>
             )}
