@@ -48,6 +48,7 @@ Map of all project documentation with suggested reading order.
 ### Architecture & Reference
 
 - [docs/ARCHITECTURE_REFERENCE.md](ARCHITECTURE_REFERENCE.md) — Tech stack, component hierarchy, decisions
+- [docs/DESIGN.md](DESIGN.md) — Design system: tokens, typography, components, animation, a11y
 - [CLAUDE.md](../CLAUDE.md) — Path-specific rules, complete reference for AI
 - [docs/CODE_REVIEW.md](CODE_REVIEW.md) — Review standards (also contains detailed architecture rules)
 
@@ -67,6 +68,7 @@ Map of all project documentation with suggested reading order.
 | **DEVELOPMENT.md**                   | Commands, how-to guides, troubleshooting | Developers              |
 | **ARCHITECTURE_REFERENCE.md**        | Tech stack, decisions, data schema       | Developers + architects |
 | **DATA_STRATEGY.md**                 | How to maintain and update content       | Content editors         |
+| **DESIGN.md**                        | Design system: tokens, components, a11y  | Developers + designers  |
 | **CLAUDE.md**                        | Complete reference for AI agents         | AI agents               |
 | **.github/pull_request_template.md** | PR submission format                     | Contributors            |
 | **.github/ISSUE_TEMPLATE/**          | Issue submission format                  | Everyone                |
