@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { profile, socials } from "@/lib/data";
+import { socials } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
+import { buildPersonJsonLd } from "@/lib/jsonld";
 import { avatarHref } from "@/lib/paths";
 import "./globals.css";
 
@@ -87,61 +88,7 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Rohit Vipin Mathews",
-  givenName: "Rohit",
-  additionalName: "Vipin",
-  familyName: "Mathews",
-  jobTitle: "Director - Engineering & Architecture",
-  description:
-    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
-  url: BASE_URL,
-  email: profile.email,
-  image: `${BASE_URL}${avatarHref}`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Kerala",
-    addressCountry: "IN",
-  },
-  worksFor: {
-    "@type": "Organization",
-    name: "CES IT",
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Sree Narayana Gurukulam College of Engineering",
-  },
-  sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
-  knowsAbout: [
-    "Engineering Leadership",
-    "Platform Engineering",
-    "Cloud Architecture",
-    "AWS",
-    "Azure",
-    ".NET",
-    "Microservices",
-    "AI Engineering",
-    "AWS Bedrock",
-    "RAG Systems",
-    "Distributed Systems",
-    "Kubernetes",
-    "Serverless Architecture",
-    "Platform Modernisation",
-    "Engineering Organisations",
-  ],
-  hasOccupation: {
-    "@type": "Occupation",
-    name: "Director - Engineering & Architecture",
-    occupationLocation: {
-      "@type": "Country",
-      name: "India",
-    },
-    skills:
-      "Cloud Architecture, AWS, .NET, AI Engineering, Engineering Leadership, Platform Modernisation, VP Engineering, CTO",
-  },
-};
+const jsonLd = buildPersonJsonLd({ baseUrl: BASE_URL, avatarHref, socials });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -151,7 +98,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'`}
+          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests`}
+        />
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+        <meta
+          name="permissions-policy"
+          content="camera=(), microphone=(), geolocation=(), interest-cohort=()"
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
