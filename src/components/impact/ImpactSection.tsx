@@ -36,16 +36,20 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                     {story.title}
                   </h3>
                 </div>
-                <div className="flex flex-wrap gap-2" aria-label="Key outcomes">
-                  {story.metrics.map((bullet) => (
-                    <span
-                      key={`${story.id}-${bullet}`}
+                <ul
+                  role="list"
+                  className="flex flex-wrap gap-2 list-none p-0 m-0"
+                  aria-label="Key outcomes"
+                >
+                  {story.metrics.map((bullet, idx) => (
+                    <li
+                      key={`${story.id}-${idx}`}
                       className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-semibold text-[var(--accent)]"
                     >
                       {bullet}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
 
               <p className="text-[var(--muted)] text-sm leading-relaxed">

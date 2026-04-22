@@ -108,7 +108,7 @@
     "products": [
       {
         "name": "Genomics & Breeding Pipeline",
-        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding program optimisation"
+        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding programme optimisation"
       },
       {
         "name": "Field Trial Management",
@@ -234,7 +234,7 @@
     "products": [
       {
         "name": "Member Loyalty Engine",
-        "description": "Core loyalty program management covering member enrollment, points accrual, redemption workflows, tier management, and reward catalogue for hospitality guests"
+        "description": "Core loyalty programme management covering member enrolment, points accrual, redemption workflows, tier management, and reward catalogue for hospitality guests"
       },
       {
         "name": "Partner Integration Layer",

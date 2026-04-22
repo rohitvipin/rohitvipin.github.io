@@ -18,9 +18,9 @@ const baseLeadership: Leadership = {
 };
 
 describe("LeadershipSection", () => {
-  it("renders section with id=leadership", () => {
+  it("renders section with id=expertise", () => {
     const { container } = render(<LeadershipSection leadership={baseLeadership} />);
-    expect(container.querySelector("#leadership")).toBeInTheDocument();
+    expect(container.querySelector("#expertise")).toBeInTheDocument();
   });
 
   it("renders leadership title as section header", () => {
@@ -48,6 +48,6 @@ describe("LeadershipSection", () => {
     const { container } = render(
       <LeadershipSection leadership={{ title: "Leadership", sections: [] }} />
     );
-    expect(container.querySelector("#leadership")).toBeInTheDocument();
+    expect(container.querySelector("#expertise")).toBeInTheDocument();
   });
 });

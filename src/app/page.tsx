@@ -56,7 +56,7 @@ export default function Home() {
             yearsOfExperience={profile.years_of_experience}
           />
         </AnimateOnScroll>
-        <AnimateOnScroll sectionId="leadership">
+        <AnimateOnScroll sectionId="expertise">
           <LeadershipSection leadership={leadership} />
         </AnimateOnScroll>
         <AnimateOnScroll sectionId="projects">
