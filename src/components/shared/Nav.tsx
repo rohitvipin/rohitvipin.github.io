@@ -48,6 +48,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
 
   useEffect(() => {
     if (!mobileOpen) return;
+    drawerRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.stopPropagation();
@@ -60,6 +61,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
         const focusable = Array.from(
           drawer.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
         );
+        if (!focusable.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (e.shiftKey) {

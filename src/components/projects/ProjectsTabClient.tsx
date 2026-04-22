@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import type { Project } from "@/types";
 import ProjectCard from "./ProjectCard";
 import { partitionProjects } from "@/lib/projects";
@@ -19,7 +19,7 @@ type TabId = (typeof TABS)[number]["id"];
 
 export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
   const [tab, setTab] = useState<TabId>("client");
-  const { clientProjects, ossProjects } = partitionProjects(projects);
+  const { clientProjects, ossProjects } = useMemo(() => partitionProjects(projects), [projects]);
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ client: null, oss: null });
 
   function handleKeyDown(e: React.KeyboardEvent, current: TabId) {
@@ -81,6 +81,7 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
             role="tabpanel"
             id={`tabpanel-${id}`}
             aria-labelledby={`tab-${id}`}
+            tabIndex={0}
             hidden={tab !== id}
             className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
           >

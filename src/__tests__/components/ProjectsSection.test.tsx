@@ -62,4 +62,73 @@ describe("ProjectsSection", () => {
     const { container } = render(<ProjectsSection projects={[]} />);
     expect(container.querySelector("#projects")).toBeInTheDocument();
   });
+
+  it("ArrowRight moves focus to next tab and activates it", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    const clientTab = screen.getByRole("tab", { name: /Client Work/ });
+    clientTab.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveFocus();
+    expect(screen.getByText("OSS Library")).toBeVisible();
+  });
+
+  it("ArrowLeft wraps from first tab to last", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    const clientTab = screen.getByRole("tab", { name: /Client Work/ });
+    clientTab.focus();
+    await user.keyboard("{ArrowLeft}");
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveFocus();
+    expect(screen.getByText("OSS Library")).toBeVisible();
+  });
+
+  it("Home key jumps to first tab", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    const ossTab = screen.getByRole("tab", { name: /Open Source/ });
+    await user.click(ossTab);
+    ossTab.focus();
+    await user.keyboard("{Home}");
+    expect(screen.getByRole("tab", { name: /Client Work/ })).toHaveFocus();
+    expect(screen.getByText("Client Platform")).toBeVisible();
+  });
+
+  it("End key jumps to last tab", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    const clientTab = screen.getByRole("tab", { name: /Client Work/ });
+    clientTab.focus();
+    await user.keyboard("{End}");
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveFocus();
+    expect(screen.getByText("OSS Library")).toBeVisible();
+  });
+
+  it("only active tab has tabIndex 0", () => {
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    expect(screen.getByRole("tab", { name: /Client Work/ })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("aria-selected reflects active tab", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsSection projects={[clientProject, ossProject]} />);
+    expect(screen.getByRole("tab", { name: /Client Work/ })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveAttribute(
+      "aria-selected",
+      "false"
+    );
+    await user.click(screen.getByRole("tab", { name: /Open Source/ }));
+    expect(screen.getByRole("tab", { name: /Open Source/ })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+    expect(screen.getByRole("tab", { name: /Client Work/ })).toHaveAttribute(
+      "aria-selected",
+      "false"
+    );
+  });
 });

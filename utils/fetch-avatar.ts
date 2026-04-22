@@ -14,7 +14,7 @@ async function main() {
   console.log(`Fetching avatar from ${url}...`);
   let res: Response;
   const JPEG_MAGIC = [0xff, 0xd8, 0xff];
-  const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47];
+  const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 
   function hasValidMagicBytes(buf: Buffer): boolean {
     const matchesPrefix = (magic: number[]) => magic.every((byte, i) => buf[i] === byte);
