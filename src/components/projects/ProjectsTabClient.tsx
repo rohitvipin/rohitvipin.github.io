@@ -25,14 +25,20 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
   function handleKeyDown(e: React.KeyboardEvent, current: TabId) {
     const ids = TABS.map((t) => t.id);
     const idx = ids.indexOf(current);
+    let target: TabId | null = null;
     if (e.key === "ArrowRight") {
-      const next = ids[(idx + 1) % ids.length];
-      setTab(next);
-      tabRefs.current[next]?.focus();
+      target = ids[(idx + 1) % ids.length];
     } else if (e.key === "ArrowLeft") {
-      const prev = ids[(idx - 1 + ids.length) % ids.length];
-      setTab(prev);
-      tabRefs.current[prev]?.focus();
+      target = ids[(idx - 1 + ids.length) % ids.length];
+    } else if (e.key === "Home") {
+      target = ids[0];
+    } else if (e.key === "End") {
+      target = ids[ids.length - 1];
+    }
+    if (target) {
+      e.preventDefault();
+      setTab(target);
+      tabRefs.current[target]?.focus();
     }
   }
 
