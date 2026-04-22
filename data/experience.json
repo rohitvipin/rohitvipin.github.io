@@ -1,6 +1,6 @@
 [
   {
-    "company": "CES",
+    "company": "CES IT",
     "role": "Director - Engineering & Architecture",
     "location": "Chennai, India",
     "duration": "April 2024 - Present",
@@ -47,7 +47,7 @@
     ]
   },
   {
-    "company": "CES",
+    "company": "CES IT",
     "role": "Solutions Architect",
     "location": "Chennai, India",
     "duration": "April 2022 - March 2024",
@@ -87,12 +87,12 @@
     ]
   },
   {
-    "company": "CES",
+    "company": "CES IT",
     "role": "Technical Architect",
     "location": "Chennai, India",
     "duration": "April 2019 - March 2022",
     "current": false,
-    "description": "Architected a multi-module agribusiness management platform covering Agronomy, Grain, Grower Portal, and Accounting, and led mobile engineering practice across serverless AWS infrastructure with hands-on technical leadership.",
+    "description": "Architected a multi-module agribusiness management platform covering Crop & Field Management, Grain Operations & Settlement, Producer Self-Service Portal, and Accounting, and led mobile engineering practice across serverless AWS infrastructure with hands-on technical leadership.",
     "techStack": [
       ".NET Core",
       "C#",
@@ -114,10 +114,10 @@
     ],
     "highlights": [
       "Designed comprehensive serverless architecture on AWS (Lambda, API Gateway, DynamoDB, PostgreSQL, SQS, Cognito, S3) supporting $5M+ annual operations",
-      "Delivered Agronomy module: field management, soil sampling, precision crop plans, prescription management, and agronomic analytics",
-      "Delivered Grain module: elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management",
-      "Delivered Grower Portal: mobile/web portal for account visibility, field maps, agronomic data, grain positions, and invoice access",
-      "Delivered Accounting module: financial operations for ag co-ops covering A/R, A/P, G/L, and payroll workflows",
+      "Delivered Crop & Field Management: field management, soil sampling, precision crop plans, prescription management, and agronomic analytics",
+      "Delivered Grain Operations & Settlement: elevator management including scale tickets, contracts, position tracking, settlement processing, and storage management",
+      "Delivered Producer Self-Service Portal: mobile/web portal for account visibility, field maps, agronomic data, grain positions, and invoice access",
+      "Delivered Accounting: financial operations for ag co-ops covering A/R, A/P, G/L, and payroll workflows",
       "Built data warehouse and ETL pipelines for agricultural analytics enabling predictive models for crop optimisation and yield forecasting",
       "Developed Docker-based testing framework enabling automated integration testing across 20+ microservices achieving 80%+ coverage",
       "Led cross-platform mobile engineering using Xamarin serving 50K+ professionals with 4.5+ star ratings and offline-first architecture for field operations",
@@ -125,7 +125,7 @@
     ]
   },
   {
-    "company": "CES",
+    "company": "CES IT",
     "role": "Associate Technical Architect",
     "location": "Chennai, India",
     "duration": "April 2017 - March 2019",
@@ -140,7 +140,7 @@
     ]
   },
   {
-    "company": "CES",
+    "company": "CES IT",
     "role": "Senior Software Engineer",
     "location": "Chennai, India",
     "duration": "November 2015 - March 2017",

@@ -25,6 +25,7 @@ export function Header({ profile, socials, showKeyMetrics }: HeaderProps) {
     <View style={styles.header}>
       <Text style={styles.name}>{profile.name}</Text>
       <Text style={styles.jobTitle}>{profile.title}</Text>
+      {profile.open_to && <Text style={styles.openToLine}>{profile.open_to}</Text>}
       <Text style={styles.headline}>{profile.headline}</Text>
       {showKeyMetrics && <MetricsLine metrics={profile.key_metrics} />}
       <Text style={styles.contactLine}>

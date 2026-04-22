@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io/rohit-profile";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -29,22 +29,28 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "Rohit Vipin Mathews — Director of Engineering & Architecture",
+  title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
   description:
-    "Engineering leader with 14+ years scaling 350+ engineers. Cloud-native, AI-enabled platforms across K-12 Education, Agriculture, Logistics, and Hospitality.",
+    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Led 350+ engineers across USA and India. AI enablement, platform modernisation, and delivery execution. Open to VP Engineering, CTO, and Director roles.",
   keywords: [
     "Rohit Vipin Mathews",
+    "VP Engineering",
+    "CTO",
     "Director of Engineering",
+    "Engineering Director",
+    "Platform Engineering",
     "Cloud Architect",
     "AWS",
     ".NET",
     "AI Engineering",
+    "Engineering Leadership",
     "Kerala India",
-    "CES",
+    "CES IT",
     "K-12 HCM",
     "AWS Bedrock",
     "RAG",
     "Microservices",
+    "Platform Modernisation",
   ],
   authors: [{ name: "Rohit Vipin Mathews", url: BASE_URL }],
   creator: "Rohit Vipin Mathews",
@@ -53,9 +59,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Rohit Vipin Mathews — Director of Engineering & Architecture",
+    title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
     description:
-      "Engineering leader scaling 350+ engineers across USA & India. Cloud-native, AI-enabled platforms across K-12 Education, Agriculture, Logistics, and Hospitality.",
+      "Engineering leader with 15 years building cloud-native platforms. Led 350+ engineers across USA and India. Open to VP Engineering, CTO, and Director roles.",
     siteName: "Rohit Vipin Mathews",
     locale: "en_US",
     images: [
@@ -63,15 +69,15 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Rohit Vipin Mathews — Director of Engineering & Architecture",
+        alt: "Rohit Vipin Mathews | Director - Engineering & Architecture",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohit Vipin Mathews — Director of Engineering & Architecture",
+    title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
     description:
-      "Engineering leader scaling 350+ engineers. Cloud-native, AI-enabled platforms across Education, Agriculture, Logistics, and Hospitality.",
+      "Engineering leader with 15 years scaling 350+ engineers. Cloud-native platforms, AI enablement, and platform modernisation. Open to VP Engineering and CTO-track roles.",
     images: ["/og-image.jpg"],
     creator: "@rohitvipin",
   },
@@ -91,8 +97,11 @@ const jsonLd = {
   "@type": "Person",
   name: "Rohit Vipin Mathews",
   givenName: "Rohit",
-  familyName: "Vipin Mathews",
+  additionalName: "Vipin",
+  familyName: "Mathews",
   jobTitle: "Director - Engineering & Architecture",
+  description:
+    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
   url: BASE_URL,
   email: profile.email,
   image: profile.github_avatar,
@@ -103,7 +112,7 @@ const jsonLd = {
   },
   worksFor: {
     "@type": "Organization",
-    name: "CES",
+    name: "CES IT",
   },
   alumniOf: {
     "@type": "CollegeOrUniversity",
@@ -111,6 +120,8 @@ const jsonLd = {
   },
   sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
   knowsAbout: [
+    "Engineering Leadership",
+    "Platform Engineering",
     "Cloud Architecture",
     "AWS",
     "Azure",
@@ -119,19 +130,21 @@ const jsonLd = {
     "AI Engineering",
     "AWS Bedrock",
     "RAG Systems",
-    "Engineering Leadership",
     "Distributed Systems",
     "Kubernetes",
     "Serverless Architecture",
+    "Platform Modernisation",
+    "Engineering Organisations",
   ],
   hasOccupation: {
     "@type": "Occupation",
-    name: "Director of Engineering & Architecture",
+    name: "Director - Engineering & Architecture",
     occupationLocation: {
       "@type": "Country",
       name: "India",
     },
-    skills: "Cloud Architecture, AWS, .NET, AI Engineering, Team Leadership",
+    skills:
+      "Cloud Architecture, AWS, .NET, AI Engineering, Engineering Leadership, Platform Modernisation, VP Engineering, CTO",
   },
 };
 
@@ -149,7 +162,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body suppressHydrationWarning>
-        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-white focus:rounded-lg focus:outline-none"

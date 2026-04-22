@@ -1,7 +1,7 @@
 [
   {
     "name": "K-12 HCM Platform Modernisation",
-    "domain": "K-12 Education",
+    "domain": "Education",
     "client": "Confidential - Leading US K-12 HCM Provider",
     "role": "Director - Engineering & Architecture",
     "duration": "April 2024 - Present",
@@ -100,7 +100,7 @@
   },
   {
     "name": "Precision Agriculture & Genomics Platform",
-    "domain": "Agriculture / AgTech",
+    "domain": "Agriculture",
     "client": "Confidential - Leading Agricultural Genetics Company",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -108,14 +108,14 @@
     "products": [
       {
         "name": "Genomics & Breeding Pipeline",
-        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding program optimisation"
+        "description": "Genomic data management and molecular breeding workflows supporting trait selection, genotyping integration, and breeding programme optimisation"
       },
       {
         "name": "Field Trial Management",
         "description": "Full field trial planning, phenotyping data capture, experimental design, and multi-location trial result analysis"
       },
       {
-        "name": "Commercialization Workflows",
+        "name": "Commercialisation Workflows",
         "description": "Trait pipeline tracking from discovery through regulatory approval to commercial seed deployment"
       }
     ],
@@ -141,11 +141,11 @@
   },
   {
     "name": "Farm Operations Platform & Integrations",
-    "domain": "Agriculture / AgriFood",
+    "domain": "Agriculture",
     "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
-    "description": "Solution architecture for a farm operations platform and third-party integrations for a large-scale fresh produce company. Covered harvest management, supply chain visibility, cold chain logistics, labor operations, and retail/distribution integrations across multi-country farming operations.",
+    "description": "Solution architecture for a farm operations platform and third-party integrations for a large-scale fresh produce company. Covered harvest management, supply chain visibility, cold chain logistics, labour operations, and retail/distribution integrations across multi-country farming operations.",
     "products": [
       {
         "name": "Farm Operations Management",
@@ -181,7 +181,7 @@
   },
   {
     "name": "Logistics Platform Modernisation",
-    "domain": "Logistics / Freight Forwarding",
+    "domain": "Logistics",
     "client": "Confidential - Regional Freight Forwarding & Logistics Operator",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -197,11 +197,11 @@
       },
       {
         "name": "Warehousing & Distribution",
-        "description": "Warehouse management and inventory operations for distribution centers, supporting inbound/outbound logistics, storage, and last-mile trucking dispatch"
+        "description": "Warehouse management and inventory operations for distribution centres, supporting inbound/outbound logistics, storage, and last-mile trucking dispatch"
       },
       {
         "name": "Household Goods & Project Cargo",
-        "description": "Specialized logistics workflows for household goods relocation and oversized/project cargo including commercial and industrial equipment"
+        "description": "Specialised logistics workflows for household goods relocation and oversized/project cargo including commercial and industrial equipment"
       }
     ],
     "highlights": [
@@ -234,7 +234,7 @@
     "products": [
       {
         "name": "Member Loyalty Engine",
-        "description": "Core loyalty program management covering member enrollment, points accrual, redemption workflows, tier management, and reward catalog for hospitality guests"
+        "description": "Core loyalty programme management covering member enrolment, points accrual, redemption workflows, tier management, and reward catalogue for hospitality guests"
       },
       {
         "name": "Partner Integration Layer",

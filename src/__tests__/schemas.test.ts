@@ -9,6 +9,8 @@ import {
   AwardSchema,
   CommunityEntrySchema,
   LeadershipSchema,
+  NavLinkSchema,
+  ImpactStorySchema,
   FILE_ZSCHEMAS,
 } from "@/lib/schemas";
 
@@ -203,6 +205,12 @@ describe("SocialSchema", () => {
     expect(() => SocialSchema.parse({ platform: "X", url: "/relative", icon: "x" })).toThrow();
     expect(() => SocialSchema.parse({ platform: "X", url: "not-a-url", icon: "x" })).toThrow();
   });
+
+  it("rejects http:// URLs", () => {
+    expect(() =>
+      SocialSchema.parse({ platform: "X", url: "http://example.com", icon: "x" })
+    ).toThrow();
+  });
 });
 
 // ── AwardSchema ───────────────────────────────────────────────────────────────
@@ -276,10 +284,81 @@ describe("LeadershipSchema", () => {
   });
 });
 
+// ── ImpactStorySchema ─────────────────────────────────────────────────────────
+
+const validImpactStory = {
+  id: "k12-hcm",
+  title: "K-12 Platform Modernisation",
+  domain: "Education",
+  problem: "Legacy platform could not scale.",
+  scope: "350+ engineers across two geos.",
+  led: "Full engineering org from architecture through delivery.",
+  result: "Unified cloud-native platform with 45% fewer incidents.",
+  metrics: ["30%+ productivity lift", "45% incident reduction"],
+};
+
+describe("ImpactStorySchema", () => {
+  it("parses valid impact story", () => {
+    expect(ImpactStorySchema.parse(validImpactStory).id).toBe("k12-hcm");
+  });
+
+  it("rejects missing required fields", () => {
+    const { metrics: _m, ...withoutMetrics } = validImpactStory;
+    expect(() => ImpactStorySchema.parse(withoutMetrics)).toThrow();
+  });
+
+  it.each(["id", "title", "domain", "problem", "scope", "led", "result"] as const)(
+    "rejects empty string for required field: %s",
+    (field) => {
+      expect(() => ImpactStorySchema.parse({ ...validImpactStory, [field]: "" })).toThrow();
+    }
+  );
+
+  it("rejects empty metrics array", () => {
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, metrics: [] })).toThrow();
+  });
+
+  it("rejects id that does not match slug pattern", () => {
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "Has Spaces" })).toThrow();
+    expect(() => ImpactStorySchema.parse({ ...validImpactStory, id: "1-starts-digit" })).toThrow();
+  });
+
+  it("accepts valid slugs with hyphens and internal digits", () => {
+    expect(ImpactStorySchema.parse({ ...validImpactStory, id: "story-1" }).id).toBe("story-1");
+    expect(ImpactStorySchema.parse({ ...validImpactStory, id: "k12-platform" }).id).toBe(
+      "k12-platform"
+    );
+  });
+});
+
+// ── NavLinkSchema ─────────────────────────────────────────────────────────────
+
+describe("NavLinkSchema", () => {
+  it("parses valid nav link", () => {
+    const result = NavLinkSchema.parse({ label: "About", href: "#about" });
+    expect(result.label).toBe("About");
+    expect(result.href).toBe("#about");
+  });
+
+  it("rejects href not starting with #", () => {
+    expect(() => NavLinkSchema.parse({ label: "About", href: "/about" })).toThrow();
+    expect(() => NavLinkSchema.parse({ label: "About", href: "about" })).toThrow();
+    expect(() => NavLinkSchema.parse({ label: "About", href: "https://example.com" })).toThrow();
+  });
+
+  it("rejects empty label", () => {
+    expect(() => NavLinkSchema.parse({ label: "", href: "#about" })).toThrow();
+  });
+
+  it("rejects empty href", () => {
+    expect(() => NavLinkSchema.parse({ label: "About", href: "" })).toThrow();
+  });
+});
+
 // ── FILE_ZSCHEMAS coverage ────────────────────────────────────────────────────
 
 describe("FILE_ZSCHEMAS", () => {
-  it("covers all 9 data files", () => {
+  it("covers all 11 data files", () => {
     const expected = [
       "profile.json",
       "experience.json",
@@ -290,6 +369,8 @@ describe("FILE_ZSCHEMAS", () => {
       "awards.json",
       "community.json",
       "leadership.json",
+      "nav.json",
+      "impact.json",
     ];
     for (const file of expected) {
       expect(FILE_ZSCHEMAS[file]).toBeDefined();

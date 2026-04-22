@@ -18,4 +18,17 @@ describe("SectionHeader", () => {
     const { container } = render(<SectionHeader title="Awards" />);
     expect(container.querySelectorAll("p")).toHaveLength(0);
   });
+
+  it("applies headingId to h2 when provided", () => {
+    render(<SectionHeader title="Impact" headingId="impact-section-title" />);
+    expect(screen.getByRole("heading", { name: "Impact" })).toHaveAttribute(
+      "id",
+      "impact-section-title"
+    );
+  });
+
+  it("renders h2 without id when headingId is omitted", () => {
+    render(<SectionHeader title="Skills" />);
+    expect(screen.getByRole("heading", { name: "Skills" })).not.toHaveAttribute("id");
+  });
 });

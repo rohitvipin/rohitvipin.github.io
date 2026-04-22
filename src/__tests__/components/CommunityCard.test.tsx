@@ -27,11 +27,9 @@ describe("CommunityCard", () => {
   });
 
   it("omits location when not provided", () => {
-    const { location: _l, ...noLocation } = entry;
-    const { container } = render(<CommunityCard entry={noLocation} />);
-    expect(
-      container.querySelector("p.text-xs.text-\\[var\\(--muted-2\\)\\]")
-    ).not.toBeInTheDocument();
+    const { location: _location, ...noLocation } = entry;
+    render(<CommunityCard entry={noLocation} />);
+    expect(screen.queryByText("London, UK")).not.toBeInTheDocument();
   });
 
   it("shows highlight count in button before expand", () => {

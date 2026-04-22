@@ -20,6 +20,20 @@ const baseProfile: Profile = {
   key_metrics: [],
 };
 
+const profileWithValueProps: Profile = {
+  ...baseProfile,
+  value_propositions: [
+    { audience: "Recruiter", value: "15 years, strong on architecture and delivery." },
+    { audience: "Hiring Manager", value: "I own outcomes, not headcount reports." },
+    { audience: "Founder", value: "I can modernise your platform and get AI into your roadmap." },
+  ],
+};
+
+const profileWithQuote: Profile = {
+  ...baseProfile,
+  bio_quote: "Teams don't win on cost - they win on trust.",
+};
+
 describe("About", () => {
   it("renders section with id=about", () => {
     const { container } = render(<About profile={baseProfile} />);
@@ -32,26 +46,43 @@ describe("About", () => {
     expect(screen.getByText("Second paragraph.")).toBeInTheDocument();
   });
 
-  it("renders location", () => {
-    render(<About profile={baseProfile} />);
-    expect(screen.getByText("Kerala, India")).toBeInTheDocument();
+  it("renders single-paragraph bio as one paragraph element", () => {
+    const { container } = render(
+      <About profile={{ ...baseProfile, bio: "Single paragraph only." }} />
+    );
+    const paras = container.querySelectorAll("p.text-\\[var\\(--muted\\)\\]");
+    expect(paras.length).toBe(1);
+    expect(paras[0]).toHaveTextContent("Single paragraph only.");
   });
 
-  it("renders years of experience", () => {
+  it("does not render value propositions when absent", () => {
     render(<About profile={baseProfile} />);
-    expect(
-      screen.getByText((_, el) => el?.textContent === "10+ years experience")
-    ).toBeInTheDocument();
+    expect(screen.queryByText("Recruiter")).not.toBeInTheDocument();
   });
 
-  it("renders email link", () => {
-    render(<About profile={baseProfile} />);
-    const emailLink = screen.getByRole("link", { name: "test@example.com" });
-    expect(emailLink).toHaveAttribute("href", "mailto:test@example.com");
+  it("does not render blockquote when bio_quote absent", () => {
+    const { container } = render(<About profile={baseProfile} />);
+    expect(container.querySelector("blockquote")).not.toBeInTheDocument();
   });
 
-  it("renders timezone", () => {
-    render(<About profile={baseProfile} />);
-    expect(screen.getByText("IST (UTC+5:30)")).toBeInTheDocument();
+  it("renders bio_quote inside a blockquote when present", () => {
+    render(<About profile={profileWithQuote} />);
+    const quote = screen.getByText(/Teams don't win on cost/);
+    expect(quote.closest("blockquote")).toBeInTheDocument();
+  });
+});
+
+describe("About — value propositions", () => {
+  it("renders each audience label", () => {
+    render(<About profile={profileWithValueProps} />);
+    expect(screen.getByText("Recruiter")).toBeInTheDocument();
+    expect(screen.getByText("Hiring Manager")).toBeInTheDocument();
+    expect(screen.getByText("Founder")).toBeInTheDocument();
+  });
+
+  it("renders value text for each proposition", () => {
+    render(<About profile={profileWithValueProps} />);
+    expect(screen.getByText("15 years, strong on architecture and delivery.")).toBeInTheDocument();
+    expect(screen.getByText("I own outcomes, not headcount reports.")).toBeInTheDocument();
   });
 });

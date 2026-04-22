@@ -11,11 +11,13 @@ const baseProfile: Profile = {
   bio: "Bio text.",
   email: "test@example.com",
   phone: "+91 000 000 0000",
-  years_of_experience: 14,
+  years_of_experience: 15,
   timezone: "IST (UTC+5:30)",
   availability_status: "open",
   github_avatar: "https://avatars.githubusercontent.com/u/123",
   tags: ["Architect", "Speaker"],
+  cta_primary: "See Impact",
+  open_to: "Open to VP Engineering and CTO-track roles",
   key_metrics: [
     { label: "Engineers Led", value: "350+", detail: "USA & India", tier: "primary" },
     { label: "Cost Reduction", value: "40%", detail: "$180K+", tier: "secondary" },
@@ -41,11 +43,7 @@ describe("Hero", () => {
 
   it("renders avatar image with profile name as alt text", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    const img = screen
-      .getAllByRole("img")
-      .find((el) => el.getAttribute("alt") === "Profile photo of Rohit Test");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("src", "https://avatars.githubusercontent.com/u/123");
+    expect(screen.getByAltText("Profile photo of Rohit Test")).toBeInTheDocument();
   });
 
   it("renders profile tags", () => {
@@ -54,24 +52,45 @@ describe("Hero", () => {
     expect(screen.getByText("Speaker")).toBeInTheDocument();
   });
 
-  it("renders key metrics", () => {
+  it("renders primary key metrics", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
     expect(screen.getByText("Engineers Led")).toBeInTheDocument();
     expect(screen.getByText("350+")).toBeInTheDocument();
+  });
+
+  it("renders secondary metrics", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
     expect(screen.getByText("Cost Reduction")).toBeInTheDocument();
+    expect(screen.getByText("40%")).toBeInTheDocument();
   });
 
-  it("renders View Experience link", () => {
+  it("renders primary CTA linking to #impact", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    expect(screen.getByRole("link", { name: "View Experience" })).toHaveAttribute(
-      "href",
-      "#experience"
-    );
+    expect(screen.getByRole("link", { name: "See Impact" })).toHaveAttribute("href", "#impact");
   });
 
-  it("renders Download CV link", () => {
+  it("falls back to 'See Impact' when cta_primary is absent", () => {
+    const { cta_primary: _cta, ...noCta } = baseProfile;
+    render(<Hero profile={noCta as Profile} socials={baseSocials} />);
+    expect(screen.getByRole("link", { name: "See Impact" })).toBeInTheDocument();
+  });
+
+  it("renders Download CV link with descriptive aria-label", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    expect(screen.getByRole("link", { name: "Download CV" })).toHaveAttribute("download");
+    const link = screen.getByRole("link", { name: "Download Rohit Vipin Mathews resume (PDF)" });
+    expect(link).toHaveAttribute("download");
+  });
+
+  it("does not render secondary metrics dl when no secondary metrics exist", () => {
+    const noSecondary: Profile = {
+      ...baseProfile,
+      key_metrics: [
+        { label: "Engineers Led", value: "350+", detail: "USA & India", tier: "primary" },
+      ],
+    };
+    const { container } = render(<Hero profile={noSecondary} socials={baseSocials} />);
+    expect(screen.queryByText("Cost Reduction")).not.toBeInTheDocument();
+    expect(container.querySelectorAll("dl")).toHaveLength(1);
   });
 
   it("renders social links with descriptive aria-labels", () => {
@@ -85,5 +104,29 @@ describe("Hero", () => {
   it("renders no tags section when tags is empty", () => {
     render(<Hero profile={{ ...baseProfile, tags: [] }} socials={baseSocials} />);
     expect(screen.queryByText("Architect")).not.toBeInTheDocument();
+  });
+
+  it("omits metric detail when detail field is absent", () => {
+    const noDetail: Profile = {
+      ...baseProfile,
+      key_metrics: [
+        { label: "Engineers Led", value: "350+", tier: "primary" },
+        { label: "Cost Reduction", value: "40%", tier: "secondary" },
+      ],
+    };
+    render(<Hero profile={noDetail} socials={baseSocials} />);
+    expect(screen.queryByText("USA & India")).not.toBeInTheDocument();
+    expect(screen.queryByText("$180K+")).not.toBeInTheDocument();
+  });
+
+  it("applies large font class for short metric values (length <= 2)", () => {
+    const shortValue: Profile = {
+      ...baseProfile,
+      key_metrics: [{ label: "Years", value: "15", detail: "experience", tier: "primary" }],
+    };
+    const { container } = render(<Hero profile={shortValue} socials={baseSocials} />);
+    const dd = container.querySelector("dd.text-4xl");
+    expect(dd).toBeInTheDocument();
+    expect(dd).toHaveTextContent("15");
   });
 });

@@ -7,7 +7,7 @@ export interface LeadershipSectionProps {
 
 export default function LeadershipSection({ leadership }: LeadershipSectionProps) {
   return (
-    <section id="leadership" className="section">
+    <section id="expertise" className="section">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader title={leadership.title} />
         <div className="grid md:grid-cols-2 gap-6">
