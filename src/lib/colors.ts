@@ -5,13 +5,15 @@ const COMPANY_COLORS: Record<string, string> = {
 };
 
 const DOMAIN_PREFIXES: [string, string][] = [
-  ["K-12", "#6366f1"],
+  ["Education", "#6366f1"],
+  ["Precision Agriculture", "#22c55e"],
   ["Agriculture", "#22c55e"],
-  ["Logistics", "#f59e0b"],
+  ["Freight", "#fbbf24"],
+  ["Logistics", "#fbbf24"],
   ["Hospitality", "#ec4899"],
   ["Open Source / Mobile", "#22d3ee"],
   ["Open Source / Developer Tooling", "#8b5cf6"],
-  ["Open Source / Cloud", "#f97316"],
+  ["Open Source / Cloud", "#fb923c"],
   ["Open Source", "#22d3ee"],
 ];
 

@@ -1,5 +1,6 @@
 import type { ImpactStory } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { getDomainColor } from "@/lib/colors";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
@@ -25,7 +26,13 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
             <article key={story.id} className="card p-6 lg:p-8 space-y-6">
               <div className="space-y-3">
                 <div>
-                  <span className="inline-block px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs font-medium text-[var(--muted)] mb-2">
+                  <span
+                    className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2"
+                    style={{
+                      color: `${getDomainColor(story.domain)}cc`,
+                      borderColor: `${getDomainColor(story.domain)}44`,
+                    }}
+                  >
                     {story.domain}
                   </span>
                   <h3 className="text-lg font-semibold text-[var(--text)]">{story.title}</h3>

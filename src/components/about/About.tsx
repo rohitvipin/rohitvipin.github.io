@@ -1,6 +1,5 @@
 import type { Profile } from "@/types";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { FiMapPin, FiClock, FiCalendar } from "react-icons/fi";
 
 export interface AboutProps {
   profile: Profile;
@@ -21,27 +20,6 @@ export default function About({ profile }: AboutProps) {
               {para}
             </p>
           ))}
-        </div>
-
-        <div className="flex flex-wrap gap-x-6 gap-y-3 mt-6">
-          <span className="flex items-center gap-2 text-sm text-[var(--muted)]">
-            <FiMapPin size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
-            {profile.location}
-          </span>
-          <span className="flex items-center gap-2 text-sm text-[var(--muted)]">
-            <FiCalendar size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
-            {profile.years_of_experience}+ years experience
-          </span>
-          <span className="flex items-center gap-2 text-sm text-[var(--muted)]">
-            <FiClock size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
-            {profile.timezone}
-          </span>
-          <a
-            href={`mailto:${profile.email}`}
-            className="flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
-          >
-            {profile.email}
-          </a>
         </div>
 
         {valueProps.length > 0 && (

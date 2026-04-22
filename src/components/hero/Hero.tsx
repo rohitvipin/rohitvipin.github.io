@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FiDownload, FiMail } from "react-icons/fi";
+import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import SocialLinks from "@/components/shared/SocialLinks";
 
@@ -36,11 +36,38 @@ export default function Hero({ profile, socials }: HeroProps) {
                 {profile.name}
               </h1>
               <p className="mt-2 text-xl font-medium gradient-text">{profile.title}</p>
-              {profile.open_to && (
-                <p className="mt-3 text-sm text-[var(--muted)] border-l-2 border-[var(--accent)] pl-3">
-                  {profile.open_to}
-                </p>
-              )}
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-2">
+                {profile.location && (
+                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                    <FiMapPin
+                      size={11}
+                      className="text-[var(--muted-2)]/70 shrink-0"
+                      aria-hidden="true"
+                    />
+                    {profile.location}
+                  </span>
+                )}
+                {profile.timezone && (
+                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                    <FiClock
+                      size={11}
+                      className="text-[var(--muted-2)]/70 shrink-0"
+                      aria-hidden="true"
+                    />
+                    {profile.timezone}
+                  </span>
+                )}
+                {profile.email && (
+                  <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]/70">
+                    <FiMail
+                      size={11}
+                      className="text-[var(--muted-2)]/70 shrink-0"
+                      aria-hidden="true"
+                    />
+                    {profile.email}
+                  </span>
+                )}
+              </div>
             </div>
 
             <p className="text-[var(--muted)] text-lg leading-relaxed">{profile.headline}</p>
