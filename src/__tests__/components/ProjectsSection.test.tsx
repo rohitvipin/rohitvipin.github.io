@@ -44,7 +44,7 @@ describe("ProjectsSection", () => {
   it("switches to OSS tab on click", async () => {
     const user = userEvent.setup();
     render(<ProjectsSection projects={[clientProject, ossProject]} />);
-    await user.click(screen.getByRole("button", { name: /Open Source/ }));
+    await user.click(screen.getByRole("tab", { name: /Open Source/ }));
     expect(screen.getByText("OSS Library")).toBeInTheDocument();
     expect(screen.queryByText("Client Platform")).not.toBeInTheDocument();
   });
@@ -52,8 +52,8 @@ describe("ProjectsSection", () => {
   it("switches back to Client tab on click", async () => {
     const user = userEvent.setup();
     render(<ProjectsSection projects={[clientProject, ossProject]} />);
-    await user.click(screen.getByRole("button", { name: /Open Source/ }));
-    await user.click(screen.getByRole("button", { name: /Client/ }));
+    await user.click(screen.getByRole("tab", { name: /Open Source/ }));
+    await user.click(screen.getByRole("tab", { name: /Client/ }));
     expect(screen.getByText("Client Platform")).toBeInTheDocument();
     expect(screen.queryByText("OSS Library")).not.toBeInTheDocument();
   });
