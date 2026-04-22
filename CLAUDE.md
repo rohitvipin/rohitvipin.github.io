@@ -138,6 +138,11 @@ npm run generate-resume  # Generate PDF resume → public/
 - ✓ Required fields must be present in all records.
 - ✓ IDs and slugs must be unique across the entire dataset.
 - ✓ Validate before commit: `npm run lint:data`
+- ✓ **`duration` field** — three allowed formats (used in `experience.json` and `projects.json`):
+  - `"Month YYYY - Present"` — e.g. `"April 2024 - Present"`
+  - `"Month YYYY - Month YYYY"` — e.g. `"January 2012 - July 2013"`
+  - `"YYYY"` — bare year for short-run items e.g. `"2021"`
+  - Parsed by `src/lib/duration.ts:parseStartYear` to derive sort order; do not use other formats.
 
 ### `src/types/index.ts` — TypeScript Interfaces
 

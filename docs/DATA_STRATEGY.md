@@ -25,17 +25,27 @@ The `data/` directory is the **single source of truth** for all content. Never h
 ### Adding Experience
 
 1. Edit `data/experience.json`
-2. Add to **beginning** of array (reverse-chronological):
+2. Add entry (array is sorted by start year at runtime — JSON order does not matter):
    ```json
    {
      "id": "new-role",
      "company": "Acme Corp",
      "title": "Senior Engineer",
-     "duration": "2024-present",
+     "duration": "April 2024 - Present",
      "highlights": ["Built X", "Led Y"]
    }
    ```
 3. Validate + commit
+
+**`duration` allowed formats** (parsed by `src/lib/duration.ts` for sort order):
+
+| Format                      | Example                      |
+| --------------------------- | ---------------------------- |
+| `"Month YYYY - Present"`    | `"April 2024 - Present"`     |
+| `"Month YYYY - Month YYYY"` | `"January 2012 - July 2013"` |
+| `"YYYY"` (short/OSS items)  | `"2021"`                     |
+
+Do not use other formats — `parseStartYear` will return `0` and the entry sorts last.
 
 ### Adding a Project
 
