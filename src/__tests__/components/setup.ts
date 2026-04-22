@@ -7,8 +7,31 @@ expect.extend(matchers);
 afterEach(cleanup);
 
 vi.mock("next/image", () => ({
-  default: ({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) =>
-    createElement("img", { src, alt, ...props }),
+  default: ({
+    src,
+    alt,
+    fill: _fill,
+    priority: _priority,
+    unoptimized: _unoptimized,
+    quality: _quality,
+    placeholder: _placeholder,
+    blurDataURL: _blurDataURL,
+    loader: _loader,
+    sizes: _sizes,
+    ...props
+  }: {
+    src: string;
+    alt: string;
+    fill?: boolean;
+    priority?: boolean;
+    unoptimized?: boolean;
+    quality?: number;
+    placeholder?: string;
+    blurDataURL?: string;
+    loader?: unknown;
+    sizes?: string;
+    [key: string]: unknown;
+  }) => createElement("img", { src, alt, ...props }),
 }));
 
 vi.mock("next/link", () => ({
