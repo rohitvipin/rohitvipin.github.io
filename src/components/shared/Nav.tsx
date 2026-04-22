@@ -40,6 +40,13 @@ export default function Nav({ initials, navLinks }: NavProps) {
   }, [navLinks]);
 
   useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {

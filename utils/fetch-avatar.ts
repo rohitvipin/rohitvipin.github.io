@@ -31,6 +31,7 @@ async function main() {
       `Avatar fetch failed and no fallback exists: ${err instanceof Error ? err.message : err}`
     );
     process.exit(1);
+    return;
   }
   const buffer = Buffer.from(await res.arrayBuffer());
   if (buffer.length > MAX_BYTES) {

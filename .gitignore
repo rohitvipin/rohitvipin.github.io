@@ -5,7 +5,7 @@ node_modules/
 .next/
 out/
 
-# Generated at build time — do not commit
+# Generated at build time - do not commit
 public/avatar.jpg
 
 # environment
