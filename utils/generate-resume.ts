@@ -34,7 +34,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = resolve(__dirname, "../public/Rohit_Vipin_Mathews_Resume.pdf");
 const FALLBACK_EXISTS = existsSync(OUTPUT_PATH);
 
-async function generate() {
+export async function generate() {
   console.log("Generating resume PDF from data/*.json...");
 
   const element = React.createElement(ResumeDocument, {
@@ -57,11 +57,13 @@ async function generate() {
   console.log(`Resume written to ${OUTPUT_PATH}`);
 }
 
-generate().catch((err) => {
-  console.error("Resume generation failed:", err);
-  if (FALLBACK_EXISTS) {
-    console.warn("Falling back to existing static PDF.");
-    process.exit(0);
-  }
-  process.exit(1);
-});
+if (process.env.NODE_ENV !== "test") {
+  generate().catch((err) => {
+    console.error("Resume generation failed:", err);
+    if (FALLBACK_EXISTS) {
+      console.warn("Falling back to existing static PDF.");
+      process.exit(0);
+    }
+    process.exit(1);
+  });
+}
