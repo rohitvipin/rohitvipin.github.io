@@ -1,29 +1,38 @@
 # dependencies
 node_modules/
 
-# Next.js build output
+# Next.js
 .next/
 out/
 
-# env
+# environment
 .env
 .env.local
 .env.*.local
 
-# test coverage output
+# test coverage
 coverage/
-
-# misc
-.DS_Store
-*.pem
-
-# local AI tool permissions (machine-specific, never commit)
-.claude
-npm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-# AI tool state (machine-specific, never commit)
-.omc
+# OS
+.DS_Store
+*.pem
+
+# debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# AI tool state — machine-specific, never commit
+.claude/
+.omc/
+.specify/
+.cursor/
+.aider*
+.continue/
+.copilot/
+.windsurf/
+.cody/
