@@ -1,5 +1,5 @@
 const COMPANY_COLORS: Record<string, string> = {
-  CES: "#6366f1",
+  "CES IT": "#6366f1",
   "Vofox Solutions": "#22d3ee",
   "Essel Swolutions": "#f59e0b",
 };

@@ -5,7 +5,7 @@ const FALLBACK = "#6366f1";
 
 describe("getCompanyColor", () => {
   it("returns mapped color for known company", () => {
-    expect(getCompanyColor("CES")).toBe("#6366f1");
+    expect(getCompanyColor("CES IT")).toBe("#6366f1");
     expect(getCompanyColor("Vofox Solutions")).toBe("#22d3ee");
     expect(getCompanyColor("Essel Swolutions")).toBe("#f59e0b");
   });

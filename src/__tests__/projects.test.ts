@@ -27,7 +27,7 @@ describe("isOssProject", () => {
 
   it("marks named client as non-OSS", () => {
     expect(isOssProject(makeProject("Acme Corp"))).toBe(false);
-    expect(isOssProject(makeProject("CES"))).toBe(false);
+    expect(isOssProject(makeProject("CES IT"))).toBe(false);
   });
 
   it("is case-sensitive", () => {

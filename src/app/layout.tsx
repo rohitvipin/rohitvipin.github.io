@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io/rohit-profile";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     ".NET",
     "AI Engineering",
     "Kerala India",
-    "CES",
+    "CES IT",
     "K-12 HCM",
     "AWS Bedrock",
     "RAG",
@@ -91,7 +91,8 @@ const jsonLd = {
   "@type": "Person",
   name: "Rohit Vipin Mathews",
   givenName: "Rohit",
-  familyName: "Vipin Mathews",
+  additionalName: "Vipin",
+  familyName: "Mathews",
   jobTitle: "Director - Engineering & Architecture",
   url: BASE_URL,
   email: profile.email,
@@ -103,7 +104,7 @@ const jsonLd = {
   },
   worksFor: {
     "@type": "Organization",
-    name: "CES",
+    name: "CES IT",
   },
   alumniOf: {
     "@type": "CollegeOrUniversity",
