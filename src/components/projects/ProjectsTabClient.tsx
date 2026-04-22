@@ -23,7 +23,7 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
             onClick={() => setTab(t)}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
               tab === t
-                ? "bg-[var(--accent)] text-white"
+                ? "bg-[var(--accent)] text-[var(--bg)]"
                 : "text-[var(--muted)] hover:text-[var(--text)]"
             }`}
           >
