@@ -146,7 +146,7 @@ export default function Hero({ profile, socials }: HeroProps) {
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}
-                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/8"
+                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30"
               >
                 <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
                 <dd className="text-base font-semibold text-[var(--accent)]/80">{m.value}</dd>
