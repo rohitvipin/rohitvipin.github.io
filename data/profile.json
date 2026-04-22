@@ -42,7 +42,7 @@
     },
     {
       "label": "AI Extraction Accuracy",
-      "value": "95%+",
+      "value": "90%+",
       "detail": "AWS Bedrock RAG system in production",
       "tier": "secondary"
     },
