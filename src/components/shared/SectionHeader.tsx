@@ -4,7 +4,7 @@ export interface SectionHeaderProps {
   headingId?: string;
 }
 
-export default function SectionHeader({ title, subtitle, headingId }: SectionHeaderProps) {
+export function SectionHeader({ title, subtitle, headingId }: SectionHeaderProps) {
   return (
     <div className="mb-12">
       <h2 id={headingId} className="text-3xl font-bold tracking-tight text-[var(--text)]">

@@ -1,12 +1,12 @@
 import type { Award } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 import { FaTrophy } from "react-icons/fa6";
 
 export interface AwardsSectionProps {
   awards: Award[];
 }
 
-export default function AwardsSection({ awards }: AwardsSectionProps) {
+export function AwardsSection({ awards }: AwardsSectionProps) {
   return (
     <section id="awards" aria-labelledby="awards-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">

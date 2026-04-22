@@ -1,11 +1,11 @@
 import type { Profile } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 export interface AboutProps {
   profile: Profile;
 }
 
-export default function About({ profile }: AboutProps) {
+export function About({ profile }: AboutProps) {
   const paragraphs = profile.bio.split("\n\n");
   const valueProps = profile.value_propositions ?? [];
 

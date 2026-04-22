@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import ImpactSection from "@/components/impact/ImpactSection";
+import { ImpactSection } from "@/components/impact/ImpactSection";
 import type { ImpactStory } from "@/types";
 
 const stories: ImpactStory[] = [

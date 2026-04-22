@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 import type { Project } from "@/types";
-import ProjectCard from "./ProjectCard";
+import { ProjectCard } from "./ProjectCard";
 import { partitionProjects } from "@/lib/projects";
 import { FiBriefcase, FiGithub } from "react-icons/fi";
 
@@ -17,7 +17,7 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
+export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
   const [tab, setTab] = useState<TabId>("client");
   const { clientProjects, ossProjects } = useMemo(() => partitionProjects(projects), [projects]);
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ client: null, oss: null });

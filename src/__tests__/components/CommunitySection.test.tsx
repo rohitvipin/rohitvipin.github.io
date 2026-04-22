@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import CommunitySection from "@/components/community/CommunitySection";
+import { CommunitySection } from "@/components/community/CommunitySection";
 import type { CommunityEntry } from "@/types";
 
 const baseCommunity: CommunityEntry[] = [

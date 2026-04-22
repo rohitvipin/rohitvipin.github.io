@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Project } from "@/types";
-import TechChip from "@/components/shared/TechChip";
+import { TechChip } from "@/components/shared/TechChip";
 import { getDomainColor } from "@/lib/colors";
 import { FiChevronDown, FiChevronUp, FiGithub } from "react-icons/fi";
 
@@ -10,7 +10,7 @@ export interface ProjectCardProps {
   project: Project;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
   const domainColor = getDomainColor(project.domain);
 

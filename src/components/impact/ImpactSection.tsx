@@ -1,12 +1,12 @@
 import type { ImpactStory } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 import { getDomainColor } from "@/lib/colors";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
 }
 
-export default function ImpactSection({ impact }: ImpactSectionProps) {
+export function ImpactSection({ impact }: ImpactSectionProps) {
   return (
     <section id="impact" aria-labelledby="impact-section-title" className="section">
       <div className="max-w-6xl mx-auto px-6">

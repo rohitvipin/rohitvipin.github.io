@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FiArrowUp } from "react-icons/fi";
 
-export default function ScrollToTop() {
+export function ScrollToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

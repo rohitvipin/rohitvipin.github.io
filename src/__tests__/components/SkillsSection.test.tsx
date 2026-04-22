@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import SkillsSection from "@/components/skills/SkillsSection";
+import { SkillsSection } from "@/components/skills/SkillsSection";
 import type { SkillCategory } from "@/types";
 
 const baseSkills: SkillCategory[] = [

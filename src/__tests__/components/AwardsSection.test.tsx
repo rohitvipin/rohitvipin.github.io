@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import AwardsSection from "@/components/awards/AwardsSection";
+import { AwardsSection } from "@/components/awards/AwardsSection";
 import type { Award } from "@/types";
 
 const awards: Award[] = [

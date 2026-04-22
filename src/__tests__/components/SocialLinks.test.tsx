@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import SocialLinks from "@/components/shared/SocialLinks";
+import { SocialLinks } from "@/components/shared/SocialLinks";
 import type { Social } from "@/types";
 
 const socials: Social[] = [

@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Nav from "@/components/shared/Nav";
+import { Nav } from "@/components/shared/Nav";
 import type { NavLink } from "@/types";
 
 const testNavLinks: NavLink[] = [

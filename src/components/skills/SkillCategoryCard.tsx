@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TechChip from "@/components/shared/TechChip";
+import { TechChip } from "@/components/shared/TechChip";
 
 const INITIAL_VISIBLE = 10;
 
@@ -10,7 +10,7 @@ export interface SkillCategoryCardProps {
   skills: string[];
 }
 
-export default function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
+export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? skills : skills.slice(0, INITIAL_VISIBLE);
   const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);

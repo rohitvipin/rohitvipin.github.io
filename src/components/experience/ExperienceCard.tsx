@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { ExperienceEntry } from "@/types";
-import TechChip from "@/components/shared/TechChip";
+import { TechChip } from "@/components/shared/TechChip";
 import { getCompanyColor } from "@/lib/colors";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
@@ -10,7 +10,7 @@ export interface ExperienceCardProps {
   entry: ExperienceEntry;
 }
 
-export default function ExperienceCard({ entry }: ExperienceCardProps) {
+export function ExperienceCard({ entry }: ExperienceCardProps) {
   const [expanded, setExpanded] = useState(entry.current);
   const companyColor = getCompanyColor(entry.company);
 

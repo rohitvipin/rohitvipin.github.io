@@ -16,7 +16,7 @@ export interface CommunityCardProps {
   entry: CommunityEntry;
 }
 
-export default function CommunityCard({ entry }: CommunityCardProps) {
+export function CommunityCard({ entry }: CommunityCardProps) {
   const icon = ICON_MAP[entry.type] ?? <FiUsers size={18} aria-hidden="true" />;
   const [open, setOpen] = useState(false);
 

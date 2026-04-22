@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
-import SocialLinks from "@/components/shared/SocialLinks";
+import { SocialLinks } from "@/components/shared/SocialLinks";
 import { resumeHref, avatarHref } from "@/lib/paths";
 
 export interface HeroProps {
@@ -9,7 +9,7 @@ export interface HeroProps {
   socials: Social[];
 }
 
-export default function Hero({ profile, socials }: HeroProps) {
+export function Hero({ profile, socials }: HeroProps) {
   const primaryMetrics = profile.key_metrics.filter((m) => m.tier === "primary");
   const secondaryMetrics = profile.key_metrics.filter((m) => m.tier === "secondary");
 

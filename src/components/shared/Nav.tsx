@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import ThemeToggle from "./ThemeToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import { FiMenu, FiX } from "react-icons/fi";
 import type { NavLink } from "@/types";
 
@@ -10,7 +10,7 @@ export interface NavProps {
   navLinks: NavLink[];
 }
 
-export default function Nav({ initials, navLinks }: NavProps) {
+export function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const toggleRef = useRef<HTMLButtonElement>(null);

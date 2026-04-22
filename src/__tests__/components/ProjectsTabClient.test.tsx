@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import type { Project } from "@/types";
 
 vi.mock("@/components/projects/ProjectCard", () => ({
-  default: ({ project }: { project: Project }) => (
+  ProjectCard: ({ project }: { project: Project }) => (
     <div data-testid="project-card">{project.name}</div>
   ),
 }));
@@ -14,7 +14,7 @@ vi.mock("@/lib/projects", () => ({
 }));
 
 import { partitionProjects } from "@/lib/projects";
-import ProjectsTabClient from "@/components/projects/ProjectsTabClient";
+import { ProjectsTabClient } from "@/components/projects/ProjectsTabClient";
 
 const makeProject = (name: string): Project => ({
   name,

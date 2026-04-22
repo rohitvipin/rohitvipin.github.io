@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Hero from "@/components/hero/Hero";
+import { Hero } from "@/components/hero/Hero";
 import type { Profile, Social } from "@/types";
 
 const baseProfile: Profile = {
