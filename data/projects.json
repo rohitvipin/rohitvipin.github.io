@@ -1,7 +1,7 @@
 [
   {
     "name": "K-12 HCM Platform Modernisation",
-    "domain": "EdTech",
+    "domain": "Education",
     "client": "Confidential - Leading US K-12 HCM Provider",
     "role": "Director - Engineering & Architecture",
     "duration": "April 2024 - Present",
@@ -100,7 +100,7 @@
   },
   {
     "name": "Precision Agriculture & Genomics Platform",
-    "domain": "Agriculture / AgTech",
+    "domain": "Agriculture",
     "client": "Confidential - Leading Agricultural Genetics Company",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -115,7 +115,7 @@
         "description": "Full field trial planning, phenotyping data capture, experimental design, and multi-location trial result analysis"
       },
       {
-        "name": "Commercialization Workflows",
+        "name": "Commercialisation Workflows",
         "description": "Trait pipeline tracking from discovery through regulatory approval to commercial seed deployment"
       }
     ],
@@ -141,7 +141,7 @@
   },
   {
     "name": "Farm Operations Platform & Integrations",
-    "domain": "Agriculture / AgriFood",
+    "domain": "Agriculture",
     "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -181,7 +181,7 @@
   },
   {
     "name": "Logistics Platform Modernisation",
-    "domain": "Logistics / Freight Forwarding",
+    "domain": "Logistics",
     "client": "Confidential - Regional Freight Forwarding & Logistics Operator",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
