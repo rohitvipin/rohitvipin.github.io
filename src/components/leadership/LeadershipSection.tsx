@@ -7,9 +7,9 @@ export interface LeadershipSectionProps {
 
 export default function LeadershipSection({ leadership }: LeadershipSectionProps) {
   return (
-    <section id="expertise" className="section">
+    <section id="expertise" aria-labelledby="expertise-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader title={leadership.title} />
+        <SectionHeader title={leadership.title} headingId="expertise-heading" />
         <div className="grid md:grid-cols-2 gap-6">
           {leadership.sections.map((sub) => (
             <div key={sub.title} className="card p-6 space-y-3">

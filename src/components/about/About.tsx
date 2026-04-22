@@ -10,9 +10,9 @@ export default function About({ profile }: AboutProps) {
   const valueProps = profile.value_propositions ?? [];
 
   return (
-    <section id="about" className="section">
+    <section id="about" aria-labelledby="about-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader title="About" />
+        <SectionHeader title="About" headingId="about-heading" />
 
         {valueProps.length > 0 && (
           <div className="mb-12">

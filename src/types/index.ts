@@ -18,7 +18,7 @@ export interface Profile {
   bio: string;
   bio_quote?: string;
   email: string;
-  phone: string;
+  phone?: string;
   years_of_experience: number;
   timezone: string;
   availability_status: "open" | "closed" | "passive";

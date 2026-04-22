@@ -45,14 +45,14 @@ describe("Nav", () => {
 
   it("mobile menu is closed by default", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
-    expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
   it("mobile menu opens on toggle button click", async () => {
     const user = userEvent.setup();
     render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
-    expect(screen.getByRole("navigation", { name: "Mobile navigation" })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Mobile navigation" })).toBeInTheDocument();
   });
 
   it("mobile toggle button reflects open state via aria-expanded", async () => {
@@ -71,25 +71,25 @@ describe("Nav", () => {
     const user = userEvent.setup();
     render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
-    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
+    const mobileNav = screen.getByRole("dialog", { name: "Mobile navigation" });
     await user.click(mobileNav.querySelectorAll("a")[0]);
-    expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
   it("mobile menu closes on Escape key", async () => {
     const user = userEvent.setup();
     render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
-    expect(screen.getByRole("navigation", { name: "Mobile navigation" })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Mobile navigation" })).toBeInTheDocument();
     await user.keyboard("{Escape}");
-    expect(screen.queryByRole("navigation", { name: "Mobile navigation" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: "Mobile navigation" })).not.toBeInTheDocument();
   });
 
   it("Tab from last focusable element in open drawer wraps to first", async () => {
     const user = userEvent.setup();
     render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
-    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
+    const mobileNav = screen.getByRole("dialog", { name: "Mobile navigation" });
     const focusable = Array.from(
       mobileNav.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
     );
@@ -104,7 +104,7 @@ describe("Nav", () => {
     const user = userEvent.setup();
     render(<Nav initials="R" navLinks={testNavLinks} />);
     await user.click(screen.getByRole("button", { name: "Open menu" }));
-    const mobileNav = screen.getByRole("navigation", { name: "Mobile navigation" });
+    const mobileNav = screen.getByRole("dialog", { name: "Mobile navigation" });
     const focusable = Array.from(
       mobileNav.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
     );

@@ -3,10 +3,9 @@
   "title": "Director - Engineering & Architecture",
   "headline": "15 years building engineering organisations, cloud-native platforms, and AI-enabled systems. Led 350+ engineers across offshore, nearshore, and onshore accounts.",
   "location": "Kerala, India",
-  "bio": "I build and run large-scale distributed engineering organisations while staying close enough to the architecture to unblock it personally. I've led 350+ engineers across USA onshore and India offshore accounts, scaled four distinct product lines from zero, and owned the AI enablement practice that improved how fast teams shipped by 30%+ across the org.\n\nMy work spans the full director-to-architect range: I design engineering cultures where ownership is non-negotiable, teams are indistinguishable from the customer's own engineering org, and every failure is explainable and reproducible by design. I've delivered cloud-native platforms across education, precision agriculture, logistics, and hospitality - and I've run the PoCs, RFPs, architecture proposals, and tiger-team engagements that turn client problems into funded engineering programmes. My teams operate as product engineering organisations embedded with clients - not as delivery vendors. We own outcomes, not tickets.",
+  "bio": "I build and run large-scale distributed engineering organisations while staying close enough to the architecture to unblock it personally. I've led 350+ engineers across USA onshore and India offshore accounts, scaled four distinct product lines from zero, and owned the AI enablement practice that improved how fast teams shipped by 30%+ across the org.\n\nMy work spans the full director-to-architect range: I design engineering cultures where ownership is non-negotiable and teams are embedded full-time, owning on-call and roadmap alongside client engineers. I've delivered cloud-native platforms across education, precision agriculture, logistics, and hospitality - and I've run the PoCs, RFPs, architecture proposals, and tiger-team engagements that turn client problems into funded engineering programmes. My teams operate as product engineering organisations embedded with clients - not as delivery vendors. We own outcomes, not tickets.",
   "bio_quote": "Engineering teams don't win on cost - they win on trust. And trust is earned by solving the hard problems, not the easy ones.",
   "email": "rohitvipin@gmail.com",
-  "phone": "+91-8089361725",
   "years_of_experience": 15,
   "timezone": "IST (UTC+5:30)",
   "availability_status": "open",
@@ -42,9 +41,9 @@
       "tier": "primary"
     },
     {
-      "label": "Product Domains",
-      "value": "4",
-      "detail": "Education, Agriculture, Logistics, Hospitality",
+      "label": "AI Extraction Accuracy",
+      "value": "90%+",
+      "detail": "AWS Bedrock RAG system in production",
       "tier": "secondary"
     },
     {
@@ -55,7 +54,7 @@
     },
     {
       "label": "Stack Overflow Reputation",
-      "value": "10K+",
+      "value": "11K+",
       "detail": "C#, .NET, Xamarin, Cloud",
       "tier": "secondary"
     },

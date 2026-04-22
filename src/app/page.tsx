@@ -1,6 +1,5 @@
 import Nav from "@/components/shared/Nav";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-import { AnimateOnScroll } from "@/components/shared/AnimateOnScroll";
 import Hero from "@/components/hero/Hero";
 import About from "@/components/about/About";
 import ImpactSection from "@/components/impact/ImpactSection";
@@ -44,36 +43,36 @@ export default function Home() {
       />
       <main id="main-content">
         <Hero profile={profile} socials={socials} />
-        <AnimateOnScroll sectionId="about">
+        <div className="scroll-animate">
           <About profile={profile} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="impact">
+        </div>
+        <div className="scroll-animate">
           <ImpactSection impact={impact} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="experience">
+        </div>
+        <div className="scroll-animate">
           <ExperienceTimeline
             experience={experience}
             yearsOfExperience={profile.years_of_experience}
           />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="expertise">
+        </div>
+        <div className="scroll-animate">
           <LeadershipSection leadership={leadership} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="projects">
+        </div>
+        <div className="scroll-animate">
           <ProjectsSection projects={projects} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="skills">
+        </div>
+        <div className="scroll-animate">
           <SkillsSection skills={skills} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="community">
+        </div>
+        <div className="scroll-animate">
           <CommunitySection community={community} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="awards">
+        </div>
+        <div className="scroll-animate">
           <AwardsSection awards={awards} />
-        </AnimateOnScroll>
-        <AnimateOnScroll sectionId="education">
+        </div>
+        <div className="scroll-animate">
           <EducationSection education={education} />
-        </AnimateOnScroll>
+        </div>
 
         {/* Bottom CTA */}
         <section

@@ -8,9 +8,9 @@ export interface AwardsSectionProps {
 
 export default function AwardsSection({ awards }: AwardsSectionProps) {
   return (
-    <section id="awards" className="section">
+    <section id="awards" aria-labelledby="awards-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader title="Awards & Recognition" />
+        <SectionHeader title="Awards & Recognition" headingId="awards-heading" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {awards.map((a) => (
             <div key={a.title} className="card card-hover p-5 space-y-2">

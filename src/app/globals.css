@@ -26,7 +26,7 @@
   --accent-2: #0891b2;
   --text: #0f172a;
   --muted: #5d6b84;
-  --muted-2: #6b7a99;
+  --muted-2: #52627b;
   --success: #16a34a;
   --shadow-card: rgba(0, 0, 0, 0.08);
 }
@@ -35,7 +35,7 @@
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-mono-code);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 }
 
 /* ── Base ── */
@@ -162,5 +162,27 @@ section[id] {
   .card-hover:focus-within {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px var(--shadow-card);
+  }
+}
+
+/* ── Scroll-driven reveal (progressive enhancement, ~88% browser support) ── */
+@keyframes scroll-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-animate {
+      animation: scroll-fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
   }
 }

@@ -6,6 +6,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     name: Lint, Test & Build
@@ -29,6 +32,9 @@ jobs:
 
       - name: Tests
         run: npm run test:ci
+
+      - name: Fetch avatar
+        run: npm run fetch-avatar
 
       - name: Build
         run: npm run build

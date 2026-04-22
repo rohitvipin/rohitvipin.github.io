@@ -40,7 +40,7 @@
       "Unified HR pillar products, improving interoperability and data flow between legacy and modern systems through Kafka, AWS, APIs, and gateway-led integration",
       "Ran pilot programmes and PoCs for agentic AI workflows, AI-assisted development tooling, and autonomous code generation, raising the org's AI capability",
       "Established Claude Code and GitHub Copilot guilds, training 50+ developers on AI-assisted practices and improving delivery productivity 30%+",
-      "Implemented AWS Bedrock-based solutions including RAG systems and structured data extraction achieving 95%+ accuracy with optimised model selection for cost, latency, and quality",
+      "Implemented AWS Bedrock-based solutions including RAG systems and structured data extraction achieving 90%+ accuracy with optimised model selection for cost, latency, and quality",
       "Owned architecture validation and technology selection as hands-on architect, resolving technical blockers and keeping the architecture coherent across all delivery tracks",
       "Strengthened production operations, cutting operational incidents by 45% through monitoring, observability, alerting, and catching problems before they became incidents",
       "Drove data warehouse and analytics modernisation including ETL pipeline design and AI/ML integration for predictive analytics"

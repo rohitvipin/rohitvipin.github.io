@@ -1,18 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { profile, socials } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
+import { avatarHref } from "@/lib/paths";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono-code",
   subsets: ["latin"],
   display: "swap",
 });
@@ -104,7 +99,7 @@ const jsonLd = {
     "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
   url: BASE_URL,
   email: profile.email,
-  image: profile.github_avatar,
+  image: `${BASE_URL}${avatarHref}`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Kerala",
@@ -150,12 +145,9 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
+        <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}
