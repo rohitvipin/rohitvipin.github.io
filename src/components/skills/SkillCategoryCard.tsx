@@ -21,17 +21,20 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
         ))}
       </div>
       {hidden > 0 && (
-        <details className="card-details">
+        <details className="card-details flex flex-col">
           <summary
             aria-label={`Show ${hidden} more ${category} skills`}
-            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono w-fit min-h-[44px] flex items-center"
+            className="order-last mt-2 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono w-fit min-h-[44px] flex items-center"
           >
-            +{hidden} more
+            <span className="[details[open]_&]:hidden">+{hidden} more</span>
+            <span className="hidden [details[open]_&]:inline">Show less</span>
           </summary>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {skills.slice(INITIAL_VISIBLE).map((skill) => (
-              <TechChip key={skill} label={skill} />
-            ))}
+          <div className="grid grid-rows-[0fr] [details[open]_&]:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out overflow-hidden">
+            <div className="flex flex-wrap gap-2 min-h-0">
+              {skills.slice(INITIAL_VISIBLE).map((skill) => (
+                <TechChip key={skill} label={skill} />
+              ))}
+            </div>
           </div>
         </details>
       )}
