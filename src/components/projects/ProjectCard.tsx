@@ -29,7 +29,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`GitHub repository for ${project.name}`}
-                className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded"
+                className="inline-flex items-center justify-center min-h-[48px] min-w-[48px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded"
               >
                 <FiGithub size={14} aria-hidden="true" />
               </a>
@@ -66,7 +66,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Hide products" : "Show products"}
             aria-expanded={open}
-            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[44px]"
+            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
           >
             {open ? <FiChevronUp size={12} /> : <FiChevronDown size={12} />}
             {open ? "Hide" : "Show"} {project.products.length} product

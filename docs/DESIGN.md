@@ -231,7 +231,7 @@ Library: `react-icons` only. No inline SVGs.
 | Feather    | `react-icons/fi`  | UI actions: mail, download, map pin, clock, menu, X, sun, moon, arrow-up      |
 | FA6 Brands | `react-icons/fa6` | Social platform logos: LinkedIn, GitHub, X/Twitter, StackOverflow, SlideShare |
 
-Icon sizes by context: social links `18`, ScrollToTop FAB `18`, nav/toggle `16`, meta inline `11`.
+Icon sizes by context: social links `18`, ScrollToTop FAB `18`, nav/toggle `16`, meta inline `11`, card action links `14`, expand/collapse chevrons `12`.
 
 All decorative icons carry `aria-hidden="true"`.
 
@@ -263,6 +263,8 @@ Two pure functions map entity names to accent hex values for dynamic colouring (
 | Open Source / Cloud                 | `#fb923c` |
 | Open Source (generic)               | `#22d3ee` |
 | fallback                            | `#6366f1` |
+
+**Inline style exception:** dynamic entity colours (domain label text, card left border) are applied via `style={{ color: domainColor }}` / `style={{ borderLeftColor: domainColor }}` because CSS tokens cannot express per-entity dynamic values. This is the only sanctioned use of inline styles for colour.
 
 ---
 
