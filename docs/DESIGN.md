@@ -314,7 +314,7 @@ Two pure functions map entity names to accent hex values for dynamic colouring (
 | Open Source (generic)               | `#22d3ee` |
 | fallback                            | `#6366f1` |
 
-**Inline style exception:** dynamic entity colours (domain label text, card left border) are applied via `style={{ color: domainColor }}` / `style={{ borderLeftColor: domainColor }}` because CSS tokens cannot express per-entity dynamic values. This is the only sanctioned use of inline styles for colour.
+**Inline style exception:** dynamic entity colours (domain label text, company name text) are applied via `style={{ color: domainColor }}` / `style={{ color: companyColor }}` because CSS tokens cannot express per-entity dynamic values. This is the only sanctioned use of inline styles for colour. Project card borders use `var(--accent)` uniformly — domain colour applies to the label text only.
 
 ---
 

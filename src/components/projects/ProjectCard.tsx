@@ -15,10 +15,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const domainColor = getDomainColor(project.domain);
 
   return (
-    <div
-      className="card card-hover p-6 space-y-4 flex flex-col border-l-2"
-      style={{ borderLeftColor: domainColor }}
-    >
+    <div className="card card-hover p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
       <div>
         <div className="flex items-start justify-between gap-3 mb-1">
           <div className="flex items-center gap-2">
