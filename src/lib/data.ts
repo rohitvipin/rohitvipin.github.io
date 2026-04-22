@@ -25,6 +25,7 @@ import {
   ImpactStorySchema,
 } from "@/lib/schemas";
 import { z } from "zod";
+import { byStartYearDesc } from "@/lib/duration";
 
 import profileData from "../../data/profile.json";
 import experienceData from "../../data/experience.json";
@@ -52,7 +53,7 @@ export const experience: ExperienceEntry[] = parseOrThrow(
   z.array(ExperienceSchema),
   experienceData,
   "experience"
-);
+).sort(byStartYearDesc);
 export const projects: Project[] = parseOrThrow(z.array(ProjectSchema), projectsData, "projects");
 export const skills: SkillCategory[] = parseOrThrow(
   z.array(SkillCategorySchema),

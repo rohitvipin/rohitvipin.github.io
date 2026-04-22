@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isOssProject, partitionProjects, parseStartYear } from "@/lib/projects";
+import { isOssProject, partitionProjects } from "@/lib/projects";
 import type { Project } from "@/types";
 
 function makeProject(client: string, duration = "2024"): Project {
@@ -90,23 +90,5 @@ describe("partitionProjects", () => {
     const projects = [makeProject("A", "2024"), makeProject("B", "2024"), makeProject("C", "2024")];
     const { clientProjects } = partitionProjects(projects);
     expect(clientProjects.map((p) => p.client)).toEqual(["A", "B", "C"]);
-  });
-});
-
-describe("parseStartYear", () => {
-  it("parses year from month-year range", () => {
-    expect(parseStartYear("April 2024 - Present")).toBe(2024);
-  });
-
-  it("parses year from month-year to month-year", () => {
-    expect(parseStartYear("April 2022 - March 2024")).toBe(2022);
-  });
-
-  it("parses bare year string", () => {
-    expect(parseStartYear("2018")).toBe(2018);
-  });
-
-  it("returns 0 for unrecognised format", () => {
-    expect(parseStartYear("Present")).toBe(0);
   });
 });
