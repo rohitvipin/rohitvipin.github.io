@@ -67,16 +67,16 @@
   ],
   "value_propositions": [
     {
-      "audience": "Recruiter",
-      "value": "15 years engineering, last 3 as Director leading 350+ engineers across USA onshore and India offshore. Track record across Education, Logistics, Agriculture, and Hospitality. Strong on architecture, delivery execution, and AI enablement. Available for VP Engineering, Platform, Architecture, and CTO-track roles."
+      "audience": "Track Record",
+      "value": "15 years engineering, last 3 as Director leading 350+ engineers across USA onshore and India offshore. Delivered across Education, Logistics, Agriculture, and Hospitality. Strong on architecture, delivery execution, and AI enablement."
     },
     {
-      "audience": "Hiring Manager",
-      "value": "I own outcomes, not headcount reports. I design engineering cultures where delivery rhythm is stable, quality is a constraint not a goal, and every technical decision has a business case. I've taken legacy platforms to production cloud-native architecture, built teams from scratch, and reduced operational risk at scale - without slowing the roadmap."
+      "audience": "Leadership Style",
+      "value": "I own outcomes, not headcount reports. I design engineering cultures where delivery rhythm is stable, quality is a constraint not a goal, and every technical decision has a business case. Built teams from scratch and reduced operational risk at scale - without slowing the roadmap."
     },
     {
-      "audience": "Founder",
-      "value": "I can modernise your platform, stabilise your engineering org, and get AI into your product roadmap. I've secured $2M+ architecture engagements, cut infrastructure costs 40-55%, and shipped AI systems with measurable productivity and accuracy outcomes. I operate as an owner, not a contractor."
+      "audience": "What I Deliver",
+      "value": "Platform modernisation, engineering org stabilisation, and AI in the product roadmap. Secured $2M+ architecture engagements, cut infrastructure costs 40-55%, and shipped AI systems with measurable productivity and accuracy outcomes."
     }
   ]
 }

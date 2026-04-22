@@ -16,15 +16,9 @@ export default function About({ profile }: AboutProps) {
 
         {valueProps.length > 0 && (
           <div className="mb-12">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-[var(--muted-2)] mb-5">
-              Why Rohit - in 30 seconds
-            </h3>
-            <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto pb-1 snap-x snap-mandatory md:overflow-visible md:pb-0">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {valueProps.map((vp) => (
-                <div
-                  key={vp.audience}
-                  className="card p-5 space-y-2 shrink-0 w-72 md:w-auto snap-start"
-                >
+                <div key={vp.audience} className="card p-5 space-y-2">
                   <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
                     {vp.audience}
                   </p>
