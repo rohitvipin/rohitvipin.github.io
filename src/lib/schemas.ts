@@ -42,6 +42,7 @@ export const ProfileSchema = z.object({
   open_to: z.string().min(1).optional(),
   availability_note: z.string().min(1).optional(),
   value_propositions: z.array(ValuePropositionSchema).optional(),
+  knows_about: z.array(z.string().min(1)).optional(),
 });
 
 export const ExperienceSchema = z.object({

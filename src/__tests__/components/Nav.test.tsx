@@ -148,6 +148,48 @@ describe("Nav", () => {
     });
   });
 
+  it("selects entry with lowest bounding rect top when multiple sections intersect", () => {
+    let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (entries: IntersectionObserverEntry[]) => void) {
+          capturedCallback = cb;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+
+    document.body.innerHTML = '<section id="about"></section><section id="experience"></section>';
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+
+    const about = document.getElementById("about") as HTMLElement;
+    const experience = document.getElementById("experience") as HTMLElement;
+    const cb = capturedCallback as (entries: IntersectionObserverEntry[]) => void;
+
+    act(() => {
+      cb([
+        {
+          isIntersecting: true,
+          boundingClientRect: { top: 200 } as DOMRectReadOnly,
+          target: about,
+        } as unknown as IntersectionObserverEntry,
+        {
+          isIntersecting: true,
+          boundingClientRect: { top: 50 } as DOMRectReadOnly,
+          target: experience,
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+
+    expect(screen.getByRole("link", { name: "Experience" })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
+  });
+
   it("marks the intersecting section as active", async () => {
     let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
     vi.stubGlobal(

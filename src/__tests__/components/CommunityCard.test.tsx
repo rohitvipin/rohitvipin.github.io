@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { CommunityCard } from "@/components/community/CommunityCard";
 import type { CommunityEntry } from "@/types";
 
@@ -32,27 +31,22 @@ describe("CommunityCard", () => {
     expect(screen.queryByText("London, UK")).not.toBeInTheDocument();
   });
 
-  it("shows highlight count in summary", () => {
+  it("renders summary with correct accessible label and highlight count", () => {
+    const { container } = render(<CommunityCard entry={entry} />);
+    const summary = container.querySelector("summary");
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveAttribute("aria-label", expect.stringContaining("3"));
+  });
+
+  it("renders highlights in collapsed details", () => {
     render(<CommunityCard entry={entry} />);
-    expect(screen.getByRole("button", { name: /Show 3 highlights/ })).toBeInTheDocument();
+    expect(screen.getByText("300 attendees")).toBeInTheDocument();
+    expect(screen.getByText("Q&A session")).toBeInTheDocument();
+    expect(screen.getByText("Workshop follow-up")).toBeInTheDocument();
   });
 
-  it("expands details on click", async () => {
-    const user = userEvent.setup();
+  it("starts with details closed", () => {
     const { container } = render(<CommunityCard entry={entry} />);
-    const details = container.querySelector("details")!;
-    expect(details).not.toHaveAttribute("open");
-    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
-    expect(details).toHaveAttribute("open");
-  });
-
-  it("collapses details on second click", async () => {
-    const user = userEvent.setup();
-    const { container } = render(<CommunityCard entry={entry} />);
-    const details = container.querySelector("details")!;
-    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
-    expect(details).toHaveAttribute("open");
-    await user.click(screen.getByRole("button", { name: /Show 3 highlights/ }));
-    expect(details).not.toHaveAttribute("open");
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 });

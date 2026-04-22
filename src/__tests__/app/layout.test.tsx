@@ -8,6 +8,7 @@ vi.mock("next/font/google", () => ({
 
 vi.mock("@/lib/data", () => ({
   socials: [],
+  profile: { knows_about: ["AWS", "Engineering Leadership"] },
 }));
 
 vi.mock("@/lib/escape", () => ({
@@ -66,21 +67,20 @@ describe("RootLayout", () => {
   });
 
   it("includes JSON-LD script tag", () => {
-    const { container } = render(<RootLayout>children</RootLayout>);
-    expect(container.querySelector('script[type="application/ld+json"]')).toBeInTheDocument();
+    render(<RootLayout>children</RootLayout>);
+    expect(document.querySelector('script[type="application/ld+json"]')).toBeInTheDocument();
   });
 
   it("preloads WebP avatar", () => {
-    const { container } = render(<RootLayout>children</RootLayout>);
-    const webpLink = container.querySelector('link[rel="preload"][type="image/webp"]');
+    render(<RootLayout>children</RootLayout>);
+    const webpLink = document.querySelector('link[rel="preload"][type="image/webp"]');
     expect(webpLink).toBeInTheDocument();
     expect(webpLink).toHaveAttribute("href", "/avatar.webp");
   });
 
-  it("preloads JPEG avatar as fallback", () => {
-    const { container } = render(<RootLayout>children</RootLayout>);
-    const jpegLink = container.querySelector('link[rel="preload"][type="image/jpeg"]');
-    expect(jpegLink).toBeInTheDocument();
-    expect(jpegLink).toHaveAttribute("href", "/avatar.jpg");
+  it("does not preload JPEG avatar", () => {
+    render(<RootLayout>children</RootLayout>);
+    const jpegLink = document.querySelector('link[rel="preload"][type="image/jpeg"]');
+    expect(jpegLink).not.toBeInTheDocument();
   });
 });

@@ -92,6 +92,7 @@ vi.mock("@/lib/data", () => ({
 vi.mock("@/lib/paths", () => ({
   resumeHref: "/Rohit_Vipin_Mathews_Resume.pdf",
   avatarHref: "/avatar.jpg",
+  avatarWebpHref: "/avatar.webp",
 }));
 
 import Home from "@/app/page";

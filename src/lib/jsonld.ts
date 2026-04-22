@@ -4,9 +4,15 @@ export interface PersonJsonLdParams {
   baseUrl: string;
   avatarHref: string;
   socials: Social[];
+  knowsAbout: string[];
 }
 
-export function buildPersonJsonLd({ baseUrl, avatarHref, socials }: PersonJsonLdParams) {
+export function buildPersonJsonLd({
+  baseUrl,
+  avatarHref,
+  socials,
+  knowsAbout,
+}: PersonJsonLdParams) {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -33,23 +39,7 @@ export function buildPersonJsonLd({ baseUrl, avatarHref, socials }: PersonJsonLd
       name: "Sree Narayana Gurukulam College of Engineering",
     },
     sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
-    knowsAbout: [
-      "Engineering Leadership",
-      "Platform Engineering",
-      "Cloud Architecture",
-      "AWS",
-      "Azure",
-      ".NET",
-      "Microservices",
-      "AI Engineering",
-      "AWS Bedrock",
-      "RAG Systems",
-      "Distributed Systems",
-      "Kubernetes",
-      "Serverless Architecture",
-      "Platform Modernisation",
-      "Engineering Organisations",
-    ],
+    knowsAbout,
     hasOccupation: {
       "@type": "Occupation",
       name: "Director - Engineering & Architecture",

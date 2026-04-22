@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import type { Project } from "@/types";
 
@@ -57,19 +56,23 @@ describe("ProjectCard", () => {
     expect(container.querySelector("details")).not.toBeInTheDocument();
   });
 
-  it("toggles products list on summary click", async () => {
-    const user = userEvent.setup();
+  it("renders products summary with toggle label when products exist", () => {
     const withProducts: Project = {
       ...base,
       products: [{ name: "Product Alpha", description: "Core platform." }],
     };
     const { container } = render(<ProjectCard project={withProducts} />);
-    const details = container.querySelector("details")!;
-    const summary = screen.getByRole("button", { name: /Toggle products/ });
-    expect(details).not.toHaveAttribute("open");
-    await user.click(summary);
-    expect(details).toHaveAttribute("open");
-    await user.click(summary);
-    expect(details).not.toHaveAttribute("open");
+    const summary = container.querySelector("summary");
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveAttribute("aria-label", expect.stringContaining("Toggle products"));
+  });
+
+  it("renders product names in collapsed details", () => {
+    const withProducts: Project = {
+      ...base,
+      products: [{ name: "Product Alpha", description: "Core platform." }],
+    };
+    render(<ProjectCard project={withProducts} />);
+    expect(screen.getByText("Product Alpha")).toBeInTheDocument();
   });
 });

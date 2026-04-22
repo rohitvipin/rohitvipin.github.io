@@ -136,6 +136,26 @@ describe("fetch-avatar main()", () => {
     await expect(main()).rejects.toThrow("response body is null");
   });
 
+  it("throws when body completes with fewer than 8 bytes (magic bytes never checked)", async () => {
+    // 4 bytes < PNG_MAGIC.length (8), so the magic check condition is never met
+    const tinyBody = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({ body: makeBody(tinyBody) }));
+    await expect(main()).rejects.toThrow("not a valid JPEG or PNG");
+  });
+
+  it("throws when accumulated streamed body exceeds 2MB limit", async () => {
+    const OVER = 2 * 1024 * 1024 + 1;
+    const bigChunk = new Uint8Array(OVER);
+    const oversizedBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(bigChunk);
+        controller.close();
+      },
+    });
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({ body: oversizedBody }));
+    await expect(main()).rejects.toThrow("response body exceeds limit");
+  });
+
   it("throws on non-allowlisted host", async () => {
     vi.mocked(ProfileSchema.parse).mockReturnValueOnce({
       github_avatar: "https://evil.com/avatar.jpg",

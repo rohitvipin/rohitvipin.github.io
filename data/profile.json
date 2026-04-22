@@ -65,6 +65,23 @@
       "tier": "secondary"
     }
   ],
+  "knows_about": [
+    "Engineering Leadership",
+    "Platform Engineering",
+    "Cloud Architecture",
+    "AWS",
+    "Azure",
+    ".NET",
+    "Microservices",
+    "AI Engineering",
+    "AWS Bedrock",
+    "RAG Systems",
+    "Distributed Systems",
+    "Kubernetes",
+    "Serverless Architecture",
+    "Platform Modernisation",
+    "Engineering Organisations"
+  ],
   "value_propositions": [
     {
       "audience": "Track Record",

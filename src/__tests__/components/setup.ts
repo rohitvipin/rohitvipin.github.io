@@ -1,9 +1,7 @@
-import { expect, vi, afterEach } from "vitest";
-import * as matchers from "@testing-library/jest-dom/matchers";
+import "@testing-library/jest-dom/vitest";
+import { vi, afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 import { createElement } from "react";
-
-expect.extend(matchers);
 afterEach(cleanup);
 
 vi.mock("next/image", () => ({

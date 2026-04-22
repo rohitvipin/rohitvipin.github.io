@@ -1,3 +1,6 @@
+const LS = /\u2028/g;
+const PS = /\u2029/g;
+
 /**
  * Safe ONLY inside <script type="application/ld+json">. Do NOT reuse for HTML attributes — quotes are unescaped.
  */
@@ -6,6 +9,6 @@ export function escapeJsonLd(json: string): string {
     .replace(/&/g, "\\u0026")
     .replace(/</g, "\\u003c")
     .replace(/>/g, "\\u003e")
-    .replace(new RegExp(String.fromCharCode(0x2028), "g"), "\\u2028")
-    .replace(new RegExp(String.fromCharCode(0x2029), "g"), "\\u2029");
+    .replace(LS, "\\u2028")
+    .replace(PS, "\\u2029");
 }

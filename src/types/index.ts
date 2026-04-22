@@ -30,6 +30,7 @@ export interface Profile {
   open_to?: string;
   availability_note?: string;
   value_propositions?: ValueProposition[];
+  knows_about?: string[];
 }
 
 export interface ImpactStory {

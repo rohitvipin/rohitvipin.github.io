@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { socials } from "@/lib/data";
+import { socials, profile } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
 import { buildPersonJsonLd } from "@/lib/jsonld";
 import { avatarHref, avatarWebpHref } from "@/lib/paths";
@@ -88,7 +88,12 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-const jsonLd = buildPersonJsonLd({ baseUrl: BASE_URL, avatarHref, socials });
+const jsonLd = buildPersonJsonLd({
+  baseUrl: BASE_URL,
+  avatarHref,
+  socials,
+  knowsAbout: profile.knows_about ?? [],
+});
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -113,7 +118,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="image/webp"
           fetchPriority="high"
         />
-        <link rel="preload" as="image" href={avatarHref} type="image/jpeg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}
