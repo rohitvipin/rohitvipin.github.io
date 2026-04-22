@@ -18,9 +18,12 @@ coverage/
 *.pem
 
 # local AI tool permissions (machine-specific, never commit)
-.claude/settings.local.json
+.claude
 npm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI tool state (machine-specific, never commit)
+.omc
