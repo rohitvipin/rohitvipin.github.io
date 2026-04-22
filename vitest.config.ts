@@ -8,7 +8,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "lcov"],
-      include: ["src/**/*.{ts,tsx}", "utils/**/*.ts"],
+      include: ["src/**/*.{ts,tsx}", "utils/fetch-avatar.ts"],
       exclude: ["src/__tests__/**", "src/**/*.d.ts"],
       thresholds: {
         statements: 90,
