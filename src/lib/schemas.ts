@@ -7,7 +7,7 @@ const socialUrl = z
     "must start with https:// or mailto:"
   );
 
-const KeyMetricSchema = z.object({
+export const KeyMetricSchema = z.object({
   label: z.string().min(1),
   value: z.string().min(1),
   detail: z.string().min(1),
@@ -52,7 +52,7 @@ export const ExperienceSchema = z.object({
   highlights: z.array(z.string().min(1)),
 });
 
-const ProductSchema = z.object({
+export const ProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
 });
@@ -103,7 +103,7 @@ export const CommunityEntrySchema = z.object({
   highlights: z.array(z.string().min(1)),
 });
 
-const LeadershipSubsectionSchema = z.object({
+export const LeadershipSubsectionSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
 });
