@@ -27,7 +27,7 @@ export const ProfileSchema = z.object({
   bio: z.string().min(1),
   bio_quote: z.string().min(1).optional(),
   email: z.string().email(),
-  phone: z.string().min(1),
+  phone: z.string().min(1).optional(),
   years_of_experience: z.number().int().positive(),
   timezone: z.string().min(1),
   availability_status: z.enum(["open", "closed", "passive"]),

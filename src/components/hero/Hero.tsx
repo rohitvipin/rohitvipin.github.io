@@ -14,7 +14,7 @@ export default function Hero({ profile, socials }: HeroProps) {
   const secondaryMetrics = profile.key_metrics.filter((m) => m.tier === "secondary");
 
   return (
-    <section className="min-h-screen flex items-center pt-14">
+    <section aria-labelledby="hero-heading" className="min-h-screen flex items-center pt-14">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
           {/* Left */}
@@ -33,7 +33,10 @@ export default function Hero({ profile, socials }: HeroProps) {
             )}
 
             <div>
-              <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text)] leading-tight">
+              <h1
+                id="hero-heading"
+                className="text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text)] leading-tight"
+              >
                 {profile.name}
               </h1>
               <p className="mt-2 text-xl font-medium gradient-text">{profile.title}</p>
@@ -140,7 +143,7 @@ export default function Hero({ profile, socials }: HeroProps) {
 
         {/* Secondary metrics */}
         {secondaryMetrics.length > 0 && (
-          <dl className="hidden md:grid mt-3 grid-cols-2 md:grid-cols-4 gap-3">
+          <dl className="grid grid-cols-2 md:grid-cols-4 mt-3 gap-3">
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}

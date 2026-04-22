@@ -14,7 +14,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const drawerRef = useRef<HTMLElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.slice(1));
@@ -128,27 +128,31 @@ export default function Nav({ initials, navLinks }: NavProps) {
       </div>
 
       {mobileOpen && (
-        <nav
+        <div
           ref={drawerRef}
-          className="md:hidden border-t border-[var(--border)] bg-[var(--bg)] px-6 py-4 flex flex-col gap-4"
+          role="dialog"
+          aria-modal="true"
           aria-label="Mobile navigation"
+          className="md:hidden border-t border-[var(--border)] bg-[var(--bg)]"
         >
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setMobileOpen(false)}
-              aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
-              className={`min-h-[48px] flex items-center text-sm transition-colors ${
-                activeSection === l.href.slice(1)
-                  ? "text-[var(--accent)] font-medium"
-                  : "text-[var(--muted)] hover:text-[var(--text)]"
-              }`}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+          <nav className="px-6 py-4 flex flex-col gap-4" aria-label="Mobile navigation links">
+            {navLinks.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
+                className={`min-h-[48px] flex items-center text-sm transition-colors ${
+                  activeSection === l.href.slice(1)
+                    ? "text-[var(--accent)] font-medium"
+                    : "text-[var(--muted)] hover:text-[var(--text)]"
+                }`}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
       )}
     </header>
   );

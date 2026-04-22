@@ -13,11 +13,12 @@ export default function ExperienceTimeline({
   yearsOfExperience,
 }: ExperienceTimelineProps) {
   return (
-    <section id="experience" className="section">
+    <section id="experience" aria-labelledby="experience-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeader
           title="Experience"
           subtitle={`${yearsOfExperience}+ years across engineering leadership, architecture, and delivery`}
+          headingId="experience-heading"
         />
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-px bg-[var(--border)] hidden md:block ml-[11px]" />

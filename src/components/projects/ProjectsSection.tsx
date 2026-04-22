@@ -18,9 +18,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const visible = tab === "client" ? clientProjects : ossProjects;
 
   return (
-    <section id="projects" className="section">
+    <section id="projects" aria-labelledby="projects-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader title="Projects" />
+        <SectionHeader title="Projects" headingId="projects-heading" />
         <div className="flex gap-1 mb-8 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit">
           {(["client", "oss"] as const).map((t) => (
             <button

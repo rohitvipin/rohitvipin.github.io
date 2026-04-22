@@ -8,9 +8,9 @@ export interface EducationSectionProps {
 
 export default function EducationSection({ education }: EducationSectionProps) {
   return (
-    <section id="education" className="section">
+    <section id="education" aria-labelledby="education-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
-        <SectionHeader title="Education" />
+        <SectionHeader title="Education" headingId="education-heading" />
         <div className="space-y-4">
           {education.map((e) => (
             <div key={e.institution} className="card p-6 flex items-start gap-4">
