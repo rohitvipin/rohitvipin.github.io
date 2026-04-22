@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { profile, socials } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
+import { avatarHref } from "@/lib/paths";
 import "./globals.css";
 
 const inter = Inter({
@@ -98,7 +99,7 @@ const jsonLd = {
     "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
   url: BASE_URL,
   email: profile.email,
-  image: profile.github_avatar,
+  image: `${BASE_URL}${avatarHref}`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Kerala",
@@ -146,7 +147,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
-        <link rel="preload" as="image" href="/avatar.jpg" fetchPriority="high" />
+        <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}

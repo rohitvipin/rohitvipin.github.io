@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import SocialLinks from "@/components/shared/SocialLinks";
-import { resumeHref } from "@/lib/paths";
+import { resumeHref, avatarHref } from "@/lib/paths";
 
 export interface HeroProps {
   profile: Profile;
@@ -112,7 +112,7 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-col items-center gap-5">
               <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
                 <Image
-                  src="/avatar.jpg"
+                  src={avatarHref}
                   alt={`Profile photo of ${profile.name}`}
                   fill
                   className="object-cover"
