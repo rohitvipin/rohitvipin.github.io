@@ -21,14 +21,15 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview": "npm run build && serve out",
+    "preview": "npm run build && serve out -p 3000",
     "prepare": "husky",
     "generate-favicons": "tsx utils/generate-favicons.ts",
     "fetch-avatar": "tsx utils/fetch-avatar.ts",
     "generate-resume": "tsx utils/generate-resume.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --coverage --reporter=verbose"
+    "test:ci": "vitest run --coverage --reporter=verbose",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "next": "16.2.4",
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "1.59.1",
     "@react-pdf/renderer": "^4.5.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
