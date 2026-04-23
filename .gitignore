@@ -34,7 +34,9 @@ yarn-error.log*
 .qa-reports/
 
 # AI tool state — machine-specific, never commit
-.claude/
+# Skills are project config and ARE committed; only local settings are excluded
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
 .omc/
 .specify/
 .cursor/
