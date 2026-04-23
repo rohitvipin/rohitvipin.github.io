@@ -10,6 +10,7 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? "http://localhost:3000",
     screenshot: "only-on-failure",
     video: "off",
+    trace: "on-first-retry",
   },
   webServer: {
     command: "npm run preview",

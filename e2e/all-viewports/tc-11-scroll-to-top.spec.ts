@@ -18,7 +18,8 @@ test.describe("TC-11 · Scroll-to-Top", () => {
       window.dispatchEvent(new Event("scroll"));
     });
     const btn = page.locator('button[aria-label="Scroll to top"]');
-    await expect.soft(btn).toBeVisible({ timeout: 3000 });
+    await btn.waitFor({ state: "visible", timeout: 3000 });
+    await expect.soft(btn).toBeVisible();
   });
 
   test("11.4 click returns to top", async ({ page }) => {

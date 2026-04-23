@@ -1,12 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
-async function assertMinSize(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  page: any,
-  selector: string,
-  minPx: number,
-  label: string
-) {
+async function assertMinSize(page: Page, selector: string, minPx: number, label: string) {
   const el = page.locator(selector).first();
   const visible = await el.isVisible().catch(() => false);
   if (!visible) return;
@@ -56,7 +50,7 @@ test.describe("TC-07 · Touch Targets", () => {
       if (!visible) continue;
       const box = await link.boundingBox();
       if (!box) continue;
-      if (box.height < 10) continue;
+      if (box.height < 10) continue; // skip zero-size elements isVisible() missed
       expect.soft(box.height, `social link[${i}]`).toBeGreaterThanOrEqual(44);
     }
   });
@@ -71,8 +65,13 @@ test.describe("TC-07 · Touch Targets", () => {
   });
 
   test("07.8 scroll-to-top button meets 48px minimum", async ({ page }) => {
-    await page.evaluate(() => window.scrollTo(0, 500));
-    await page.waitForTimeout(300);
+    await page.evaluate(() => {
+      window.scrollTo(0, 500);
+      window.dispatchEvent(new Event("scroll"));
+    });
+    await page
+      .locator('button[aria-label="Scroll to top"]')
+      .waitFor({ state: "visible", timeout: 3000 });
     await assertMinSize(page, 'button[aria-label="Scroll to top"]', 48, "Scroll-to-top");
   });
 

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const NAV_COUNT = 9;
+const NAV_COUNT = 9; // must match data/nav.json length
 
 test.describe("TC-05 · Navigation — Mobile (375px)", () => {
   test.beforeEach(async ({ page }) => {

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const NAV_COUNT = 9;
+const NAV_COUNT = 9; // must match data/nav.json length
 
 test.describe("TC-03 · Navigation — Desktop (1440px)", () => {
   test.beforeEach(async ({ page }) => {
@@ -35,10 +35,8 @@ test.describe("TC-03 · Navigation — Desktop (1440px)", () => {
 
   test("03.5 aria-current set on active link when section intersects", async ({ page }) => {
     await page.locator("#about").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(500);
     const activeLink = page.locator('nav[aria-label="Main navigation"] a[aria-current="location"]');
-    const count = await activeLink.count();
-    expect.soft(count).toBeGreaterThanOrEqual(1);
+    await expect.soft(activeLink).toHaveCount(1, { timeout: 2000 });
   });
 
   test("03.6 home logo link with aria-label=Home present", async ({ page }) => {
