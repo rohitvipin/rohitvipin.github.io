@@ -1,7 +1,4 @@
-"use client";
-
-import { useState } from "react";
-import TechChip from "@/components/shared/TechChip";
+import { TechChip } from "@/components/shared/TechChip";
 
 const INITIAL_VISIBLE = 10;
 
@@ -10,41 +7,35 @@ export interface SkillCategoryCardProps {
   skills: string[];
 }
 
-export default function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? skills : skills.slice(0, INITIAL_VISIBLE);
+export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) {
   const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);
 
   return (
-    <div className="card card-hover p-6 space-y-4">
+    <div className="card p-6 space-y-4">
       <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wider">
         {category}
       </h3>
       <div className="flex flex-wrap gap-2">
-        {visible.map((skill) => (
+        {skills.slice(0, INITIAL_VISIBLE).map((skill) => (
           <TechChip key={skill} label={skill} />
         ))}
-        {!expanded && hidden > 0 && (
-          <button
-            onClick={() => setExpanded(true)}
-            aria-expanded={false}
-            aria-label={`Show ${hidden} more ${category} skills`}
-            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono"
-          >
-            +{hidden} more
-          </button>
-        )}
-        {expanded && hidden > 0 && (
-          <button
-            onClick={() => setExpanded(false)}
-            aria-expanded={true}
-            aria-label={`Show fewer ${category} skills`}
-            className="text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono"
-          >
-            show less
-          </button>
-        )}
       </div>
+      {hidden > 0 && (
+        <details className="card-details flex flex-col">
+          <summary
+            aria-label={`Show ${hidden} more ${category} skills`}
+            className="order-last mt-2 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-[background-color,color,border-color] duration-150 cursor-pointer font-mono w-fit min-h-[48px] flex items-center"
+          >
+            <span className="[details[open]_&]:hidden">+{hidden} more</span>
+            <span className="hidden [details[open]_&]:inline">Show less</span>
+          </summary>
+          <div className="flex flex-wrap gap-2">
+            {skills.slice(INITIAL_VISIBLE).map((skill) => (
+              <TechChip key={skill} label={skill} />
+            ))}
+          </div>
+        </details>
+      )}
     </div>
   );
 }

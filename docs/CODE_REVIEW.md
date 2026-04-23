@@ -24,10 +24,12 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 ### Component Structure
 
 - [ ] Server component by default (no `"use client"` unless hooks/browser API used)
+- [ ] Named export only — no `export default` on components
 - [ ] Props interface defined and exported (even for internal components)
 - [ ] Discriminated unions for conditional rendering (not boolean props)
 - [ ] No prop drilling beyond 1 level (use context for deep nesting)
 - [ ] Naming: PascalCase components, snake_case utilities
+- [ ] Collapsible content uses native `<details>/<summary>` with `.card-details` class (not custom state)
 
 ### Styling & Theming
 
@@ -78,10 +80,10 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 ### Coverage Requirements
 
-- [ ] New utilities: 100% unit test coverage (aspirational; enforced CI minimum is 60%)
+- [ ] New utilities: 100% unit test coverage
 - [ ] New components: Tests for main paths (render, user interactions)
 - [ ] Data loaders: Tests for happy path + error handling
-- [ ] **Minimum:** 60% overall coverage (`npm run test:coverage`)
+- [ ] **Minimum:** 90% statements/functions/lines, 85% branches (enforced via Vitest thresholds)
 
 ### Test Quality
 

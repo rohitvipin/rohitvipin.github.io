@@ -1,17 +1,13 @@
 import type { ExperienceEntry } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
-import ExperienceCard from "./ExperienceCard";
-import { getCompanyColor } from "@/lib/colors";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { ExperienceCard } from "./ExperienceCard";
 
 export interface ExperienceTimelineProps {
   experience: ExperienceEntry[];
   yearsOfExperience: number;
 }
 
-export default function ExperienceTimeline({
-  experience,
-  yearsOfExperience,
-}: ExperienceTimelineProps) {
+export function ExperienceTimeline({ experience, yearsOfExperience }: ExperienceTimelineProps) {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">
@@ -27,7 +23,7 @@ export default function ExperienceTimeline({
               <div key={`${entry.company}-${entry.role}`} className="relative">
                 <div
                   className="absolute -left-8 top-6 w-3 h-3 rounded-full border-2 bg-[var(--bg)] hidden md:block"
-                  style={{ borderColor: getCompanyColor(entry.company) }}
+                  style={{ borderColor: entry.color ?? "var(--accent)" }}
                 />
                 <ExperienceCard entry={entry} />
               </div>

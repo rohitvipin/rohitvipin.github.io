@@ -84,7 +84,6 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 /* ── Section spacing ── */
@@ -110,15 +109,6 @@ body {
   }
 }
 
-/* ── Touch target utility ── */
-.touch-target {
-  min-width: 48px;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* ── Scroll offset for sticky nav ── */
 section[id] {
   scroll-margin-top: 72px;
@@ -141,27 +131,92 @@ section[id] {
   border: 1px solid var(--border);
   border-radius: 12px;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.2s cubic-bezier(0, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
 .card:hover {
   border-color: var(--accent);
-  box-shadow:
-    0 0 0 1px var(--accent-glow),
-    0 8px 32px var(--accent-glow);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
-/* ── Card hover lift ── */
+/* ── Card focus indicator (no positional shift) ── */
 @media (prefers-reduced-motion: no-preference) {
-  .card-hover {
-    transition:
-      transform 200ms ease,
-      box-shadow 200ms ease;
+  .card:focus-within {
+    border-color: var(--accent);
   }
-  .card-hover:hover,
-  .card-hover:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--shadow-card);
+}
+
+/* ── Details/Summary card expansion ── */
+details.card-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.card-details > summary::-webkit-details-marker {
+  display: none;
+}
+details.card-details > summary .card-details-chevron {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+details.card-details[open] > summary .card-details-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Smooth details content reveal ── */
+@media (prefers-reduced-motion: no-preference) {
+  details.card-details > :not(summary) {
+    transition:
+      opacity 0.22s cubic-bezier(0, 0, 0.2, 1),
+      translate 0.22s cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  details.card-details[open] > :not(summary) {
+    opacity: 1;
+    translate: 0 0;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 -6px;
+    }
+  }
+
+  /* Height animation where supported (Chrome 129+, Firefox 136+) */
+  @supports (interpolate-size: allow-keywords) {
+    details.card-details {
+      interpolate-size: allow-keywords;
+    }
+
+    details.card-details > :not(summary) {
+      height: 0;
+      overflow: hidden;
+      transition:
+        height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.22s cubic-bezier(0, 0, 0.2, 1),
+        translate 0.22s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    details.card-details[open] > :not(summary) {
+      height: auto;
+
+      @starting-style {
+        height: 0;
+        opacity: 0;
+        translate: 0 -6px;
+      }
+    }
+  }
+}
+
+/* ── Tab panel fade-in ── */
+@media (prefers-reduced-motion: no-preference) {
+  [role="tabpanel"]:not([hidden]) {
+    transition:
+      opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+      translate 0.2s cubic-bezier(0, 0, 0.2, 1);
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 8px;
+    }
   }
 }
 

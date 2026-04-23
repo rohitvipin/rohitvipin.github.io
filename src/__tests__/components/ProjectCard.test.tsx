@@ -1,8 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import ProjectCard from "@/components/projects/ProjectCard";
+import { ProjectCard } from "@/components/projects/ProjectCard";
 import type { Project } from "@/types";
 
 const base: Project = {
@@ -53,22 +52,33 @@ describe("ProjectCard", () => {
   });
 
   it("hides products section when products array is empty", () => {
-    render(<ProjectCard project={base} />);
-    expect(screen.queryByRole("button", { name: /products/ })).not.toBeInTheDocument();
+    const { container } = render(<ProjectCard project={base} />);
+    expect(container.querySelector("details")).not.toBeInTheDocument();
   });
 
-  it("toggles products list on button click", async () => {
-    const user = userEvent.setup();
+  it("renders products summary with toggle label when products exist", () => {
+    const withProducts: Project = {
+      ...base,
+      products: [{ name: "Product Alpha", description: "Core platform." }],
+    };
+    const { container } = render(<ProjectCard project={withProducts} />);
+    const summary = container.querySelector("summary");
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveAttribute("aria-label", expect.stringContaining("Toggle products"));
+  });
+
+  it("renders product names in collapsed details", () => {
     const withProducts: Project = {
       ...base,
       products: [{ name: "Product Alpha", description: "Core platform." }],
     };
     render(<ProjectCard project={withProducts} />);
-    const btn = screen.getByRole("button", { name: "Show products" });
-    expect(screen.queryByText("Product Alpha")).not.toBeInTheDocument();
-    await user.click(btn);
     expect(screen.getByText("Product Alpha")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Hide products" }));
-    expect(screen.queryByText("Product Alpha")).not.toBeInTheDocument();
+  });
+
+  it("card root has no inline positional transform", () => {
+    const { container } = render(<ProjectCard project={base} />);
+    const card = container.firstChild as HTMLElement;
+    expect(card.style.transform).toBe("");
   });
 });

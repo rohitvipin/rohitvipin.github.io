@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import Hero from "@/components/hero/Hero";
+import { Hero } from "@/components/hero/Hero";
 import type { Profile, Social } from "@/types";
 
 const baseProfile: Profile = {
@@ -117,6 +117,16 @@ describe("Hero", () => {
     render(<Hero profile={noDetail} socials={baseSocials} />);
     expect(screen.queryByText("USA & India")).not.toBeInTheDocument();
     expect(screen.queryByText("$180K+")).not.toBeInTheDocument();
+  });
+
+  it("hero CTAs carry min-h-[48px] for touch target compliance", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    const seeImpact = screen.getByRole("link", { name: "See Impact" });
+    const downloadCV = screen.getByRole("link", {
+      name: "Download Rohit Vipin Mathews resume (PDF)",
+    });
+    expect(seeImpact.className).toContain("min-h-[48px]");
+    expect(downloadCV.className).toContain("min-h-[48px]");
   });
 
   it("applies large font class for short metric values (length <= 2)", () => {

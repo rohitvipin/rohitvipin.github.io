@@ -1,7 +1,9 @@
 [
   {
+    "id": "k12-hcm-platform",
     "name": "K-12 HCM Platform Modernisation",
     "domain": "Education",
+    "color": "#6366f1",
     "client": "Confidential - Leading US K-12 HCM Provider",
     "role": "Director - Engineering & Architecture",
     "duration": "April 2024 - Present",
@@ -45,8 +47,10 @@
     ]
   },
   {
+    "id": "precision-agriculture-genomics",
     "name": "Precision Agriculture & Genomics Platform",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading Agricultural Genetics Company",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -86,8 +90,10 @@
     ]
   },
   {
+    "id": "farm-operations-platform",
     "name": "Farm Operations Platform & Integrations",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -126,8 +132,10 @@
     ]
   },
   {
+    "id": "logistics-platform",
     "name": "Logistics Platform Modernisation",
     "domain": "Logistics",
+    "color": "#fbbf24",
     "client": "Confidential - Regional Freight Forwarding & Logistics Operator",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -171,8 +179,10 @@
     ]
   },
   {
+    "id": "hospitality-loyalty-platform",
     "name": "Hospitality Loyalty Platform",
     "domain": "Hospitality",
+    "color": "#ec4899",
     "client": "Confidential",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -212,8 +222,10 @@
     ]
   },
   {
+    "id": "agribusiness-management-platform",
     "name": "Agribusiness Management Platform",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading North American Agribusiness Software Provider",
     "role": "Technical Architect",
     "duration": "April 2019 - March 2022",
@@ -266,8 +278,10 @@
     ]
   },
   {
+    "id": "dapper-repository",
     "name": "Dapper.Repository",
     "domain": "Open Source / Developer Tooling",
+    "color": "#8b5cf6",
     "client": "Personal",
     "role": "Creator & Maintainer",
     "duration": "2024",
@@ -281,8 +295,10 @@
     "github": "https://github.com/rohitvipin/Dapper.Repository"
   },
   {
+    "id": "aws-request-signer",
     "name": "AWS.RequestSigner",
     "domain": "Open Source / Cloud",
+    "color": "#fb923c",
     "client": "Personal",
     "role": "Creator",
     "duration": "2021",
@@ -296,8 +312,10 @@
     "github": "https://github.com/rohitvipin/AWS.RequestSigner"
   },
   {
+    "id": "mongodb-migrations",
     "name": "MongoDbMigrations",
     "domain": "Open Source / Developer Tooling",
+    "color": "#8b5cf6",
     "client": "Personal",
     "role": "Creator & Maintainer",
     "duration": "2020",
@@ -310,8 +328,10 @@
     "tech": [".NET", "C#", "MongoDB", "NuGet"]
   },
   {
+    "id": "xamarin-custom-renderer-samples",
     "name": "Xamarin Forms Custom Renderer Samples",
     "domain": "Open Source / Mobile",
+    "color": "#22d3ee",
     "client": "Personal / Community",
     "role": "Creator & Maintainer",
     "duration": "2018",

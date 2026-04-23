@@ -1,12 +1,12 @@
 import type { CommunityEntry } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
-import CommunityCard from "./CommunityCard";
+import { SectionHeader } from "@/components/shared/SectionHeader";
+import { CommunityCard } from "./CommunityCard";
 
 export interface CommunitySectionProps {
   community: CommunityEntry[];
 }
 
-export default function CommunitySection({ community }: CommunitySectionProps) {
+export function CommunitySection({ community }: CommunitySectionProps) {
   return (
     <section id="community" aria-labelledby="community-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">

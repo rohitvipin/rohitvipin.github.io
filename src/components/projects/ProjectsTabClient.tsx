@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 import type { Project } from "@/types";
-import ProjectCard from "./ProjectCard";
+import { ProjectCard } from "./ProjectCard";
 import { partitionProjects } from "@/lib/projects";
 import { FiBriefcase, FiGithub } from "react-icons/fi";
 
@@ -17,7 +17,7 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
+export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
   const [tab, setTab] = useState<TabId>("client");
   const { clientProjects, ossProjects } = useMemo(() => partitionProjects(projects), [projects]);
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ client: null, oss: null });
@@ -62,7 +62,7 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}
             onKeyDown={(e) => handleKeyDown(e, id)}
-            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 ${
+            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
               tab === id
                 ? "bg-[var(--accent)] text-[var(--bg)]"
                 : "text-[var(--muted)] hover:text-[var(--text)]"
@@ -81,12 +81,12 @@ export default function ProjectsTabClient({ projects }: ProjectsTabClientProps) 
             role="tabpanel"
             id={`tabpanel-${id}`}
             aria-labelledby={`tab-${id}`}
-            tabIndex={tab === id && items.length === 0 ? 0 : undefined}
+            tabIndex={tab === id ? 0 : -1}
             hidden={tab !== id}
             className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
           >
             {items.map((p) => (
-              <ProjectCard key={p.name} project={p} />
+              <ProjectCard key={p.id ?? p.name} project={p} />
             ))}
           </div>
         );

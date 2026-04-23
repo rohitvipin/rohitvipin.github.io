@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { profile, socials } from "@/lib/data";
+import { socials, profile, experience, education } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
-import { avatarHref } from "@/lib/paths";
+import { buildPersonJsonLd } from "@/lib/jsonld";
+import { avatarHref, avatarWebpHref } from "@/lib/paths";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
   description:
-    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Led 350+ engineers across USA and India. AI enablement, platform modernisation, and delivery execution. Open to VP Engineering, CTO, and Director roles.",
+    "Engineering Director with 15 years building cloud-native platforms. Led 350+ engineers. Architecture, AI enablement, modernisation. Open to VP / CTO roles.",
   keywords: [
     "Rohit Vipin Mathews",
     "VP Engineering",
@@ -87,73 +88,36 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Rohit Vipin Mathews",
-  givenName: "Rohit",
-  additionalName: "Vipin",
-  familyName: "Mathews",
-  jobTitle: "Director - Engineering & Architecture",
-  description:
-    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
-  url: BASE_URL,
-  email: profile.email,
-  image: `${BASE_URL}${avatarHref}`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Kerala",
-    addressCountry: "IN",
-  },
-  worksFor: {
-    "@type": "Organization",
-    name: "CES IT",
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Sree Narayana Gurukulam College of Engineering",
-  },
-  sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
-  knowsAbout: [
-    "Engineering Leadership",
-    "Platform Engineering",
-    "Cloud Architecture",
-    "AWS",
-    "Azure",
-    ".NET",
-    "Microservices",
-    "AI Engineering",
-    "AWS Bedrock",
-    "RAG Systems",
-    "Distributed Systems",
-    "Kubernetes",
-    "Serverless Architecture",
-    "Platform Modernisation",
-    "Engineering Organisations",
-  ],
-  hasOccupation: {
-    "@type": "Occupation",
-    name: "Director - Engineering & Architecture",
-    occupationLocation: {
-      "@type": "Country",
-      name: "India",
-    },
-    skills:
-      "Cloud Architecture, AWS, .NET, AI Engineering, Engineering Leadership, Platform Modernisation, VP Engineering, CTO",
-  },
-};
+const jsonLd = buildPersonJsonLd({
+  baseUrl: BASE_URL,
+  avatarHref,
+  socials,
+  knowsAbout: profile.knows_about ?? [],
+  profile,
+  experience,
+  education,
+});
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'`}
         />
+        {/* X-Content-Type-Options and Permissions-Policy must be HTTP response headers — meta tags are ignored by browsers for these directives. GitHub Pages does not support custom headers. */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <link rel="preload" as="image" href={avatarHref} fetchPriority="high" />
+        <link
+          rel="preload"
+          as="image"
+          href={avatarWebpHref}
+          type="image/webp"
+          fetchPriority="high"
+          media="(min-width: 1024px)"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}

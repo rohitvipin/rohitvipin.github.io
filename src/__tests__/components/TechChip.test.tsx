@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import TechChip from "@/components/shared/TechChip";
+import { TechChip } from "@/components/shared/TechChip";
 
 describe("TechChip", () => {
   it("renders label text", () => {

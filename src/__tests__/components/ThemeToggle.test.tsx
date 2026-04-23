@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ThemeToggle from "@/components/shared/ThemeToggle";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 const { mockSetTheme, mockTheme } = vi.hoisted(() => ({
   mockSetTheme: vi.fn(),

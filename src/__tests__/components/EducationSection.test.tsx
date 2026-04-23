@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EducationSection from "@/components/education/EducationSection";
+import { EducationSection } from "@/components/education/EducationSection";
 import type { Education } from "@/types";
 
 const baseEducation: Education[] = [

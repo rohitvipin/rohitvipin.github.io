@@ -1,69 +1,69 @@
 import React from "react";
 import { renderToStream } from "@react-pdf/renderer";
-import { createWriteStream, existsSync } from "fs";
+import { createWriteStream, renameSync, statSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { pipeline } from "stream/promises";
 
-import profileData from "../data/profile.json";
-import socialsData from "../data/socials.json";
-import experienceData from "../data/experience.json";
-import skillsData from "../data/skills.json";
-import projectsData from "../data/projects.json";
-import leadershipData from "../data/leadership.json";
-import educationData from "../data/education.json";
-import communityData from "../data/community.json";
-import awardsData from "../data/awards.json";
 import resumeConfigData from "../data/resume-config.json";
+import {
+  profile,
+  socials,
+  experience,
+  skills,
+  projects,
+  leadership,
+  education,
+  community,
+  awards,
+} from "../src/lib/data";
 
 import { ResumeDocument } from "./resume/ResumeDocument";
-import type {
-  Profile,
-  Social,
-  ExperienceEntry,
-  SkillCategory,
-  Project,
-  Leadership,
-  Education,
-  CommunityEntry,
-  Award,
-  ResumeConfig,
-} from "../src/types";
+import type { ResumeConfig } from "../src/types";
+import { ResumeConfigSchema } from "../src/lib/schemas";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = resolve(__dirname, "../public/Rohit_Vipin_Mathews_Resume.pdf");
-const FALLBACK_EXISTS = existsSync(OUTPUT_PATH);
+
+const resumeConfig: ResumeConfig = ResumeConfigSchema.parse(resumeConfigData);
+
+const GENERATE_TIMEOUT_MS = 120_000;
 
 export async function generate() {
   console.log("Generating resume PDF from data/*.json...");
 
   const element = React.createElement(ResumeDocument, {
-    config: resumeConfigData as ResumeConfig,
-    profile: profileData as Profile,
-    socials: socialsData as Social[],
-    experience: experienceData as ExperienceEntry[],
-    skills: skillsData as SkillCategory[],
-    projects: projectsData as Project[],
-    leadership: leadershipData as Leadership,
-    education: educationData as Education[],
-    community: communityData as CommunityEntry[],
-    awards: awardsData as Award[],
+    config: resumeConfig,
+    profile,
+    socials,
+    experience,
+    skills,
+    projects,
+    leadership,
+    education,
+    community,
+    awards,
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const stream = await renderToStream(element as any);
-  const out = createWriteStream(OUTPUT_PATH);
+  const tmp = OUTPUT_PATH + ".tmp";
+  const out = createWriteStream(tmp);
   await pipeline(stream, out);
-  console.log(`Resume written to ${OUTPUT_PATH}`);
+  renameSync(tmp, OUTPUT_PATH);
+  const { size } = statSync(OUTPUT_PATH);
+  if (size < 50_000) {
+    throw new Error(`Generated PDF is suspiciously small (${size} bytes) — render may have failed`);
+  }
+  console.log(`Resume PDF generated → ${OUTPUT_PATH} (${size} bytes)`);
 }
 
 if (process.env.NODE_ENV !== "test") {
-  generate().catch((err) => {
-    console.error("Resume generation failed:", err);
-    if (FALLBACK_EXISTS) {
-      console.warn("Falling back to existing static PDF.");
-      process.exit(0);
-    }
+  const timeout = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error("PDF generation timed out after 120s")), GENERATE_TIMEOUT_MS)
+  );
+  Promise.race([generate(), timeout]).catch((err) => {
+    console.error(`Resume generation failed: ${err instanceof Error ? err.message : err}`);
     process.exit(1);
   });
 }

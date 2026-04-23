@@ -15,11 +15,11 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 - **`data/`** — Canonical JSON content (source of truth)
   - Arrays: `awards.json`, `community.json`, `education.json`, `experience.json`, `nav.json`, `projects.json`, `skills.json`, `socials.json`
   - Objects: `leadership.json` (title + sections), `profile.json` (singleton)
-  - `resume-config.json` — PDF layout config, consumed only by `utils/generate-resume.ts` (not loaded by `data.ts`, not in Zod schemas)
+  - `resume-config.json` — PDF layout config, consumed only by `utils/generate-resume.ts` (not loaded by `data.ts`; validated by `ResumeConfigSchema` in `src/lib/schemas.ts` via `npm run lint:data`)
 - **`src/`** — Next.js App Router + React components
   - `app/` — Layout, pages, global styles
   - `components/` — Section and shared components (organized by feature folder)
-  - `lib/` — `data.ts` (typed constants, one per data file), `colors.ts` (company/domain color utils), `schemas.ts` (Zod validation schemas)
+  - `lib/` — `data.ts` (typed constants, one per data file), `colors.ts` (company/domain color utils), `schemas.ts` (Zod validation schemas), `jsonld.ts` (JSON-LD structured data builder)
   - `types/` — TypeScript interfaces (must stay in sync with `data/*.json`)
   - `__tests__/` — Unit + integration tests (Vitest + React Testing Library)
 - **`utils/`** — Dev scripts (run via `tsx`)
@@ -124,6 +124,28 @@ npm run generate-resume  # Generate PDF resume → public/
 - **All dynamic data** must exist at build time (embedded in JSON files).
 - `images: { unoptimized: true }` and `trailingSlash: true` set in `next.config.mjs`.
 
+### 7. UI Validation
+
+**Every UI change — bug fix, feature, style tweak, content update — must be verified in a real browser before marking done.**
+
+**Mandatory process:**
+
+1. Start dev server: `npm run dev` (http://localhost:3000).
+2. Use **Playwright MCP** (`mcp__playwright__*`) or **Chrome DevTools MCP** (`mcp__chrome-devtools__*`) to navigate, screenshot, and interact.
+3. Verify the changed section renders correctly in both **dark and light themes** (toggle via the theme button).
+4. Check **mobile viewport** (375px width minimum) and **desktop** (1280px+).
+5. Confirm no console errors or layout breakage in adjacent sections.
+6. For interactive elements (nav, scroll-to-top, collapsible cards): exercise the interaction and screenshot the result.
+
+**Tool preference:**
+
+- `mcp__playwright__browser_navigate` → `mcp__playwright__browser_take_screenshot` for visual spot-checks.
+- `mcp__playwright__browser_snapshot` for accessibility tree / element assertions.
+- `mcp__chrome-devtools__lighthouse_audit` for performance/a11y regressions on significant changes.
+- `mcp__playwright__browser_console_messages` to catch runtime JS errors post-change.
+
+**Never claim UI work is complete without at least one screenshot from a real browser session.**
+
 ## Path-Specific Rules
 
 ### `data/` — JSON Content Files
@@ -146,7 +168,7 @@ npm run generate-resume  # Generate PDF resume → public/
 
 ### `src/types/index.ts` — TypeScript Interfaces
 
-**Exported types:** `KeyMetric`, `Profile`, `ExperienceEntry`, `Product`, `Project`, `SkillCategory`, `Education`, `Social`, `Award`, `CommunityEntry`, `LeadershipSubsection`, `Leadership`, `NavLink`, `ResumeSectionConfig`, `ResumeConfig`
+**Exported types:** `KeyMetric`, `ValueProposition`, `Profile`, `ImpactStory`, `ExperienceEntry`, `Product`, `Project`, `SkillCategory`, `Education`, `Social`, `Award`, `CommunityEntry`, `LeadershipSubsection`, `Leadership`, `NavLink`, `ResumeSectionConfig`, `ResumeConfig`
 
 **Rules:**
 
@@ -160,9 +182,10 @@ npm run generate-resume  # Generate PDF resume → public/
 
 **Files:**
 
-- `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks` (each parsed via Zod at import time)
+- `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks`, `impact` (each parsed via Zod at import time)
 - `colors.ts` — `getCompanyColor()`, `getDomainColor()` (pure functions)
 - `schemas.ts` — Zod schemas for all data types; shared by `lint-data.ts` and test suite
+- `jsonld.ts` — `buildPersonJsonLd()` builds JSON-LD `Person` structured data from profile + socials; used by `src/app/layout.tsx`
 
 **Rules:**
 
@@ -175,12 +198,14 @@ npm run generate-resume  # Generate PDF resume → public/
 
 **Feature folders:** `about/`, `awards/`, `community/`, `education/`, `experience/`, `hero/`, `leadership/`, `projects/`, `skills/`, `shared/`
 
-**Shared components:** `AnimateOnScroll`, `Nav`, `ScrollToTop`, `SectionHeader`, `SocialLinks`, `TechChip`, `ThemeToggle`
+**Shared components:** `Nav`, `ScrollToTop`, `SectionHeader`, `SocialLinks`, `TechChip`, `ThemeToggle`
 
 **Rules:**
 
 - ✓ **Server components by default** — no `"use client"` unless using hooks or browser APIs.
-- ✓ `"use client"` required for: `ThemeToggle`, `ScrollToTop`, `Nav`, `AnimateOnScroll` (interactive/browser-dependent).
+- ✓ `"use client"` required for: `ThemeToggle`, `ScrollToTop`, `Nav` (interactive/browser-dependent).
+- ✓ **Named exports only** — no `export default`. Use `export function` or `export const`.
+- ✓ **Collapsible content** — use native `<details>/<summary>` with class `card-details`. No custom open/close state.
 - ✓ Props interface always defined and exported.
 - ✓ **No hardcoded strings** — use typed data loaders.
 - ✓ **CSS tokens only** — use `var(--accent)`, `var(--surface)`, etc. Never hardcode colours.
@@ -255,6 +280,7 @@ All docs live in **`docs/`**:
 3. Validate data: `npm run lint:data`.
 4. Run tests: `npm run test`.
 5. Check build: `npm run build`.
+6. **UI changes:** run `npm run dev` and validate in browser via Playwright/Chrome DevTools MCP (see §7 UI Validation).
 
 ## Deployment
 
@@ -289,7 +315,8 @@ All docs live in **`docs/`**:
 5. **Build component** in `src/components/feature/`.
 6. **Add tests** in `src/__tests__/`.
 7. **Check build** with `npm run build`.
-8. **Push PR** — `ci.yml` validates lint, tests, and build.
+8. **UI validate** — run `npm run dev`, use Playwright/Chrome DevTools MCP to screenshot dark + light themes, mobile + desktop viewports, check console errors.
+9. **Push PR** — `ci.yml` validates lint, tests, and build.
 
 ## Support & References
 

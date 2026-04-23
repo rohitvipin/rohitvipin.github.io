@@ -28,7 +28,7 @@ const validProfile = {
   timezone: "UTC",
   availability_status: "open" as const,
   github_avatar: "https://avatars.githubusercontent.com/u/1",
-  key_metrics: [{ label: "Metric", value: "10", detail: "detail" }],
+  key_metrics: [{ label: "Metric", value: "10", detail: "detail", tier: "primary" as const }],
 };
 
 describe("ProfileSchema", () => {
@@ -102,7 +102,7 @@ const validExperience = {
   company: "Acme Corp",
   role: "Director",
   location: "London",
-  duration: "2020 - Present",
+  duration: "January 2020 - Present",
   current: true,
   description: "Led engineering team",
   techStack: ["TypeScript", "React"],
@@ -130,7 +130,7 @@ const validProject = {
   domain: "Education",
   client: "Acme",
   role: "Architect",
-  duration: "2021 - 2023",
+  duration: "January 2021 - December 2023",
   description: "Built the platform",
   products: [{ name: "App", description: "Mobile app" }],
   highlights: ["99.9% uptime"],

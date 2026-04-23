@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Nav from "@/components/shared/Nav";
+import { Nav } from "@/components/shared/Nav";
 import type { NavLink } from "@/types";
 
 const testNavLinks: NavLink[] = [
@@ -41,6 +41,21 @@ describe("Nav", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
     const nav = screen.getByRole("navigation", { name: "Main navigation" });
     expect(nav.querySelectorAll("a")).toHaveLength(8);
+  });
+
+  it("desktop nav links carry min-h-[48px] for touch target compliance", () => {
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    nav.querySelectorAll("a").forEach((link) => {
+      expect(link.className).toContain("min-h-[48px]");
+    });
+  });
+
+  it("desktop nav is hidden below lg breakpoint class", () => {
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    expect(nav.className).toContain("lg:flex");
+    expect(nav.className).not.toContain("md:flex");
   });
 
   it("mobile menu is closed by default", () => {
@@ -144,8 +159,50 @@ describe("Nav", () => {
     });
 
     screen.getAllByRole("link").forEach((link) => {
-      expect(link).not.toHaveAttribute("aria-current", "page");
+      expect(link).not.toHaveAttribute("aria-current", "location");
     });
+  });
+
+  it("selects entry with lowest bounding rect top when multiple sections intersect", () => {
+    let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (entries: IntersectionObserverEntry[]) => void) {
+          capturedCallback = cb;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+
+    document.body.innerHTML = '<section id="about"></section><section id="experience"></section>';
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+
+    const about = document.getElementById("about") as HTMLElement;
+    const experience = document.getElementById("experience") as HTMLElement;
+    const cb = capturedCallback as (entries: IntersectionObserverEntry[]) => void;
+
+    act(() => {
+      cb([
+        {
+          isIntersecting: true,
+          boundingClientRect: { top: 200 } as DOMRectReadOnly,
+          target: about,
+        } as unknown as IntersectionObserverEntry,
+        {
+          isIntersecting: true,
+          boundingClientRect: { top: 50 } as DOMRectReadOnly,
+          target: experience,
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+
+    expect(screen.getByRole("link", { name: "Experience" })).toHaveAttribute(
+      "aria-current",
+      "location"
+    );
   });
 
   it("marks the intersecting section as active", async () => {
@@ -181,6 +238,6 @@ describe("Nav", () => {
     });
 
     const aboutLink = screen.getByRole("link", { name: "About" });
-    expect(aboutLink).toHaveAttribute("aria-current", "page");
+    expect(aboutLink).toHaveAttribute("aria-current", "location");
   });
 });

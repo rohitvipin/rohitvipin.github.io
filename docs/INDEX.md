@@ -10,6 +10,7 @@ Map of all project documentation with suggested reading order.
 - **Contribute code** → [CONTRIBUTING.md](../CONTRIBUTING.md) (read + follow checklist)
 - **Understand architecture** → [Architecture Reference](ARCHITECTURE_REFERENCE.md)
 - **Review a PR** → [docs/CODE_REVIEW.md](CODE_REVIEW.md) (use checklist)
+- **Run QA validation** → [docs/QA_TEST_PLAN.md](QA_TEST_PLAN.md) (use `/portfolio-qa` skill)
 - **Know the complete rules** → [CLAUDE.md](../CLAUDE.md) (comprehensive reference for AI agents)
 
 ## By Role
@@ -44,6 +45,7 @@ Map of all project documentation with suggested reading order.
 
 - [docs/DEVELOPMENT.md](DEVELOPMENT.md) — Commands, setup, troubleshooting
 - [docs/DATA_STRATEGY.md](DATA_STRATEGY.md) — Content updates and data maintenance
+- [docs/QA_TEST_PLAN.md](QA_TEST_PLAN.md) — Browser QA test plan; run via `/portfolio-qa`
 
 ### Architecture & Reference
 
@@ -59,19 +61,20 @@ Map of all project documentation with suggested reading order.
 
 ## Files & Their Purpose
 
-| File                                 | Purpose                                  | Audience                |
-| ------------------------------------ | ---------------------------------------- | ----------------------- |
-| **README.md**                        | Project overview, quick links            | Everyone                |
-| **GETTING_STARTED.md**               | Setup in 5 minutes                       | New developers          |
-| **CONTRIBUTING.md**                  | GitHub workflow, coding standards        | Contributors            |
-| **CODE_REVIEW.md**                   | Review checklist and standards           | Reviewers + authors     |
-| **DEVELOPMENT.md**                   | Commands, how-to guides, troubleshooting | Developers              |
-| **ARCHITECTURE_REFERENCE.md**        | Tech stack, decisions, data schema       | Developers + architects |
-| **DATA_STRATEGY.md**                 | How to maintain and update content       | Content editors         |
-| **DESIGN.md**                        | Design system: tokens, components, a11y  | Developers + designers  |
-| **CLAUDE.md**                        | Complete reference for AI agents         | AI agents               |
-| **.github/pull_request_template.md** | PR submission format                     | Contributors            |
-| **.github/ISSUE_TEMPLATE/**          | Issue submission format                  | Everyone                |
+| File                                 | Purpose                                      | Audience                |
+| ------------------------------------ | -------------------------------------------- | ----------------------- |
+| **README.md**                        | Project overview, quick links                | Everyone                |
+| **GETTING_STARTED.md**               | Setup in 5 minutes                           | New developers          |
+| **CONTRIBUTING.md**                  | GitHub workflow, coding standards            | Contributors            |
+| **CODE_REVIEW.md**                   | Review checklist and standards               | Reviewers + authors     |
+| **DEVELOPMENT.md**                   | Commands, how-to guides, troubleshooting     | Developers              |
+| **ARCHITECTURE_REFERENCE.md**        | Tech stack, decisions, data schema           | Developers + architects |
+| **DATA_STRATEGY.md**                 | How to maintain and update content           | Content editors         |
+| **DESIGN.md**                        | Design system: tokens, components, a11y      | Developers + designers  |
+| **QA_TEST_PLAN.md**                  | Browser QA test plan + `/portfolio-qa` skill | Developers + QA         |
+| **CLAUDE.md**                        | Complete reference for AI agents             | AI agents               |
+| **.github/pull_request_template.md** | PR submission format                         | Contributors            |
+| **.github/ISSUE_TEMPLATE/**          | Issue submission format                      | Everyone                |
 
 ## Key Concepts (Single Source of Truth)
 

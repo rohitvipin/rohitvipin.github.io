@@ -1,21 +1,16 @@
-"use client";
-
-import { useState } from "react";
 import type { Project } from "@/types";
-import TechChip from "@/components/shared/TechChip";
-import { getDomainColor } from "@/lib/colors";
-import { FiChevronDown, FiChevronUp, FiGithub } from "react-icons/fi";
+import { TechChip } from "@/components/shared/TechChip";
+import { FiChevronDown, FiGithub } from "react-icons/fi";
 
 export interface ProjectCardProps {
   project: Project;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
-  const [open, setOpen] = useState(false);
-  const domainColor = getDomainColor(project.domain);
+export function ProjectCard({ project }: ProjectCardProps) {
+  const domainColor = project.color ?? "var(--accent)";
 
   return (
-    <div className="card card-hover p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
+    <div className="card p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
       <div>
         <div className="flex items-start justify-between gap-3 mb-1">
           <div className="flex items-center gap-2">
@@ -58,34 +53,25 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {project.products?.length > 0 && (
-        <div>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Hide products" : "Show products"}
-            aria-expanded={open}
+        <details className="card-details">
+          <summary
+            aria-label={`Toggle products for ${project.name}`}
             className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
           >
-            {open ? (
-              <FiChevronUp size={12} aria-hidden="true" />
-            ) : (
-              <FiChevronDown size={12} aria-hidden="true" />
-            )}
-            {open ? "Hide" : "Show"} {project.products.length} product
-            {project.products.length > 1 ? "s" : ""}
-          </button>
-          {open && (
-            <div className="mt-3 space-y-3 border-t border-[var(--border)] pt-3">
-              {project.products.map((p) => (
-                <div key={p.name}>
-                  <p className="text-xs font-semibold text-[var(--text)]">{p.name}</p>
-                  <p className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
-                    {p.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            <FiChevronDown size={12} aria-hidden="true" className="card-details-chevron" />
+            {project.products.length} product{project.products.length > 1 ? "s" : ""}
+          </summary>
+          <div className="mt-3 space-y-3 border-t border-[var(--border)] pt-3">
+            {project.products.map((p) => (
+              <div key={p.name}>
+                <p className="text-xs font-semibold text-[var(--text)]">{p.name}</p>
+                <p className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                  {p.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </details>
       )}
 
       {project.tech.length > 0 && (

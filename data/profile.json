@@ -9,8 +9,8 @@
   "years_of_experience": 15,
   "timezone": "IST (UTC+5:30)",
   "availability_status": "open",
-  "profile_picture": "",
   "github_avatar": "https://avatars.githubusercontent.com/u/11459048?v=4",
+  "country_code": "IN",
   "cta_primary": "See Impact",
   "open_to": "Seeking leadership roles in engineering, platform, or architecture.",
   "availability_note": "Available for remote and hybrid roles - India, USA, UK, or global teams.",
@@ -64,6 +64,23 @@
       "detail": "open source Xamarin/MAUI libraries",
       "tier": "secondary"
     }
+  ],
+  "knows_about": [
+    "Engineering Leadership",
+    "Platform Engineering",
+    "Cloud Architecture",
+    "AWS",
+    "Azure",
+    ".NET",
+    "Microservices",
+    "AI Engineering",
+    "AWS Bedrock",
+    "RAG Systems",
+    "Distributed Systems",
+    "Kubernetes",
+    "Serverless Architecture",
+    "Platform Modernisation",
+    "Engineering Organisations"
   ],
   "value_propositions": [
     {

@@ -1,8 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import CommunityCard from "@/components/community/CommunityCard";
+import { CommunityCard } from "@/components/community/CommunityCard";
 import type { CommunityEntry } from "@/types";
 
 const entry: CommunityEntry = {
@@ -32,25 +31,22 @@ describe("CommunityCard", () => {
     expect(screen.queryByText("London, UK")).not.toBeInTheDocument();
   });
 
-  it("shows highlight count in button before expand", () => {
-    render(<CommunityCard entry={entry} />);
-    expect(screen.getByRole("button")).toHaveTextContent("Show 3 highlights");
+  it("renders summary with correct accessible label and highlight count", () => {
+    const { container } = render(<CommunityCard entry={entry} />);
+    const summary = container.querySelector("summary");
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveAttribute("aria-label", expect.stringContaining("3"));
   });
 
-  it("expands and shows highlights on click", async () => {
-    const user = userEvent.setup();
+  it("renders highlights in collapsed details", () => {
     render(<CommunityCard entry={entry} />);
-    await user.click(screen.getByRole("button"));
     expect(screen.getByText("300 attendees")).toBeInTheDocument();
     expect(screen.getByText("Q&A session")).toBeInTheDocument();
-    expect(screen.getByRole("button")).toHaveTextContent("Hide details");
+    expect(screen.getByText("Workshop follow-up")).toBeInTheDocument();
   });
 
-  it("collapses highlights on second click", async () => {
-    const user = userEvent.setup();
-    render(<CommunityCard entry={entry} />);
-    await user.click(screen.getByRole("button"));
-    await user.click(screen.getByRole("button"));
-    expect(screen.queryByText("300 attendees")).not.toBeInTheDocument();
+  it("starts with details closed", () => {
+    const { container } = render(<CommunityCard entry={entry} />);
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 });

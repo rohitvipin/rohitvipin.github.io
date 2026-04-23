@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import SkillCategoryCard from "@/components/skills/SkillCategoryCard";
+import { SkillCategoryCard } from "@/components/skills/SkillCategoryCard";
 
 const manySkills = [
   "React",
@@ -25,38 +24,44 @@ describe("SkillCategoryCard", () => {
   });
 
   it("shows all skills when count is within initial limit", () => {
-    render(<SkillCategoryCard category="Backend" skills={["Node.js", "Go"]} />);
+    const { container } = render(
+      <SkillCategoryCard category="Backend" skills={["Node.js", "Go"]} />
+    );
     expect(screen.getByText("Node.js")).toBeInTheDocument();
     expect(screen.getByText("Go")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /more/ })).not.toBeInTheDocument();
+    expect(container.querySelector("summary")).not.toBeInTheDocument();
   });
 
-  it("shows first 10 skills and hides overflow by default", () => {
-    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+  it("shows first 10 skills and collapses overflow by default", () => {
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
     expect(screen.getByText("React")).toBeInTheDocument();
-    expect(screen.queryByText("Storybook")).not.toBeInTheDocument();
-    expect(screen.queryByText("Figma")).not.toBeInTheDocument();
+    expect(container.querySelector("details")).not.toHaveAttribute("open");
   });
 
-  it("shows expand button with hidden count", () => {
-    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
-    expect(screen.getByRole("button", { name: /Show 2 more Frontend skills/ })).toBeInTheDocument();
+  it("renders summary with correct accessible label and overflow count", () => {
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+    const summary = container.querySelector("summary");
+    expect(summary).toBeInTheDocument();
+    expect(summary).toHaveAttribute("aria-label", "Show 2 more Frontend skills");
   });
 
-  it("expand button reveals all skills", async () => {
-    const user = userEvent.setup();
+  it("renders overflow skills in collapsed details", () => {
     render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
-    await user.click(screen.getByRole("button", { name: /Show 2 more Frontend skills/ }));
     expect(screen.getByText("Storybook")).toBeInTheDocument();
     expect(screen.getByText("Figma")).toBeInTheDocument();
   });
 
-  it("show less button collapses back to 10", async () => {
-    const user = userEvent.setup();
+  it("renders both toggle label spans so CSS can swap them on open/close", () => {
     render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
-    await user.click(screen.getByRole("button", { name: /Show 2 more Frontend skills/ }));
-    await user.click(screen.getByRole("button", { name: /Show fewer Frontend skills/ }));
-    expect(screen.queryByText("Storybook")).not.toBeInTheDocument();
-    expect(screen.queryByText("Figma")).not.toBeInTheDocument();
+    // "+N more" visible when closed; "Show less" visible when open — toggled via CSS
+    // Both must exist in DOM for the [details[open]_&] selector to function
+    expect(screen.getByText(/\+\d+ more/)).toBeInTheDocument();
+    expect(screen.getByText("Show less")).toBeInTheDocument();
+  });
+
+  it("card root has no inline positional transform", () => {
+    const { container } = render(<SkillCategoryCard category="Frontend" skills={["React"]} />);
+    const card = container.firstChild as HTMLElement;
+    expect(card.style.transform).toBe("");
   });
 });

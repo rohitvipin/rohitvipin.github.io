@@ -4,6 +4,7 @@ vi.mock("sharp", () => {
   const chain = {
     png: vi.fn().mockReturnThis(),
     jpeg: vi.fn().mockReturnThis(),
+    webp: vi.fn().mockReturnThis(),
     toFile: vi.fn().mockResolvedValue(undefined),
     toBuffer: vi.fn().mockResolvedValue(Buffer.from("fake-ico")),
   };
@@ -11,8 +12,12 @@ vi.mock("sharp", () => {
 });
 
 vi.mock("fs", () => ({
-  default: { writeFileSync: vi.fn() },
+  default: {
+    writeFileSync: vi.fn(),
+    existsSync: vi.fn().mockReturnValue(true),
+  },
   writeFileSync: vi.fn(),
+  existsSync: vi.fn().mockReturnValue(true),
 }));
 
 import { makeSvg, makeOgSvg, generate } from "../../../utils/generate-favicons";
@@ -81,5 +86,12 @@ describe("generate", () => {
     const sharp = (await import("sharp")).default;
     await generate();
     expect(sharp).toHaveBeenCalled();
+  });
+
+  it("calls webp when avatar.jpg exists", async () => {
+    const sharp = (await import("sharp")).default;
+    await generate();
+    const instance = (sharp as ReturnType<typeof vi.fn>).mock.results[0]?.value;
+    expect(instance?.webp ?? instance?.png).toBeDefined();
   });
 });

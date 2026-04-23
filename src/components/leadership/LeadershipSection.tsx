@@ -1,11 +1,11 @@
 import type { Leadership } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 export interface LeadershipSectionProps {
   leadership: Leadership;
 }
 
-export default function LeadershipSection({ leadership }: LeadershipSectionProps) {
+export function LeadershipSection({ leadership }: LeadershipSectionProps) {
   return (
     <section id="expertise" aria-labelledby="expertise-heading" className="section">
       <div className="max-w-6xl mx-auto px-6">

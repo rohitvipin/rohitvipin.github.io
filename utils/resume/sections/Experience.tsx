@@ -2,12 +2,7 @@ import React from "react";
 import { View, Text } from "@react-pdf/renderer";
 import { styles } from "../styles";
 import type { ExperienceEntry } from "../../../src/types";
-
-export function parseStartYear(duration: string): number {
-  const token = duration.split(" - ")[0].trim();
-  const parts = token.split(" ");
-  return parseInt(parts[parts.length - 1], 10) || 0;
-}
+import { parseStartYear } from "../../../src/lib/duration";
 
 interface ExperienceProps {
   entries: ExperienceEntry[];

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import ThemeToggle from "./ThemeToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import { FiMenu, FiX } from "react-icons/fi";
 import type { NavLink } from "@/types";
 
@@ -10,7 +10,7 @@ export interface NavProps {
   navLinks: NavLink[];
 }
 
-export default function Nav({ initials, navLinks }: NavProps) {
+export function Nav({ initials, navLinks }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -40,11 +40,24 @@ export default function Nav({ initials, navLinks }: NavProps) {
   }, [navLinks]);
 
   useEffect(() => {
+    if (!mobileOpen) return;
     const prior = document.body.style.overflow;
-    document.body.style.overflow = mobileOpen ? "hidden" : prior;
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prior;
     };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    const main = document.querySelector<HTMLElement>("main");
+    if (!main) return;
+    if (mobileOpen) {
+      main.setAttribute("inert", "");
+      main.setAttribute("aria-hidden", "true");
+    } else {
+      main.removeAttribute("inert");
+      main.removeAttribute("aria-hidden");
+    }
   }, [mobileOpen]);
 
   useEffect(() => {
@@ -96,7 +109,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
         </a>
 
         <nav
-          className="hidden md:flex items-center gap-6 flex-1 justify-center"
+          className="hidden lg:flex items-center gap-6 flex-1 justify-center"
           aria-label="Main navigation"
         >
           {navLinks.map((l) => {
@@ -105,11 +118,11 @@ export default function Nav({ initials, navLinks }: NavProps) {
               <a
                 key={l.href}
                 href={l.href}
-                aria-current={isActive ? "page" : undefined}
-                className={`text-sm transition-colors duration-150 relative ${
+                aria-current={isActive ? "location" : undefined}
+                className={`min-h-[48px] flex items-center text-sm transition-colors duration-150 relative ${
                   isActive
                     ? "text-[var(--accent)] font-medium"
-                    : "text-[var(--muted)] hover:text-[var(--text)]"
+                    : "text-[var(--muted)] hover:text-[var(--text)] active:opacity-70"
                 }`}
               >
                 {l.label}
@@ -125,7 +138,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
           <ThemeToggle />
           <button
             ref={toggleRef}
-            className="md:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+            className="lg:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -145,7 +158,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-[var(--border)] bg-[var(--bg)]"
+          className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]"
         >
           <nav className="px-6 py-4 flex flex-col gap-4" aria-label="Mobile navigation links">
             {navLinks.map((l) => (
@@ -156,7 +169,7 @@ export default function Nav({ initials, navLinks }: NavProps) {
                   toggleRef.current?.focus();
                   setMobileOpen(false);
                 }}
-                aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
+                aria-current={activeSection === l.href.slice(1) ? "location" : undefined}
                 className={`min-h-[48px] flex items-center text-sm transition-colors ${
                   activeSection === l.href.slice(1)
                     ? "text-[var(--accent)] font-medium"

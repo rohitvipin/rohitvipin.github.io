@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import ExperienceTimeline from "@/components/experience/ExperienceTimeline";
+import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
 import type { ExperienceEntry } from "@/types";
 
 const baseExperience: ExperienceEntry[] = [

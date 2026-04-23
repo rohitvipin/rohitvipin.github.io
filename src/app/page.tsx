@@ -1,16 +1,16 @@
-import Nav from "@/components/shared/Nav";
-import ScrollToTop from "@/components/shared/ScrollToTop";
-import Hero from "@/components/hero/Hero";
-import About from "@/components/about/About";
-import ImpactSection from "@/components/impact/ImpactSection";
-import ExperienceTimeline from "@/components/experience/ExperienceTimeline";
-import LeadershipSection from "@/components/leadership/LeadershipSection";
-import ProjectsSection from "@/components/projects/ProjectsSection";
-import SkillsSection from "@/components/skills/SkillsSection";
-import CommunitySection from "@/components/community/CommunitySection";
-import AwardsSection from "@/components/awards/AwardsSection";
-import EducationSection from "@/components/education/EducationSection";
-import SocialLinks from "@/components/shared/SocialLinks";
+import { Nav } from "@/components/shared/Nav";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { Hero } from "@/components/hero/Hero";
+import { About } from "@/components/about/About";
+import { ImpactSection } from "@/components/impact/ImpactSection";
+import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
+import { LeadershipSection } from "@/components/leadership/LeadershipSection";
+import { ProjectsSection } from "@/components/projects/ProjectsSection";
+import { SkillsSection } from "@/components/skills/SkillsSection";
+import { CommunitySection } from "@/components/community/CommunitySection";
+import { AwardsSection } from "@/components/awards/AwardsSection";
+import { EducationSection } from "@/components/education/EducationSection";
+import { SocialLinks } from "@/components/shared/SocialLinks";
 import { FiDownload, FiMail } from "react-icons/fi";
 import {
   profile,
@@ -65,7 +65,6 @@ export default function Home() {
           <EducationSection education={education} />
         </div>
 
-        {/* Bottom CTA */}
         <section
           id="contact"
           aria-labelledby="contact-title"

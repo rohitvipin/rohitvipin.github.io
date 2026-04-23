@@ -54,21 +54,21 @@ Complete technical reference for the portfolio site architecture. For project ov
 
 **Why:** Theme-aware components. Easy dark mode. Full design control.
 
-**Pattern:**
+**Pattern:** Dark is the default (`:root`), light overrides via `[data-theme="light"]`:
 
 ```css
 :root {
-  --accent: #0066cc;
-  --bg-primary: #ffffff;
+  --bg: #0a0a0f;
+  --accent: #6366f1;
 }
 
-[data-theme="dark"] {
-  --accent: #66b3ff;
-  --bg-primary: #1a1a1a;
+[data-theme="light"] {
+  --bg: #f5f5f4;
+  --accent: #4f46e5;
 }
 ```
 
-Components use `var(--accent)` in styles.
+Components use `var(--accent)`, `var(--bg)` etc. in Tailwind classes or inline styles.
 
 ### 6. Icons: react-icons Only
 
@@ -96,17 +96,31 @@ Environment variable `NEXT_PUBLIC_BASE_PATH` controls the URL prefix. Currently 
 
 See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 
-| File              | Structure     | Purpose                      |
-| ----------------- | ------------- | ---------------------------- |
-| `profile.json`    | Single object | Basic info, bio, contact     |
-| `socials.json`    | Array         | Social links                 |
-| `skills.json`     | Array         | Skills grouped by category   |
-| `experience.json` | Array         | Work history (reverse-chron) |
-| `education.json`  | Array         | Degrees + institutions       |
-| `projects.json`   | Array         | Portfolio projects           |
-| `awards.json`     | Array         | Awards + recognition         |
-| `community.json`  | Array         | Open source + speaking       |
-| `leadership.json` | Array         | Leadership + mentoring       |
+| File              | Structure     | Purpose                                        |
+| ----------------- | ------------- | ---------------------------------------------- |
+| `profile.json`    | Single object | Basic info, bio, contact, `knows_about` topics |
+| `socials.json`    | Array         | Social links                                   |
+| `skills.json`     | Array         | Skills grouped by category                     |
+| `experience.json` | Array         | Work history (reverse-chron)                   |
+| `education.json`  | Array         | Degrees + institutions                         |
+| `projects.json`   | Array         | Portfolio projects                             |
+| `awards.json`     | Array         | Awards + recognition                           |
+| `community.json`  | Array         | Open source + speaking                         |
+| `leadership.json` | Array         | Leadership + mentoring                         |
+
+## Lib Utilities (`src/lib/`)
+
+| File          | Purpose                                                                         |
+| ------------- | ------------------------------------------------------------------------------- |
+| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time              |
+| `colors.ts`   | `getCompanyColor()` / `getDomainColor()` — pure functions for dynamic colouring |
+| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests              |
+| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials    |
+| `duration.ts` | `parseStartYear()` — parses `duration` field for sort order                     |
+| `escape.ts`   | HTML-escaping utilities used in JSON-LD output                                  |
+| `paths.ts`    | `resumeHref`, `avatarHref` etc. — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs      |
+| `profile.ts`  | `getInitials()` and other profile helper functions                              |
+| `projects.ts` | `isOssProject()` and project classification helpers                             |
 
 ## Component Hierarchy
 

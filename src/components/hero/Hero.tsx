@@ -1,15 +1,14 @@
-import Image from "next/image";
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
-import SocialLinks from "@/components/shared/SocialLinks";
-import { resumeHref, avatarHref } from "@/lib/paths";
+import { SocialLinks } from "@/components/shared/SocialLinks";
+import { resumeHref, avatarHref, avatarWebpHref } from "@/lib/paths";
 
 export interface HeroProps {
   profile: Profile;
   socials: Social[];
 }
 
-export default function Hero({ profile, socials }: HeroProps) {
+export function Hero({ profile, socials }: HeroProps) {
   const primaryMetrics = profile.key_metrics.filter((m) => m.tier === "primary");
   const secondaryMetrics = profile.key_metrics.filter((m) => m.tier === "secondary");
 
@@ -17,7 +16,6 @@ export default function Hero({ profile, socials }: HeroProps) {
     <section aria-labelledby="hero-heading" className="min-h-screen flex items-center pt-14">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
-          {/* Left */}
           <div className="space-y-6">
             {profile.tags && profile.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
@@ -79,13 +77,13 @@ export default function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#impact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-semibold hover:opacity-90 active:opacity-75 transition-opacity"
               >
                 {profile.cta_primary ?? "See Impact"}
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 transition-colors"
+                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 active:bg-[var(--accent)]/15 transition-colors"
               >
                 <FiMail size={16} aria-hidden="true" />
                 Get in Touch
@@ -94,37 +92,38 @@ export default function Hero({ profile, socials }: HeroProps) {
                 href={resumeHref}
                 download
                 aria-label="Download Rohit Vipin Mathews resume (PDF)"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75 transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />
                 <span className="hidden sm:inline">Download CV</span>
               </a>
             </div>
 
-            {/* Mobile-only socials */}
             <div className="lg:hidden">
               <SocialLinks socials={socials} />
             </div>
           </div>
 
-          {/* Right — avatar + socials */}
           <div className="hidden lg:flex flex-col items-end gap-5">
             <div className="flex flex-col items-center gap-5">
               <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
-                <Image
-                  src={avatarHref}
-                  alt={`Profile photo of ${profile.name}`}
-                  fill
-                  className="object-cover"
-                  priority
-                />
+                <picture>
+                  <source srcSet={avatarWebpHref} type="image/webp" />
+                  <img
+                    src={avatarHref}
+                    alt={`Profile photo of ${profile.name}`}
+                    width={320}
+                    height={320}
+                    className="object-cover w-full h-full"
+                    fetchPriority="high"
+                  />
+                </picture>
               </div>
               <SocialLinks socials={socials} />
             </div>
           </div>
         </div>
 
-        {/* Primary metrics */}
         {primaryMetrics.length > 0 && (
           <dl className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
             {primaryMetrics.map((m) => (
@@ -141,7 +140,6 @@ export default function Hero({ profile, socials }: HeroProps) {
           </dl>
         )}
 
-        {/* Secondary metrics */}
         {secondaryMetrics.length > 0 && (
           <dl className="grid grid-cols-2 md:grid-cols-4 mt-3 gap-3">
             {secondaryMetrics.map((m) => (

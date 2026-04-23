@@ -62,7 +62,9 @@ describe("fetch-avatar main()", () => {
     vi.mocked(writeFileSync).mockImplementation(() => {});
     vi.mocked(renameSync).mockImplementation(() => {});
     vi.mocked(readFileSync).mockReturnValue("");
-    vi.mocked(ProfileSchema.parse).mockImplementation((d) => d);
+    vi.mocked(ProfileSchema.parse).mockImplementation(
+      (d) => d as ReturnType<typeof ProfileSchema.parse>
+    );
   });
 
   it("writes avatar and pins digest on first successful fetch", async () => {
@@ -91,6 +93,18 @@ describe("fetch-avatar main()", () => {
     await expect(main()).rejects.toThrow("Avatar digest mismatch");
   });
 
+  it("verifies digest in sha256sum multi-line format", async () => {
+    const { createHash } = await import("crypto");
+    const realDigest = createHash("sha256").update(Buffer.from(JPEG_BODY)).digest("hex");
+    const sha256sumContent = `${realDigest}  avatar.jpg\ndeadbeef  avatar.webp\n`;
+    vi.mocked(existsSync).mockImplementation((p) => String(p).endsWith("avatar.sha256"));
+    vi.mocked(readFileSync).mockReturnValue(sha256sumContent);
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({}));
+    await main();
+    expect(writeFileSync).toHaveBeenCalledOnce();
+    expect(String(vi.mocked(writeFileSync).mock.calls[0][0])).toContain("avatar.jpg");
+  });
+
   it("falls back to existing avatar on HTTP error", async () => {
     global.fetch = vi.fn().mockResolvedValue(makeResponse({ ok: false, status: 404, body: null }));
     vi.mocked(existsSync).mockImplementation((p) => String(p).endsWith("avatar.jpg"));
@@ -107,7 +121,7 @@ describe("fetch-avatar main()", () => {
 
   it("throws on non-ok 3xx status (unresolved redirect chain)", async () => {
     global.fetch = vi.fn().mockResolvedValue(makeResponse({ ok: false, status: 302, body: null }));
-    await expect(main()).rejects.toThrow("HTTP 302");
+    await expect(main()).rejects.toThrow("unexpected redirect");
   });
 
   it("throws on non-image content-type", async () => {
@@ -136,10 +150,30 @@ describe("fetch-avatar main()", () => {
     await expect(main()).rejects.toThrow("response body is null");
   });
 
+  it("throws when body completes with fewer than 8 bytes (magic bytes never checked)", async () => {
+    // 4 bytes < PNG_MAGIC.length (8), so the magic check condition is never met
+    const tinyBody = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({ body: makeBody(tinyBody) }));
+    await expect(main()).rejects.toThrow("not a valid JPEG or PNG");
+  });
+
+  it("throws when accumulated streamed body exceeds 2MB limit", async () => {
+    const OVER = 2 * 1024 * 1024 + 1;
+    const bigChunk = new Uint8Array(OVER);
+    const oversizedBody = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(bigChunk);
+        controller.close();
+      },
+    });
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({ body: oversizedBody }));
+    await expect(main()).rejects.toThrow("response body exceeds limit");
+  });
+
   it("throws on non-allowlisted host", async () => {
     vi.mocked(ProfileSchema.parse).mockReturnValueOnce({
       github_avatar: "https://evil.com/avatar.jpg",
-    });
+    } as unknown as ReturnType<typeof ProfileSchema.parse>);
     await expect(main()).rejects.toThrow("host not allowlisted");
   });
 });

@@ -16,7 +16,7 @@ export interface SocialLinksProps {
   className?: string;
 }
 
-export default function SocialLinks({ socials, className = "" }: SocialLinksProps) {
+export function SocialLinks({ socials, className = "" }: SocialLinksProps) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {socials.map((s) => {

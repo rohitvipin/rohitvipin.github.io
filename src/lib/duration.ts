@@ -1,6 +1,6 @@
 export function parseStartYear(duration: string): number {
   const match = duration.match(/\b(19|20)\d{2}\b/);
-  if (!match && process.env.NODE_ENV !== "production") {
+  if (!match) {
     console.warn(`parseStartYear: no year found in "${duration}"`);
   }
   return Number(match?.[0] ?? 0);

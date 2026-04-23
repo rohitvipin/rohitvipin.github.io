@@ -1,12 +1,11 @@
 import type { ImpactStory } from "@/types";
-import SectionHeader from "@/components/shared/SectionHeader";
-import { getDomainColor } from "@/lib/colors";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
 }
 
-export default function ImpactSection({ impact }: ImpactSectionProps) {
+export function ImpactSection({ impact }: ImpactSectionProps) {
   return (
     <section id="impact" aria-labelledby="impact-section-title" className="section">
       <div className="max-w-6xl mx-auto px-6">
@@ -27,7 +26,7 @@ export default function ImpactSection({ impact }: ImpactSectionProps) {
                   <span
                     className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
                     style={{
-                      borderColor: `${getDomainColor(story.domain)}45`,
+                      borderColor: `color-mix(in oklch, ${story.color ?? "var(--accent)"} 27%, transparent)`,
                     }}
                   >
                     {story.domain}

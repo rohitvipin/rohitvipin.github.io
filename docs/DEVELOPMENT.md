@@ -81,46 +81,48 @@ export function SectionName({ title, items }: SectionNameProps) {
 
 ### Using Data in Components
 
-Always import via typed loaders, never from JSON directly:
+Always import typed constants from `src/lib/data`, never from JSON directly:
 
 ```typescript
 // ✗ Don't
 import skillsData from "../../data/skills.json";
 
 // ✓ Do
-import { getSkills } from "@/lib/data";
+import { skills } from "@/lib/data";
 
 export function SkillsSection() {
-  const skills = getSkills();
+  // skills is already typed as SkillCategory[]
   // ...
 }
 ```
 
 ### Colors & Theming
 
-Define tokens in `src/app/globals.css`:
+Tokens are defined in `src/app/globals.css`. Dark is the default (`:root`), light overrides via `[data-theme="light"]`:
 
 ```css
 :root {
-  --bg-primary: #ffffff;
-  --text-primary: #000000;
-  --accent: #0066cc;
+  --bg: #0a0a0f;
+  --text: #e2e8f0;
+  --accent: #6366f1;
 }
 
-[data-theme="dark"] {
-  --bg-primary: #1a1a1a;
-  --text-primary: #ffffff;
-  --accent: #66b3ff;
+[data-theme="light"] {
+  --bg: #f5f5f4;
+  --text: #0f172a;
+  --accent: #4f46e5;
 }
 ```
 
-Use in components:
+Use in components via Tailwind or inline var():
 
 ```tsx
-<div style={{ backgroundColor: "var(--bg-primary)" }}>
-  <h1 style={{ color: "var(--text-primary)" }}>Title</h1>
+<div className="bg-[var(--surface)] text-[var(--text)]">
+  <h1 className="text-[var(--accent)]">Title</h1>
 </div>
 ```
+
+See [DESIGN.md](DESIGN.md) for the full token reference.
 
 ## Testing
 
@@ -152,9 +154,9 @@ npm run test:coverage   # coverage report
 
 **Coverage goals:**
 
-- Utilities: 100%
-- Components: main paths
-- Overall: 60% minimum
+- Utilities (`src/lib/`): 100%
+- Components: main render paths
+- Overall: 90% statements/functions/lines, 85% branches (enforced by Vitest thresholds)
 
 ## Favicon & Resume Generation
 

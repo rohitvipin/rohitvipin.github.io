@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ScrollToTop from "@/components/shared/ScrollToTop";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
 beforeEach(() => {
   Object.defineProperty(window, "scrollY", { value: 0, configurable: true, writable: true });

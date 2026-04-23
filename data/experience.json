@@ -5,6 +5,7 @@
     "location": "Chennai, India",
     "duration": "April 2024 - Present",
     "current": true,
+    "color": "#6366f1",
     "description": "Led 350+ engineers across USA onshore and India offshore squads through the full modernisation of a large-scale K-12 HCM platform suite - Recruiting & Hiring and HR Information System & Document Management - for one of the largest K-12 HCM software providers in the US. Drove AI-assisted development adoption, unified the HR product platforms, and changed how the engineering org delivered.",
     "techStack": [
       ".NET Core",
@@ -52,6 +53,7 @@
     "location": "Chennai, India",
     "duration": "April 2022 - March 2024",
     "current": false,
+    "color": "#6366f1",
     "description": "Led project-facing solution architecture for platform modernisation work across logistics, hospitality, and agriculture, combining architecture ownership with hands-on delivery and direct team coaching.",
     "techStack": [
       ".NET Core",
@@ -92,6 +94,7 @@
     "location": "Chennai, India",
     "duration": "April 2019 - March 2022",
     "current": false,
+    "color": "#6366f1",
     "description": "Architected a multi-module agribusiness management platform covering Crop & Field Management, Grain Operations & Settlement, Producer Self-Service Portal, and Accounting, and led mobile engineering practice across serverless AWS infrastructure with hands-on technical leadership.",
     "techStack": [
       ".NET Core",
@@ -130,6 +133,7 @@
     "location": "Chennai, India",
     "duration": "April 2017 - March 2019",
     "current": false,
+    "color": "#6366f1",
     "description": "Expanded into architecture ownership from senior engineering, leading technical design for agriculture and mobile platform features while mentoring engineers and driving delivery quality.",
     "techStack": [".NET Core", "C#", "Xamarin", "AWS", "SQL Server", "Azure DevOps"],
     "highlights": [
@@ -145,6 +149,7 @@
     "location": "Chennai, India",
     "duration": "November 2015 - March 2017",
     "current": false,
+    "color": "#6366f1",
     "description": "Delivered features across full-stack .NET and Xamarin mobile projects, progressing into technical leadership and cross-team delivery ownership.",
     "techStack": [".NET", "C#", "ASP.NET MVC", "Xamarin", "AWS", "SQL Server", "JavaScript"],
     "highlights": [
@@ -159,6 +164,7 @@
     "location": "Kerala, India",
     "duration": "July 2013 - November 2015",
     "current": false,
+    "color": "#22d3ee",
     "description": "Delivered software solutions for enterprise clients, building skills across .NET, mobile, and web technologies in an agile delivery environment.",
     "techStack": [".NET", "C#", "ASP.NET MVC", "JavaScript", "SQL Server", "Xamarin"],
     "highlights": [
@@ -173,6 +179,7 @@
     "location": "Kerala, India",
     "duration": "January 2012 - July 2013",
     "current": false,
+    "color": "#f59e0b",
     "description": "First professional role - delivered software development across web and application projects, establishing foundations in .NET and C# development.",
     "techStack": [".NET", "C#", "ASP.NET", "SQL Server", "Visual Basic .NET"],
     "highlights": [
