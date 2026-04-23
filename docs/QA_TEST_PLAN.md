@@ -54,15 +54,15 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-03 · Navigation — Desktop (≥1024px)
 
-| #    | Check                 | Expected                                                      | Severity |
-| ---- | --------------------- | ------------------------------------------------------------- | -------- |
-| 03.1 | Desktop nav visible   | `nav[aria-label="Main navigation"]` rendered and visible      | CRITICAL |
-| 03.2 | Hamburger hidden      | Toggle button not visible at 1440px                           | HIGH     |
-| 03.3 | All nav links present | Count matches `data/nav.json` entries                         | HIGH     |
-| 03.4 | No link overflow      | All nav links within viewport width                           | HIGH     |
-| 03.5 | Active state updates  | `aria-current="page"` on correct link when section intersects | MEDIUM   |
-| 03.6 | Home logo link        | Initials link with `aria-label="Home"` present                | MEDIUM   |
-| 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                       | MEDIUM   |
+| #    | Check                 | Expected                                                                                                   | Severity |
+| ---- | --------------------- | ---------------------------------------------------------------------------------------------------------- | -------- |
+| 03.1 | Desktop nav visible   | `nav[aria-label="Main navigation"]` rendered and visible                                                   | CRITICAL |
+| 03.2 | Hamburger hidden      | Toggle button not visible at 1440px                                                                        | HIGH     |
+| 03.3 | All nav links present | Count matches `data/nav.json` entries                                                                      | HIGH     |
+| 03.4 | No link overflow      | All nav links within viewport width                                                                        | HIGH     |
+| 03.5 | Active state updates  | `aria-current="location"` on correct link when section intersects (Nav.tsx uses `"location"` not `"page"`) | MEDIUM   |
+| 03.6 | Home logo link        | Initials link with `aria-label="Home"` present                                                             | MEDIUM   |
+| 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                                                                    | MEDIUM   |
 
 ---
 
