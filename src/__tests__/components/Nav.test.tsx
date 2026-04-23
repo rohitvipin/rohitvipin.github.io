@@ -43,6 +43,21 @@ describe("Nav", () => {
     expect(nav.querySelectorAll("a")).toHaveLength(8);
   });
 
+  it("desktop nav links carry min-h-[44px] for WCAG 2.5.5 touch target compliance", () => {
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    nav.querySelectorAll("a").forEach((link) => {
+      expect(link.className).toContain("min-h-[44px]");
+    });
+  });
+
+  it("desktop nav is hidden below lg breakpoint class", () => {
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    expect(nav.className).toContain("lg:flex");
+    expect(nav.className).not.toContain("md:flex");
+  });
+
   it("mobile menu is closed by default", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
     expect(screen.queryByRole("dialog", { name: "Mobile navigation" })).not.toBeInTheDocument();

@@ -103,7 +103,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests`}
+          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests`}
         />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta

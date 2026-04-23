@@ -83,4 +83,10 @@ describe("RootLayout", () => {
     const jpegLink = document.querySelector('link[rel="preload"][type="image/jpeg"]');
     expect(jpegLink).not.toBeInTheDocument();
   });
+
+  it("CSP meta tag omits frame-ancestors (not honoured in meta elements)", () => {
+    render(<RootLayout>children</RootLayout>);
+    const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    expect(cspMeta?.getAttribute("content")).not.toContain("frame-ancestors");
+  });
 });

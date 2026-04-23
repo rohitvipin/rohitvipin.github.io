@@ -119,6 +119,16 @@ describe("Hero", () => {
     expect(screen.queryByText("$180K+")).not.toBeInTheDocument();
   });
 
+  it("hero CTAs carry min-h-[44px] for WCAG 2.5.5 touch target compliance", () => {
+    render(<Hero profile={baseProfile} socials={baseSocials} />);
+    const seeImpact = screen.getByRole("link", { name: "See Impact" });
+    const downloadCV = screen.getByRole("link", {
+      name: "Download Rohit Vipin Mathews resume (PDF)",
+    });
+    expect(seeImpact.className).toContain("min-h-[44px]");
+    expect(downloadCV.className).toContain("min-h-[44px]");
+  });
+
   it("applies large font class for short metric values (length <= 2)", () => {
     const shortValue: Profile = {
       ...baseProfile,

@@ -78,13 +78,13 @@ export function Hero({ profile, socials }: HeroProps) {
             <div className="flex flex-wrap items-center gap-3">
               <a
                 href="#impact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 {profile.cta_primary ?? "See Impact"}
               </a>
               <a
                 href={`mailto:${profile.email}`}
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 transition-colors"
+                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 transition-colors"
               >
                 <FiMail size={16} aria-hidden="true" />
                 Get in Touch
@@ -93,7 +93,7 @@ export function Hero({ profile, socials }: HeroProps) {
                 href={resumeHref}
                 download
                 aria-label="Download Rohit Vipin Mathews resume (PDF)"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />
                 <span className="hidden sm:inline">Download CV</span>

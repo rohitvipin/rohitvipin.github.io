@@ -96,7 +96,7 @@ export function Nav({ initials, navLinks }: NavProps) {
         </a>
 
         <nav
-          className="hidden md:flex items-center gap-6 flex-1 justify-center"
+          className="hidden lg:flex items-center gap-6 flex-1 justify-center"
           aria-label="Main navigation"
         >
           {navLinks.map((l) => {
@@ -106,7 +106,7 @@ export function Nav({ initials, navLinks }: NavProps) {
                 key={l.href}
                 href={l.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`text-sm transition-colors duration-150 relative ${
+                className={`min-h-[44px] flex items-center text-sm transition-colors duration-150 relative ${
                   isActive
                     ? "text-[var(--accent)] font-medium"
                     : "text-[var(--muted)] hover:text-[var(--text)]"
@@ -125,7 +125,7 @@ export function Nav({ initials, navLinks }: NavProps) {
           <ThemeToggle />
           <button
             ref={toggleRef}
-            className="md:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+            className="lg:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -145,7 +145,7 @@ export function Nav({ initials, navLinks }: NavProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-[var(--border)] bg-[var(--bg)]"
+          className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]"
         >
           <nav className="px-6 py-4 flex flex-col gap-4" aria-label="Mobile navigation links">
             {navLinks.map((l) => (
