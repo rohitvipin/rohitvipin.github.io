@@ -75,4 +75,13 @@ describe("ProjectCard", () => {
     render(<ProjectCard project={withProducts} />);
     expect(screen.getByText("Product Alpha")).toBeInTheDocument();
   });
+
+  it("card root has card-hover class and no inline positional transform", () => {
+    // Focus state must be shown via border/shadow only — never by translateY or similar
+    // (card-hover CSS must not use transform: see globals.css .card-hover:focus-within)
+    const { container } = render(<ProjectCard project={base} />);
+    const card = container.firstChild as HTMLElement;
+    expect(card).toHaveClass("card-hover");
+    expect(card.style.transform).toBe("");
+  });
 });

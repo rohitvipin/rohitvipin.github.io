@@ -150,17 +150,18 @@ section[id] {
     0 8px 32px var(--accent-glow);
 }
 
-/* ── Card hover lift ── */
+/* ── Card focus indicator (no positional shift) ── */
 @media (prefers-reduced-motion: no-preference) {
   .card-hover {
     transition:
-      transform 200ms cubic-bezier(0, 0, 0.2, 1),
+      border-color 200ms cubic-bezier(0, 0, 0.2, 1),
       box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
   }
-  .card-hover:hover,
   .card-hover:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--shadow-card);
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 2px var(--accent-glow),
+      0 8px 24px var(--shadow-card);
   }
 }
 
