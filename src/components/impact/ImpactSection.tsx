@@ -26,7 +26,7 @@ export function ImpactSection({ impact }: ImpactSectionProps) {
                   <span
                     className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
                     style={{
-                      borderColor: `${story.color ?? "#6366f1"}45`,
+                      borderColor: `color-mix(in oklch, ${story.color ?? "var(--accent)"} 27%, transparent)`,
                     }}
                   >
                     {story.domain}

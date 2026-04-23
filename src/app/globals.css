@@ -150,12 +150,7 @@ section[id] {
 
 /* ── Card focus indicator (no positional shift) ── */
 @media (prefers-reduced-motion: no-preference) {
-  .card-hover {
-    transition:
-      border-color 200ms cubic-bezier(0, 0, 0.2, 1),
-      box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  .card-hover:focus-within {
+  .card:focus-within {
     border-color: var(--accent);
   }
 }

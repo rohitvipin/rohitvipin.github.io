@@ -43,11 +43,11 @@ describe("Nav", () => {
     expect(nav.querySelectorAll("a")).toHaveLength(8);
   });
 
-  it("desktop nav links carry min-h-[44px] for WCAG 2.5.5 touch target compliance", () => {
+  it("desktop nav links carry min-h-[48px] for touch target compliance", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
     const nav = screen.getByRole("navigation", { name: "Main navigation" });
     nav.querySelectorAll("a").forEach((link) => {
-      expect(link.className).toContain("min-h-[44px]");
+      expect(link.className).toContain("min-h-[48px]");
     });
   });
 

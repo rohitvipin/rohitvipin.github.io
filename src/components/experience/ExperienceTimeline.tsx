@@ -23,7 +23,7 @@ export function ExperienceTimeline({ experience, yearsOfExperience }: Experience
               <div key={`${entry.company}-${entry.role}`} className="relative">
                 <div
                   className="absolute -left-8 top-6 w-3 h-3 rounded-full border-2 bg-[var(--bg)] hidden md:block"
-                  style={{ borderColor: entry.color ?? "#6366f1" }}
+                  style={{ borderColor: entry.color ?? "var(--accent)" }}
                 />
                 <ExperienceCard entry={entry} />
               </div>

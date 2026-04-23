@@ -7,10 +7,10 @@ export interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const domainColor = project.color ?? "#6366f1";
+  const domainColor = project.color ?? "var(--accent)";
 
   return (
-    <div className="card card-hover p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
+    <div className="card p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
       <div>
         <div className="flex items-start justify-between gap-3 mb-1">
           <div className="flex items-center gap-2">

@@ -119,10 +119,10 @@ export function Nav({ initials, navLinks }: NavProps) {
                 key={l.href}
                 href={l.href}
                 aria-current={isActive ? "location" : undefined}
-                className={`min-h-[44px] flex items-center text-sm transition-colors duration-150 relative ${
+                className={`min-h-[48px] flex items-center text-sm transition-colors duration-150 relative ${
                   isActive
                     ? "text-[var(--accent)] font-medium"
-                    : "text-[var(--muted)] hover:text-[var(--text)]"
+                    : "text-[var(--muted)] hover:text-[var(--text)] active:opacity-70"
                 }`}
               >
                 {l.label}

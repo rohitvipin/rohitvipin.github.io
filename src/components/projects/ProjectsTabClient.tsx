@@ -62,7 +62,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}
             onKeyDown={(e) => handleKeyDown(e, id)}
-            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 ${
+            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
               tab === id
                 ? "bg-[var(--accent)] text-[var(--bg)]"
                 : "text-[var(--muted)] hover:text-[var(--text)]"
