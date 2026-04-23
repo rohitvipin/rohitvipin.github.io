@@ -34,9 +34,6 @@ jobs:
       - name: Tests
         run: npm run test:ci
 
-      - name: Fetch avatar
-        run: npm run fetch-avatar
-
       - name: Build
         run: npm run build
         env:

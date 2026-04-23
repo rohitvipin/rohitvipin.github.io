@@ -48,6 +48,18 @@ export function Nav({ initials, navLinks }: NavProps) {
   }, [mobileOpen]);
 
   useEffect(() => {
+    const main = document.querySelector<HTMLElement>("main");
+    if (!main) return;
+    if (mobileOpen) {
+      main.setAttribute("inert", "");
+      main.setAttribute("aria-hidden", "true");
+    } else {
+      main.removeAttribute("inert");
+      main.removeAttribute("aria-hidden");
+    }
+  }, [mobileOpen]);
+
+  useEffect(() => {
     if (!mobileOpen) return;
     drawerRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -105,7 +117,7 @@ export function Nav({ initials, navLinks }: NavProps) {
               <a
                 key={l.href}
                 href={l.href}
-                aria-current={isActive ? "page" : undefined}
+                aria-current={isActive ? "location" : undefined}
                 className={`min-h-[44px] flex items-center text-sm transition-colors duration-150 relative ${
                   isActive
                     ? "text-[var(--accent)] font-medium"
@@ -156,7 +168,7 @@ export function Nav({ initials, navLinks }: NavProps) {
                   toggleRef.current?.focus();
                   setMobileOpen(false);
                 }}
-                aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
+                aria-current={activeSection === l.href.slice(1) ? "location" : undefined}
                 className={`min-h-[48px] flex items-center text-sm transition-colors ${
                   activeSection === l.href.slice(1)
                     ? "text-[var(--accent)] font-medium"

@@ -28,6 +28,7 @@ const mockProfile: Profile = {
   timezone: "IST",
   availability_status: "open",
   github_avatar: "https://avatars.githubusercontent.com/u/12345",
+  country_code: "IN",
   key_metrics: [{ label: "Years", value: "15+", detail: "years exp", tier: "primary" }],
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { renderToStream } from "@react-pdf/renderer";
-import { createWriteStream } from "fs";
+import { createWriteStream, renameSync, statSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { pipeline } from "stream/promises";
@@ -47,9 +47,15 @@ export async function generate() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const stream = await renderToStream(element as any);
-  const out = createWriteStream(OUTPUT_PATH);
+  const tmp = OUTPUT_PATH + ".tmp";
+  const out = createWriteStream(tmp);
   await pipeline(stream, out);
-  console.log(`Resume written to ${OUTPUT_PATH}`);
+  renameSync(tmp, OUTPUT_PATH);
+  const { size } = statSync(OUTPUT_PATH);
+  if (size < 50_000) {
+    throw new Error(`Generated PDF is suspiciously small (${size} bytes) — render may have failed`);
+  }
+  console.log(`Resume PDF generated → ${OUTPUT_PATH} (${size} bytes)`);
 }
 
 if (process.env.NODE_ENV !== "test") {

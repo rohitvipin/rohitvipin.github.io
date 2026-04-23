@@ -161,4 +161,24 @@ describe("ProjectsTabClient", () => {
     const ossPanel = document.getElementById("tabpanel-oss");
     expect(ossPanel).toBeInTheDocument();
   });
+
+  it("active tabpanel is always focusable (tabIndex=0) regardless of content", () => {
+    render(<ProjectsTabClient projects={[]} />);
+    const clientPanel = document.getElementById("tabpanel-client");
+    const ossPanel = document.getElementById("tabpanel-oss");
+    expect(clientPanel).toHaveAttribute("tabindex", "0");
+    expect(ossPanel).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("inactive tabpanel gets tabIndex=-1 after switching tabs", async () => {
+    const user = userEvent.setup();
+    render(<ProjectsTabClient projects={[]} />);
+
+    await user.click(screen.getByRole("tab", { name: /open source/i }));
+
+    const clientPanel = document.getElementById("tabpanel-client");
+    const ossPanel = document.getElementById("tabpanel-oss");
+    expect(ossPanel).toHaveAttribute("tabindex", "0");
+    expect(clientPanel).toHaveAttribute("tabindex", "-1");
+  });
 });

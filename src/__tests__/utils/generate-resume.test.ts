@@ -7,9 +7,13 @@ vi.mock("@react-pdf/renderer", () => ({
 vi.mock("fs", () => ({
   createWriteStream: vi.fn().mockReturnValue({ on: vi.fn() }),
   existsSync: vi.fn().mockReturnValue(false),
+  renameSync: vi.fn(),
+  statSync: vi.fn().mockReturnValue({ size: 100_000 }),
   default: {
     createWriteStream: vi.fn().mockReturnValue({ on: vi.fn() }),
     existsSync: vi.fn().mockReturnValue(false),
+    renameSync: vi.fn(),
+    statSync: vi.fn().mockReturnValue({ size: 100_000 }),
   },
 }));
 

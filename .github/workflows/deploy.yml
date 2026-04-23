@@ -15,6 +15,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -74,3 +75,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+  smoke-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live site
+        run: |
+          sleep 30
+          curl --fail --silent --output /dev/null --write-out "HTTP %{http_code}" https://rohitvipin.github.io/

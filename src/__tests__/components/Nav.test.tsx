@@ -159,7 +159,7 @@ describe("Nav", () => {
     });
 
     screen.getAllByRole("link").forEach((link) => {
-      expect(link).not.toHaveAttribute("aria-current", "page");
+      expect(link).not.toHaveAttribute("aria-current", "location");
     });
   });
 
@@ -201,7 +201,7 @@ describe("Nav", () => {
 
     expect(screen.getByRole("link", { name: "Experience" })).toHaveAttribute(
       "aria-current",
-      "page"
+      "location"
     );
   });
 
@@ -238,6 +238,6 @@ describe("Nav", () => {
     });
 
     const aboutLink = screen.getByRole("link", { name: "About" });
-    expect(aboutLink).toHaveAttribute("aria-current", "page");
+    expect(aboutLink).toHaveAttribute("aria-current", "location");
   });
 });

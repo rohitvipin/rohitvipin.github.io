@@ -42,6 +42,7 @@ export const ProfileSchema = z.object({
     .string()
     .url()
     .regex(/^https:\/\/avatars\.githubusercontent\.com\//, "must be a GitHub avatar URL"),
+  country_code: z.string().length(2).optional(),
   key_metrics: z.array(KeyMetricSchema).min(1),
   tags: z.array(z.string().min(1)).optional(),
   cta_primary: z.string().min(1).optional(),
@@ -62,7 +63,10 @@ export const ExperienceSchema = z.object({
       message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
     }),
   current: z.boolean(),
-  color: z.string().optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
   description: z.string().min(1),
   techStack: z.array(z.string().min(1)),
   highlights: z.array(z.string().min(1)),
@@ -76,7 +80,10 @@ export const ProductSchema = z.object({
 export const ProjectSchema = z.object({
   name: z.string().min(1),
   domain: z.string().min(1),
-  color: z.string().optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
   client: z.string().min(1),
   role: z.string().min(1),
   duration: z
@@ -147,7 +154,10 @@ export const ImpactStorySchema = z.object({
     .regex(/^[a-z][a-z0-9-]*$/),
   title: z.string().min(1),
   domain: z.string().min(1),
-  color: z.string().optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
   problem: z.string().min(1),
   scope: z.string().min(1),
   led: z.string().min(1),

@@ -24,6 +24,7 @@ export interface Profile {
   availability_status: "open" | "closed" | "passive";
   profile_picture?: string;
   github_avatar: string;
+  country_code?: string;
   key_metrics: KeyMetric[];
   tags?: string[];
   cta_primary?: string;

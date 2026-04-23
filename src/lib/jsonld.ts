@@ -21,7 +21,7 @@ export function buildPersonJsonLd({
 }: PersonJsonLdParams) {
   const [locality, ...rest] = profile.location.split(",").map((s) => s.trim());
   const lastPart = rest.length > 0 ? rest[rest.length - 1] : locality;
-  const addressCountry = lastPart.toLowerCase().includes("india") ? "IN" : lastPart;
+  const addressCountry = profile.country_code ?? lastPart;
 
   return {
     "@context": "https://schema.org",

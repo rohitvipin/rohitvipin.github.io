@@ -119,7 +119,6 @@ export function Hero({ profile, socials }: HeroProps) {
                     height={320}
                     className="object-cover w-full h-full"
                     fetchPriority="high"
-                    decoding="async"
                   />
                 </picture>
               </div>

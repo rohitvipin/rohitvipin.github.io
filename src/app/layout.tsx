@@ -120,6 +120,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           href={avatarWebpHref}
           type="image/webp"
           fetchPriority="high"
+          media="(min-width: 1024px)"
         />
         <script
           type="application/ld+json"
