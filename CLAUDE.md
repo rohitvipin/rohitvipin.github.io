@@ -124,6 +124,28 @@ npm run generate-resume  # Generate PDF resume → public/
 - **All dynamic data** must exist at build time (embedded in JSON files).
 - `images: { unoptimized: true }` and `trailingSlash: true` set in `next.config.mjs`.
 
+### 7. UI Validation
+
+**Every UI change — bug fix, feature, style tweak, content update — must be verified in a real browser before marking done.**
+
+**Mandatory process:**
+
+1. Start dev server: `npm run dev` (http://localhost:3000).
+2. Use **Playwright MCP** (`mcp__playwright__*`) or **Chrome DevTools MCP** (`mcp__chrome-devtools__*`) to navigate, screenshot, and interact.
+3. Verify the changed section renders correctly in both **dark and light themes** (toggle via the theme button).
+4. Check **mobile viewport** (375px width minimum) and **desktop** (1280px+).
+5. Confirm no console errors or layout breakage in adjacent sections.
+6. For interactive elements (nav, scroll-to-top, collapsible cards): exercise the interaction and screenshot the result.
+
+**Tool preference:**
+
+- `mcp__playwright__browser_navigate` → `mcp__playwright__browser_take_screenshot` for visual spot-checks.
+- `mcp__playwright__browser_snapshot` for accessibility tree / element assertions.
+- `mcp__chrome-devtools__lighthouse_audit` for performance/a11y regressions on significant changes.
+- `mcp__playwright__browser_console_messages` to catch runtime JS errors post-change.
+
+**Never claim UI work is complete without at least one screenshot from a real browser session.**
+
 ## Path-Specific Rules
 
 ### `data/` — JSON Content Files
@@ -258,6 +280,7 @@ All docs live in **`docs/`**:
 3. Validate data: `npm run lint:data`.
 4. Run tests: `npm run test`.
 5. Check build: `npm run build`.
+6. **UI changes:** run `npm run dev` and validate in browser via Playwright/Chrome DevTools MCP (see §7 UI Validation).
 
 ## Deployment
 
@@ -292,7 +315,8 @@ All docs live in **`docs/`**:
 5. **Build component** in `src/components/feature/`.
 6. **Add tests** in `src/__tests__/`.
 7. **Check build** with `npm run build`.
-8. **Push PR** — `ci.yml` validates lint, tests, and build.
+8. **UI validate** — run `npm run dev`, use Playwright/Chrome DevTools MCP to screenshot dark + light themes, mobile + desktop viewports, check console errors.
+9. **Push PR** — `ci.yml` validates lint, tests, and build.
 
 ## Support & References
 
