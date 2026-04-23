@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildPersonJsonLd } from "@/lib/jsonld";
-import type { Social } from "@/types";
+import type { Social, Profile, ExperienceEntry, Education } from "@/types";
 
 const BASE_URL = "https://example.com";
 const AVATAR = "/avatar.jpg";
@@ -17,7 +17,29 @@ const nonHttpSocial: Social = {
   icon: "FaEnvelope",
 };
 
-const defaults = { baseUrl: BASE_URL, avatarHref: AVATAR, socials: [], knowsAbout: [] };
+const mockProfile: Profile = {
+  name: "Test User",
+  title: "Engineering Director",
+  headline: "Test headline",
+  location: "Kerala, India",
+  bio: "Test bio",
+  email: "test@example.com",
+  years_of_experience: 15,
+  timezone: "IST",
+  availability_status: "open",
+  github_avatar: "https://avatars.githubusercontent.com/u/12345",
+  key_metrics: [{ label: "Years", value: "15+", detail: "years exp", tier: "primary" }],
+};
+
+const defaults = {
+  baseUrl: BASE_URL,
+  avatarHref: AVATAR,
+  socials: [] as Social[],
+  knowsAbout: [] as string[],
+  profile: mockProfile,
+  experience: [] as ExperienceEntry[],
+  education: [] as Education[],
+};
 
 describe("buildPersonJsonLd", () => {
   it("sets url to baseUrl", () => {

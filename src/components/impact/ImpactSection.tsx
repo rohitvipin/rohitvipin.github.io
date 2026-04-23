@@ -1,6 +1,5 @@
 import type { ImpactStory } from "@/types";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { getDomainColor } from "@/lib/colors";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
@@ -27,7 +26,7 @@ export function ImpactSection({ impact }: ImpactSectionProps) {
                   <span
                     className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
                     style={{
-                      borderColor: `${getDomainColor(story.domain)}45`,
+                      borderColor: `${story.color ?? "#6366f1"}45`,
                     }}
                   >
                     {story.domain}

@@ -2,6 +2,7 @@
   {
     "name": "K-12 HCM Platform Modernisation",
     "domain": "Education",
+    "color": "#6366f1",
     "client": "Confidential - Leading US K-12 HCM Provider",
     "role": "Director - Engineering & Architecture",
     "duration": "April 2024 - Present",
@@ -47,6 +48,7 @@
   {
     "name": "Precision Agriculture & Genomics Platform",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading Agricultural Genetics Company",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -88,6 +90,7 @@
   {
     "name": "Farm Operations Platform & Integrations",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading Global Berry Producer",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -128,6 +131,7 @@
   {
     "name": "Logistics Platform Modernisation",
     "domain": "Logistics",
+    "color": "#fbbf24",
     "client": "Confidential - Regional Freight Forwarding & Logistics Operator",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -173,6 +177,7 @@
   {
     "name": "Hospitality Loyalty Platform",
     "domain": "Hospitality",
+    "color": "#ec4899",
     "client": "Confidential",
     "role": "Solutions Architect",
     "duration": "April 2022 - March 2024",
@@ -214,6 +219,7 @@
   {
     "name": "Agribusiness Management Platform",
     "domain": "Agriculture",
+    "color": "#22c55e",
     "client": "Confidential - Leading North American Agribusiness Software Provider",
     "role": "Technical Architect",
     "duration": "April 2019 - March 2022",
@@ -268,6 +274,7 @@
   {
     "name": "Dapper.Repository",
     "domain": "Open Source / Developer Tooling",
+    "color": "#8b5cf6",
     "client": "Personal",
     "role": "Creator & Maintainer",
     "duration": "2024",
@@ -283,6 +290,7 @@
   {
     "name": "AWS.RequestSigner",
     "domain": "Open Source / Cloud",
+    "color": "#fb923c",
     "client": "Personal",
     "role": "Creator",
     "duration": "2021",
@@ -298,6 +306,7 @@
   {
     "name": "MongoDbMigrations",
     "domain": "Open Source / Developer Tooling",
+    "color": "#8b5cf6",
     "client": "Personal",
     "role": "Creator & Maintainer",
     "duration": "2020",
@@ -312,6 +321,7 @@
   {
     "name": "Xamarin Forms Custom Renderer Samples",
     "domain": "Open Source / Mobile",
+    "color": "#22d3ee",
     "client": "Personal / Community",
     "role": "Creator & Maintainer",
     "duration": "2018",

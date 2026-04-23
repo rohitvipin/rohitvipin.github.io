@@ -28,7 +28,12 @@ export async function main() {
   console.log(`Fetching avatar from ${url}...`);
   let buffer: Buffer;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "follow" });
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "manual" });
+    if (res.status >= 300 && res.status < 400) {
+      throw new Error(
+        `unexpected redirect to ${res.headers.get("location")} — re-pin the avatar URL`
+      );
+    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const contentType = res.headers.get("content-type") ?? "";
     if (!contentType.startsWith("image/")) {

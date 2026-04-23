@@ -1,7 +1,6 @@
 import type { ExperienceEntry } from "@/types";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ExperienceCard } from "./ExperienceCard";
-import { getCompanyColor } from "@/lib/colors";
 
 export interface ExperienceTimelineProps {
   experience: ExperienceEntry[];
@@ -24,7 +23,7 @@ export function ExperienceTimeline({ experience, yearsOfExperience }: Experience
               <div key={`${entry.company}-${entry.role}`} className="relative">
                 <div
                   className="absolute -left-8 top-6 w-3 h-3 rounded-full border-2 bg-[var(--bg)] hidden md:block"
-                  style={{ borderColor: getCompanyColor(entry.company) }}
+                  style={{ borderColor: entry.color ?? "#6366f1" }}
                 />
                 <ExperienceCard entry={entry} />
               </div>

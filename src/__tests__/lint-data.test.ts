@@ -82,7 +82,7 @@ describe("validateSchema - Zod-backed validation", () => {
     timezone: "UTC",
     availability_status: "open",
     github_avatar: "https://avatars.githubusercontent.com/u/1",
-    key_metrics: [{ label: "L", value: "V", detail: "D" }],
+    key_metrics: [{ label: "L", value: "V", detail: "D", tier: "primary" }],
   });
 
   it("returns no errors for valid profile.json", () => {

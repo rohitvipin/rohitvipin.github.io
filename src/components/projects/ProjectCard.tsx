@@ -1,6 +1,5 @@
 import type { Project } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
-import { getDomainColor } from "@/lib/colors";
 import { FiChevronDown, FiGithub } from "react-icons/fi";
 
 export interface ProjectCardProps {
@@ -8,7 +7,7 @@ export interface ProjectCardProps {
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const domainColor = getDomainColor(project.domain);
+  const domainColor = project.color ?? "#6366f1";
 
   return (
     <div className="card card-hover p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">

@@ -34,7 +34,6 @@
       "mcp__chrome-devtools__new_page",
       "mcp__chrome-devtools__close_page",
       "Bash(mkdir:*)",
-      "Bash(curl:*)",
       "Bash(date:*)"
     ]
   }

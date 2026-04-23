@@ -1,10 +1,13 @@
-import type { Social } from "@/types";
+import type { Social, Profile, ExperienceEntry, Education } from "../types";
 
 export interface PersonJsonLdParams {
   baseUrl: string;
   avatarHref: string;
   socials: Social[];
   knowsAbout: string[];
+  profile: Profile;
+  experience: ExperienceEntry[];
+  education: Education[];
 }
 
 export function buildPersonJsonLd({
@@ -12,43 +15,56 @@ export function buildPersonJsonLd({
   avatarHref,
   socials,
   knowsAbout,
+  profile,
+  experience,
+  education,
 }: PersonJsonLdParams) {
+  const [locality, ...rest] = profile.location.split(",").map((s) => s.trim());
+  const lastPart = rest.length > 0 ? rest[rest.length - 1] : locality;
+  const addressCountry = lastPart.toLowerCase().includes("india") ? "IN" : lastPart;
+
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Rohit Vipin Mathews",
-    givenName: "Rohit",
-    additionalName: "Vipin",
-    familyName: "Mathews",
-    jobTitle: "Director - Engineering & Architecture",
-    description:
-      "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Open to VP Engineering, CTO, and Director roles.",
+    name: profile.name,
+    givenName: profile.name.split(" ")[0],
+    additionalName: profile.name.split(" ")[1] ?? undefined,
+    familyName: profile.name.split(" ").slice(-1)[0],
+    jobTitle: profile.title,
+    description: profile.headline,
     url: baseUrl,
     image: `${baseUrl}${avatarHref}`,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Kerala",
-      addressCountry: "IN",
+      addressLocality: locality,
+      addressCountry,
     },
-    worksFor: {
-      "@type": "Organization",
-      name: "CES IT",
-    },
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "Sree Narayana Gurukulam College of Engineering",
-    },
+    ...(experience[0]
+      ? {
+          worksFor: {
+            "@type": "Organization",
+            name: experience[0].company,
+          },
+        }
+      : {}),
+    ...(education[0]
+      ? {
+          alumniOf: {
+            "@type": "CollegeOrUniversity",
+            name: education[0].institution,
+          },
+        }
+      : {}),
     sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
     knowsAbout,
     hasOccupation: {
       "@type": "Occupation",
-      name: "Director - Engineering & Architecture",
+      name: profile.title,
       occupationLocation: {
         "@type": "Country",
-        name: "India",
+        name: lastPart,
       },
-      skills:
-        "Cloud Architecture, AWS, .NET, AI Engineering, Engineering Leadership, Platform Modernisation, VP Engineering, CTO",
+      skills: profile.knows_about?.join(", ") ?? "",
     },
   };
 }

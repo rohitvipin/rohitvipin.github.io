@@ -22,18 +22,38 @@ vi.mock("../../../utils/resume/ResumeDocument", () => ({
   ResumeDocument: () => null,
 }));
 
-vi.mock("../../../data/profile.json", () => ({
-  default: { name: "Test", github_avatar: "https://avatars.githubusercontent.com/u/1?v=4" },
+vi.mock("@/lib/data", () => ({
+  profile: {
+    name: "Test",
+    title: "Director",
+    headline: "Test headline",
+    location: "Kerala, India",
+    bio: "Test bio",
+    email: "test@test.com",
+    years_of_experience: 15,
+    timezone: "IST",
+    availability_status: "open",
+    github_avatar: "https://avatars.githubusercontent.com/u/1?v=4",
+    key_metrics: [],
+  },
+  socials: [],
+  experience: [],
+  skills: [],
+  projects: [],
+  leadership: { title: "", sections: [] },
+  education: [],
+  community: [],
+  awards: [],
 }));
-vi.mock("../../../data/socials.json", () => ({ default: [] }));
-vi.mock("../../../data/experience.json", () => ({ default: [] }));
-vi.mock("../../../data/skills.json", () => ({ default: [] }));
-vi.mock("../../../data/projects.json", () => ({ default: [] }));
-vi.mock("../../../data/leadership.json", () => ({ default: { title: "", sections: [] } }));
-vi.mock("../../../data/education.json", () => ({ default: [] }));
-vi.mock("../../../data/community.json", () => ({ default: [] }));
-vi.mock("../../../data/awards.json", () => ({ default: [] }));
-vi.mock("../../../data/resume-config.json", () => ({ default: { sections: [] } }));
+vi.mock("../../../data/resume-config.json", () => ({
+  default: {
+    pageSize: "A4",
+    font: "Helvetica",
+    showKeyMetrics: true,
+    sectionOrder: [],
+    sections: {},
+  },
+}));
 
 import { generate } from "../../../utils/generate-resume";
 

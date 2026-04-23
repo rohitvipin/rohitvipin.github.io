@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { socials, profile } from "@/lib/data";
+import { socials, profile, experience, education } from "@/lib/data";
 import { escapeJsonLd } from "@/lib/escape";
 import { buildPersonJsonLd } from "@/lib/jsonld";
 import { avatarHref, avatarWebpHref } from "@/lib/paths";
@@ -93,6 +93,9 @@ const jsonLd = buildPersonJsonLd({
   avatarHref,
   socials,
   knowsAbout: profile.knows_about ?? [],
+  profile,
+  experience,
+  education,
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -108,7 +111,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta
           name="permissions-policy"
-          content="camera=(), microphone=(), geolocation=(), interest-cohort=()"
+          content="camera=(), microphone=(), geolocation=(), browsing-topics=()"
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link

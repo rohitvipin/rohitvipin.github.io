@@ -121,7 +121,7 @@ describe("fetch-avatar main()", () => {
 
   it("throws on non-ok 3xx status (unresolved redirect chain)", async () => {
     global.fetch = vi.fn().mockResolvedValue(makeResponse({ ok: false, status: 302, body: null }));
-    await expect(main()).rejects.toThrow("HTTP 302");
+    await expect(main()).rejects.toThrow("unexpected redirect");
   });
 
   it("throws on non-image content-type", async () => {

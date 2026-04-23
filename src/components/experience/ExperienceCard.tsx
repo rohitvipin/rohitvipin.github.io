@@ -1,6 +1,5 @@
 import type { ExperienceEntry } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
-import { getCompanyColor } from "@/lib/colors";
 import { FiChevronDown } from "react-icons/fi";
 
 export interface ExperienceCardProps {
@@ -8,7 +7,7 @@ export interface ExperienceCardProps {
 }
 
 export function ExperienceCard({ entry }: ExperienceCardProps) {
-  const companyColor = getCompanyColor(entry.company);
+  const companyColor = entry.color ?? "#6366f1";
 
   return (
     <div

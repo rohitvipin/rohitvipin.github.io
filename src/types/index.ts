@@ -2,7 +2,7 @@ export interface KeyMetric {
   label: string;
   value: string;
   detail: string;
-  tier?: "primary" | "secondary";
+  tier: "primary" | "secondary";
 }
 
 export interface ValueProposition {
@@ -37,6 +37,7 @@ export interface ImpactStory {
   id: string;
   title: string;
   domain: string;
+  color?: string;
   problem: string;
   scope: string;
   led: string;
@@ -50,6 +51,7 @@ export interface ExperienceEntry {
   location: string;
   duration: string;
   current: boolean;
+  color?: string;
   description: string;
   techStack: string[];
   highlights: string[];
@@ -63,6 +65,7 @@ export interface Product {
 export interface Project {
   name: string;
   domain: string;
+  color?: string;
   client: string;
   role: string;
   duration: string;

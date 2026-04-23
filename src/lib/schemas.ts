@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const MONTH_NAMES =
+  "January|February|March|April|May|June|July|August|September|October|November|December";
+const DURATION_RE = new RegExp(
+  `^(\\d{4}|(${MONTH_NAMES}) \\d{4} - (Present|(${MONTH_NAMES}) \\d{4}))$`
+);
+
 const socialUrl = z
   .string()
   .refine(
@@ -11,7 +17,7 @@ export const KeyMetricSchema = z.object({
   label: z.string().min(1),
   value: z.string().min(1),
   detail: z.string().min(1),
-  tier: z.enum(["primary", "secondary"]).optional(),
+  tier: z.enum(["primary", "secondary"]),
 });
 
 export const ValuePropositionSchema = z.object({
@@ -49,8 +55,14 @@ export const ExperienceSchema = z.object({
   company: z.string().min(1),
   role: z.string().min(1),
   location: z.string().min(1),
-  duration: z.string().min(1),
+  duration: z
+    .string()
+    .min(1)
+    .refine((v) => DURATION_RE.test(v), {
+      message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
+    }),
   current: z.boolean(),
+  color: z.string().optional(),
   description: z.string().min(1),
   techStack: z.array(z.string().min(1)),
   highlights: z.array(z.string().min(1)),
@@ -64,9 +76,15 @@ export const ProductSchema = z.object({
 export const ProjectSchema = z.object({
   name: z.string().min(1),
   domain: z.string().min(1),
+  color: z.string().optional(),
   client: z.string().min(1),
   role: z.string().min(1),
-  duration: z.string().min(1),
+  duration: z
+    .string()
+    .min(1)
+    .refine((v) => DURATION_RE.test(v), {
+      message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
+    }),
   description: z.string().min(1),
   products: z.array(ProductSchema),
   highlights: z.array(z.string().min(1)),
@@ -129,6 +147,7 @@ export const ImpactStorySchema = z.object({
     .regex(/^[a-z][a-z0-9-]*$/),
   title: z.string().min(1),
   domain: z.string().min(1),
+  color: z.string().optional(),
   problem: z.string().min(1),
   scope: z.string().min(1),
   led: z.string().min(1),

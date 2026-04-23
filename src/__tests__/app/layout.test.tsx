@@ -9,6 +9,8 @@ vi.mock("next/font/google", () => ({
 vi.mock("@/lib/data", () => ({
   socials: [],
   profile: { knows_about: ["AWS", "Engineering Leadership"] },
+  experience: [],
+  education: [],
 }));
 
 vi.mock("@/lib/escape", () => ({
