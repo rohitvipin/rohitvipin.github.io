@@ -32,6 +32,7 @@ yarn-error.log*
 
 # QA artifacts — screenshots, snapshots, reports (gitignored; use .qa-reports/)
 .qa-reports/
+.playwright-mcp/
 
 # AI tool state — machine-specific, never commit
 # Skills are project config and ARE committed; only local settings are excluded
