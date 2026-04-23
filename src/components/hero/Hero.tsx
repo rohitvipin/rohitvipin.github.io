@@ -16,7 +16,6 @@ export function Hero({ profile, socials }: HeroProps) {
     <section aria-labelledby="hero-heading" className="min-h-screen flex items-center pt-14">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
-          {/* Left */}
           <div className="space-y-6">
             {profile.tags && profile.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
@@ -100,13 +99,11 @@ export function Hero({ profile, socials }: HeroProps) {
               </a>
             </div>
 
-            {/* Mobile-only socials */}
             <div className="lg:hidden">
               <SocialLinks socials={socials} />
             </div>
           </div>
 
-          {/* Right — avatar + socials */}
           <div className="hidden lg:flex flex-col items-end gap-5">
             <div className="flex flex-col items-center gap-5">
               <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
@@ -127,7 +124,6 @@ export function Hero({ profile, socials }: HeroProps) {
           </div>
         </div>
 
-        {/* Primary metrics */}
         {primaryMetrics.length > 0 && (
           <dl className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
             {primaryMetrics.map((m) => (
@@ -144,7 +140,6 @@ export function Hero({ profile, socials }: HeroProps) {
           </dl>
         )}
 
-        {/* Secondary metrics */}
         {secondaryMetrics.length > 0 && (
           <dl className="grid grid-cols-2 md:grid-cols-4 mt-3 gap-3">
             {secondaryMetrics.map((m) => (

@@ -108,11 +108,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           httpEquiv="Content-Security-Policy"
           content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'`}
         />
-        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-        <meta
-          name="permissions-policy"
-          content="camera=(), microphone=(), geolocation=(), browsing-topics=()"
-        />
+        {/* X-Content-Type-Options and Permissions-Policy must be HTTP response headers — meta tags are ignored by browsers for these directives. GitHub Pages does not support custom headers. */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link
           rel="preload"

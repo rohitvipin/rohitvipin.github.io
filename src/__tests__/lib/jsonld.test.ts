@@ -161,4 +161,45 @@ describe("buildPersonJsonLd", () => {
     const ld = buildPersonJsonLd({ ...defaults, experience: [exp] });
     expect(ld.worksFor?.name).toBe("Solo Corp");
   });
+
+  it("location without comma uses locality as lastPart", () => {
+    const ld = buildPersonJsonLd({
+      ...defaults,
+      profile: { ...mockProfile, location: "India" },
+    });
+    expect(ld.address.addressLocality).toBe("India");
+    expect(ld.hasOccupation.occupationLocation.name).toBe("India");
+  });
+
+  it("addressCountry falls back to lastPart when country_code absent", () => {
+    const ld = buildPersonJsonLd({
+      ...defaults,
+      profile: { ...mockProfile, country_code: undefined, location: "Kerala, India" },
+    });
+    expect(ld.address.addressCountry).toBe("India");
+  });
+
+  it("additionalName is undefined for single-word name", () => {
+    const ld = buildPersonJsonLd({
+      ...defaults,
+      profile: { ...mockProfile, name: "Cher" },
+    });
+    expect(ld.additionalName).toBeUndefined();
+  });
+
+  it("alumniOf is set when education array is non-empty", () => {
+    const edu: Education = {
+      degree: "B.Tech",
+      institution: "Test University",
+      location: "Remote",
+      year: "2009",
+    };
+    const ld = buildPersonJsonLd({ ...defaults, education: [edu] });
+    expect(ld.alumniOf?.name).toBe("Test University");
+  });
+
+  it("alumniOf is absent when education array is empty", () => {
+    const ld = buildPersonJsonLd({ ...defaults, education: [] });
+    expect("alumniOf" in ld).toBe(false);
+  });
 });

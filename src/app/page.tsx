@@ -65,7 +65,6 @@ export default function Home() {
           <EducationSection education={education} />
         </div>
 
-        {/* Bottom CTA */}
         <section
           id="contact"
           aria-labelledby="contact-title"
