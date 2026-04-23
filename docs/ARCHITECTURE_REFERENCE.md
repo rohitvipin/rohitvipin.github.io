@@ -96,17 +96,31 @@ Environment variable `NEXT_PUBLIC_BASE_PATH` controls the URL prefix. Currently 
 
 See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 
-| File              | Structure     | Purpose                      |
-| ----------------- | ------------- | ---------------------------- |
-| `profile.json`    | Single object | Basic info, bio, contact     |
-| `socials.json`    | Array         | Social links                 |
-| `skills.json`     | Array         | Skills grouped by category   |
-| `experience.json` | Array         | Work history (reverse-chron) |
-| `education.json`  | Array         | Degrees + institutions       |
-| `projects.json`   | Array         | Portfolio projects           |
-| `awards.json`     | Array         | Awards + recognition         |
-| `community.json`  | Array         | Open source + speaking       |
-| `leadership.json` | Array         | Leadership + mentoring       |
+| File              | Structure     | Purpose                                        |
+| ----------------- | ------------- | ---------------------------------------------- |
+| `profile.json`    | Single object | Basic info, bio, contact, `knows_about` topics |
+| `socials.json`    | Array         | Social links                                   |
+| `skills.json`     | Array         | Skills grouped by category                     |
+| `experience.json` | Array         | Work history (reverse-chron)                   |
+| `education.json`  | Array         | Degrees + institutions                         |
+| `projects.json`   | Array         | Portfolio projects                             |
+| `awards.json`     | Array         | Awards + recognition                           |
+| `community.json`  | Array         | Open source + speaking                         |
+| `leadership.json` | Array         | Leadership + mentoring                         |
+
+## Lib Utilities (`src/lib/`)
+
+| File          | Purpose                                                                         |
+| ------------- | ------------------------------------------------------------------------------- |
+| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time              |
+| `colors.ts`   | `getCompanyColor()` / `getDomainColor()` — pure functions for dynamic colouring |
+| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests              |
+| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials    |
+| `duration.ts` | `parseStartYear()` — parses `duration` field for sort order                     |
+| `escape.ts`   | HTML-escaping utilities used in JSON-LD output                                  |
+| `paths.ts`    | `resumeHref`, `avatarHref` etc. — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs      |
+| `profile.ts`  | `getInitials()` and other profile helper functions                              |
+| `projects.ts` | `isOssProject()` and project classification helpers                             |
 
 ## Component Hierarchy
 

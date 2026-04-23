@@ -117,6 +117,21 @@ box-shadow:
 
 Optional lift modifier `.card-hover` adds `transform: translateY(-2px)` + `box-shadow: 0 8px 24px var(--shadow-card)` on hover/focus-within. Gated behind `prefers-reduced-motion: no-preference`.
 
+### Collapsible card (`.card-details`)
+
+Used in ExperienceCard, ProjectCard, SkillCategoryCard, CommunityCard. Native `<details>/<summary>` — no JS toggle state.
+
+```tsx
+<details className="card-details">
+  <summary aria-label="Show highlights (N items)">{/* visible header row */}</summary>
+  {/* revealed content */}
+</details>
+```
+
+CSS in `globals.css` animates content with `@starting-style` (opacity + translate `0.22s`). Height animated via `interpolate-size: allow-keywords` where supported (Chrome 129+, Firefox 136+). All animation gated behind `prefers-reduced-motion: no-preference`.
+
+For entries that should default open (e.g., current role), set the `open` attribute: `<details open={entry.current} …>`.
+
 ### SectionHeader
 
 ```tsx
@@ -349,14 +364,17 @@ Progressive enhancement (~88% browser support). Elements with `.scroll-animate` 
 
 ### Transition defaults
 
-| Target             | Duration | Easing                                  |
-| ------------------ | -------- | --------------------------------------- |
-| Card border/shadow | `0.2s`   | `ease`                                  |
-| Card lift          | `200ms`  | `ease`                                  |
-| Nav link colour    | `150ms`  | —                                       |
-| Social/icon links  | `200ms`  | —                                       |
-| Button opacity     | —        | `transition-opacity` (Tailwind default) |
-| Button colour      | —        | `transition-colors` (Tailwind default)  |
+| Target                                                   | Duration | Easing                                  |
+| -------------------------------------------------------- | -------- | --------------------------------------- |
+| Card border/shadow                                       | `0.2s`   | `ease`                                  |
+| Card lift                                                | `200ms`  | `ease`                                  |
+| Nav link colour                                          | `150ms`  | —                                       |
+| Social/icon links                                        | `200ms`  | —                                       |
+| Button opacity                                           | —        | `transition-opacity` (Tailwind default) |
+| Button colour                                            | —        | `transition-colors` (Tailwind default)  |
+| `.card-details` content opacity+translate                | `0.22s`  | `cubic-bezier(0, 0, 0.2, 1)`            |
+| `.card-details` content height (progressive enhancement) | `0.3s`   | `cubic-bezier(0.4, 0, 0.2, 1)`          |
+| Tab panel fade-in                                        | `0.2s`   | `cubic-bezier(0, 0, 0.2, 1)`            |
 
 ### Reduced motion
 

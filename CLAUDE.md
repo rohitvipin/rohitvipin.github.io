@@ -19,7 +19,7 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 - **`src/`** — Next.js App Router + React components
   - `app/` — Layout, pages, global styles
   - `components/` — Section and shared components (organized by feature folder)
-  - `lib/` — `data.ts` (typed constants, one per data file), `colors.ts` (company/domain color utils), `schemas.ts` (Zod validation schemas)
+  - `lib/` — `data.ts` (typed constants, one per data file), `colors.ts` (company/domain color utils), `schemas.ts` (Zod validation schemas), `jsonld.ts` (JSON-LD structured data builder)
   - `types/` — TypeScript interfaces (must stay in sync with `data/*.json`)
   - `__tests__/` — Unit + integration tests (Vitest + React Testing Library)
 - **`utils/`** — Dev scripts (run via `tsx`)
@@ -163,6 +163,7 @@ npm run generate-resume  # Generate PDF resume → public/
 - `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks` (each parsed via Zod at import time)
 - `colors.ts` — `getCompanyColor()`, `getDomainColor()` (pure functions)
 - `schemas.ts` — Zod schemas for all data types; shared by `lint-data.ts` and test suite
+- `jsonld.ts` — `buildPersonJsonLd()` builds JSON-LD `Person` structured data from profile + socials; used by `src/app/layout.tsx`
 
 **Rules:**
 
@@ -181,6 +182,8 @@ npm run generate-resume  # Generate PDF resume → public/
 
 - ✓ **Server components by default** — no `"use client"` unless using hooks or browser APIs.
 - ✓ `"use client"` required for: `ThemeToggle`, `ScrollToTop`, `Nav` (interactive/browser-dependent).
+- ✓ **Named exports only** — no `export default`. Use `export function` or `export const`.
+- ✓ **Collapsible content** — use native `<details>/<summary>` with class `card-details`. No custom open/close state.
 - ✓ Props interface always defined and exported.
 - ✓ **No hardcoded strings** — use typed data loaders.
 - ✓ **CSS tokens only** — use `var(--accent)`, `var(--surface)`, etc. Never hardcode colours.

@@ -51,6 +51,8 @@ Use present tense, semantic messages:
 ### Component Development
 
 - **Prefer server components** (default). Add `"use client"` only for hooks/browser APIs
+- **Exports:** Named exports only — no `export default` on components
+- **Collapsible content:** Use native `<details>/<summary>` with `.card-details` class — no custom toggle state
 - **Icons:** Use `react-icons` (FA6 brands or Feather UI) only
 - **Colors:** Always use CSS custom properties (`var(--accent)`, `var(--surface)`, etc.) — no hardcoded hex/rgb
 - **Layout:** Tailwind for structure, custom CSS for polish
