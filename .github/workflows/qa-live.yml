@@ -1,0 +1,62 @@
+name: Live QA
+
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  live-qa:
+    name: Portfolio Live QA
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20.x"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-chromium
+
+      - name: Install Playwright chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run portfolio-qa skill against live site
+        uses: anthropics/claude-code-action@b4d67413279fc18c6e5de930ae307c4f108714eb # v1
+        with:
+          prompt: |
+            Run /portfolio-qa live. Target: https://rohitvipin.github.io
+            Save the full report and all screenshots to .qa-reports/
+            Exit when REPORT.md is written.
+          allowed_tools: "Bash,Read,Write,mcp__playwright__browser_navigate,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_evaluate,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_click,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for,mcp__playwright__browser_type,mcp__playwright__browser_hover"
+          mcp_config: |
+            {
+              "mcpServers": {
+                "playwright": {
+                  "command": "npx",
+                  "args": ["@playwright/mcp@0.0.70", "--browser", "chromium", "--headless"]
+                }
+              }
+            }
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Upload live QA report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: live-qa-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .qa-reports/
+          retention-days: 14

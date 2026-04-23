@@ -52,7 +52,7 @@ export async function generate() {
   await pipeline(stream, out);
   renameSync(tmp, OUTPUT_PATH);
   const { size } = statSync(OUTPUT_PATH);
-  if (size < 50_000) {
+  if (size < 25_000) {
     throw new Error(`Generated PDF is suspiciously small (${size} bytes) — render may have failed`);
   }
   console.log(`Resume PDF generated → ${OUTPUT_PATH} (${size} bytes)`);

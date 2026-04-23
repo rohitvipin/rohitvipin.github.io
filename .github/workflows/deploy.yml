@@ -41,23 +41,8 @@ jobs:
       - name: Test
         run: npm run test:ci
 
-      - name: Generate resume PDF
-        timeout-minutes: 5
-        run: npm run generate-resume
-
-      - name: Verify resume PDF
-        run: test -s public/Rohit_Vipin_Mathews_Resume.pdf
-
-      - name: Fetch avatar
-        run: npm run fetch-avatar
-
-      - name: Verify avatar file
-        run: test -s public/avatar.jpg
-
-      - name: Generate sitemap
-        run: npx tsx utils/generate-sitemap.ts
-        env:
-          NEXT_PUBLIC_SITE_URL: "https://rohitvipin.github.io"
+      - name: Prepare static assets
+        uses: ./.github/actions/prepare-assets
 
       - name: Build
         run: npm run build

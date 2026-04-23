@@ -91,7 +91,7 @@ describe("generate", () => {
   it("calls webp when avatar.jpg exists", async () => {
     const sharp = (await import("sharp")).default;
     await generate();
-    const instance = (sharp as ReturnType<typeof vi.fn>).mock.results[0]?.value;
+    const instance = (sharp as unknown as ReturnType<typeof vi.fn>).mock.results[0]?.value;
     expect(instance?.webp ?? instance?.png).toBeDefined();
   });
 });

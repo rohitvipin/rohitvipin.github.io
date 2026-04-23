@@ -146,7 +146,7 @@ describe("Nav", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
 
     expect(capturedCallback).not.toBeNull();
-    const cb = capturedCallback as (entries: IntersectionObserverEntry[]) => void;
+    const cb = capturedCallback as unknown as (entries: IntersectionObserverEntry[]) => void;
 
     act(() => {
       cb([
@@ -182,7 +182,7 @@ describe("Nav", () => {
 
     const about = document.getElementById("about") as HTMLElement;
     const experience = document.getElementById("experience") as HTMLElement;
-    const cb = capturedCallback as (entries: IntersectionObserverEntry[]) => void;
+    const cb = capturedCallback as unknown as (entries: IntersectionObserverEntry[]) => void;
 
     act(() => {
       cb([

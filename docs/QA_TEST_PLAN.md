@@ -54,15 +54,15 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-03 · Navigation — Desktop (≥1024px)
 
-| #    | Check                 | Expected                                                      | Severity |
-| ---- | --------------------- | ------------------------------------------------------------- | -------- |
-| 03.1 | Desktop nav visible   | `nav[aria-label="Main navigation"]` rendered and visible      | CRITICAL |
-| 03.2 | Hamburger hidden      | Toggle button not visible at 1440px                           | HIGH     |
-| 03.3 | All nav links present | Count matches `data/nav.json` entries                         | HIGH     |
-| 03.4 | No link overflow      | All nav links within viewport width                           | HIGH     |
-| 03.5 | Active state updates  | `aria-current="page"` on correct link when section intersects | MEDIUM   |
-| 03.6 | Home logo link        | Initials link with `aria-label="Home"` present                | MEDIUM   |
-| 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                       | MEDIUM   |
+| #    | Check                 | Expected                                                                                                   | Severity |
+| ---- | --------------------- | ---------------------------------------------------------------------------------------------------------- | -------- |
+| 03.1 | Desktop nav visible   | `nav[aria-label="Main navigation"]` rendered and visible                                                   | CRITICAL |
+| 03.2 | Hamburger hidden      | Toggle button not visible at 1440px                                                                        | HIGH     |
+| 03.3 | All nav links present | Count matches `data/nav.json` entries                                                                      | HIGH     |
+| 03.4 | No link overflow      | All nav links within viewport width                                                                        | HIGH     |
+| 03.5 | Active state updates  | `aria-current="location"` on correct link when section intersects (Nav.tsx uses `"location"` not `"page"`) | MEDIUM   |
+| 03.6 | Home logo link        | Initials link with `aria-label="Home"` present                                                             | MEDIUM   |
+| 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                                                                    | MEDIUM   |
 
 ---
 
@@ -144,38 +144,38 @@ Verify all 10 content sections render with non-empty content.
 
 ### TC-09 · Show / Hide Interactions
 
-| #    | Check                       | Expected                                                              | Severity |
-| ---- | --------------------------- | --------------------------------------------------------------------- | -------- |
-| 09.1 | Skill cards use `<details>` | Count of `details.card-details` > 0                                   | HIGH     |
-| 09.2 | Skill card expands on click | `<details>` toggles `open` attribute on `<summary>` click             | HIGH     |
-| 09.3 | Skill card collapses        | Second click on open `<details>` removes `open`                       | HIGH     |
-| 09.4 | Experience expand button    | Click "Expand" button → content visible, button becomes "Collapse"    | HIGH     |
-| 09.5 | Experience collapse button  | Click "Collapse" → content hidden, button becomes "Expand"            | HIGH     |
-| 09.6 | Projects tab switch         | Click "Open Source" tab → `aria-selected="true"`, correct panel shown | MEDIUM   |
-| 09.7 | Impact story expand         | If collapsible — expand/collapse works                                | MEDIUM   |
+| #    | Check                       | Expected                                                               | Severity |
+| ---- | --------------------------- | ---------------------------------------------------------------------- | -------- |
+| 09.1 | Skill cards use `<details>` | Count of `details.card-details` > 0                                    | HIGH     |
+| 09.2 | Skill card expands on click | `<details>` toggles `open` attribute on `<summary>` click              | HIGH     |
+| 09.3 | Skill card collapses        | Second click on open `<details>` removes `open`                        | HIGH     |
+| 09.4 | Experience card expands     | Click `<summary>` on closed `<details>` → `open` property becomes true | HIGH     |
+| 09.5 | Experience card collapses   | Click `<summary>` on open `<details>` → `open` property becomes false  | HIGH     |
+| 09.6 | Projects tab switch         | Click "Open Source" tab → `aria-selected="true"`, correct panel shown  | MEDIUM   |
+| 09.7 | Impact story expand         | If collapsible — expand/collapse works                                 | MEDIUM   |
 
 ---
 
 ### TC-10 · Theme Toggle
 
-| #    | Check                | Expected                                             | Severity |
-| ---- | -------------------- | ---------------------------------------------------- | -------- |
-| 10.1 | Initial theme        | `data-theme` attribute present on `<html>`           | HIGH     |
-| 10.2 | Toggle to dark       | Click toggle → `data-theme="dark"`                   | HIGH     |
-| 10.3 | Toggle to light      | Click again → `data-theme="light"`                   | HIGH     |
-| 10.4 | Button label updates | `aria-label` reflects current mode after toggle      | MEDIUM   |
-| 10.5 | No flash on load     | Page does not flash unstyled content on initial load | MEDIUM   |
+| #    | Check                | Expected                                                                                  | Severity |
+| ---- | -------------------- | ----------------------------------------------------------------------------------------- | -------- |
+| 10.1 | Initial theme        | `data-theme` attribute present on `<html>`                                                | HIGH     |
+| 10.2 | Toggle to dark       | Click toggle → `data-theme="dark"`                                                        | HIGH     |
+| 10.3 | Toggle to light      | Click again → `data-theme="light"`                                                        | HIGH     |
+| 10.4 | Button label updates | `aria-label` reflects current mode after toggle                                           | MEDIUM   |
+| 10.5 | No flash on load     | ~~Not testable in Playwright headless~~ — covered by `suppressHydrationWarning` in layout | LOW      |
 
 ---
 
 ### TC-11 · Scroll-to-Top
 
-| #    | Check                | Expected                                                       | Severity |
-| ---- | -------------------- | -------------------------------------------------------------- | -------- |
-| 11.1 | Hidden at top        | Button `visibility: hidden` or `opacity: 0` at `scrollY === 0` | MEDIUM   |
-| 11.2 | Appears after scroll | Button visible after scrolling to `y > 300`                    | MEDIUM   |
-| 11.3 | Touch target         | ≥ 48×48px (covered in TC-07)                                   | MEDIUM   |
-| 11.4 | Returns to top       | Click → `window.scrollY === 0` after animation                 | LOW      |
+| #    | Check                | Expected                                                                     | Severity |
+| ---- | -------------------- | ---------------------------------------------------------------------------- | -------- |
+| 11.1 | Hidden at top        | Button `visibility: hidden` or `opacity: 0` at `scrollY === 0`               | MEDIUM   |
+| 11.2 | Appears after scroll | Button visible after scrolling to `y > 400` (threshold in `ScrollToTop.tsx`) | MEDIUM   |
+| 11.3 | Touch target         | ≥ 48×48px (covered in TC-07)                                                 | MEDIUM   |
+| 11.4 | Returns to top       | Click → `window.scrollY === 0` after animation                               | LOW      |
 
 ---
 
@@ -200,24 +200,24 @@ Verify all 10 content sections render with non-empty content.
 
 ### TC-13 · Security & CSP
 
-| #    | Check                            | Expected                                                       | Severity |
-| ---- | -------------------------------- | -------------------------------------------------------------- | -------- |
-| 13.1 | CSP meta present                 | `<meta http-equiv="Content-Security-Policy">` in `<head>`      | MEDIUM   |
-| 13.2 | No `frame-ancestors` in meta CSP | Directive absent (browsers ignore it in meta)                  | MEDIUM   |
-| 13.3 | `X-Content-Type-Options` meta    | `<meta http-equiv="X-Content-Type-Options" content="nosniff">` | LOW      |
-| 13.4 | Referrer policy                  | `<meta name="referrer">` present                               | LOW      |
-| 13.5 | No secrets in source             | Page HTML contains no tokens, keys, or passwords               | HIGH     |
+| #    | Check                             | Expected                                                                                       | Severity |
+| ---- | --------------------------------- | ---------------------------------------------------------------------------------------------- | -------- |
+| 13.1 | CSP meta present                  | `<meta http-equiv="Content-Security-Policy">` in `<head>`                                      | MEDIUM   |
+| 13.2 | No `frame-ancestors` in meta CSP  | Directive absent (browsers ignore it in meta)                                                  | MEDIUM   |
+| 13.3 | ~~`X-Content-Type-Options` meta~~ | Intentionally absent — browsers ignore meta version; GitHub Pages has no custom header support | N/A      |
+| 13.4 | Referrer policy                   | `<meta name="referrer">` present                                                               | LOW      |
+| 13.5 | No secrets in source              | Page HTML contains no tokens, keys, or passwords                                               | HIGH     |
 
 ---
 
 ### TC-14 · Performance
 
-| #    | Check                            | Expected                                                        | Severity |
-| ---- | -------------------------------- | --------------------------------------------------------------- | -------- |
-| 14.1 | No failed network requests       | Zero 4xx/5xx responses across all page assets                   | HIGH     |
-| 14.2 | Avatar preloaded                 | `<link rel="preload" type="image/webp">` for avatar             | MEDIUM   |
-| 14.3 | `fetchPriority="high"` on avatar | LCP image prioritised                                           | MEDIUM   |
-| 14.4 | No blocking render requests      | No synchronous scripts in `<head>` (excluding inline bootstrap) | LOW      |
+| #    | Check                            | Expected                                                                                                         | Severity |
+| ---- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------- |
+| 14.1 | No failed network requests       | Zero 4xx/5xx responses across all page assets                                                                    | HIGH     |
+| 14.2 | Avatar preloaded (desktop)       | `<link rel="preload" href*="avatar">` in `<head>` — gated to `media="(min-width: 1024px)"`, desktop project only | MEDIUM   |
+| 14.3 | `fetchPriority="high"` on avatar | LCP image prioritised — desktop only (avatar hidden on mobile/tablet)                                            | MEDIUM   |
+| 14.4 | No blocking render requests      | No synchronous external scripts in `<head>` (excludes `_next/` runtime, inline bootstrap)                        | LOW      |
 
 ---
 
@@ -245,7 +245,7 @@ Verify all 10 content sections render with non-empty content.
 ## Running
 
 ```bash
-# Both targets in parallel (default)
+# Claude Code skill — both targets in parallel (default)
 /portfolio-qa
 
 # Local only
@@ -256,3 +256,27 @@ Verify all 10 content sections render with non-empty content.
 ```
 
 See `.claude/skills/portfolio-qa/SKILL.md` for agent orchestration details.
+
+### Automated Playwright E2E (CI)
+
+All TCs except TC-10.5 have automated Playwright specs in `e2e/`. Triggered by GitHub Actions:
+
+```bash
+# Run locally (builds site via webServer config automatically)
+npm run test:e2e
+
+# View HTML report after run
+npx playwright show-report
+```
+
+- `e2e/all-viewports/` — runs in desktop, tablet, mobile projects
+- `e2e/desktop/` — desktop project only (TC-03, TC-14 — preload/performance)
+- `e2e/tablet/` — tablet project only (TC-04)
+- `e2e/mobile/` — mobile project only (TC-05)
+
+**Implementation notes:**
+
+- Nav uses `aria-current="location"` (not `"page"`)
+- Experience and skill cards use native `<details>/<summary>` — toggle via `.open` JS property, not React state
+- Theme tests use `localStorage.setItem("theme", ...)` via `addInitScript` — direct DOM attribute mutation is ignored by `next-themes`
+- TC-13.3 (`X-Content-Type-Options`) intentionally absent — removed from automated suite
