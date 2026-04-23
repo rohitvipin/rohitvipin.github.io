@@ -145,9 +145,7 @@ section[id] {
 }
 .card:hover {
   border-color: var(--accent);
-  box-shadow:
-    0 0 0 1px var(--accent-glow),
-    0 8px 32px var(--accent-glow);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
 /* ── Card focus indicator (no positional shift) ── */
@@ -159,9 +157,6 @@ section[id] {
   }
   .card-hover:focus-within {
     border-color: var(--accent);
-    box-shadow:
-      0 0 0 2px var(--accent-glow),
-      0 8px 24px var(--shadow-card);
   }
 }
 

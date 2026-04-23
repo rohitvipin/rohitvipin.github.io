@@ -24,7 +24,7 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
         <details className="card-details flex flex-col">
           <summary
             aria-label={`Show ${hidden} more ${category} skills`}
-            className="order-last mt-2 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-150 cursor-pointer font-mono w-fit min-h-[44px] flex items-center"
+            className="order-last mt-2 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-[background-color,color,border-color] duration-150 cursor-pointer font-mono w-fit min-h-[44px] flex items-center"
           >
             <span className="[details[open]_&]:hidden">+{hidden} more</span>
             <span className="hidden [details[open]_&]:inline">Show less</span>
