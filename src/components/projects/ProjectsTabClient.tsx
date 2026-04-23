@@ -81,7 +81,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             role="tabpanel"
             id={`tabpanel-${id}`}
             aria-labelledby={`tab-${id}`}
-            tabIndex={tab === id ? 0 : -1}
+            tabIndex={tab === id && items.length === 0 ? 0 : undefined}
             hidden={tab !== id}
             className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
           >

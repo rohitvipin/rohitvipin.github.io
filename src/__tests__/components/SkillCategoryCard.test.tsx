@@ -50,4 +50,12 @@ describe("SkillCategoryCard", () => {
     expect(screen.getByText("Storybook")).toBeInTheDocument();
     expect(screen.getByText("Figma")).toBeInTheDocument();
   });
+
+  it("renders both toggle label spans so CSS can swap them on open/close", () => {
+    render(<SkillCategoryCard category="Frontend" skills={manySkills} />);
+    // "+N more" visible when closed; "Show less" visible when open — toggled via CSS
+    // Both must exist in DOM for the [details[open]_&] selector to function
+    expect(screen.getByText(/\+\d+ more/)).toBeInTheDocument();
+    expect(screen.getByText("Show less")).toBeInTheDocument();
+  });
 });
