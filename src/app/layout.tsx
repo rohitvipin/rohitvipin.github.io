@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: "Rohit Vipin Mathews | Director - Engineering & Architecture",
   description:
-    "Engineering leader with 15 years building cloud-native platforms and scaling engineering organisations. Led 350+ engineers across USA and India. AI enablement, platform modernisation, and delivery execution. Open to VP Engineering, CTO, and Director roles.",
+    "Engineering Director with 15 years building cloud-native platforms. Led 350+ engineers. Architecture, AI enablement, modernisation. Open to VP / CTO roles.",
   keywords: [
     "Rohit Vipin Mathews",
     "VP Engineering",
