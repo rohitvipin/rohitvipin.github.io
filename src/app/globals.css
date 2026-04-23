@@ -109,15 +109,6 @@ body {
   }
 }
 
-/* ── Touch target utility ── */
-.touch-target {
-  min-width: 48px;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* ── Scroll offset for sticky nav ── */
 section[id] {
   scroll-margin-top: 72px;
