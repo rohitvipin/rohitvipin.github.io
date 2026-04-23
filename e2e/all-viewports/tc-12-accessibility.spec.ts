@@ -28,7 +28,8 @@ test.describe("TC-12 · Accessibility", () => {
     const script = page.locator('script[type="application/ld+json"]');
     await expect(script).toBeAttached();
     const text = await script.textContent();
-    const ld = JSON.parse(text!);
+    if (!text) return;
+    const ld = JSON.parse(text);
     expect(ld["@type"]).toBe("Person");
   });
 

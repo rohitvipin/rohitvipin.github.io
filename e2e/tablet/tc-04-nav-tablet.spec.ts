@@ -13,8 +13,10 @@ test.describe("TC-04 · Navigation — Tablet (768px)", () => {
     const hamburger = page.locator('button[aria-label="Open menu"]');
     await expect(hamburger).toBeVisible();
     const box = await hamburger.boundingBox();
-    expect(box!.height).toBeGreaterThanOrEqual(44);
-    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box).not.toBeNull();
+    if (!box) return;
+    expect(box.height).toBeGreaterThanOrEqual(44);
+    expect(box.width).toBeGreaterThanOrEqual(44);
   });
 
   test("04.3 no nav link overflows 768px viewport", async ({ page }) => {

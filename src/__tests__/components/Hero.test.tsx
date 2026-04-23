@@ -110,8 +110,8 @@ describe("Hero", () => {
     const noDetail: Profile = {
       ...baseProfile,
       key_metrics: [
-        { label: "Engineers Led", value: "350+", tier: "primary" },
-        { label: "Cost Reduction", value: "40%", tier: "secondary" },
+        { label: "Engineers Led", value: "350+", tier: "primary", detail: "" },
+        { label: "Cost Reduction", value: "40%", tier: "secondary", detail: "" },
       ],
     };
     render(<Hero profile={noDetail} socials={baseSocials} />);
