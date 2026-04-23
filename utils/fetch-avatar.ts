@@ -85,14 +85,20 @@ export async function main() {
   // To intentionally re-pin after a legitimate avatar change: delete public/avatar.sha256.
   const digest = createHash("sha256").update(buffer).digest("hex");
   if (existsSync(digestPath)) {
-    const pinned = readFileSync(digestPath, "utf8").trim();
+    const raw = readFileSync(digestPath, "utf8").trim();
+    // Support sha256sum format ("hash  filename" per line) and legacy bare-hash format
+    const pinnedEntry = raw
+      .split("\n")
+      .map((line) => line.trim().split(/\s+/))
+      .find(([, name]) => name === "avatar.jpg");
+    const pinned = pinnedEntry ? pinnedEntry[0] : raw;
     if (pinned !== digest) {
       throw new Error(
         `Avatar digest mismatch — expected ${pinned}, got ${digest}. Delete public/avatar.sha256 to re-pin if the avatar changed intentionally.`
       );
     }
   } else {
-    writeFileSync(digestPath, `${digest}\n`);
+    writeFileSync(digestPath, `${digest}  avatar.jpg\n`);
     console.log(`Avatar digest pinned -> public/avatar.sha256`);
   }
 

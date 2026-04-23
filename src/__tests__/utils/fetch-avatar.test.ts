@@ -62,7 +62,9 @@ describe("fetch-avatar main()", () => {
     vi.mocked(writeFileSync).mockImplementation(() => {});
     vi.mocked(renameSync).mockImplementation(() => {});
     vi.mocked(readFileSync).mockReturnValue("");
-    vi.mocked(ProfileSchema.parse).mockImplementation((d) => d);
+    vi.mocked(ProfileSchema.parse).mockImplementation(
+      (d) => d as ReturnType<typeof ProfileSchema.parse>
+    );
   });
 
   it("writes avatar and pins digest on first successful fetch", async () => {
@@ -89,6 +91,18 @@ describe("fetch-avatar main()", () => {
     vi.mocked(readFileSync).mockReturnValue("aaaaaa");
     global.fetch = vi.fn().mockResolvedValue(makeResponse({}));
     await expect(main()).rejects.toThrow("Avatar digest mismatch");
+  });
+
+  it("verifies digest in sha256sum multi-line format", async () => {
+    const { createHash } = await import("crypto");
+    const realDigest = createHash("sha256").update(Buffer.from(JPEG_BODY)).digest("hex");
+    const sha256sumContent = `${realDigest}  avatar.jpg\ndeadbeef  avatar.webp\n`;
+    vi.mocked(existsSync).mockImplementation((p) => String(p).endsWith("avatar.sha256"));
+    vi.mocked(readFileSync).mockReturnValue(sha256sumContent);
+    global.fetch = vi.fn().mockResolvedValue(makeResponse({}));
+    await main();
+    expect(writeFileSync).toHaveBeenCalledOnce();
+    expect(String(vi.mocked(writeFileSync).mock.calls[0][0])).toContain("avatar.jpg");
   });
 
   it("falls back to existing avatar on HTTP error", async () => {
@@ -159,7 +173,7 @@ describe("fetch-avatar main()", () => {
   it("throws on non-allowlisted host", async () => {
     vi.mocked(ProfileSchema.parse).mockReturnValueOnce({
       github_avatar: "https://evil.com/avatar.jpg",
-    });
+    } as unknown as ReturnType<typeof ProfileSchema.parse>);
     await expect(main()).rejects.toThrow("host not allowlisted");
   });
 });
