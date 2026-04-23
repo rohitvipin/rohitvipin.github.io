@@ -1,0 +1,25 @@
+name: Prepare static assets
+description: Fetch avatar, generate WebP/favicons, and build resume PDF before Next.js build
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch avatar
+      shell: bash
+      run: npm run fetch-avatar
+
+    - name: Verify avatar file
+      shell: bash
+      run: test -s public/avatar.jpg
+
+    - name: Generate favicons and avatar WebP
+      shell: bash
+      run: npm run generate-favicons
+
+    - name: Generate resume PDF
+      shell: bash
+      run: npm run generate-resume
+
+    - name: Verify resume PDF
+      shell: bash
+      run: test -s public/Rohit_Vipin_Mathews_Resume.pdf

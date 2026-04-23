@@ -33,7 +33,7 @@ test.describe("TC-02 · Assets", () => {
 
   test("02.5 PDF resume link returns 200", async ({ request }) => {
     const res = await request.head("/Rohit_Vipin_Mathews_Resume.pdf");
-    await expect.soft(res.status()).toBeLessThan(400);
+    expect(res.status()).toBeLessThan(400);
   });
 
   test("02.6 OG image returns 200", async ({ request }) => {
@@ -44,5 +44,16 @@ test.describe("TC-02 · Assets", () => {
   test("02.7 favicon returns 200", async ({ request }) => {
     const res = await request.head("/favicon.ico");
     await expect.soft(res.status()).toBeLessThan(400);
+  });
+
+  test("02.8 sitemap.xml returns 200", async ({ request }) => {
+    const res = await request.get("/sitemap.xml");
+    expect(res.status()).toBeLessThan(400);
+  });
+
+  test("02.9 sitemap.xml contains site URL", async ({ request }) => {
+    const res = await request.get("/sitemap.xml");
+    const body = await res.text();
+    expect(body).toContain("rohitvipin.github.io");
   });
 });
