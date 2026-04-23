@@ -63,7 +63,7 @@ Use present tense, semantic messages:
 
 - Write tests for utilities, data loaders, and component logic
 - Use Vitest + React Testing Library
-- Minimum coverage: **60%** overall; **100%** for `src/lib/` utilities
+- Minimum coverage: **90%** statements/functions/lines, **85%** branches; **100%** for `src/lib/` utilities
 - Run `npm run test:coverage` to check coverage
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for examples.

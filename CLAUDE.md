@@ -146,7 +146,7 @@ npm run generate-resume  # Generate PDF resume → public/
 
 ### `src/types/index.ts` — TypeScript Interfaces
 
-**Exported types:** `KeyMetric`, `Profile`, `ExperienceEntry`, `Product`, `Project`, `SkillCategory`, `Education`, `Social`, `Award`, `CommunityEntry`, `LeadershipSubsection`, `Leadership`, `NavLink`, `ResumeSectionConfig`, `ResumeConfig`
+**Exported types:** `KeyMetric`, `ValueProposition`, `Profile`, `ImpactStory`, `ExperienceEntry`, `Product`, `Project`, `SkillCategory`, `Education`, `Social`, `Award`, `CommunityEntry`, `LeadershipSubsection`, `Leadership`, `NavLink`, `ResumeSectionConfig`, `ResumeConfig`
 
 **Rules:**
 
@@ -160,7 +160,7 @@ npm run generate-resume  # Generate PDF resume → public/
 
 **Files:**
 
-- `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks` (each parsed via Zod at import time)
+- `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks`, `impact` (each parsed via Zod at import time)
 - `colors.ts` — `getCompanyColor()`, `getDomainColor()` (pure functions)
 - `schemas.ts` — Zod schemas for all data types; shared by `lint-data.ts` and test suite
 - `jsonld.ts` — `buildPersonJsonLd()` builds JSON-LD `Person` structured data from profile + socials; used by `src/app/layout.tsx`

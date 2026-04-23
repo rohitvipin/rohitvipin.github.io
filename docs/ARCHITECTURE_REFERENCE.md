@@ -54,21 +54,21 @@ Complete technical reference for the portfolio site architecture. For project ov
 
 **Why:** Theme-aware components. Easy dark mode. Full design control.
 
-**Pattern:**
+**Pattern:** Dark is the default (`:root`), light overrides via `[data-theme="light"]`:
 
 ```css
 :root {
-  --accent: #0066cc;
-  --bg-primary: #ffffff;
+  --bg: #0a0a0f;
+  --accent: #6366f1;
 }
 
-[data-theme="dark"] {
-  --accent: #66b3ff;
-  --bg-primary: #1a1a1a;
+[data-theme="light"] {
+  --bg: #f5f5f4;
+  --accent: #4f46e5;
 }
 ```
 
-Components use `var(--accent)` in styles.
+Components use `var(--accent)`, `var(--bg)` etc. in Tailwind classes or inline styles.
 
 ### 6. Icons: react-icons Only
 

@@ -80,10 +80,10 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 ### Coverage Requirements
 
-- [ ] New utilities: 100% unit test coverage (aspirational; enforced CI minimum is 60%)
+- [ ] New utilities: 100% unit test coverage
 - [ ] New components: Tests for main paths (render, user interactions)
 - [ ] Data loaders: Tests for happy path + error handling
-- [ ] **Minimum:** 60% overall coverage (`npm run test:coverage`)
+- [ ] **Minimum:** 90% statements/functions/lines, 85% branches (enforced via Vitest thresholds)
 
 ### Test Quality
 
