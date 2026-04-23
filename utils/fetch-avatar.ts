@@ -75,9 +75,9 @@ export async function main() {
     buffer = Buffer.concat(chunks, totalBytes);
   } catch (err) {
     if (existsSync(outputPath)) {
-      console.warn(
-        `Avatar fetch failed (${err instanceof Error ? err.message : err}) - using existing public/avatar.jpg`
-      );
+      const msg = `Avatar fetch failed (${err instanceof Error ? err.message : err}) - using existing public/avatar.jpg`;
+      console.warn(msg);
+      console.log(`::warning::${msg}`);
       return;
     }
     throw new Error(

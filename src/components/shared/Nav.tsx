@@ -40,8 +40,9 @@ export function Nav({ initials, navLinks }: NavProps) {
   }, [navLinks]);
 
   useEffect(() => {
+    if (!mobileOpen) return;
     const prior = document.body.style.overflow;
-    document.body.style.overflow = mobileOpen ? "hidden" : prior;
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prior;
     };

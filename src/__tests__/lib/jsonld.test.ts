@@ -113,4 +113,52 @@ describe("buildPersonJsonLd", () => {
     const ld = buildPersonJsonLd(defaults);
     expect(ld.knowsAbout).toEqual([]);
   });
+
+  it("omits worksFor when experience array is empty", () => {
+    const ld = buildPersonJsonLd({ ...defaults, experience: [] });
+    expect("worksFor" in ld).toBe(false);
+  });
+
+  it("worksFor uses the current:true entry, not experience[0]", () => {
+    const pastEmployer: ExperienceEntry = {
+      company: "Old Corp",
+      role: "Engineer",
+      location: "Remote",
+      duration: "January 2018 - December 2020",
+      current: false,
+      description: "desc",
+      techStack: [],
+      highlights: [],
+    };
+    const currentEmployer: ExperienceEntry = {
+      company: "New Corp",
+      role: "Director",
+      location: "Remote",
+      duration: "January 2021 - Present",
+      current: true,
+      description: "desc",
+      techStack: [],
+      highlights: [],
+    };
+    const ld = buildPersonJsonLd({
+      ...defaults,
+      experience: [pastEmployer, currentEmployer],
+    });
+    expect(ld.worksFor?.name).toBe("New Corp");
+  });
+
+  it("worksFor falls back to experience[0] when no current entry", () => {
+    const exp: ExperienceEntry = {
+      company: "Solo Corp",
+      role: "Engineer",
+      location: "Remote",
+      duration: "2021",
+      current: false,
+      description: "desc",
+      techStack: [],
+      highlights: [],
+    };
+    const ld = buildPersonJsonLd({ ...defaults, experience: [exp] });
+    expect(ld.worksFor?.name).toBe("Solo Corp");
+  });
 });

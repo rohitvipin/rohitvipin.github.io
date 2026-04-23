@@ -22,6 +22,7 @@ export function buildPersonJsonLd({
   const [locality, ...rest] = profile.location.split(",").map((s) => s.trim());
   const lastPart = rest.length > 0 ? rest[rest.length - 1] : locality;
   const addressCountry = profile.country_code ?? lastPart;
+  const currentEmployer = experience.find((e) => e.current) ?? experience[0];
 
   return {
     "@context": "https://schema.org",
@@ -39,11 +40,11 @@ export function buildPersonJsonLd({
       addressLocality: locality,
       addressCountry,
     },
-    ...(experience[0]
+    ...(currentEmployer
       ? {
           worksFor: {
             "@type": "Organization",
-            name: experience[0].company,
+            name: currentEmployer.company,
           },
         }
       : {}),

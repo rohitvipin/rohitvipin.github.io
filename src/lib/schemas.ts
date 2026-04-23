@@ -52,52 +52,90 @@ export const ProfileSchema = z.object({
   knows_about: z.array(z.string().min(1)).min(1).optional(),
 });
 
-export const ExperienceSchema = z.object({
-  company: z.string().min(1),
-  role: z.string().min(1),
-  location: z.string().min(1),
-  duration: z
-    .string()
-    .min(1)
-    .refine((v) => DURATION_RE.test(v), {
-      message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
-    }),
-  current: z.boolean(),
-  color: z
-    .string()
-    .regex(/^#[0-9a-fA-F]{6}$/)
-    .optional(),
-  description: z.string().min(1),
-  techStack: z.array(z.string().min(1)),
-  highlights: z.array(z.string().min(1)),
-});
+const YEAR_RANGE_RE = /^[A-Za-z]+ (\d{4}) - [A-Za-z]+ (\d{4})$/;
+
+export const ExperienceSchema = z
+  .object({
+    company: z.string().min(1),
+    role: z.string().min(1),
+    location: z.string().min(1),
+    duration: z
+      .string()
+      .min(1)
+      .refine((v) => DURATION_RE.test(v), {
+        message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
+      }),
+    current: z.boolean(),
+    color: z
+      .string()
+      .regex(/^#[0-9a-fA-F]{6}$/)
+      .optional(),
+    description: z.string().min(1),
+    techStack: z.array(z.string().min(1)),
+    highlights: z.array(z.string().min(1)),
+  })
+  .superRefine((val, ctx) => {
+    const endsWithPresent = val.duration.endsWith("Present");
+    if (val.current !== endsWithPresent) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: val.current
+          ? 'current: true requires duration ending with "Present"'
+          : 'current: false requires a closed date range, not "Present"',
+        path: ["current"],
+      });
+    }
+    const rangeMatch = val.duration.match(YEAR_RANGE_RE);
+    if (rangeMatch && parseInt(rangeMatch[2]) < parseInt(rangeMatch[1])) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "end year must be >= start year",
+        path: ["duration"],
+      });
+    }
+  });
 
 export const ProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
 });
 
-export const ProjectSchema = z.object({
-  name: z.string().min(1),
-  domain: z.string().min(1),
-  color: z
-    .string()
-    .regex(/^#[0-9a-fA-F]{6}$/)
-    .optional(),
-  client: z.string().min(1),
-  role: z.string().min(1),
-  duration: z
-    .string()
-    .min(1)
-    .refine((v) => DURATION_RE.test(v), {
-      message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
-    }),
-  description: z.string().min(1),
-  products: z.array(ProductSchema),
-  highlights: z.array(z.string().min(1)),
-  tech: z.array(z.string().min(1)),
-  github: z.string().url().optional(),
-});
+export const ProjectSchema = z
+  .object({
+    id: z
+      .string()
+      .regex(/^[a-z][a-z0-9-]*$/, "must be lowercase kebab-case")
+      .optional(),
+    name: z.string().min(1),
+    domain: z.string().min(1),
+    color: z
+      .string()
+      .regex(/^#[0-9a-fA-F]{6}$/)
+      .optional(),
+    client: z.string().min(1),
+    role: z.string().min(1),
+    duration: z
+      .string()
+      .min(1)
+      .refine((v) => DURATION_RE.test(v), {
+        message: "duration must be 'YYYY', 'Month YYYY - Present', or 'Month YYYY - Month YYYY'",
+      }),
+    description: z.string().min(1),
+    products: z.array(ProductSchema),
+    highlights: z.array(z.string().min(1)),
+    tech: z.array(z.string().min(1)),
+    github: z.string().url().startsWith("https://").optional(),
+  })
+  .superRefine((val, ctx) => {
+    const rangeMatch = val.duration.match(YEAR_RANGE_RE);
+    if (rangeMatch && parseInt(rangeMatch[2]) < parseInt(rangeMatch[1])) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "end year must be >= start year",
+        path: ["duration"],
+      });
+    }
+  });
 
 export const SkillCategorySchema = z.object({
   category: z.string().min(1),
@@ -108,7 +146,7 @@ export const EducationSchema = z.object({
   degree: z.string().min(1),
   institution: z.string().min(1),
   location: z.string().min(1),
-  year: z.string().min(1),
+  year: z.string().regex(/^\d{4}(-\d{4})?$/, "must be 'YYYY' or 'YYYY-YYYY'"),
 });
 
 export const SocialSchema = z.object({
@@ -120,7 +158,10 @@ export const SocialSchema = z.object({
 export const AwardSchema = z.object({
   title: z.string().min(1),
   organization: z.string().min(1),
-  year: z.string().nullable(),
+  year: z
+    .string()
+    .regex(/^\d{4}$/, "must be 'YYYY'")
+    .nullable(),
   description: z.string().min(1),
 });
 
@@ -198,6 +239,18 @@ export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "community.json": z.array(CommunityEntrySchema),
   "leadership.json": LeadershipSchema,
   "nav.json": z.array(NavLinkSchema),
-  "impact.json": z.array(ImpactStorySchema),
+  "impact.json": z.array(ImpactStorySchema).superRefine((arr, ctx) => {
+    const seen = new Set<string>();
+    arr.forEach((entry, i) => {
+      if (seen.has(entry.id)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate id "${entry.id}"`,
+          path: [i, "id"],
+        });
+      }
+      seen.add(entry.id);
+    });
+  }),
   "resume-config.json": ResumeConfigSchema,
 };

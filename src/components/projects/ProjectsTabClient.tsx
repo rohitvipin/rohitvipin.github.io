@@ -86,7 +86,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
           >
             {items.map((p) => (
-              <ProjectCard key={p.name} project={p} />
+              <ProjectCard key={p.id ?? p.name} project={p} />
             ))}
           </div>
         );
