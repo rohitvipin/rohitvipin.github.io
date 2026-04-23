@@ -29,12 +29,10 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
             <span className="[details[open]_&]:hidden">+{hidden} more</span>
             <span className="hidden [details[open]_&]:inline">Show less</span>
           </summary>
-          <div className="grid grid-rows-[0fr] [details[open]_&]:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out overflow-hidden">
-            <div className="flex flex-wrap gap-2 min-h-0">
-              {skills.slice(INITIAL_VISIBLE).map((skill) => (
-                <TechChip key={skill} label={skill} />
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {skills.slice(INITIAL_VISIBLE).map((skill) => (
+              <TechChip key={skill} label={skill} />
+            ))}
           </div>
         </details>
       )}
