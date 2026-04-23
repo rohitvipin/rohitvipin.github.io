@@ -38,6 +38,9 @@ jobs:
       - name: Install Playwright chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Fetch avatar
+        run: npm run fetch-avatar
+
       - name: Generate avatar WebP
         run: npm run generate-favicons
 
