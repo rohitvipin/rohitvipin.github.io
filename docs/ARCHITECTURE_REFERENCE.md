@@ -13,7 +13,7 @@ Complete technical reference for the portfolio site architecture. For project ov
 **How:**
 
 - JSON files in `data/*.json` are the source of truth
-- `src/lib/data.ts` exports typed loaders
+- `src/lib/data.ts` exports typed constants
 - Components import via loaders, never from JSON directly
 
 ### 2. Type Safety (Strict TypeScript)
@@ -84,8 +84,8 @@ import { ExternalLink } from "react-icons/fi";
 ## Build & Deploy
 
 **Trigger:** Push to `main`  
-**Pipeline:** ESLint → Prettier → Tests → Build → Deploy  
-**Target:** `gh-pages` branch  
+**Pipeline:** Audit → Prettier → ESLint → Tests → Prepare assets → Build → Deploy → Smoke-test  
+**Deploy:** GitHub Pages artifact API (`actions/upload-pages-artifact` + `actions/deploy-pages`)  
 **Host:** GitHub Pages
 
 Build output: static HTML/CSS/JS in `out/` folder.
@@ -96,31 +96,33 @@ Environment variable `NEXT_PUBLIC_BASE_PATH` controls the URL prefix. Currently 
 
 See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 
-| File              | Structure     | Purpose                                        |
-| ----------------- | ------------- | ---------------------------------------------- |
-| `profile.json`    | Single object | Basic info, bio, contact, `knows_about` topics |
-| `socials.json`    | Array         | Social links                                   |
-| `skills.json`     | Array         | Skills grouped by category                     |
-| `experience.json` | Array         | Work history (reverse-chron)                   |
-| `education.json`  | Array         | Degrees + institutions                         |
-| `projects.json`   | Array         | Portfolio projects                             |
-| `awards.json`     | Array         | Awards + recognition                           |
-| `community.json`  | Array         | Open source + speaking                         |
-| `leadership.json` | Array         | Leadership + mentoring                         |
+| File                 | Structure     | Purpose                                          |
+| -------------------- | ------------- | ------------------------------------------------ |
+| `profile.json`       | Single object | Basic info, bio, contact, `knows_about` topics   |
+| `socials.json`       | Array         | Social links                                     |
+| `skills.json`        | Array         | Skills grouped by category                       |
+| `experience.json`    | Array         | Work history (reverse-chron)                     |
+| `education.json`     | Array         | Degrees + institutions                           |
+| `projects.json`      | Array         | Portfolio projects                               |
+| `awards.json`        | Array         | Awards + recognition                             |
+| `community.json`     | Array         | Open source + speaking                           |
+| `leadership.json`    | Single object | Leadership title + subsections                   |
+| `impact.json`        | Array         | Impact stories — web only, not in resume PDF     |
+| `nav.json`           | Array         | Navigation links                                 |
+| `resume-config.json` | Single object | PDF resume layout config (not loaded by data.ts) |
 
 ## Lib Utilities (`src/lib/`)
 
-| File          | Purpose                                                                         |
-| ------------- | ------------------------------------------------------------------------------- |
-| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time              |
-| `colors.ts`   | `getCompanyColor()` / `getDomainColor()` — pure functions for dynamic colouring |
-| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests              |
-| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials    |
-| `duration.ts` | `parseStartYear()` — parses `duration` field for sort order                     |
-| `escape.ts`   | HTML-escaping utilities used in JSON-LD output                                  |
-| `paths.ts`    | `resumeHref`, `avatarHref` etc. — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs      |
-| `profile.ts`  | `getInitials()` and other profile helper functions                              |
-| `projects.ts` | `isOssProject()` and project classification helpers                             |
+| File          | Purpose                                                                      |
+| ------------- | ---------------------------------------------------------------------------- |
+| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time           |
+| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests           |
+| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials |
+| `duration.ts` | `parseStartYear()` — parses `duration` field for sort order                  |
+| `escape.ts`   | HTML-escaping utilities used in JSON-LD output                               |
+| `paths.ts`    | `resumeHref`, `avatarHref` etc. — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs   |
+| `profile.ts`  | `getInitials()` and other profile helper functions                           |
+| `projects.ts` | `isOssProject()` and project classification helpers                          |
 
 ## Component Hierarchy
 
@@ -135,6 +137,8 @@ App (layout)
 ├── Education
 ├── Awards
 ├── Community (speaking, open source)
+├── Leadership
+├── Impact (impact stories — web only)
 ├── SocialLinks (footer)
 └── ThemeToggle (dark mode)
 ```
@@ -167,9 +171,7 @@ export interface Skill {
 }
 
 // src/lib/data.ts
-export function getSkills(): Skill[] {
-  return skillsData as Skill[];
-}
+export const skills: SkillCategory[] = SkillCategorySchema.array().parse(skillsData);
 ```
 
 Changes to JSON structure must update types **in same commit**.
@@ -179,5 +181,5 @@ Changes to JSON structure must update types **in same commit**.
 **See also:**
 
 - [DATA_STRATEGY.md](DATA_STRATEGY.md) — How to update content
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — Development workflow
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Development workflow
 - [CLAUDE.md](../CLAUDE.md) — Complete reference for AI agents

@@ -7,7 +7,7 @@ Map of all project documentation with suggested reading order.
 **I want to...**
 
 - **Get running** → [Getting Started](GETTING_STARTED.md) (5 min)
-- **Contribute code** → [CONTRIBUTING.md](../CONTRIBUTING.md) (read + follow checklist)
+- **Contribute code** → [CONTRIBUTING.md](CONTRIBUTING.md) (read + follow checklist)
 - **Understand architecture** → [Architecture Reference](ARCHITECTURE_REFERENCE.md)
 - **Review a PR** → [docs/CODE_REVIEW.md](CODE_REVIEW.md) (use checklist)
 - **Run QA validation** → [docs/QA_TEST_PLAN.md](QA_TEST_PLAN.md) (use `/portfolio-qa` skill)
@@ -18,14 +18,14 @@ Map of all project documentation with suggested reading order.
 ### Developers (First Time)
 
 1. [Getting Started](GETTING_STARTED.md) — Setup and first run
-2. [CONTRIBUTING.md](../CONTRIBUTING.md) — Workflow, branching, commits
+2. [CONTRIBUTING.md](CONTRIBUTING.md) — Workflow, branching, commits
 3. [docs/DEVELOPMENT.md](DEVELOPMENT.md) — Commands and patterns
 4. [docs/CODE_REVIEW.md](CODE_REVIEW.md) — Before you push
 
 ### Code Reviewers
 
 1. [docs/CODE_REVIEW.md](CODE_REVIEW.md) — Full review checklist
-2. [CONTRIBUTING.md](../CONTRIBUTING.md) — Development practices context
+2. [CONTRIBUTING.md](CONTRIBUTING.md) — Development practices context
 3. [docs/DEVELOPMENT.md](DEVELOPMENT.md) — Patterns and examples
 
 ### AI Agents
@@ -38,7 +38,7 @@ Map of all project documentation with suggested reading order.
 ### Workflow & Contribution
 
 - [Getting Started](GETTING_STARTED.md) — Project setup
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — GitHub workflow, branch strategy, PR process
+- [CONTRIBUTING.md](CONTRIBUTING.md) — GitHub workflow, branch strategy, PR process
 - [docs/CODE_REVIEW.md](CODE_REVIEW.md) — Code review standards
 
 ### Development
@@ -57,7 +57,6 @@ Map of all project documentation with suggested reading order.
 ### GitHub Templates
 
 - [.github/pull_request_template.md](../.github/pull_request_template.md) — PR template
-- [.github/ISSUE_TEMPLATE/](../.github/ISSUE_TEMPLATE/) — Issue templates
 
 ## Files & Their Purpose
 
@@ -74,7 +73,6 @@ Map of all project documentation with suggested reading order.
 | **QA_TEST_PLAN.md**                  | Browser QA test plan + `/portfolio-qa` skill | Developers + QA         |
 | **CLAUDE.md**                        | Complete reference for AI agents             | AI agents               |
 | **.github/pull_request_template.md** | PR submission format                         | Contributors            |
-| **.github/ISSUE_TEMPLATE/**          | Issue submission format                      | Everyone                |
 
 ## Key Concepts (Single Source of Truth)
 

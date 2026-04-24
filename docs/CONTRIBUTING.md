@@ -88,17 +88,22 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
 
 **`ci.yml`** — triggers on PRs:
 
-1. **Lint** — Prettier + ESLint
-2. **Test** — Vitest
-3. **Build** — Next.js static export
+1. **Audit** — `npm audit --audit-level=high`
+2. **Prettier** — `npm run format:check`
+3. **ESLint + data validation** — `npm run lint`
+4. **Test** — `npm run test:ci` (Vitest with coverage)
+5. **Build** — Next.js static export
 
 **`deploy.yml`** — triggers on push to `main`:
 
-1. **Lint** — Prettier + ESLint + data validation
-2. **Test** — Vitest
-3. **Generate resume** — PDF written to `public/`
-4. **Build** — Next.js static export
-5. **Deploy** — auto-push to `gh-pages` branch
+1. **Audit** — `npm audit --audit-level=high`
+2. **Prettier** — `npm run format:check`
+3. **ESLint + data validation** — `npm run lint`
+4. **Test** — `npm run test:ci`
+5. **Prepare assets** — composite action: fetch avatar, generate favicons, generate resume PDF
+6. **Build** — Next.js static export
+7. **Deploy** — GitHub Pages artifact upload + `actions/deploy-pages`
+8. **Smoke-test** — verifies live site serves correct build SHA
 
 Pipeline fails if any step fails.
 

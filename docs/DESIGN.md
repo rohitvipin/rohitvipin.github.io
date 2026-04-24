@@ -402,7 +402,7 @@ All animations and transitions disabled via:
 | Focus ring       | `outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px`       |
 | Touch targets    | `.touch-target` / inline: `min-w-[48px] min-h-[48px]` on all interactive elements |
 | Mobile nav trap  | Keyboard trap + Escape to close + focus return to toggle                          |
-| Active nav       | `aria-current="page"` on active link                                              |
+| Active nav       | `aria-current="location"` on active link                                          |
 | Decorative icons | `aria-hidden="true"` on all icon elements                                         |
 | Image alt text   | Descriptive: `"Profile photo of {name}"`                                          |
 | Selection colour | `background: var(--accent); color: var(--bg)`                                     |

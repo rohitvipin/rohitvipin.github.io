@@ -98,14 +98,18 @@ This validates:
 
 ## Required Fields by Type
 
-| Type       | Required Fields                       |
-| ---------- | ------------------------------------- |
-| Skill      | `id`, `name`, `category`              |
-| Experience | `id`, `company`, `title`, `duration`  |
-| Project    | `id`, `name`, `description`, `tech`   |
-| Education  | `id`, `degree`, `institution`, `year` |
-| Award      | `id`, `title`, `organization`, `year` |
-| Social     | `platform`, `url`, `icon`             |
+| Type        | Required Fields                                 |
+| ----------- | ----------------------------------------------- |
+| Skill       | `id`, `name`, `category`                        |
+| Experience  | `id`, `company`, `title`, `duration`            |
+| Project     | `id`, `name`, `description`, `tech`             |
+| Education   | `id`, `degree`, `institution`, `year`           |
+| Award       | `id`, `title`, `organization`, `year`           |
+| Social      | `platform`, `url`, `icon`                       |
+| Community   | `type`, `title`, `description`, `highlights`    |
+| NavLink     | `label`, `href`                                 |
+| Leadership  | top-level `title` + `sections` array            |
+| ImpactStory | `id`, `title`, `summary` (web only, not in PDF) |
 
 ## Adding a New Data Type
 
@@ -113,7 +117,7 @@ If adding an entirely new content type:
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Create loader:** `src/lib/data.ts` (new `getNewTypes()` function)
+3. **Export typed const:** `src/lib/data.ts` — add Zod schema to `src/lib/schemas.ts`, then `export const newTypes: NewType[] = NewTypeSchema.array().parse(newTypeData)`
 4. **Build component:** `src/components/new-type/NewTypeSection.tsx`
 5. **Validate:** `npm run lint:data`
 6. **Test:** `npm run test`

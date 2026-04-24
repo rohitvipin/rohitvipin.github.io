@@ -28,7 +28,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 - [ ] Props interface defined and exported (even for internal components)
 - [ ] Discriminated unions for conditional rendering (not boolean props)
 - [ ] No prop drilling beyond 1 level (use context for deep nesting)
-- [ ] Naming: PascalCase components, snake_case utilities
+- [ ] Naming: PascalCase components, camelCase utilities
 - [ ] Collapsible content uses native `<details>/<summary>` with `.card-details` class (not custom state)
 
 ### Styling & Theming
@@ -139,7 +139,8 @@ See [DATA_STRATEGY.md](DATA_STRATEGY.md) for required fields by type and content
 
 ## Build & Deployment
 
-- [ ] `npm run lint` passes (no ESLint/Prettier violations, data valid)
+- [ ] `npm run format:check` passes (Prettier)
+- [ ] `npm run lint` passes (ESLint + data validation)
 - [ ] `npm run test` passes (no failing tests)
 - [ ] `npm run build` succeeds (static export generated)
 - [ ] `npm run preview` works locally
@@ -205,10 +206,10 @@ import MyIcon from './MyIcon.svg';
 
 ```typescript
 // ✓ Data-driven UI
-export const Hero = () => {
-  const profile = useProfile(); // typed loader
+import { profile } from "@/lib/data";
+export function Hero() {
   return <div>{profile.name}</div>;
-};
+}
 
 // ✓ Theme-aware colors
 <div className="text-red-600 dark:text-red-400">Error</div>
