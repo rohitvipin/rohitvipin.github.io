@@ -3,8 +3,9 @@ const PS = /\u2029/g;
 
 /**
  * Safe ONLY inside <script type="application/ld+json">. Do NOT reuse for HTML attributes — quotes are unescaped.
+ * Import restricted to layout.tsx — see eslint.config.mjs.
  */
-export function escapeJsonLd(json: string): string {
+export function escapeForJsonLdScript(json: string): string {
   return json
     .replace(/&/g, "\\u0026")
     .replace(/</g, "\\u003c")

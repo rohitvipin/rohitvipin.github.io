@@ -19,6 +19,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment: live-qa
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
@@ -26,7 +27,11 @@ jobs:
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: "22.x"
+          node-version: "22.12.0"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Cache Playwright browsers
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
@@ -61,6 +66,10 @@ jobs:
           prompt: |
             Run /portfolio-qa live. Target: https://rohitvipin.github.io
             Save the full report and all screenshots to .qa-reports/
+            At the very top of REPORT.md (first line), write exactly one of:
+              STATUS: PASS
+              STATUS: FAIL
+            Use PASS only if there are zero CRITICAL or HIGH failures. Use FAIL otherwise.
             Exit when REPORT.md is written.
           claude_args: "--allowedTools Bash,Read,Write,mcp__playwright__browser_navigate,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_evaluate,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_click,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for,mcp__playwright__browser_type,mcp__playwright__browser_hover"
           settings: |
@@ -82,8 +91,8 @@ jobs:
             echo "::error::REPORT.md not written — QA skill failed to run"
             exit 1
           fi
-          if grep -qiE "^(FAIL|CRITICAL|ERROR|❌)" .qa-reports/REPORT.md; then
-            echo "::error::Live QA failures detected — see uploaded report artifact"
+          if ! grep -q "^STATUS: PASS" .qa-reports/REPORT.md; then
+            echo "::error::Live QA failed or STATUS sentinel missing — see uploaded report artifact"
             exit 1
           fi
 

@@ -15,9 +15,7 @@ export function buildSitemap(baseUrl: string, lastmod: string): string {
 `;
 }
 
-if (process.env.NODE_ENV !== "test") {
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io";
-
+export function run(baseUrl: string, outputPath: string): void {
   let lastmod: string;
   try {
     lastmod = execSync("git log -1 --format=%cI -- data/", { encoding: "utf8" })
@@ -26,8 +24,12 @@ if (process.env.NODE_ENV !== "test") {
   } catch {
     lastmod = new Date().toISOString().split("T")[0];
   }
+  const sitemap = buildSitemap(baseUrl, lastmod);
+  writeFileSync(outputPath, sitemap, "utf8");
+  console.log(`Sitemap generated → ${outputPath} (lastmod: ${lastmod})`);
+}
 
-  const sitemap = buildSitemap(BASE_URL, lastmod);
-  writeFileSync(join(process.cwd(), "public", "sitemap.xml"), sitemap, "utf8");
-  console.log(`Sitemap generated → public/sitemap.xml (lastmod: ${lastmod})`);
+if (process.env.NODE_ENV !== "test") {
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohitvipin.github.io";
+  run(BASE_URL, join(process.cwd(), "public", "sitemap.xml"));
 }

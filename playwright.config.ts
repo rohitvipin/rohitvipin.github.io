@@ -16,10 +16,10 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run preview",
+    command: process.env.CI ? "npx serve out -l 3000" : "npm run preview",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: process.env.CI ? 30_000 : 120_000,
   },
   projects: [
     {

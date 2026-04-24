@@ -22,15 +22,16 @@ export function buildPersonJsonLd({
   const [locality, ...rest] = profile.location.split(",").map((s) => s.trim());
   const lastPart = rest.length > 0 ? rest[rest.length - 1] : locality;
   const addressCountry = profile.country_code ?? lastPart;
-  const currentEmployer = experience.find((e) => e.current) ?? experience[0];
+  const currentEmployer = experience.find((e) => e.current);
+  const nameParts = profile.name.split(" ");
 
   return {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.name,
-    givenName: profile.name.split(" ")[0],
-    additionalName: profile.name.split(" ")[1] ?? undefined,
-    familyName: profile.name.split(" ").slice(-1)[0],
+    givenName: nameParts[0],
+    additionalName: nameParts.length > 2 ? nameParts.slice(1, -1).join(" ") : undefined,
+    familyName: nameParts[nameParts.length - 1],
     jobTitle: profile.title,
     description: profile.headline,
     url: baseUrl,
@@ -56,7 +57,7 @@ export function buildPersonJsonLd({
           },
         }
       : {}),
-    sameAs: socials.filter((s) => s.url.startsWith("http")).map((s) => s.url),
+    sameAs: socials.filter((s) => s.url.startsWith("https://")).map((s) => s.url),
     knowsAbout,
     hasOccupation: {
       "@type": "Occupation",

@@ -147,7 +147,7 @@ describe("buildPersonJsonLd", () => {
     expect(ld.worksFor?.name).toBe("New Corp");
   });
 
-  it("worksFor falls back to experience[0] when no current entry", () => {
+  it("worksFor is absent when no current:true entry exists", () => {
     const exp: ExperienceEntry = {
       company: "Solo Corp",
       role: "Engineer",
@@ -159,7 +159,7 @@ describe("buildPersonJsonLd", () => {
       highlights: [],
     };
     const ld = buildPersonJsonLd({ ...defaults, experience: [exp] });
-    expect(ld.worksFor?.name).toBe("Solo Corp");
+    expect(ld.worksFor).toBeUndefined();
   });
 
   it("location without comma uses locality as lastPart", () => {

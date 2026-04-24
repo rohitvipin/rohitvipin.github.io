@@ -79,4 +79,35 @@ test.describe("TC-09 · Show / Hide Interactions", () => {
     await summary.click();
     await expect(collapsible.first()).toHaveJSProperty("open", true);
   });
+
+  test("09.8 projects tab keyboard ArrowRight/ArrowLeft navigation", async ({ page }) => {
+    await page.locator("#projects").scrollIntoViewIfNeeded();
+    const tabs = page.locator('[role="tablist"] [role="tab"]');
+    const firstTab = tabs.first();
+    const secondTab = tabs.nth(1);
+
+    await firstTab.focus();
+    await expect(firstTab).toBeFocused();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(secondTab).toBeFocused();
+
+    await page.keyboard.press("ArrowLeft");
+    await expect(firstTab).toBeFocused();
+  });
+
+  test("09.9 projects tab keyboard Home/End navigation", async ({ page }) => {
+    await page.locator("#projects").scrollIntoViewIfNeeded();
+    const tabs = page.locator('[role="tablist"] [role="tab"]');
+    const firstTab = tabs.first();
+    const lastTab = tabs.last();
+
+    await firstTab.focus();
+
+    await page.keyboard.press("End");
+    await expect(lastTab).toBeFocused();
+
+    await page.keyboard.press("Home");
+    await expect(firstTab).toBeFocused();
+  });
 });

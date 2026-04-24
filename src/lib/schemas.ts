@@ -6,6 +6,24 @@ const DURATION_RE = new RegExp(
   `^(\\d{4}|(${MONTH_NAMES}) \\d{4} - (Present|(${MONTH_NAMES}) \\d{4}))$`
 );
 
+const MONTH_NAMES_LIST = MONTH_NAMES.split("|");
+
+function checkDateOrder(duration: string, ctx: z.RefinementCtx): void {
+  const monthRangeRe = new RegExp(`^(${MONTH_NAMES}) (\\d{4}) - (${MONTH_NAMES}) (\\d{4})$`);
+  const m = duration.match(monthRangeRe);
+  if (!m) return;
+  const [, sm, sy, em, ey] = m;
+  const startOrd = parseInt(sy) * 12 + MONTH_NAMES_LIST.indexOf(sm);
+  const endOrd = parseInt(ey) * 12 + MONTH_NAMES_LIST.indexOf(em);
+  if (endOrd < startOrd) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "end date must be >= start date",
+      path: ["duration"],
+    });
+  }
+}
+
 const socialUrl = z
   .string()
   .refine(
@@ -52,8 +70,6 @@ export const ProfileSchema = z.object({
   knows_about: z.array(z.string().min(1)).min(1).optional(),
 });
 
-const YEAR_RANGE_RE = /^[A-Za-z]+ (\d{4}) - [A-Za-z]+ (\d{4})$/;
-
 export const ExperienceSchema = z
   .object({
     company: z.string().min(1),
@@ -85,14 +101,7 @@ export const ExperienceSchema = z
         path: ["current"],
       });
     }
-    const rangeMatch = val.duration.match(YEAR_RANGE_RE);
-    if (rangeMatch && parseInt(rangeMatch[2]) < parseInt(rangeMatch[1])) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "end year must be >= start year",
-        path: ["duration"],
-      });
-    }
+    checkDateOrder(val.duration, ctx);
   });
 
 export const ProductSchema = z.object({
@@ -127,14 +136,7 @@ export const ProjectSchema = z
     github: z.string().url().startsWith("https://").optional(),
   })
   .superRefine((val, ctx) => {
-    const rangeMatch = val.duration.match(YEAR_RANGE_RE);
-    if (rangeMatch && parseInt(rangeMatch[2]) < parseInt(rangeMatch[1])) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "end year must be >= start year",
-        path: ["duration"],
-      });
-    }
+    checkDateOrder(val.duration, ctx);
   });
 
 export const SkillCategorySchema = z.object({
@@ -230,7 +232,20 @@ export const ResumeConfigSchema = z.object({
 
 export const FILE_ZSCHEMAS: Record<string, z.ZodTypeAny> = {
   "profile.json": ProfileSchema,
-  "experience.json": z.array(ExperienceSchema),
+  "experience.json": z.array(ExperienceSchema).superRefine((arr, ctx) => {
+    const seen = new Set<string>();
+    arr.forEach((entry, i) => {
+      const key = `${entry.company}|${entry.role}|${entry.duration}`;
+      if (seen.has(key)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate experience entry: company="${entry.company}", role="${entry.role}", duration="${entry.duration}"`,
+          path: [i],
+        });
+      }
+      seen.add(key);
+    });
+  }),
   "projects.json": z.array(ProjectSchema),
   "skills.json": z.array(SkillCategorySchema),
   "education.json": z.array(EducationSchema),

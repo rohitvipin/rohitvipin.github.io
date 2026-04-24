@@ -178,6 +178,18 @@ export function Nav({ initials, navLinks }: NavProps) {
               </a>
             ))}
           </nav>
+          <div className="px-6 pb-4 flex justify-end border-t border-[var(--border)]">
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                toggleRef.current?.focus();
+              }}
+              aria-label="Close navigation menu"
+              className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+            >
+              <FiX size={16} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       )}
     </header>

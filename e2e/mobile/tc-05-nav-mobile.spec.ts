@@ -1,6 +1,12 @@
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { test, expect } from "@playwright/test";
 
-const NAV_COUNT = 9; // must match data/nav.json length
+const _dir = dirname(fileURLToPath(import.meta.url));
+const NAV_COUNT = (
+  JSON.parse(readFileSync(resolve(_dir, "../../data/nav.json"), "utf8")) as unknown[]
+).length;
 
 test.describe("TC-05 · Navigation — Mobile (375px)", () => {
   test.beforeEach(async ({ page }) => {
@@ -42,18 +48,31 @@ test.describe("TC-05 · Navigation — Mobile (375px)", () => {
     await expect(drawer).toBeVisible();
 
     const links = drawer.locator("a[href]");
+    const closeBtn = drawer.locator('button[aria-label="Close navigation menu"]');
     const count = await links.count();
 
+    // Auto-focus lands on first nav link
     await expect(links.first()).toBeFocused();
 
+    // Tab through remaining links
     for (let i = 0; i < count - 1; i++) {
       await page.keyboard.press("Tab");
     }
     await expect(links.last()).toBeFocused();
 
+    // Tab to close button (inside dialog)
+    await page.keyboard.press("Tab");
+    await expect(closeBtn).toBeFocused();
+
+    // Tab wraps to first link
     await page.keyboard.press("Tab");
     await expect(links.first()).toBeFocused();
 
+    // Shift+Tab from first link → close button
+    await page.keyboard.press("Shift+Tab");
+    await expect(closeBtn).toBeFocused();
+
+    // Shift+Tab from close button → last link
     await page.keyboard.press("Shift+Tab");
     await expect(links.last()).toBeFocused();
   });

@@ -49,6 +49,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: ""
           NEXT_PUBLIC_SITE_URL: "https://rohitvipin.github.io"
+          NEXT_PUBLIC_BUILD_SHA: ${{ github.sha }}
 
       - name: Add .nojekyll
         run: touch ./out/.nojekyll
@@ -80,10 +81,14 @@ jobs:
     steps:
       - name: Verify live site
         run: |
+          BUILD_SHA="${{ github.sha }}"
           for i in {1..10}; do
             body=$(curl -sf https://rohitvipin.github.io/)
-            echo "$body" | grep -q "Rohit Vipin Mathews" && exit 0
-            echo "Attempt $i failed, retrying in 15s..."
+            if echo "$body" | grep -q "Rohit Vipin Mathews" && echo "$body" | grep -q "content=\"${BUILD_SHA}\""; then
+              echo "Smoke test passed (build SHA confirmed)"
+              exit 0
+            fi
+            echo "Attempt $i: build SHA not yet live, retrying in 15s..."
             sleep 15
           done
           echo "Smoke test failed after 10 attempts" && exit 1
