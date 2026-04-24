@@ -205,6 +205,8 @@ transition-all duration-200
 
 Icons: `FiSun` (dark mode) / `FiMoon` (light mode), size `16`. Hydration-safe: renders a same-size empty `div` until mounted.
 
+`aria-label`: `"Switch to light theme"` when dark active; `"Switch to dark theme"` when light active.
+
 ### ScrollToTop
 
 Fixed FAB, appears after 400 px scroll:
@@ -407,6 +409,6 @@ Key responsive patterns:
 
 - Hero grid: single col → `lg:grid-cols-[3fr_2fr]`
 - Avatar: hidden below `lg`
-- Nav: hamburger below `md`
+- Nav: hamburger below `lg` (1024px)
 - Email / secondary CTA: hidden below `sm`
 - Metrics: `grid-cols-2 md:grid-cols-4`

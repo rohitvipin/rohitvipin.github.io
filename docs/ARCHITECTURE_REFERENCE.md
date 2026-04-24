@@ -151,8 +151,9 @@ See [DEVELOPMENT.md](DEVELOPMENT.md#testing) for test patterns and coverage goal
 ## Performance Optimizations
 
 - Static export (no server processing)
-- Tailwind CSS purging (remove unused styles)
+- Tailwind 4 automatic content detection (unused utilities excluded at build time)
 - Image optimization disabled (`images: { unoptimized: true }`) — required for static export
+- `trailingSlash: true` — required for GitHub Pages URL routing
 - Code splitting for components
 - No external tracking or analytics
 

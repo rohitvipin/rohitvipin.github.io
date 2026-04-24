@@ -71,7 +71,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 - [ ] Static export doesn't introduce Node.js dependencies (no `fs`, `path` in client code)
 - [ ] Images optimized (check generated `out/` for file sizes)
 - [ ] External scripts minimized (no tracking pixels or unnecessary analytics)
-- [ ] CSS bundle checked for duplication (Tailwind purging working)
+- [ ] CSS bundle checked for duplication (Tailwind 4 auto content detection working)
 - [ ] No console warnings on build or runtime
 
 ---

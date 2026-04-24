@@ -30,7 +30,7 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Export constant:** `src/lib/data.ts` — use the internal `parseOrThrow` helper: `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
+3. **Export constant:** `src/lib/data.ts` — `parseOrThrow` is module-private; add the new const inside `data.ts` following the existing pattern: `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
 4. **Validate:** `npm run lint:data`
 5. **Commit:** All changes in single commit
 
@@ -198,9 +198,13 @@ npm run preview
 
 Push to `main` → GitHub Actions runs: audit → Prettier → lint → test → prepare assets (avatar, favicons, resume PDF) → build → deploy via GitHub Pages artifact API → smoke-test.
 
-Environment: `NEXT_PUBLIC_BASE_PATH`
+**Environment variables:**
 
-- `""` — Current value (root domain `rohitvipin.github.io`)
+| Variable                | Current value                  | Purpose                                                                   |
+| ----------------------- | ------------------------------ | ------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_BASE_PATH` | `""`                           | URL prefix — empty for root domain                                        |
+| `NEXT_PUBLIC_SITE_URL`  | `https://rohitvipin.github.io` | Canonical base URL used in metadata, OG tags, sitemap                     |
+| `NEXT_PUBLIC_BUILD_SHA` | set by CI                      | Git SHA embedded in `<meta name="build-sha">` for smoke-test verification |
 
 ## Troubleshooting
 
