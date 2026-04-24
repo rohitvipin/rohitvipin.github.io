@@ -62,7 +62,7 @@ test.describe("TC-05 · Navigation — Mobile (375px)", () => {
     await page.locator('button[aria-label="Open menu"]').click();
     await expect(page.locator('[role="dialog"]')).toBeVisible();
     const overflow = await page.evaluate(() => document.body.style.overflow);
-    await expect.soft(overflow).toBe("hidden");
+    expect.soft(overflow).toBe("hidden");
   });
 
   test("05.8 main element is inert while drawer open", async ({ page }) => {
