@@ -302,37 +302,6 @@ All decorative icons carry `aria-hidden="true"`.
 
 ---
 
-## Colour Utilities (`src/lib/colors.ts`)
-
-Two pure functions map entity names to accent hex values for dynamic colouring (e.g. experience timeline, project domain chips).
-
-**`getCompanyColor(company: string): string`**
-
-| Company          | Colour    |
-| ---------------- | --------- |
-| CES IT           | `#6366f1` |
-| Vofox Solutions  | `#22d3ee` |
-| Essel Swolutions | `#f59e0b` |
-| fallback         | `#6366f1` |
-
-**`getDomainColor(domain: string): string`** — prefix-match, order matters:
-
-| Domain prefix                       | Colour    |
-| ----------------------------------- | --------- |
-| Education                           | `#6366f1` |
-| Precision Agriculture / Agriculture | `#22c55e` |
-| Freight / Logistics                 | `#fbbf24` |
-| Hospitality                         | `#ec4899` |
-| Open Source / Mobile                | `#22d3ee` |
-| Open Source / Developer Tooling     | `#8b5cf6` |
-| Open Source / Cloud                 | `#fb923c` |
-| Open Source (generic)               | `#22d3ee` |
-| fallback                            | `#6366f1` |
-
-**Inline style exception:** dynamic entity colours (domain label text, company name text) are applied via `style={{ color: domainColor }}` / `style={{ color: companyColor }}` because CSS tokens cannot express per-entity dynamic values. This is the only sanctioned use of inline styles for colour. Project card borders use `var(--accent)` uniformly — domain colour applies to the label text only.
-
----
-
 ## Animation
 
 ### Scroll-driven reveal

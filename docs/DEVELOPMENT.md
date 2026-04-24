@@ -136,15 +136,15 @@ Place in `src/__tests__/` with `.test.ts(x)` extension:
 
 ```typescript
 import { describe, it, expect } from "vitest";
-import { formatDate } from "@/lib/date";
+import { parseStartYear } from "@/lib/duration";
 
-describe("formatDate", () => {
-  it("should format ISO date correctly", () => {
-    expect(formatDate("2024-04-21")).toBe("21 Apr 2024");
+describe("parseStartYear", () => {
+  it("parses month-year range", () => {
+    expect(parseStartYear("January 2020 - Present")).toBe(2020);
   });
 
-  it("should handle edge cases", () => {
-    expect(formatDate("")).toBe("");
+  it("parses bare year", () => {
+    expect(parseStartYear("2021")).toBe(2021);
   });
 });
 ```

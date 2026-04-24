@@ -105,6 +105,15 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
 7. **Deploy** — GitHub Pages artifact upload + `actions/deploy-pages`
 8. **Smoke-test** — verifies live site serves correct build SHA
 
+**`qa.yml`** — triggers on PRs to `main`:
+
+- Runs Playwright E2E tests (`npm run test:e2e`) against the PR preview/local build
+
+**`qa-live.yml`** — triggers after successful `deploy.yml`:
+
+- Runs `/portfolio-qa` skill against the live site (`https://rohitvipin.github.io`)
+- Uploads QA report artifact; fails deploy gate if CRITICAL/HIGH issues found
+
 Pipeline fails if any step fails.
 
 ## Pre-Commit Hooks

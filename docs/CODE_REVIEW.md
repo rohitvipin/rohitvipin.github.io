@@ -225,9 +225,9 @@ const handler = (data: Record<string, unknown>): void => {
 import { FaGithub } from 'react-icons/fa6';
 
 // ✓ Tested business logic
-describe('formatDate', () => {
-  it('should format ISO date correctly', () => {
-    expect(formatDate('2024-04-21')).toBe('21 Apr 2024');
+describe('parseStartYear', () => {
+  it('parses month-year range correctly', () => {
+    expect(parseStartYear('January 2020 - Present')).toBe(2020);
   });
 });
 ```

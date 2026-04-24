@@ -28,10 +28,13 @@ The `data/` directory is the **single source of truth** for all content. Never h
 2. Add entry (array is sorted by start year at runtime — JSON order does not matter):
    ```json
    {
-     "id": "new-role",
      "company": "Acme Corp",
-     "title": "Senior Engineer",
+     "role": "Senior Engineer",
+     "location": "Remote",
      "duration": "April 2024 - Present",
+     "current": true,
+     "description": "One-line summary of the role.",
+     "techStack": ["TypeScript", "Node.js"],
      "highlights": ["Built X", "Led Y"]
    }
    ```
@@ -53,13 +56,18 @@ Do not use other formats — `parseStartYear` will return `0` and the entry sort
 2. Add entry with required fields:
    ```json
    {
-     "id": "project-slug",
      "name": "Project Name",
-     "description": "What it does",
-     "tech": ["TypeScript", "React"],
-     "link": "https://..."
+     "domain": "Open Source / Developer Tooling",
+     "client": "Internal",
+     "role": "Lead Engineer",
+     "duration": "2023",
+     "description": "What it does.",
+     "products": [],
+     "highlights": ["Shipped X", "Reduced Y by Z%"],
+     "tech": ["TypeScript", "React"]
    }
    ```
+   `id` is optional (kebab-case slug). `github` URL is optional.
 3. Validate + commit
 
 ### Updating Socials
@@ -98,18 +106,18 @@ This validates:
 
 ## Required Fields by Type
 
-| Type        | Required Fields                                 |
-| ----------- | ----------------------------------------------- |
-| Skill       | `id`, `name`, `category`                        |
-| Experience  | `id`, `company`, `title`, `duration`            |
-| Project     | `id`, `name`, `description`, `tech`             |
-| Education   | `id`, `degree`, `institution`, `year`           |
-| Award       | `id`, `title`, `organization`, `year`           |
-| Social      | `platform`, `url`, `icon`                       |
-| Community   | `type`, `title`, `description`, `highlights`    |
-| NavLink     | `label`, `href`                                 |
-| Leadership  | top-level `title` + `sections` array            |
-| ImpactStory | `id`, `title`, `summary` (web only, not in PDF) |
+| Type        | Required Fields                                                                                 |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| Skill       | `category`, `skills` (array)                                                                    |
+| Experience  | `company`, `role`, `location`, `duration`, `current`, `description`, `techStack`, `highlights`  |
+| Project     | `name`, `domain`, `client`, `role`, `duration`, `description`, `products`, `highlights`, `tech` |
+| Education   | `degree`, `institution`, `location`, `year`                                                     |
+| Award       | `title`, `organization`, `year`, `description`                                                  |
+| Social      | `platform`, `url`, `icon`                                                                       |
+| Community   | `type`, `title`, `description`, `highlights`                                                    |
+| NavLink     | `label`, `href`                                                                                 |
+| Leadership  | top-level `title` + `sections` array                                                            |
+| ImpactStory | `id`, `title`, `domain`, `problem`, `scope`, `led`, `result`, `metrics` (web only)              |
 
 ## Adding a New Data Type
 
