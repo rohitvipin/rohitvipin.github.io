@@ -126,7 +126,7 @@ export function Nav({ initials, navLinks }: NavProps) {
               >
                 {l.label}
                 {isActive && (
-                  <span className="absolute -bottom-[19px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
+                  <span className="absolute -bottom-[6px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
                 )}
               </a>
             );
