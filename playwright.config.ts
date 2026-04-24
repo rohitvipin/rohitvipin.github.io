@@ -2,7 +2,9 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
+  forbidOnly: !!process.env.CI,
   reporter: [
+    ...(process.env.CI ? ([["github"]] as const) : []),
     ["html", { open: "never" }],
     ["json", { outputFile: "playwright-report/results.json" }],
   ],

@@ -49,6 +49,10 @@ jobs:
             echo "Attempt $i: HTTP $status — retrying in 15s"
             sleep 15
           done
+          if [ "$status" != "200" ]; then
+            echo "::error::Site unreachable after 6 attempts (last HTTP $status) — aborting QA"
+            exit 1
+          fi
 
       - name: Run portfolio-qa skill against live site
         uses: anthropics/claude-code-action@e58dfa55559035499a4982426bb73605e8b5ad8e # v1

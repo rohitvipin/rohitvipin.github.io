@@ -202,4 +202,14 @@ describe("buildPersonJsonLd", () => {
     const ld = buildPersonJsonLd({ ...defaults, education: [] });
     expect("alumniOf" in ld).toBe(false);
   });
+
+  it("sets hasOccupation.skills from knowsAbout param", () => {
+    const ld = buildPersonJsonLd({ ...defaults, knowsAbout: KNOWS_ABOUT });
+    expect((ld.hasOccupation as Record<string, unknown>).skills).toBe(KNOWS_ABOUT.join(", "));
+  });
+
+  it("omits hasOccupation.skills when knowsAbout is empty", () => {
+    const ld = buildPersonJsonLd(defaults);
+    expect("skills" in ld.hasOccupation).toBe(false);
+  });
 });

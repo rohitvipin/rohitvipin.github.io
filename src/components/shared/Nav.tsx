@@ -53,10 +53,8 @@ export function Nav({ initials, navLinks }: NavProps) {
     if (!main) return;
     if (mobileOpen) {
       main.setAttribute("inert", "");
-      main.setAttribute("aria-hidden", "true");
     } else {
       main.removeAttribute("inert");
-      main.removeAttribute("aria-hidden");
     }
   }, [mobileOpen]);
 

@@ -102,7 +102,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
-        {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* script-src 'unsafe-inline': Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* style-src 'unsafe-inline': next-themes applies inline styles on <html> for FOUC prevention during SSR/hydration; cannot be replaced with a class-only approach without forking the library */}
         {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"

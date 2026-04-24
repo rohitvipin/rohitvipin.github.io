@@ -21,6 +21,9 @@ export async function main() {
   const { github_avatar: url } = ProfileSchema.parse(profileJson);
 
   const parsed = new URL(url);
+  if (parsed.protocol !== "https:") {
+    throw new Error(`avatar URL must use https, got: ${parsed.protocol}`);
+  }
   if (parsed.hostname !== ALLOWED_HOST) {
     throw new Error(`host not allowlisted: ${parsed.hostname}`);
   }

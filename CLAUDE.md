@@ -25,6 +25,8 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 - **`utils/`** — Dev scripts (run via `tsx`)
   - `generate-favicons.ts` — Favicon + OG image generation
   - `generate-resume.ts` — PDF resume via `@react-pdf/renderer`
+  - `generate-sitemap.ts` — Sitemap XML; `lastmod` derived from `git log` on `data/` so it reflects actual content changes, not build date. Exports `buildSitemap(baseUrl, lastmod)` for unit testing.
+  - `fetch-avatar.ts` — Fetches GitHub avatar with SHA-256 pinning, magic-byte validation, size limits, and `https:`-only enforcement
   - `lint-data.ts`, `lint-data-core.ts` — JSON schema validation (uses Zod schemas from `src/lib/schemas.ts`)
 - **`public/`** — Static assets (robots.txt, sitemap.xml, og-image, favicon suite)
 - **`docs/`** — Architecture + content strategy specs (CODE_REVIEW.md, DEVELOPMENT.md, CONTRIBUTING.md, etc.)

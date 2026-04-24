@@ -205,6 +205,28 @@ describe("Nav", () => {
     );
   });
 
+  it("sets inert (not aria-hidden) on main when drawer opens", async () => {
+    const user = userEvent.setup();
+    const main = document.createElement("main");
+    document.body.appendChild(main);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    expect(main).toHaveAttribute("inert");
+    expect(main).not.toHaveAttribute("aria-hidden");
+    main.remove();
+  });
+
+  it("removes inert from main when drawer closes", async () => {
+    const user = userEvent.setup();
+    const main = document.createElement("main");
+    document.body.appendChild(main);
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    await user.keyboard("{Escape}");
+    expect(main).not.toHaveAttribute("inert");
+    main.remove();
+  });
+
   it("marks the intersecting section as active", async () => {
     let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
     vi.stubGlobal(

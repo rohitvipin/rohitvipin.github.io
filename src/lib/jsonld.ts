@@ -65,7 +65,7 @@ export function buildPersonJsonLd({
         "@type": "Country",
         name: lastPart,
       },
-      ...(profile.knows_about?.length ? { skills: profile.knows_about.join(", ") } : {}),
+      ...(knowsAbout.length ? { skills: knowsAbout.join(", ") } : {}),
     },
   };
 }
