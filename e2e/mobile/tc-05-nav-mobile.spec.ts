@@ -1,11 +1,9 @@
 import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import { test, expect } from "@playwright/test";
 
-const _dir = dirname(fileURLToPath(import.meta.url));
 const NAV_COUNT = (
-  JSON.parse(readFileSync(resolve(_dir, "../../data/nav.json"), "utf8")) as unknown[]
+  JSON.parse(readFileSync(resolve(process.cwd(), "data/nav.json"), "utf8")) as unknown[]
 ).length;
 
 test.describe("TC-05 · Navigation — Mobile (375px)", () => {

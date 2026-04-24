@@ -58,7 +58,12 @@ const eslintConfig = defineConfig([
     },
   },
   {
-    files: ["src/app/layout.tsx", "src/__tests__/**"],
+    files: [
+      "src/app/layout.tsx",
+      "src/__tests__/lib/jsonld.test.ts",
+      "src/__tests__/lib/escape.test.ts",
+      "src/__tests__/app/layout.test.tsx",
+    ],
     rules: {
       "no-restricted-imports": "off",
     },
