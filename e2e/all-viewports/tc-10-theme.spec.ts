@@ -30,6 +30,6 @@ test.describe("TC-10 · Theme Toggle", () => {
     const labelBefore = await toggle.getAttribute("aria-label");
     await toggle.click();
     const labelAfter = await toggle.getAttribute("aria-label");
-    await expect.soft(labelBefore).not.toEqual(labelAfter);
+    expect(labelBefore).not.toEqual(labelAfter);
   });
 });

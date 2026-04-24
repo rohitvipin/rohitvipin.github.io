@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("next/font/google", () => ({
@@ -14,7 +14,7 @@ vi.mock("@/lib/data", () => ({
 }));
 
 vi.mock("@/lib/escape", () => ({
-  escapeJsonLd: (s: string) => s,
+  escapeJsonLd: vi.fn((s: string) => s),
 }));
 
 vi.mock("@/lib/jsonld", () => ({
@@ -27,6 +27,7 @@ vi.mock("@/lib/paths", () => ({
   resumeHref: "/resume.pdf",
 }));
 
+import { escapeJsonLd } from "@/lib/escape";
 import RootLayout, { metadata, viewport } from "@/app/layout";
 
 describe("metadata", () => {
@@ -58,6 +59,13 @@ describe("viewport", () => {
 });
 
 describe("RootLayout", () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it("calls escapeJsonLd before injecting JSON-LD into DOM", () => {
+    render(<RootLayout>children</RootLayout>);
+    expect(vi.mocked(escapeJsonLd)).toHaveBeenCalledOnce();
+  });
+
   it("renders children", () => {
     render(<RootLayout>test content</RootLayout>);
     expect(screen.getByText("test content")).toBeInTheDocument();

@@ -71,6 +71,18 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
+      - name: Fail on QA findings
+        if: always()
+        run: |
+          if [ ! -f ".qa-reports/REPORT.md" ]; then
+            echo "::error::REPORT.md not written — QA skill failed to run"
+            exit 1
+          fi
+          if grep -qiE "^(FAIL|CRITICAL|ERROR|❌)" .qa-reports/REPORT.md; then
+            echo "::error::Live QA failures detected — see uploaded report artifact"
+            exit 1
+          fi
+
       - name: Upload live QA report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()

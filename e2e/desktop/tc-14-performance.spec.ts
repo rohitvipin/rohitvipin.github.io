@@ -16,14 +16,14 @@ test.describe("TC-14 · Performance (desktop only)", () => {
     const hasPreload = await page.evaluate(
       () => !!document.querySelector('link[rel="preload"][href*="avatar"]')
     );
-    await expect.soft(hasPreload).toBe(true);
+    expect(hasPreload).toBe(true);
   });
 
   test("14.3 avatar img has fetchPriority=high", async ({ page }) => {
     await page.goto("/");
     const avatar = page.locator("picture img").first();
     const fetchPriority = await avatar.getAttribute("fetchpriority");
-    await expect.soft(fetchPriority).toBe("high");
+    expect(fetchPriority).toBe("high");
   });
 
   test("14.4 no external render-blocking scripts in head", async ({ page }) => {
@@ -32,6 +32,6 @@ test.describe("TC-14 · Performance (desktop only)", () => {
       const scripts = Array.from(document.head.querySelectorAll<HTMLScriptElement>("script[src]"));
       return scripts.filter((s) => !s.defer && !s.async && !s.src.includes("_next/")).length;
     });
-    await expect.soft(blockingScripts).toBe(0);
+    expect(blockingScripts).toBe(0);
   });
 });

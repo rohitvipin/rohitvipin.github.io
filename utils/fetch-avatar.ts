@@ -29,6 +29,9 @@ export async function main() {
   let buffer: Buffer;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "manual" });
+    // Intentional: redirect: "manual" forces a deploy failure if GitHub CDN changes the URL.
+    // This is a security trade-off — prevents silent URL drift at the cost of requiring manual re-pin.
+    // To re-pin: update profile.github_avatar and delete public/avatar.sha256.
     if (res.status >= 300 && res.status < 400) {
       throw new Error(
         `unexpected redirect to ${res.headers.get("location")} — re-pin the avatar URL`

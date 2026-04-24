@@ -45,8 +45,7 @@ export async function generate() {
     awards,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const stream = await renderToStream(element as any);
+  const stream = await renderToStream(element as unknown as Parameters<typeof renderToStream>[0]);
   const tmp = OUTPUT_PATH + ".tmp";
   const out = createWriteStream(tmp);
   await pipeline(stream, out);

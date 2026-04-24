@@ -6,6 +6,7 @@ export default defineConfig({
     ["html", { open: "never" }],
     ["json", { outputFile: "playwright-report/results.json" }],
   ],
+  retries: process.env.CI ? 2 : 0,
   use: {
     baseURL: process.env.BASE_URL ?? "http://localhost:3000",
     screenshot: "only-on-failure",

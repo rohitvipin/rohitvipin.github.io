@@ -6,7 +6,7 @@ test.describe("TC-13 · Security & CSP", () => {
   });
 
   test("13.1 CSP meta tag present in head", async ({ page }) => {
-    await expect.soft(page.locator('meta[http-equiv="Content-Security-Policy"]')).toBeAttached();
+    await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toBeAttached();
   });
 
   test("13.2 CSP meta does not contain frame-ancestors", async ({ page }) => {
@@ -14,12 +14,12 @@ test.describe("TC-13 · Security & CSP", () => {
       .locator('meta[http-equiv="Content-Security-Policy"]')
       .getAttribute("content");
     if (csp) {
-      expect.soft(csp).not.toContain("frame-ancestors");
+      expect(csp).not.toContain("frame-ancestors");
     }
   });
 
   test("13.4 referrer policy meta present", async ({ page }) => {
-    await expect.soft(page.locator('meta[name="referrer"]')).toBeAttached();
+    await expect(page.locator('meta[name="referrer"]')).toBeAttached();
   });
 
   test("13.5 no credential patterns in rendered HTML", async ({ page }) => {
