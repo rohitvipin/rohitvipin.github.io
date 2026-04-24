@@ -29,7 +29,8 @@ Use present tense, semantic messages:
 1. **Branch → Push** to GitHub
 2. **Run locally first:**
    ```bash
-   npm run lint         # ESLint + Prettier + data validation
+   npm run format:check # Prettier
+   npm run lint         # ESLint + data validation
    npm run test         # Vitest
    npm run build        # Check build succeeds
    ```
@@ -82,23 +83,37 @@ Before submitting a PR, check [CODE_REVIEW.md](CODE_REVIEW.md):
 
 ## Local Setup
 
-See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
+Requires Node.js **22.12.0** (matches CI). See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
 
 ## CI/CD Pipeline
 
 **`ci.yml`** — triggers on PRs:
 
-1. **Lint** — Prettier + ESLint
-2. **Test** — Vitest
-3. **Build** — Next.js static export
+1. **Audit** — `npm audit --audit-level=high`
+2. **Prettier** — `npm run format:check`
+3. **ESLint + data validation** — `npm run lint`
+4. **Test** — `npm run test:ci` (Vitest with coverage)
+5. **Build** — Next.js static export
 
 **`deploy.yml`** — triggers on push to `main`:
 
-1. **Lint** — Prettier + ESLint + data validation
-2. **Test** — Vitest
-3. **Generate resume** — PDF written to `public/`
-4. **Build** — Next.js static export
-5. **Deploy** — auto-push to `gh-pages` branch
+1. **Audit** — `npm audit --audit-level=high`
+2. **Prettier** — `npm run format:check`
+3. **ESLint + data validation** — `npm run lint`
+4. **Test** — `npm run test:ci`
+5. **Prepare assets** — composite action: fetch avatar, generate favicons, generate resume PDF
+6. **Build** — Next.js static export
+7. **Deploy** — GitHub Pages artifact upload + `actions/deploy-pages`
+8. **Smoke-test** — verifies live site serves correct build SHA
+
+**`qa.yml`** — triggers on PRs to `main`:
+
+- Builds the site in CI then runs Playwright E2E tests (`npm run test:e2e`) against the local build
+
+**`qa-live.yml`** — triggers after successful `deploy.yml`:
+
+- Runs `/portfolio-qa` skill against the live site (`https://rohitvipin.github.io`)
+- Uploads QA report artifact; fails deploy gate if CRITICAL/HIGH issues found
 
 Pipeline fails if any step fails.
 

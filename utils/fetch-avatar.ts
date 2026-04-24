@@ -21,6 +21,9 @@ export async function main() {
   const { github_avatar: url } = ProfileSchema.parse(profileJson);
 
   const parsed = new URL(url);
+  if (parsed.protocol !== "https:") {
+    throw new Error(`avatar URL must use https, got: ${parsed.protocol}`);
+  }
   if (parsed.hostname !== ALLOWED_HOST) {
     throw new Error(`host not allowlisted: ${parsed.hostname}`);
   }
@@ -29,6 +32,9 @@ export async function main() {
   let buffer: Buffer;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(10_000), redirect: "manual" });
+    // Intentional: redirect: "manual" forces a deploy failure if GitHub CDN changes the URL.
+    // This is a security trade-off — prevents silent URL drift at the cost of requiring manual re-pin.
+    // To re-pin: update profile.github_avatar and delete public/avatar.sha256.
     if (res.status >= 300 && res.status < 400) {
       throw new Error(
         `unexpected redirect to ${res.headers.get("location")} — re-pin the avatar URL`

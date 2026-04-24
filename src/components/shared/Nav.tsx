@@ -53,10 +53,8 @@ export function Nav({ initials, navLinks }: NavProps) {
     if (!main) return;
     if (mobileOpen) {
       main.setAttribute("inert", "");
-      main.setAttribute("aria-hidden", "true");
     } else {
       main.removeAttribute("inert");
-      main.removeAttribute("aria-hidden");
     }
   }, [mobileOpen]);
 
@@ -102,14 +100,14 @@ export function Nav({ initials, navLinks }: NavProps) {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center gap-3">
         <a
           href="#"
-          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
           aria-label="Home"
+          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
         >
           {initials}
         </a>
 
         <nav
-          className="hidden lg:flex items-center gap-6 flex-1 justify-center"
+          className="hidden lg:flex items-center gap-4 flex-1 justify-center"
           aria-label="Main navigation"
         >
           {navLinks.map((l) => {
@@ -127,7 +125,7 @@ export function Nav({ initials, navLinks }: NavProps) {
               >
                 {l.label}
                 {isActive && (
-                  <span className="absolute -bottom-[19px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
+                  <span className="absolute -bottom-[4px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
                 )}
               </a>
             );
@@ -160,7 +158,7 @@ export function Nav({ initials, navLinks }: NavProps) {
           aria-label="Mobile navigation"
           className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]"
         >
-          <nav className="px-6 py-4 flex flex-col gap-4" aria-label="Mobile navigation links">
+          <nav className="px-6 py-4 flex flex-col gap-2" aria-label="Mobile navigation links">
             {navLinks.map((l) => (
               <a
                 key={l.href}
@@ -180,6 +178,18 @@ export function Nav({ initials, navLinks }: NavProps) {
               </a>
             ))}
           </nav>
+          <div className="px-6 pb-4 flex justify-end border-t border-[var(--border)]">
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                toggleRef.current?.focus();
+              }}
+              aria-label="Close navigation menu"
+              className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+            >
+              <FiX size={16} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       )}
     </header>

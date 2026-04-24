@@ -65,9 +65,9 @@ test.describe("TC-09 · Show / Hide Interactions", () => {
     await page.locator("#projects").scrollIntoViewIfNeeded();
     const ossTab = page.locator('[role="tab"]').filter({ hasText: /open source/i });
     await ossTab.click();
-    await expect.soft(ossTab).toHaveAttribute("aria-selected", "true");
+    await expect(ossTab).toHaveAttribute("aria-selected", "true");
     const ossPanel = page.locator('[role="tabpanel"]:not([hidden])');
-    await expect.soft(ossPanel).toBeVisible();
+    await expect(ossPanel).toBeVisible();
   });
 
   test("09.7 impact stories — collapsible if present", async ({ page }) => {
@@ -77,6 +77,37 @@ test.describe("TC-09 · Show / Hide Interactions", () => {
     const summary = collapsible.first().locator("summary");
     await summary.scrollIntoViewIfNeeded();
     await summary.click();
-    await expect.soft(collapsible.first()).toHaveJSProperty("open", true);
+    await expect(collapsible.first()).toHaveJSProperty("open", true);
+  });
+
+  test("09.8 projects tab keyboard ArrowRight/ArrowLeft navigation", async ({ page }) => {
+    await page.locator("#projects").scrollIntoViewIfNeeded();
+    const tabs = page.locator('[role="tablist"] [role="tab"]');
+    const firstTab = tabs.first();
+    const secondTab = tabs.nth(1);
+
+    await firstTab.focus();
+    await expect(firstTab).toBeFocused();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(secondTab).toBeFocused();
+
+    await page.keyboard.press("ArrowLeft");
+    await expect(firstTab).toBeFocused();
+  });
+
+  test("09.9 projects tab keyboard Home/End navigation", async ({ page }) => {
+    await page.locator("#projects").scrollIntoViewIfNeeded();
+    const tabs = page.locator('[role="tablist"] [role="tab"]');
+    const firstTab = tabs.first();
+    const lastTab = tabs.last();
+
+    await firstTab.focus();
+
+    await page.keyboard.press("End");
+    await expect(lastTab).toBeFocused();
+
+    await page.keyboard.press("Home");
+    await expect(firstTab).toBeFocused();
   });
 });

@@ -170,6 +170,13 @@ describe("fetch-avatar main()", () => {
     await expect(main()).rejects.toThrow("response body exceeds limit");
   });
 
+  it("throws on non-https URL", async () => {
+    vi.mocked(ProfileSchema.parse).mockReturnValueOnce({
+      github_avatar: "http://avatars.githubusercontent.com/u/123?v=4",
+    } as ReturnType<typeof ProfileSchema.parse>);
+    await expect(main()).rejects.toThrow("avatar URL must use https");
+  });
+
   it("throws on non-allowlisted host", async () => {
     vi.mocked(ProfileSchema.parse).mockReturnValueOnce({
       github_avatar: "https://evil.com/avatar.jpg",

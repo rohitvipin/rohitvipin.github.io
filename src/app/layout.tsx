@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { socials, profile, experience, education } from "@/lib/data";
-import { escapeJsonLd } from "@/lib/escape";
+import { escapeForJsonLdScript } from "@/lib/escape";
 import { buildPersonJsonLd } from "@/lib/jsonld";
 import { avatarHref, avatarWebpHref } from "@/lib/paths";
 import "./globals.css";
@@ -102,7 +102,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
-        {/* 'unsafe-inline' required: Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* script-src 'unsafe-inline': Next.js static export injects inline bootstrap scripts; nonces are not viable without a server runtime */}
+        {/* style-src 'unsafe-inline': next-themes applies inline styles on <html> for FOUC prevention during SSR/hydration; cannot be replaced with a class-only approach without forking the library */}
         {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
@@ -110,6 +111,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         {/* X-Content-Type-Options and Permissions-Policy must be HTTP response headers — meta tags are ignored by browsers for these directives. GitHub Pages does not support custom headers. */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
+        {process.env.NEXT_PUBLIC_BUILD_SHA ? (
+          <meta name="build-sha" content={process.env.NEXT_PUBLIC_BUILD_SHA} />
+        ) : null}
         <link
           rel="preload"
           as="image"
@@ -120,7 +124,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: escapeJsonLd(JSON.stringify(jsonLd)) }}
+          dangerouslySetInnerHTML={{ __html: escapeForJsonLdScript(JSON.stringify(jsonLd)) }}
         />
       </head>
       <body suppressHydrationWarning>

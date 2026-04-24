@@ -11,13 +11,13 @@ The `data/` directory is the **single source of truth** for all content. Never h
 ### Adding a New Skill
 
 1. Edit `data/skills.json`
-2. Add to appropriate `category` array:
+2. Find the right category object and append the skill string to its `skills` array:
    ```json
-   {
-     "id": "nextjs",
-     "name": "Next.js",
-     "category": "Frontend"
-   }
+   { "category": "Frontend", "skills": ["React", "Next.js"] }
+   ```
+   To add an entirely new category, append a new object to the top-level array:
+   ```json
+   { "category": "New Category", "skills": ["Tool A", "Tool B"] }
    ```
 3. Run `npm run lint:data` to validate
 4. Commit: `git add data/skills.json && git commit -m "Add Next.js to frontend skills"`
@@ -28,10 +28,13 @@ The `data/` directory is the **single source of truth** for all content. Never h
 2. Add entry (array is sorted by start year at runtime — JSON order does not matter):
    ```json
    {
-     "id": "new-role",
      "company": "Acme Corp",
-     "title": "Senior Engineer",
+     "role": "Senior Engineer",
+     "location": "Remote",
      "duration": "April 2024 - Present",
+     "current": true,
+     "description": "One-line summary of the role.",
+     "techStack": ["TypeScript", "Node.js"],
      "highlights": ["Built X", "Led Y"]
    }
    ```
@@ -53,13 +56,18 @@ Do not use other formats — `parseStartYear` will return `0` and the entry sort
 2. Add entry with required fields:
    ```json
    {
-     "id": "project-slug",
      "name": "Project Name",
-     "description": "What it does",
-     "tech": ["TypeScript", "React"],
-     "link": "https://..."
+     "domain": "Open Source / Developer Tooling",
+     "client": "Internal",
+     "role": "Lead Engineer",
+     "duration": "2023",
+     "description": "What it does.",
+     "products": [],
+     "highlights": ["Shipped X", "Reduced Y by Z%"],
+     "tech": ["TypeScript", "React"]
    }
    ```
+   `id` is optional (kebab-case slug). `github` URL is optional.
 3. Validate + commit
 
 ### Updating Socials
@@ -98,14 +106,18 @@ This validates:
 
 ## Required Fields by Type
 
-| Type       | Required Fields                       |
-| ---------- | ------------------------------------- |
-| Skill      | `id`, `name`, `category`              |
-| Experience | `id`, `company`, `title`, `duration`  |
-| Project    | `id`, `name`, `description`, `tech`   |
-| Education  | `id`, `degree`, `institution`, `year` |
-| Award      | `id`, `title`, `organization`, `year` |
-| Social     | `platform`, `url`, `icon`             |
+| Type        | Required Fields                                                                                 |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| Skill       | `category`, `skills` (array)                                                                    |
+| Experience  | `company`, `role`, `location`, `duration`, `current`, `description`, `techStack`, `highlights`  |
+| Project     | `name`, `domain`, `client`, `role`, `duration`, `description`, `products`, `highlights`, `tech` |
+| Education   | `degree`, `institution`, `location`, `year`                                                     |
+| Award       | `title`, `organization`, `year`, `description`                                                  |
+| Social      | `platform`, `url`, `icon`                                                                       |
+| Community   | `type`, `title`, `description`, `highlights`                                                    |
+| NavLink     | `label`, `href`                                                                                 |
+| Leadership  | top-level `title` + `sections` array                                                            |
+| ImpactStory | `id`, `title`, `domain`, `problem`, `scope`, `led`, `result`, `metrics` (web only)              |
 
 ## Adding a New Data Type
 
@@ -113,7 +125,7 @@ If adding an entirely new content type:
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Create loader:** `src/lib/data.ts` (new `getNewTypes()` function)
+3. **Export typed const:** `src/lib/data.ts` — `parseOrThrow` is module-private; add the new const inside `data.ts` following the existing pattern: `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
 4. **Build component:** `src/components/new-type/NewTypeSection.tsx`
 5. **Validate:** `npm run lint:data`
 6. **Test:** `npm run test`

@@ -28,15 +28,14 @@ test.describe("TC-01 · Page Load", () => {
     });
     await page.goto("/");
     await page.waitForLoadState("networkidle");
-    await expect.soft(page).toHaveURL(/./);
     if (warnings.length > 0) {
       console.warn("Console warnings:", warnings);
     }
-    expect.soft(warnings).toHaveLength(0);
+    expect(warnings).toHaveLength(0);
   });
 
   test("01.5 html lang attribute is en", async ({ page }) => {
     await page.goto("/");
-    await expect.soft(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
   });
 });

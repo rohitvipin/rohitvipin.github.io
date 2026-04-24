@@ -1,6 +1,10 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { test, expect } from "@playwright/test";
 
-const NAV_COUNT = 9; // must match data/nav.json length
+const NAV_COUNT = (
+  JSON.parse(readFileSync(resolve(process.cwd(), "data/nav.json"), "utf8")) as unknown[]
+).length;
 
 test.describe("TC-03 · Navigation — Desktop (1440px)", () => {
   test.beforeEach(async ({ page }) => {

@@ -2,10 +2,13 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
+  forbidOnly: !!process.env.CI,
   reporter: [
+    ...(process.env.CI ? ([["github"]] as const) : []),
     ["html", { open: "never" }],
     ["json", { outputFile: "playwright-report/results.json" }],
   ],
+  retries: process.env.CI ? 2 : 0,
   use: {
     baseURL: process.env.BASE_URL ?? "http://localhost:3000",
     screenshot: "only-on-failure",
@@ -13,10 +16,10 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run preview",
+    command: process.env.CI ? "npx serve out -l 3000" : "npm run preview",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: process.env.CI ? 30_000 : 120_000,
   },
   projects: [
     {

@@ -18,7 +18,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 - [ ] No hardcoded content in components (strings, IDs, slugs all from JSON)
 - [ ] If new content type, JSON field exists **and** `src/types/index.ts` updated
-- [ ] Data accessed via `src/lib/data.ts` typed loaders only
+- [ ] Data accessed via `src/lib/data.ts` typed constants only
 - [ ] No fetch() calls in client code (only build-time via Next.js)
 
 ### Component Structure
@@ -28,12 +28,12 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 - [ ] Props interface defined and exported (even for internal components)
 - [ ] Discriminated unions for conditional rendering (not boolean props)
 - [ ] No prop drilling beyond 1 level (use context for deep nesting)
-- [ ] Naming: PascalCase components, snake_case utilities
+- [ ] Naming: PascalCase components, camelCase utilities
 - [ ] Collapsible content uses native `<details>/<summary>` with `.card-details` class (not custom state)
 
 ### Styling & Theming
 
-- [ ] All colors use CSS custom properties (`var(--accent)`, `var(--bg-primary)`)
+- [ ] All colors use CSS custom properties (`var(--accent)`, `var(--bg)`)
 - [ ] No hardcoded hex, rgb, or named colors in JSX
 - [ ] Tailwind used for layout/spacing, custom CSS for theme-specific polish
 - [ ] Dark/light mode toggle respects `next-themes` conventions
@@ -71,7 +71,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 - [ ] Static export doesn't introduce Node.js dependencies (no `fs`, `path` in client code)
 - [ ] Images optimized (check generated `out/` for file sizes)
 - [ ] External scripts minimized (no tracking pixels or unnecessary analytics)
-- [ ] CSS bundle checked for duplication (Tailwind purging working)
+- [ ] CSS bundle checked for duplication (Tailwind 4 auto content detection working)
 - [ ] No console warnings on build or runtime
 
 ---
@@ -139,7 +139,8 @@ See [DATA_STRATEGY.md](DATA_STRATEGY.md) for required fields by type and content
 
 ## Build & Deployment
 
-- [ ] `npm run lint` passes (no ESLint/Prettier violations, data valid)
+- [ ] `npm run format:check` passes (Prettier)
+- [ ] `npm run lint` passes (ESLint + data validation)
 - [ ] `npm run test` passes (no failing tests)
 - [ ] `npm run build` succeeds (static export generated)
 - [ ] `npm run preview` works locally
@@ -205,10 +206,10 @@ import MyIcon from './MyIcon.svg';
 
 ```typescript
 // ✓ Data-driven UI
-export const Hero = () => {
-  const profile = useProfile(); // typed loader
+import { profile } from "@/lib/data";
+export function Hero() {
   return <div>{profile.name}</div>;
-};
+}
 
 // ✓ Theme-aware colors
 <div className="text-red-600 dark:text-red-400">Error</div>
@@ -224,9 +225,9 @@ const handler = (data: Record<string, unknown>): void => {
 import { FaGithub } from 'react-icons/fa6';
 
 // ✓ Tested business logic
-describe('formatDate', () => {
-  it('should format ISO date correctly', () => {
-    expect(formatDate('2024-04-21')).toBe('21 Apr 2024');
+describe('parseStartYear', () => {
+  it('parses month-year range correctly', () => {
+    expect(parseStartYear('January 2020 - Present')).toBe(2020);
   });
 });
 ```

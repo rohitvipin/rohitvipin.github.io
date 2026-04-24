@@ -105,4 +105,15 @@ test.describe("TC-12 · Accessibility", () => {
   test("12.12 html element has lang=en", async ({ page }) => {
     await expect.soft(page.locator("html")).toHaveAttribute("lang", "en");
   });
+
+  test("12.13 JSON-LD Person has hasOccupation with name", async ({ page }) => {
+    const script = page.locator('script[type="application/ld+json"]');
+    await expect(script).toBeAttached();
+    const text = await script.textContent();
+    if (!text) return;
+    const ld = JSON.parse(text);
+    expect.soft(ld.hasOccupation).toBeDefined();
+    expect.soft(ld.hasOccupation?.["@type"]).toBe("Occupation");
+    expect.soft(typeof ld.hasOccupation?.name).toBe("string");
+  });
 });

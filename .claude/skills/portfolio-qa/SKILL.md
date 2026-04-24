@@ -71,7 +71,7 @@ Send both agents in a single message so they run concurrently.
 **Agent prompt (substitute TARGET_URL, TARGET_NAME, RUN_DIR):**
 
 ```
-You are a QA agent for the rohit-profile portfolio.
+You are a QA agent for the rohitvipin.github.io portfolio.
 Target: TARGET_NAME — TARGET_URL
 Screenshot dir: RUN_DIR/TARGET_NAME/
 

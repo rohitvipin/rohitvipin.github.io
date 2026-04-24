@@ -2,6 +2,8 @@
 
 Welcome to the project. This guide gets you from zero to running code in **5 minutes**.
 
+**Prerequisite:** Node.js 22.12.0 (matches CI). `.nvmrc` is included — run `nvm use`, or install from [nodejs.org](https://nodejs.org).
+
 ## Setup
 
 ```bash
@@ -32,7 +34,7 @@ A **Next.js 16 portfolio site** deployed to GitHub Pages. All content lives in J
 
 ## First Task?
 
-**→ [CONTRIBUTING.md](../CONTRIBUTING.md)** — How to branch, commit, and push code
+**→ [CONTRIBUTING.md](CONTRIBUTING.md)** — How to branch, commit, and push code
 
 ## Need Commands?
 
@@ -50,14 +52,17 @@ A **Next.js 16 portfolio site** deployed to GitHub Pages. All content lives in J
 
 ### Quick Command Reference
 
-| What        | Command                 |
-| ----------- | ----------------------- |
-| Dev server  | `npm run dev`           |
-| Build       | `npm run build`         |
-| Tests       | `npm run test`          |
-| Test (CI)   | `npm run test:ci`       |
-| Coverage    | `npm run test:coverage` |
-| Lint        | `npm run lint`          |
-| Fix linting | `npm run lint:fix`      |
+| What         | Command                 |
+| ------------ | ----------------------- |
+| Dev server   | `npm run dev`           |
+| Build        | `npm run build`         |
+| Tests        | `npm run test`          |
+| Test (CI)    | `npm run test:ci`       |
+| Coverage     | `npm run test:coverage` |
+| E2E tests    | `npm run test:e2e`      |
+| Lint         | `npm run lint`          |
+| Fix linting  | `npm run lint:fix`      |
+| Format check | `npm run format:check`  |
+| Format write | `npm run format`        |
 
 See [docs/DEVELOPMENT.md](DEVELOPMENT.md#project-commands) for complete list.

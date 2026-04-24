@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+const _state = {
+  pipelineShouldReject: false,
+  statSyncSize: 100_000,
+};
+
 vi.mock("@react-pdf/renderer", () => ({
   renderToStream: vi.fn().mockResolvedValue({ pipe: vi.fn() }),
 }));
@@ -8,18 +13,28 @@ vi.mock("fs", () => ({
   createWriteStream: vi.fn().mockReturnValue({ on: vi.fn() }),
   existsSync: vi.fn().mockReturnValue(false),
   renameSync: vi.fn(),
-  statSync: vi.fn().mockReturnValue({ size: 100_000 }),
+  statSync: vi.fn(() => ({ size: _state.statSyncSize })),
   default: {
     createWriteStream: vi.fn().mockReturnValue({ on: vi.fn() }),
     existsSync: vi.fn().mockReturnValue(false),
     renameSync: vi.fn(),
-    statSync: vi.fn().mockReturnValue({ size: 100_000 }),
+    statSync: vi.fn(() => ({ size: _state.statSyncSize })),
   },
 }));
 
 vi.mock("stream/promises", () => ({
-  pipeline: vi.fn().mockResolvedValue(undefined),
-  default: { pipeline: vi.fn().mockResolvedValue(undefined) },
+  pipeline: vi.fn(async () => {
+    if (_state.pipelineShouldReject) {
+      throw new Error("pipe broken");
+    }
+  }),
+  default: {
+    pipeline: vi.fn(async () => {
+      if (_state.pipelineShouldReject) {
+        throw new Error("pipe broken");
+      }
+    }),
+  },
 }));
 
 vi.mock("../../../utils/resume/ResumeDocument", () => ({
@@ -64,9 +79,21 @@ import { generate } from "../../../utils/generate-resume";
 describe("generate-resume generate()", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    _state.pipelineShouldReject = false;
+    _state.statSyncSize = 100_000;
   });
 
   it("completes without throwing", async () => {
     await expect(generate()).resolves.toBeUndefined();
+  });
+
+  it("throws when pipeline rejects", async () => {
+    _state.pipelineShouldReject = true;
+    await expect(generate()).rejects.toThrow("pipe broken");
+  });
+
+  it("throws when PDF is suspiciously small (< 25000 bytes)", async () => {
+    _state.statSyncSize = 24_999;
+    await expect(generate()).rejects.toThrow("suspiciously small");
   });
 });

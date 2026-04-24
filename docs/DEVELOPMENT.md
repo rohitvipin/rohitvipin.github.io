@@ -6,19 +6,23 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 
 ## Project Commands
 
-| Command                     | Purpose                             |
-| --------------------------- | ----------------------------------- |
-| `npm run dev`               | Local dev server with HMR           |
-| `npm run build`             | Static export to `out/`             |
-| `npm run preview`           | Build + serve locally               |
-| `npm run lint`              | ESLint + Prettier + data validation |
-| `npm run lint:fix`          | Auto-fix ESLint + Prettier          |
-| `npm run test`              | Run Vitest (one-shot, CI mode)      |
-| `npm run test:ci`           | Run Vitest with verbose CI reporter |
-| `npm run test:coverage`     | Coverage report                     |
-| `npm run generate-favicons` | Rebuild favicon suite               |
-| `npm run generate-resume`   | Generate resume PDF                 |
-| `npm run lint:data`         | Validate JSON schemas only          |
+| Command                     | Purpose                                          |
+| --------------------------- | ------------------------------------------------ |
+| `npm run dev`               | Local dev server with HMR                        |
+| `npm run build`             | Static export to `out/`                          |
+| `npm run preview`           | Build + serve locally                            |
+| `npm run lint`              | ESLint + data validation                         |
+| `npm run lint:fix`          | Auto-fix ESLint issues                           |
+| `npm run lint:data`         | Validate JSON schemas only (Zod)                 |
+| `npm run format:check`      | Prettier format check (used in CI)               |
+| `npm run format`            | Prettier auto-format write                       |
+| `npm run test`              | Run Vitest (one-shot)                            |
+| `npm run test:ci`           | Run Vitest with coverage + verbose CI reporter   |
+| `npm run test:coverage`     | Coverage report                                  |
+| `npm run test:e2e`          | Playwright end-to-end tests                      |
+| `npm run generate-favicons` | Rebuild favicon suite                            |
+| `npm run generate-resume`   | Generate resume PDF → `public/`                  |
+| `npm run fetch-avatar`      | Fetch + pin GitHub avatar to `public/avatar.jpg` |
 
 ## Working with Data
 
@@ -26,7 +30,7 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Export constant:** `src/lib/data.ts` — parse with Zod schema, export typed const (e.g., `export const newTypes: NewType[] = z.array(NewTypeSchema).parse(newTypeData)`)
+3. **Export constant:** `src/lib/data.ts` — `parseOrThrow` is module-private; add the new const inside `data.ts` following the existing pattern: `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
 4. **Validate:** `npm run lint:data`
 5. **Commit:** All changes in single commit
 
@@ -132,15 +136,15 @@ Place in `src/__tests__/` with `.test.ts(x)` extension:
 
 ```typescript
 import { describe, it, expect } from "vitest";
-import { formatDate } from "@/lib/date";
+import { parseStartYear } from "@/lib/duration";
 
-describe("formatDate", () => {
-  it("should format ISO date correctly", () => {
-    expect(formatDate("2024-04-21")).toBe("21 Apr 2024");
+describe("parseStartYear", () => {
+  it("parses month-year range", () => {
+    expect(parseStartYear("January 2020 - Present")).toBe(2020);
   });
 
-  it("should handle edge cases", () => {
-    expect(formatDate("")).toBe("");
+  it("parses bare year", () => {
+    expect(parseStartYear("2021")).toBe(2021);
   });
 });
 ```
@@ -192,22 +196,25 @@ npm run preview
 
 ### GitHub Pages Deployment
 
-Push to `main` → GitHub Actions runs lint → test → build → deploy.
+Push to `main` → GitHub Actions runs: audit → Prettier → lint → test → prepare assets (avatar, favicons, resume PDF) → build → deploy via GitHub Pages artifact API → smoke-test.
 
-Environment: `NEXT_PUBLIC_BASE_PATH`
+**Environment variables:**
 
-- `""` — Custom domain
-- `"/rohit-profile"` — GitHub Pages subpath
+| Variable                | Current value                  | Purpose                                                                   |
+| ----------------------- | ------------------------------ | ------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_BASE_PATH` | `""`                           | URL prefix — empty for root domain                                        |
+| `NEXT_PUBLIC_SITE_URL`  | `https://rohitvipin.github.io` | Canonical base URL used in metadata, OG tags, sitemap                     |
+| `NEXT_PUBLIC_BUILD_SHA` | set by CI                      | Git SHA embedded in `<meta name="build-sha">` for smoke-test verification |
 
 ## Troubleshooting
 
-| Issue                       | Solution                                            |
-| --------------------------- | --------------------------------------------------- |
-| Build fails: type mismatch  | Check `src/types/index.ts` matches `data/*.json`    |
-| ESLint errors on commit     | Run `npm run lint:fix`                              |
-| Tests fail but pass in CI   | Check Node version (20.x), timezone-dependent tests |
-| Hot reload not working      | Restart dev server, clear browser cache             |
-| Favicon/resume not updating | Run generate commands, clear build cache            |
+| Issue                       | Solution                                               |
+| --------------------------- | ------------------------------------------------------ |
+| Build fails: type mismatch  | Check `src/types/index.ts` matches `data/*.json`       |
+| ESLint errors on commit     | Run `npm run lint:fix`                                 |
+| Tests fail but pass in CI   | Check Node version (22.12.0), timezone-dependent tests |
+| Hot reload not working      | Restart dev server, clear browser cache                |
+| Favicon/resume not updating | Run generate commands, clear build cache               |
 
 ---
 

@@ -39,6 +39,6 @@ test.describe("TC-06 · Responsive Layout", () => {
         );
       });
     });
-    await expect.soft(clipped).toBe(false);
+    expect.soft(clipped).toBe(false);
   });
 });

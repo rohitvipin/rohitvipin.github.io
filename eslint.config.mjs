@@ -34,12 +34,38 @@ const eslintConfig = defineConfig([
 
       // setState in effects is flagged too aggressively for mount-guard patterns
       "react-hooks/set-state-in-effect": "off",
+
+      // escapeForJsonLdScript is safe only in JSON-LD script context — not for HTML attributes
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@/lib/escape",
+              importNames: ["escapeForJsonLdScript"],
+              message:
+                "escapeForJsonLdScript is safe only inside <script type='application/ld+json'>. Import only in src/app/layout.tsx.",
+            },
+          ],
+        },
+      ],
     },
   },
   {
     files: ["utils/**/*.ts"],
     rules: {
       "no-console": "off",
+    },
+  },
+  {
+    files: [
+      "src/app/layout.tsx",
+      "src/__tests__/lib/jsonld.test.ts",
+      "src/__tests__/lib/escape.test.ts",
+      "src/__tests__/app/layout.test.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": "off",
     },
   },
 ]);

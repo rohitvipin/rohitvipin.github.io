@@ -38,12 +38,12 @@ test.describe("TC-02 · Assets", () => {
 
   test("02.6 OG image returns 200", async ({ request }) => {
     const res = await request.head("/og-image.jpg");
-    await expect.soft(res.status()).toBeLessThan(400);
+    expect.soft(res.status()).toBeLessThan(400);
   });
 
   test("02.7 favicon returns 200", async ({ request }) => {
     const res = await request.head("/favicon.ico");
-    await expect.soft(res.status()).toBeLessThan(400);
+    expect.soft(res.status()).toBeLessThan(400);
   });
 
   test("02.8 sitemap.xml returns 200", async ({ request }) => {

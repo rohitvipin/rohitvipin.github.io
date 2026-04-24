@@ -1,4 +1,4 @@
-import { FaLinkedin, FaGithub, FaXTwitter, FaStackOverflow, FaSlideshare } from "react-icons/fa6";
+import { FaLinkedin, FaGithub, FaXTwitter, FaStackOverflow } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import type { Social } from "@/types";
 
@@ -7,7 +7,6 @@ const iconMap: Record<string, React.ReactNode> = {
   github: <FaGithub size={18} aria-hidden="true" />,
   twitter: <FaXTwitter size={18} aria-hidden="true" />,
   stackoverflow: <FaStackOverflow size={18} aria-hidden="true" />,
-  slideshare: <FaSlideshare size={18} aria-hidden="true" />,
   email: <FiMail size={18} aria-hidden="true" />,
 };
 

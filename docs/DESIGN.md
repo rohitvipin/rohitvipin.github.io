@@ -35,9 +35,9 @@ All colours reference CSS custom properties. Never hardcode hex/rgb in component
 | `--border`      | `#d6d3d1`              |
 | `--accent`      | `#4f46e5`              |
 | `--accent-glow` | `rgba(79,70,229,0.10)` |
-| `--accent-2`    | `#0891b2`              |
+| `--accent-2`    | `#0369a1`              |
 | `--text`        | `#0f172a`              |
-| `--muted`       | `#5d6b84`              |
+| `--muted`       | `#596680`              |
 | `--muted-2`     | `#52627b`              |
 | `--success`     | `#16a34a`              |
 | `--shadow-card` | `rgba(0,0,0,0.08)`     |
@@ -102,20 +102,16 @@ background: var(--surface);
 border: 1px solid var(--border);
 border-radius: 12px;
 transition:
-  border-color 0.2s ease,
-  box-shadow 0.2s ease;
+  border-color 0.2s cubic-bezier(0, 0, 0.2, 1),
+  box-shadow 0.2s cubic-bezier(0, 0, 0.2, 1);
 ```
 
 Hover state:
 
 ```css
 border-color: var(--accent);
-box-shadow:
-  0 0 0 1px var(--accent-glow),
-  0 8px 32px var(--accent-glow);
+box-shadow: 0 0 24px var(--accent-glow);
 ```
-
-Optional lift modifier `.card-hover` adds `transform: translateY(-2px)` + `box-shadow: 0 8px 24px var(--shadow-card)` on hover/focus-within. Gated behind `prefers-reduced-motion: no-preference`.
 
 ### Collapsible card (`.card-details`)
 
@@ -209,6 +205,8 @@ transition-all duration-200
 
 Icons: `FiSun` (dark mode) / `FiMoon` (light mode), size `16`. Hydration-safe: renders a same-size empty `div` until mounted.
 
+`aria-label`: `"Switch to light theme"` when dark active; `"Switch to dark theme"` when light active.
+
 ### ScrollToTop
 
 Fixed FAB, appears after 400 px scroll:
@@ -291,45 +289,14 @@ Requires `role="tablist"` on container, `role="tab"` + `aria-selected` on each b
 
 Library: `react-icons` only. No inline SVGs.
 
-| Set        | Package           | Use case                                                                      |
-| ---------- | ----------------- | ----------------------------------------------------------------------------- |
-| Feather    | `react-icons/fi`  | UI actions: mail, download, map pin, clock, menu, X, sun, moon, arrow-up      |
-| FA6 Brands | `react-icons/fa6` | Social platform logos: LinkedIn, GitHub, X/Twitter, StackOverflow, SlideShare |
+| Set        | Package           | Use case                                                                 |
+| ---------- | ----------------- | ------------------------------------------------------------------------ |
+| Feather    | `react-icons/fi`  | UI actions: mail, download, map pin, clock, menu, X, sun, moon, arrow-up |
+| FA6 Brands | `react-icons/fa6` | Social platform logos: LinkedIn, GitHub, X/Twitter, StackOverflow        |
 
 Icon sizes by context: social links `18`, ScrollToTop FAB `18`, nav/toggle `16`, meta inline `11`, card action links `14`, expand/collapse chevrons `12`.
 
 All decorative icons carry `aria-hidden="true"`.
-
----
-
-## Colour Utilities (`src/lib/colors.ts`)
-
-Two pure functions map entity names to accent hex values for dynamic colouring (e.g. experience timeline, project domain chips).
-
-**`getCompanyColor(company: string): string`**
-
-| Company          | Colour    |
-| ---------------- | --------- |
-| CES IT           | `#6366f1` |
-| Vofox Solutions  | `#22d3ee` |
-| Essel Swolutions | `#f59e0b` |
-| fallback         | `#6366f1` |
-
-**`getDomainColor(domain: string): string`** — prefix-match, order matters:
-
-| Domain prefix                       | Colour    |
-| ----------------------------------- | --------- |
-| Education                           | `#6366f1` |
-| Precision Agriculture / Agriculture | `#22c55e` |
-| Freight / Logistics                 | `#fbbf24` |
-| Hospitality                         | `#ec4899` |
-| Open Source / Mobile                | `#22d3ee` |
-| Open Source / Developer Tooling     | `#8b5cf6` |
-| Open Source / Cloud                 | `#fb923c` |
-| Open Source (generic)               | `#22d3ee` |
-| fallback                            | `#6366f1` |
-
-**Inline style exception:** dynamic entity colours (domain label text, company name text) are applied via `style={{ color: domainColor }}` / `style={{ color: companyColor }}` because CSS tokens cannot express per-entity dynamic values. This is the only sanctioned use of inline styles for colour. Project card borders use `var(--accent)` uniformly — domain colour applies to the label text only.
 
 ---
 
@@ -366,8 +333,7 @@ Progressive enhancement (~88% browser support). Elements with `.scroll-animate` 
 
 | Target                                                   | Duration | Easing                                  |
 | -------------------------------------------------------- | -------- | --------------------------------------- |
-| Card border/shadow                                       | `0.2s`   | `ease`                                  |
-| Card lift                                                | `200ms`  | `ease`                                  |
+| Card border/shadow                                       | `0.2s`   | `cubic-bezier(0, 0, 0.2, 1)`            |
 | Nav link colour                                          | `150ms`  | —                                       |
 | Social/icon links                                        | `200ms`  | —                                       |
 | Button opacity                                           | —        | `transition-opacity` (Tailwind default) |
@@ -399,10 +365,10 @@ All animations and transitions disabled via:
 | Pattern          | Implementation                                                                    |
 | ---------------- | --------------------------------------------------------------------------------- |
 | Skip link        | `sr-only focus:not-sr-only` to `#main-content`, accent background on focus        |
-| Focus ring       | `outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px`       |
+| Focus ring       | `outline: 2px solid var(--accent); outline-offset: 2px`                           |
 | Touch targets    | `.touch-target` / inline: `min-w-[48px] min-h-[48px]` on all interactive elements |
 | Mobile nav trap  | Keyboard trap + Escape to close + focus return to toggle                          |
-| Active nav       | `aria-current="page"` on active link                                              |
+| Active nav       | `aria-current="location"` on active link                                          |
 | Decorative icons | `aria-hidden="true"` on all icon elements                                         |
 | Image alt text   | Descriptive: `"Profile photo of {name}"`                                          |
 | Selection colour | `background: var(--accent); color: var(--bg)`                                     |
@@ -443,6 +409,6 @@ Key responsive patterns:
 
 - Hero grid: single col → `lg:grid-cols-[3fr_2fr]`
 - Avatar: hidden below `lg`
-- Nav: hamburger below `md`
+- Nav: hamburger below `lg` (1024px)
 - Email / secondary CTA: hidden below `sm`
 - Metrics: `grid-cols-2 md:grid-cols-4`

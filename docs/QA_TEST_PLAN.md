@@ -26,15 +26,22 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ## Test Cases
 
+### TC-00 · Smoke
+
+| #    | Check          | Expected                       | Severity |
+| ---- | -------------- | ------------------------------ | -------- |
+| 00.1 | HTTP status    | 200                            | CRITICAL |
+| 00.2 | Page title     | Contains "Rohit Vipin Mathews" | CRITICAL |
+| 00.3 | Console errors | Zero at `error` level          | HIGH     |
+
+---
+
 ### TC-01 · Page Load
 
-| #    | Check                   | Expected                       | Severity |
-| ---- | ----------------------- | ------------------------------ | -------- |
-| 01.1 | HTTP status             | 200                            | CRITICAL |
-| 01.2 | Page title              | Contains "Rohit Vipin Mathews" | HIGH     |
-| 01.3 | Console errors          | Zero at `error` level          | HIGH     |
-| 01.4 | Console warnings        | Zero at `warn` level           | MEDIUM   |
-| 01.5 | `<html lang>` attribute | `lang="en"` present            | MEDIUM   |
+| #    | Check                   | Expected             | Severity |
+| ---- | ----------------------- | -------------------- | -------- |
+| 01.1 | Console warnings        | Zero at `warn` level | MEDIUM   |
+| 01.2 | `<html lang>` attribute | `lang="en"` present  | MEDIUM   |
 
 ---
 
@@ -61,7 +68,7 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 | 03.3 | All nav links present | Count matches `data/nav.json` entries                                                                      | HIGH     |
 | 03.4 | No link overflow      | All nav links within viewport width                                                                        | HIGH     |
 | 03.5 | Active state updates  | `aria-current="location"` on correct link when section intersects (Nav.tsx uses `"location"` not `"page"`) | MEDIUM   |
-| 03.6 | Home logo link        | Initials link with `aria-label="Home"` present                                                             | MEDIUM   |
+| 03.6 | Home logo link        | Initials link has `aria-label="Home"` and visible initials text rendered                                   | MEDIUM   |
 | 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                                                                    | MEDIUM   |
 
 ---
