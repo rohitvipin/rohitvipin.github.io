@@ -64,4 +64,19 @@ test.describe("TC-05 · Navigation — Mobile (375px)", () => {
     const overflow = await page.evaluate(() => document.body.style.overflow);
     await expect.soft(overflow).toBe("hidden");
   });
+
+  test("05.8 main element is inert while drawer open", async ({ page }) => {
+    await page.locator('button[aria-label="Open menu"]').click();
+    await expect(page.locator('[role="dialog"]')).toBeVisible();
+    const inert = await page.evaluate(() => document.querySelector("main")?.hasAttribute("inert"));
+    expect.soft(inert).toBe(true);
+  });
+
+  test("05.9 main element is not inert after drawer closes", async ({ page }) => {
+    await page.locator('button[aria-label="Open menu"]').click();
+    await page.keyboard.press("Escape");
+    await expect(page.locator('[role="dialog"]')).not.toBeVisible();
+    const inert = await page.evaluate(() => document.querySelector("main")?.hasAttribute("inert"));
+    expect.soft(inert).toBe(false);
+  });
 });
