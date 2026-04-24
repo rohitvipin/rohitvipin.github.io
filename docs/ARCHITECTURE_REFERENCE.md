@@ -113,16 +113,16 @@ See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 
 ## Lib Utilities (`src/lib/`)
 
-| File          | Purpose                                                                      |
-| ------------- | ---------------------------------------------------------------------------- |
-| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time           |
-| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests           |
-| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials |
-| `duration.ts` | `parseStartYear()` — parses `duration` field for sort order                  |
-| `escape.ts`   | HTML-escaping utilities used in JSON-LD output                               |
-| `paths.ts`    | `resumeHref`, `avatarHref` etc. — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs   |
-| `profile.ts`  | `getInitials()` and other profile helper functions                           |
-| `projects.ts` | `isOssProject()` and project classification helpers                          |
+| File          | Purpose                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------- |
+| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time                      |
+| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests                      |
+| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials            |
+| `duration.ts` | `parseStartYear()`, `byStartYearDesc()` — parse and sort by `duration` field            |
+| `escape.ts`   | `escapeForJsonLdScript()` — JSON-LD `<script>` string escaping; not for HTML attributes |
+| `paths.ts`    | `resumeHref`, `avatarHref`, `avatarWebpHref` — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs |
+| `profile.ts`  | `getInitials()` — derives two-letter initials from a full name                          |
+| `projects.ts` | `isOssProject()`, `partitionProjects()` — classify and split OSS vs client              |
 
 ## Component Hierarchy
 
@@ -140,7 +140,8 @@ App (layout)
 ├── Leadership
 ├── Impact (impact stories — web only)
 ├── SocialLinks (footer)
-└── ThemeToggle (dark mode)
+├── ThemeToggle (dark mode)
+└── ScrollToTop (back-to-top FAB)
 ```
 
 ## Testing Strategy
@@ -161,13 +162,12 @@ All JSON schemas have matching TypeScript interfaces:
 
 ```typescript
 // data/skills.json
-[{ id: "ts", name: "TypeScript", category: "Languages" }];
+[{ category: "Frontend", skills: ["TypeScript", "React"] }];
 
 // src/types/index.ts
-export interface Skill {
-  id: string;
-  name: string;
+export interface SkillCategory {
   category: string;
+  skills: string[];
 }
 
 // src/lib/data.ts

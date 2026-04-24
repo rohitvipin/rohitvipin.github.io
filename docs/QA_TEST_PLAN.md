@@ -26,6 +26,16 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ## Test Cases
 
+### TC-00 · Smoke
+
+| #    | Check          | Expected                       | Severity |
+| ---- | -------------- | ------------------------------ | -------- |
+| 00.1 | HTTP status    | 200                            | CRITICAL |
+| 00.2 | Page title     | Contains "Rohit Vipin Mathews" | CRITICAL |
+| 00.3 | Console errors | Zero at `error` level          | HIGH     |
+
+---
+
 ### TC-01 · Page Load
 
 | #    | Check                   | Expected                       | Severity |

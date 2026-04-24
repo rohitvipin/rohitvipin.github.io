@@ -82,7 +82,7 @@ Before submitting a PR, check [CODE_REVIEW.md](CODE_REVIEW.md):
 
 ## Local Setup
 
-See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
+Requires Node.js **22.12.0** (matches CI). See [GETTING_STARTED.md](GETTING_STARTED.md) for setup steps.
 
 ## CI/CD Pipeline
 

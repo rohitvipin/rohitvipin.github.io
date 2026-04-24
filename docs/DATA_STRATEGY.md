@@ -11,13 +11,13 @@ The `data/` directory is the **single source of truth** for all content. Never h
 ### Adding a New Skill
 
 1. Edit `data/skills.json`
-2. Add to appropriate `category` array:
+2. Find the right category object and append the skill string to its `skills` array:
    ```json
-   {
-     "id": "nextjs",
-     "name": "Next.js",
-     "category": "Frontend"
-   }
+   { "category": "Frontend", "skills": ["React", "Next.js"] }
+   ```
+   To add an entirely new category, append a new object to the top-level array:
+   ```json
+   { "category": "New Category", "skills": ["Tool A", "Tool B"] }
    ```
 3. Run `npm run lint:data` to validate
 4. Commit: `git add data/skills.json && git commit -m "Add Next.js to frontend skills"`
