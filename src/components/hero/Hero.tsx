@@ -145,7 +145,7 @@ export function Hero({ profile, socials }: HeroProps) {
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}
-                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30"
+                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30 transition-[border-color,box-shadow] duration-200 hover:border-[var(--accent)] hover:shadow-[0_0_24px_var(--accent-glow)]"
               >
                 <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
                 <dd className="text-base font-semibold text-[var(--accent)]">{m.value}</dd>
