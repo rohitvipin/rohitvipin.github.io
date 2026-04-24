@@ -291,10 +291,10 @@ Requires `role="tablist"` on container, `role="tab"` + `aria-selected` on each b
 
 Library: `react-icons` only. No inline SVGs.
 
-| Set        | Package           | Use case                                                                      |
-| ---------- | ----------------- | ----------------------------------------------------------------------------- |
-| Feather    | `react-icons/fi`  | UI actions: mail, download, map pin, clock, menu, X, sun, moon, arrow-up      |
-| FA6 Brands | `react-icons/fa6` | Social platform logos: LinkedIn, GitHub, X/Twitter, StackOverflow, SlideShare |
+| Set        | Package           | Use case                                                                 |
+| ---------- | ----------------- | ------------------------------------------------------------------------ |
+| Feather    | `react-icons/fi`  | UI actions: mail, download, map pin, clock, menu, X, sun, moon, arrow-up |
+| FA6 Brands | `react-icons/fa6` | Social platform logos: LinkedIn, GitHub, X/Twitter, StackOverflow        |
 
 Icon sizes by context: social links `18`, ScrollToTop FAB `18`, nav/toggle `16`, meta inline `11`, card action links `14`, expand/collapse chevrons `12`.
 
