@@ -109,7 +109,7 @@ export function Nav({ initials, navLinks }: NavProps) {
         </a>
 
         <nav
-          className="hidden lg:flex items-center gap-6 flex-1 justify-center"
+          className="hidden lg:flex items-center gap-4 flex-1 justify-center"
           aria-label="Main navigation"
         >
           {navLinks.map((l) => {
@@ -127,7 +127,7 @@ export function Nav({ initials, navLinks }: NavProps) {
               >
                 {l.label}
                 {isActive && (
-                  <span className="absolute -bottom-[6px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
+                  <span className="absolute -bottom-[4px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
                 )}
               </a>
             );
@@ -160,7 +160,7 @@ export function Nav({ initials, navLinks }: NavProps) {
           aria-label="Mobile navigation"
           className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]"
         >
-          <nav className="px-6 py-4 flex flex-col gap-4" aria-label="Mobile navigation links">
+          <nav className="px-6 py-4 flex flex-col gap-2" aria-label="Mobile navigation links">
             {navLinks.map((l) => (
               <a
                 key={l.href}
