@@ -8,7 +8,6 @@ on:
 permissions:
   contents: read
   actions: read
-  id-token: write
 
 concurrency:
   group: live-qa
@@ -38,9 +37,23 @@ jobs:
       - name: Install Playwright chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Wait for GitHub Pages CDN propagation
+        run: |
+          echo "Waiting for live site to reflect latest deploy..."
+          for i in $(seq 1 6); do
+            status=$(curl -s -o /dev/null -w "%{http_code}" https://rohitvipin.github.io/)
+            if [ "$status" = "200" ]; then
+              echo "Site reachable (HTTP $status)"
+              break
+            fi
+            echo "Attempt $i: HTTP $status — retrying in 15s"
+            sleep 15
+          done
+
       - name: Run portfolio-qa skill against live site
         uses: anthropics/claude-code-action@e58dfa55559035499a4982426bb73605e8b5ad8e # v1
         with:
+          github_token: ${{ github.token }}
           prompt: |
             Run /portfolio-qa live. Target: https://rohitvipin.github.io
             Save the full report and all screenshots to .qa-reports/

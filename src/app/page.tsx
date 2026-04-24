@@ -90,7 +90,7 @@ export default function Home() {
               <a
                 href={resumeHref}
                 download
-                aria-label="Download Rohit Vipin Mathews resume (PDF)"
+                aria-label="Download CV - Rohit Vipin Mathews resume PDF"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[var(--border)] text-[var(--muted)] font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />

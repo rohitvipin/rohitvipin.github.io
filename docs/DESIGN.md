@@ -35,9 +35,9 @@ All colours reference CSS custom properties. Never hardcode hex/rgb in component
 | `--border`      | `#d6d3d1`              |
 | `--accent`      | `#4f46e5`              |
 | `--accent-glow` | `rgba(79,70,229,0.10)` |
-| `--accent-2`    | `#0891b2`              |
+| `--accent-2`    | `#0369a1`              |
 | `--text`        | `#0f172a`              |
-| `--muted`       | `#5d6b84`              |
+| `--muted`       | `#596680`              |
 | `--muted-2`     | `#52627b`              |
 | `--success`     | `#16a34a`              |
 | `--shadow-card` | `rgba(0,0,0,0.08)`     |
