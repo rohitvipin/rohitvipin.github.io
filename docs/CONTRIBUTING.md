@@ -108,7 +108,7 @@ Requires Node.js **22.12.0** (matches CI). See [GETTING_STARTED.md](GETTING_STAR
 
 **`qa.yml`** — triggers on PRs to `main`:
 
-- Runs Playwright E2E tests (`npm run test:e2e`) against the PR preview/local build
+- Builds the site in CI then runs Playwright E2E tests (`npm run test:e2e`) against the local build
 
 **`qa-live.yml`** — triggers after successful `deploy.yml`:
 

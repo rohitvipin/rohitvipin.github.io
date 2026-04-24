@@ -33,7 +33,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 ### Styling & Theming
 
-- [ ] All colors use CSS custom properties (`var(--accent)`, `var(--bg-primary)`)
+- [ ] All colors use CSS custom properties (`var(--accent)`, `var(--bg)`)
 - [ ] No hardcoded hex, rgb, or named colors in JSX
 - [ ] Tailwind used for layout/spacing, custom CSS for theme-specific polish
 - [ ] Dark/light mode toggle respects `next-themes` conventions

@@ -78,7 +78,7 @@ Components use `var(--accent)`, `var(--bg)` etc. in Tailwind classes or inline s
 
 ```typescript
 import { FaGithub } from "react-icons/fa6";
-import { ExternalLink } from "react-icons/fi";
+import { FiExternalLink } from "react-icons/fi";
 ```
 
 ## Build & Deploy

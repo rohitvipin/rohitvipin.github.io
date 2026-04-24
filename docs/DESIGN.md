@@ -102,20 +102,16 @@ background: var(--surface);
 border: 1px solid var(--border);
 border-radius: 12px;
 transition:
-  border-color 0.2s ease,
-  box-shadow 0.2s ease;
+  border-color 0.2s cubic-bezier(0, 0, 0.2, 1),
+  box-shadow 0.2s cubic-bezier(0, 0, 0.2, 1);
 ```
 
 Hover state:
 
 ```css
 border-color: var(--accent);
-box-shadow:
-  0 0 0 1px var(--accent-glow),
-  0 8px 32px var(--accent-glow);
+box-shadow: 0 0 24px var(--accent-glow);
 ```
-
-Optional lift modifier `.card-hover` adds `transform: translateY(-2px)` + `box-shadow: 0 8px 24px var(--shadow-card)` on hover/focus-within. Gated behind `prefers-reduced-motion: no-preference`.
 
 ### Collapsible card (`.card-details`)
 
@@ -335,8 +331,7 @@ Progressive enhancement (~88% browser support). Elements with `.scroll-animate` 
 
 | Target                                                   | Duration | Easing                                  |
 | -------------------------------------------------------- | -------- | --------------------------------------- |
-| Card border/shadow                                       | `0.2s`   | `ease`                                  |
-| Card lift                                                | `200ms`  | `ease`                                  |
+| Card border/shadow                                       | `0.2s`   | `cubic-bezier(0, 0, 0.2, 1)`            |
 | Nav link colour                                          | `150ms`  | —                                       |
 | Social/icon links                                        | `200ms`  | —                                       |
 | Button opacity                                           | —        | `transition-opacity` (Tailwind default) |
@@ -368,7 +363,7 @@ All animations and transitions disabled via:
 | Pattern          | Implementation                                                                    |
 | ---------------- | --------------------------------------------------------------------------------- |
 | Skip link        | `sr-only focus:not-sr-only` to `#main-content`, accent background on focus        |
-| Focus ring       | `outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px`       |
+| Focus ring       | `outline: 2px solid var(--accent); outline-offset: 2px`                           |
 | Touch targets    | `.touch-target` / inline: `min-w-[48px] min-h-[48px]` on all interactive elements |
 | Mobile nav trap  | Keyboard trap + Escape to close + focus return to toggle                          |
 | Active nav       | `aria-current="location"` on active link                                          |

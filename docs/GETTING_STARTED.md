@@ -2,7 +2,7 @@
 
 Welcome to the project. This guide gets you from zero to running code in **5 minutes**.
 
-**Prerequisite:** Node.js 22.12.0 (matches CI). Use `nvm use` if you have an `.nvmrc`, or install from [nodejs.org](https://nodejs.org).
+**Prerequisite:** Node.js 22.12.0 (matches CI). `.nvmrc` is included — run `nvm use`, or install from [nodejs.org](https://nodejs.org).
 
 ## Setup
 

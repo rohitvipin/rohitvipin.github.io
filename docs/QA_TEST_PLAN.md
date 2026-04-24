@@ -68,7 +68,7 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 | 03.3 | All nav links present | Count matches `data/nav.json` entries                                                                      | HIGH     |
 | 03.4 | No link overflow      | All nav links within viewport width                                                                        | HIGH     |
 | 03.5 | Active state updates  | `aria-current="location"` on correct link when section intersects (Nav.tsx uses `"location"` not `"page"`) | MEDIUM   |
-| 03.6 | Home logo link        | Initials link rendered with visible text as accessible name; no `aria-label` override (WCAG 2.5.3)         | MEDIUM   |
+| 03.6 | Home logo link        | Initials link has `aria-label="Home"` and visible initials text rendered                                   | MEDIUM   |
 | 03.7 | Theme toggle present  | `button[aria-label*="theme"]` in header                                                                    | MEDIUM   |
 
 ---
