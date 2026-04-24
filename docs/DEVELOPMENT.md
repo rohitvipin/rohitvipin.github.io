@@ -212,7 +212,7 @@ Push to `main` → GitHub Actions runs: audit → Prettier → lint → test →
 | --------------------------- | ------------------------------------------------------ |
 | Build fails: type mismatch  | Check `src/types/index.ts` matches `data/*.json`       |
 | ESLint errors on commit     | Run `npm run lint:fix`                                 |
-| Tests fail but pass in CI   | Check Node version (22.12.0), timezone-dependent tests |
+| Tests fail but pass in CI   | Check Node version (24.15.0), timezone-dependent tests |
 | Hot reload not working      | Restart dev server, clear browser cache                |
 | Favicon/resume not updating | Run generate commands, clear build cache               |
 

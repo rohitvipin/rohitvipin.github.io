@@ -12,6 +12,13 @@ runs:
       shell: bash
       run: test -s public/avatar.jpg
 
+    - name: Log avatar integrity
+      shell: bash
+      run: |
+        if [ -f public/avatar.sha256 ]; then
+          echo "Avatar SHA256: $(cat public/avatar.sha256)"
+        fi
+
     - name: Generate favicons and avatar WebP
       shell: bash
       run: npm run generate-favicons

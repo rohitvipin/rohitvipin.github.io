@@ -23,7 +23,8 @@ import type { ResumeConfig } from "../src/types";
 import { ResumeConfigSchema } from "../src/lib/schemas";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUTPUT_PATH = resolve(__dirname, "../public/Rohit_Vipin_Mathews_Resume.pdf");
+const resumeFileName = profile.name.replace(/\s+/g, "_") + "_Resume.pdf";
+const OUTPUT_PATH = resolve(__dirname, `../public/${resumeFileName}`);
 
 const resumeConfig: ResumeConfig = ResumeConfigSchema.parse(resumeConfigData);
 

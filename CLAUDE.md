@@ -8,7 +8,7 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 
 - **Live:** https://rohitvipin.github.io/
 - **Repo:** https://github.com/rohitvipin/rohitvipin.github.io
-- **Stack:** Next.js 16.2.4, React 19.2.4, TypeScript 5, Tailwind 4, Vitest 4
+- **Stack:** Next.js 16.2.4, React 19.2.5, TypeScript 6, Tailwind 4, Vitest 4
 
 ## Repository Structure
 
@@ -257,7 +257,7 @@ describe("SectionHeader", () => {
 
 **Rules:**
 
-- ✓ Node version locked to 20.x.
+- ✓ Node version locked to 24.
 - ✓ Pipeline fails if any step fails.
 - ✓ `NEXT_PUBLIC_BASE_PATH` set in workflow (currently `""`).
 - ✓ `.nojekyll` added to output before deploy.
