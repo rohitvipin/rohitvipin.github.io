@@ -34,7 +34,7 @@ afterEach(() => {
 describe("Nav", () => {
   it("renders initials in home link", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
-    expect(screen.getByRole("link", { name: "R" })).toHaveTextContent("R");
+    expect(screen.getByRole("link", { name: "Home" })).toHaveTextContent("R");
   });
 
   it("renders all desktop nav links", () => {
