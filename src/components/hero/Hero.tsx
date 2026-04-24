@@ -91,7 +91,7 @@ export function Hero({ profile, socials }: HeroProps) {
               <a
                 href={resumeHref}
                 download
-                aria-label="Download Rohit Vipin Mathews resume (PDF)"
+                aria-label="Download CV - Rohit Vipin Mathews resume PDF"
                 className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75 transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />
@@ -148,7 +148,7 @@ export function Hero({ profile, socials }: HeroProps) {
                 className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30"
               >
                 <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
-                <dd className="text-base font-semibold text-[var(--accent)]/80">{m.value}</dd>
+                <dd className="text-base font-semibold text-[var(--accent)]">{m.value}</dd>
                 {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
               </div>
             ))}

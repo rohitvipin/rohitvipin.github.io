@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
   actions: read
+  id-token: write
+
+concurrency:
+  group: live-qa
+  cancel-in-progress: false
 
 jobs:
   live-qa:
@@ -28,20 +33,20 @@ jobs:
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-chromium
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-chromium
 
       - name: Install Playwright chromium
         run: npx playwright install --with-deps chromium
 
       - name: Run portfolio-qa skill against live site
-        uses: anthropics/claude-code-action@b4d67413279fc18c6e5de930ae307c4f108714eb # v1
+        uses: anthropics/claude-code-action@e58dfa55559035499a4982426bb73605e8b5ad8e # v1
         with:
           prompt: |
             Run /portfolio-qa live. Target: https://rohitvipin.github.io
             Save the full report and all screenshots to .qa-reports/
             Exit when REPORT.md is written.
-          allowed_tools: "Bash,Read,Write,mcp__playwright__browser_navigate,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_evaluate,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_click,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for,mcp__playwright__browser_type,mcp__playwright__browser_hover"
-          mcp_config: |
+          claude_args: "--allowedTools Bash,Read,Write,mcp__playwright__browser_navigate,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_evaluate,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_click,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for,mcp__playwright__browser_type,mcp__playwright__browser_hover"
+          settings: |
             {
               "mcpServers": {
                 "playwright": {

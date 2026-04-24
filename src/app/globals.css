@@ -23,9 +23,9 @@
   --border: #d6d3d1;
   --accent: #4f46e5;
   --accent-glow: rgba(79, 70, 229, 0.1);
-  --accent-2: #0891b2;
+  --accent-2: #0369a1;
   --text: #0f172a;
-  --muted: #5d6b84;
+  --muted: #596680;
   --muted-2: #52627b;
   --success: #16a34a;
   --shadow-card: rgba(0, 0, 0, 0.08);
@@ -134,9 +134,11 @@ section[id] {
     border-color 0.2s cubic-bezier(0, 0, 0.2, 1),
     box-shadow 0.2s cubic-bezier(0, 0, 0.2, 1);
 }
-.card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 24px var(--accent-glow);
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 24px var(--accent-glow);
+  }
 }
 
 /* ── Card focus indicator (no positional shift) ── */
