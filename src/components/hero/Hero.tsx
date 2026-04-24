@@ -91,7 +91,7 @@ export function Hero({ profile, socials }: HeroProps) {
               <a
                 href={resumeHref}
                 download
-                aria-label="Download CV - Rohit Vipin Mathews resume PDF"
+                aria-label={`Download CV - ${profile.name} resume PDF`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75 transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />

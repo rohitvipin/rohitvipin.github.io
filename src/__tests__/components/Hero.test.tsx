@@ -77,7 +77,9 @@ describe("Hero", () => {
 
   it("renders Download CV link with descriptive aria-label", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
-    const link = screen.getByRole("link", { name: "Download CV - Rohit Vipin Mathews resume PDF" });
+    const link = screen.getByRole("link", {
+      name: `Download CV - ${baseProfile.name} resume PDF`,
+    });
     expect(link).toHaveAttribute("download");
   });
 
@@ -123,7 +125,7 @@ describe("Hero", () => {
     render(<Hero profile={baseProfile} socials={baseSocials} />);
     const seeImpact = screen.getByRole("link", { name: "See Impact" });
     const downloadCV = screen.getByRole("link", {
-      name: "Download CV - Rohit Vipin Mathews resume PDF",
+      name: `Download CV - ${baseProfile.name} resume PDF`,
     });
     expect(seeImpact.className).toContain("min-h-[48px]");
     expect(downloadCV.className).toContain("min-h-[48px]");
