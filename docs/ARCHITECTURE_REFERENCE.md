@@ -14,7 +14,7 @@ Complete technical reference for the portfolio site architecture. For project ov
 
 - JSON files in `data/*.json` are the source of truth
 - `src/lib/data.ts` exports typed constants
-- Components import via loaders, never from JSON directly
+- Components import via constants, never from JSON directly
 
 ### 2. Type Safety (Strict TypeScript)
 
@@ -152,7 +152,7 @@ See [DEVELOPMENT.md](DEVELOPMENT.md#testing) for test patterns and coverage goal
 
 - Static export (no server processing)
 - Tailwind CSS purging (remove unused styles)
-- Image optimization via Next.js
+- Image optimization disabled (`images: { unoptimized: true }`) — required for static export
 - Code splitting for components
 - No external tracking or analytics
 

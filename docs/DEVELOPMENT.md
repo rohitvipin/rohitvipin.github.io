@@ -30,7 +30,7 @@ See [GETTING_STARTED.md](GETTING_STARTED.md) if you're setting up for the first 
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Export constant:** `src/lib/data.ts` — parse with Zod schema, export typed const (e.g., `export const newTypes: NewType[] = z.array(NewTypeSchema).parse(newTypeData)`)
+3. **Export constant:** `src/lib/data.ts` — use the internal `parseOrThrow` helper: `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
 4. **Validate:** `npm run lint:data`
 5. **Commit:** All changes in single commit
 

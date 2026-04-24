@@ -18,7 +18,7 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 
 - [ ] No hardcoded content in components (strings, IDs, slugs all from JSON)
 - [ ] If new content type, JSON field exists **and** `src/types/index.ts` updated
-- [ ] Data accessed via `src/lib/data.ts` typed loaders only
+- [ ] Data accessed via `src/lib/data.ts` typed constants only
 - [ ] No fetch() calls in client code (only build-time via Next.js)
 
 ### Component Structure

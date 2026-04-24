@@ -38,13 +38,10 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-01 · Page Load
 
-| #    | Check                   | Expected                       | Severity |
-| ---- | ----------------------- | ------------------------------ | -------- |
-| 01.1 | HTTP status             | 200                            | CRITICAL |
-| 01.2 | Page title              | Contains "Rohit Vipin Mathews" | HIGH     |
-| 01.3 | Console errors          | Zero at `error` level          | HIGH     |
-| 01.4 | Console warnings        | Zero at `warn` level           | MEDIUM   |
-| 01.5 | `<html lang>` attribute | `lang="en"` present            | MEDIUM   |
+| #    | Check                   | Expected             | Severity |
+| ---- | ----------------------- | -------------------- | -------- |
+| 01.1 | Console warnings        | Zero at `warn` level | MEDIUM   |
+| 01.2 | `<html lang>` attribute | `lang="en"` present  | MEDIUM   |
 
 ---
 

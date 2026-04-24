@@ -29,7 +29,8 @@ Use present tense, semantic messages:
 1. **Branch → Push** to GitHub
 2. **Run locally first:**
    ```bash
-   npm run lint         # ESLint + Prettier + data validation
+   npm run format:check # Prettier
+   npm run lint         # ESLint + data validation
    npm run test         # Vitest
    npm run build        # Check build succeeds
    ```

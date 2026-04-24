@@ -125,7 +125,7 @@ If adding an entirely new content type:
 
 1. **Create JSON file:** `data/new-type.json`
 2. **Define interface:** `src/types/index.ts` (new `NewType` interface)
-3. **Export typed const:** `src/lib/data.ts` — add Zod schema to `src/lib/schemas.ts`, then `export const newTypes: NewType[] = NewTypeSchema.array().parse(newTypeData)`
+3. **Export typed const:** `src/lib/data.ts` — add Zod schema to `src/lib/schemas.ts`, then `export const newTypes: NewType[] = parseOrThrow(z.array(NewTypeSchema), newTypeData, "newTypes")`
 4. **Build component:** `src/components/new-type/NewTypeSection.tsx`
 5. **Validate:** `npm run lint:data`
 6. **Test:** `npm run test`
