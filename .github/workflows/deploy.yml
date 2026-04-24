@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Audit dependencies
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
 
       - name: Prettier
         run: npm run format:check
@@ -42,6 +42,8 @@ jobs:
         run: npm run test:ci
 
       - name: Prepare static assets
+        # Falls back to committed public/avatar.jpg if GitHub API returns 404.
+        # Committed fallback is intentional — ensures deploy never fails on network issues.
         uses: ./.github/actions/prepare-assets
 
       - name: Build

@@ -26,11 +26,11 @@ const eslintConfig = defineConfig([
       // Explicit return types on exported functions catch API surface drift
       "@typescript-eslint/explicit-module-boundary-types": "off",
 
-      // Allow `any` in rare cases but flag implicit any
-      "@typescript-eslint/no-explicit-any": "warn",
+      // No any types — use generics or discriminated unions (per CLAUDE.md)
+      "@typescript-eslint/no-explicit-any": "error",
 
-      // Avoid non-null assertions; prefer optional chaining
-      "@typescript-eslint/no-non-null-assertion": "warn",
+      // No non-null assertions — prefer optional chaining
+      "@typescript-eslint/no-non-null-assertion": "error",
 
       // setState in effects is flagged too aggressively for mount-guard patterns
       "react-hooks/set-state-in-effect": "off",
