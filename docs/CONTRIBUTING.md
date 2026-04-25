@@ -110,11 +110,6 @@ Requires Node.js **24.15.0** LTS (matches CI). See [GETTING_STARTED.md](GETTING_
 
 - Builds the site in CI then runs Playwright E2E tests (`npm run test:e2e`) against the local build
 
-**`qa-live.yml`** — triggers after successful `deploy.yml`:
-
-- Runs `/portfolio-qa` skill against the live site (`https://rohitvipin.github.io`)
-- Uploads QA report artifact; fails deploy gate if CRITICAL/HIGH issues found
-
 Pipeline fails if any step fails.
 
 ## Pre-Commit Hooks
