@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: ["Deploy to GitHub Pages"]
     types: [completed]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,7 +17,7 @@ concurrency:
 jobs:
   live-qa:
     name: Portfolio Live QA
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: live-qa
@@ -41,6 +42,16 @@ jobs:
 
       - name: Install Playwright chromium
         run: npx playwright install --with-deps chromium
+
+      - name: Verify ANTHROPIC_API_KEY secret present
+        env:
+          KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY secret resolves to empty in live-qa environment scope. Re-set the secret value at https://github.com/${{ github.repository }}/settings/environments — listing the secret name only confirms the name exists, not the value."
+            exit 1
+          fi
+          echo "ANTHROPIC_API_KEY present (length=${#KEY})"
 
       - name: Wait for GitHub Pages CDN propagation
         run: |
