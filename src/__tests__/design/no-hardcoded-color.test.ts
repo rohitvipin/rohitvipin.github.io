@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -29,7 +29,6 @@ const FUNC = /\b(?:rgb|rgba|hsl|hsla)\s*\(/g;
  */
 const HREF_OR_ID_ATTR = /(?:href|id)=(?:"[^"]*"|'[^']*'|\{[^}]*\})/g;
 
-// `.tsx` files only; CSS lives in globals.css and is allowed there.
 function walk(dir: string, acc: string[] = []): string[] {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -39,9 +38,8 @@ function walk(dir: string, acc: string[] = []): string[] {
   return acc;
 }
 
-describe("no-hardcoded-color: source files", () => {
+function scanForOffenders(): Array<{ file: string; matches: string[] }> {
   const offenders: Array<{ file: string; matches: string[] }> = [];
-
   for (const dir of SCAN_DIRS) {
     const abs = path.join(ROOT, dir);
     if (!fs.existsSync(abs)) continue;
@@ -58,6 +56,15 @@ describe("no-hardcoded-color: source files", () => {
       }
     }
   }
+  return offenders;
+}
+
+describe("no-hardcoded-color: source files", () => {
+  let offenders: Array<{ file: string; matches: string[] }> = [];
+
+  beforeAll(() => {
+    offenders = scanForOffenders();
+  });
 
   it("contains no hex literals or rgb/rgba/hsl/hsla functions", () => {
     expect(offenders, JSON.stringify(offenders, null, 2)).toEqual([]);

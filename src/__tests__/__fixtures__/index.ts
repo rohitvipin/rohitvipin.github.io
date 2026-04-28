@@ -1,6 +1,14 @@
+import { ProfileSchema, ExperienceSchema, ProjectSchema, SocialSchema } from "@/lib/schemas";
 import type { ExperienceEntry, Profile, Social, Project } from "@/types";
 
-export const fixtureProfile: Profile = {
+/**
+ * Fixtures are validated against the same Zod schemas the data loaders use.
+ * If a schema gains a refinement (length minimums, regex constraints) the
+ * fixture parse fails at test-collection time, surfacing drift immediately
+ * instead of letting tests pass against impossible data.
+ */
+
+export const fixtureProfile: Profile = ProfileSchema.parse({
   name: "Test Person",
   title: "Engineering Lead",
   headline: "Headline copy with two short clauses to satisfy schema length.",
@@ -10,18 +18,18 @@ export const fixtureProfile: Profile = {
   years_of_experience: 14,
   timezone: "GMT+8",
   availability_status: "open",
-  github_avatar: "https://example.com/avatar.png",
+  github_avatar: "https://avatars.githubusercontent.com/u/0?v=4",
   key_metrics: [{ tier: "primary", label: "Years", value: "14", detail: "shipping production" }],
   tags: ["TS", "React"],
   cta_primary: "See Impact",
   value_propositions: [],
-};
+});
 
 export const fixtureSocials: readonly Social[] = [
-  { platform: "GitHub", url: "https://github.com/test", icon: "github" },
+  SocialSchema.parse({ platform: "GitHub", url: "https://github.com/test", icon: "github" }),
 ];
 
-export const fixtureExperience: ExperienceEntry = {
+export const fixtureExperience: ExperienceEntry = ExperienceSchema.parse({
   company: "Test Co",
   role: "Director of Engineering",
   location: "Singapore",
@@ -30,9 +38,9 @@ export const fixtureExperience: ExperienceEntry = {
   description: "Description paragraph long enough for schema validation to accept the value.",
   techStack: ["TypeScript", "React"],
   highlights: ["Shipped X", "Led team Y"],
-};
+});
 
-export const fixtureProject: Project = {
+export const fixtureProject: Project = ProjectSchema.parse({
   name: "Demo Project",
   domain: "Test Domain",
   client: "Acme",
@@ -42,4 +50,4 @@ export const fixtureProject: Project = {
   products: [],
   highlights: ["Highlight A"],
   tech: ["TypeScript"],
-};
+});
