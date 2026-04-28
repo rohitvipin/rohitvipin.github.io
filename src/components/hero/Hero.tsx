@@ -1,6 +1,8 @@
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import { SocialLinks } from "@/components/shared/SocialLinks";
+import { ButtonLink } from "@/components/shared/Button";
+import { TagBadge } from "@/components/shared/TagBadge";
 import { resumeHref, avatarHref, avatarWebpHref } from "@/lib/paths";
 
 export interface HeroProps {
@@ -20,12 +22,7 @@ export function Hero({ profile, socials }: HeroProps) {
             {profile.tags && profile.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {profile.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]"
-                  >
-                    {tag}
-                  </span>
+                  <TagBadge key={tag} label={tag} />
                 ))}
               </div>
             )}
@@ -75,12 +72,9 @@ export function Hero({ profile, socials }: HeroProps) {
             <p className="text-lg leading-relaxed text-[var(--muted)]">{profile.headline}</p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#impact"
-                className="inline-flex min-h-[48px] items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[var(--bg)] transition-opacity hover:opacity-90 active:opacity-75"
-              >
+              <ButtonLink variant="primary" href="#impact">
                 {profile.cta_primary ?? "See Impact"}
-              </a>
+              </ButtonLink>
               <a
                 href={`mailto:${profile.email}`}
                 className="hidden min-h-[48px] items-center gap-2 rounded-lg border border-[var(--accent)]/50 px-5 py-2.5 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)]/8 active:bg-[var(--accent)]/15 sm:inline-flex"
@@ -88,15 +82,15 @@ export function Hero({ profile, socials }: HeroProps) {
                 <FiMail size={16} aria-hidden="true" />
                 Get in Touch
               </a>
-              <a
+              <ButtonLink
+                variant="ghost"
                 href={resumeHref}
                 download
                 aria-label={`Download CV - ${profile.name} resume PDF`}
-                className="inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75"
               >
                 <FiDownload size={16} aria-hidden="true" />
                 <span className="hidden sm:inline">Download CV</span>
-              </a>
+              </ButtonLink>
             </div>
 
             <div className="lg:hidden">

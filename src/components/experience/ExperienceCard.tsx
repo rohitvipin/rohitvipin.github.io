@@ -1,5 +1,6 @@
 import type { ExperienceEntry } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
+import { StatusPill } from "@/components/shared/StatusPill";
 import { FiChevronDown } from "react-icons/fi";
 
 export interface ExperienceCardProps {
@@ -14,12 +15,7 @@ export function ExperienceCard({ entry }: ExperienceCardProps) {
       <div className="space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <h3 className="font-semibold text-[var(--text)]">{entry.role}</h3>
-          {entry.current && (
-            <span className="inline-flex items-center gap-1 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow)] px-2 py-0.5 text-xs font-medium text-[var(--accent)]">
-              <span className="h-1 w-1 animate-pulse rounded-full bg-[var(--accent)]" />
-              Current
-            </span>
-          )}
+          {entry.current && <StatusPill label="Current" />}
         </div>
         <p className="text-sm font-medium" style={{ color: companyColor }}>
           {entry.company}

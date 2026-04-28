@@ -294,3 +294,88 @@ Use `fast-xml-parser` (already permissive, no DOM) and `node:fs`. Runs in `scrip
 | SBOM              | `npm sbom` + `osv-scanner`      | First-party + Google OSS; no signup          |
 
 All tools support pinned-SHA actions and reproducible CI.
+
+---
+
+## Revision Log
+
+### v2 — Architect Review Synthesis (3-agent consensus)
+
+Reviewed by `critic`, `architect`, `test-engineer` in parallel. All three converged: plan is sound but **over-invested for a personal-portfolio risk profile** (no PII, no auth, no payments, GitHub Pages hosting). Consensus changes below override the v1 sections above where they conflict.
+
+#### v2 Required Changes (consensus)
+
+| ID   | Section | Change                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ---- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-01 | G1      | Reduce scope: root + 2 representative sections, **single viewport per theme**. Original 10 anchors x 3 viewports x 2 themes = 60 axe runs is gold-plated. Real cost ~2-4 min, not "+30s". Pin `@axe-core/playwright` >=4.10 for React 19 hydration timing.                                                                                                                                                       |
+| R-02 | G2      | **Drop composite category gates** (`performance: 0.95`, `accessibility: 1.0`). Use individual numeric metrics only - LCP/CLS/TBT/FCP. A11y covered by G1 (axe is deterministic; LHCI a11y is sampled). SEO covered by G10. Bump `numberOfRuns` to 5 with median. Verify `staticDistDir` URL resolution under Next 16 `trailingSlash: true` before merging budget gates.                                          |
+| R-03 | G2      | Drop layer 2 (in-browser web-vitals probe). Static portfolio has no interaction surface where INP signal justifies the duplication.                                                                                                                                                                                                                                                                              |
+| R-04 | G3      | Set `size-limit` budget **after** measuring baseline. The 180 KB / 30 KB numbers in v1 are guesses; record actual then add 10% headroom.                                                                                                                                                                                                                                                                         |
+| R-05 | G4      | `wcag-contrast` will not consume Tailwind 4 `oklch()` tokens. **Replace `globals.css` regex parse** with a typed `src/lib/contrast-tokens.ts` constant (resolved hex per theme) imported by both CSS and the test. CSS becomes the consumer; TS becomes the source of truth for the colour pairs that must satisfy WCAG.                                                                                         |
+| R-06 | G6      | Re-frame as **"code + test"**, not test only. Required CSS change to `globals.css`: `@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }`. Test guards the block exists; Playwright `emulateMedia({ reducedMotion: "reduce" })` asserts ScrollToTop uses `behavior: "auto"`. |
+| R-07 | G7      | **Demote from P1 to P2.** Drop Firefox entirely (~3% global, near-zero portfolio audience). WebKit on Linux != Safari on macOS - false-signal risk. Run WebKit locally on Mac as pre-deploy step, **not on PR critical path.** Optional: nightly cron on `webkit-desktop` only.                                                                                                                                  |
+| R-08 | G9      | **Move from Vitest -> Playwright.** `<Page>` server-component import chain pulls all `data/*.json` through Vitest jsdom; mock burden too high. Playwright spec at `e2e/all-viewports/tc-17-nav-anchors.spec.ts` checks `document.getElementById(id)` for each `data/nav.json` href.                                                                                                                              |
+| R-09 | G10     | Replace `<loc>` HTTP probe with `fs.existsSync(path.join("out", urlPath, "index.html"))`. No local server required in postbuild Vitest spec. Also assert no sitemap URL contains `localhost`/staging hostnames. Add `fetch-depth: 0` to `actions/checkout` in `deploy.yml` so `git log` for sitemap `lastmod` works on shallow clones.                                                                           |
+| R-10 | G11     | **Trim heavily.** Keep only: `npm audit --audit-level=high`. **Drop** `license-checker`, `npm sbom`, `osv-scanner` - six MIT/Apache runtime deps on a personal site is not a supply-chain target. Re-evaluate if the dep tree grows past ~50 transitives. Also: enable Dependabot if not already present.                                                                                                        |
+| R-11 | G12     | **Drop entirely** for now. Font-rendering flake on shared GitHub runners is a known footgun; maintenance burden on one-person repo not justified. Existing `portfolio-qa` skill covers manual visual checks. Re-evaluate only if a CSS regression actually ships.                                                                                                                                                |
+| R-12 | G13     | Pick option **(b)**: print suppression with PDF redirect message. Avoids double-maintenance against `@react-pdf/renderer`.                                                                                                                                                                                                                                                                                       |
+| R-13 | G8      | Don't `--accept 429`. Either retry-with-backoff or fail and triage. Silent 429 acceptance masks real rate-limited failures.                                                                                                                                                                                                                                                                                      |
+
+#### v2 Additional Gaps (missed in v1)
+
+| ID  | Gap                                | Rationale                                                                                                                                                                                                                                                   | Severity |
+| --- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| G14 | CSP regression test                | `<meta http-equiv="CSP">` exists in `layout.tsx`. No test asserts directives haven't been weakened (e.g. `unsafe-inline` creep into `script-src`, new `*` host added). Spec: parse meta in Playwright, snapshot directives, fail on diff outside allowlist. | P1       |
+| G15 | JSON-LD validity beyond `@type`    | TC-12.4 only checks `@type === "Person"`. Add: required props (`name`, `url`, `jobTitle`, `sameAs[]`), schema.org structural validation via `schema-dts` types or `structured-data-testing-tool`.                                                           | P1       |
+| G16 | Hydration error console assertion  | TC-00.3 captures `console.error` but doesn't explicitly assert React 19 hydration mismatch warnings. Verify `page.on("console")` filter includes `error` AND `warning` levels for hydration regression coverage.                                            | P1       |
+| G17 | Web App Manifest validity          | `site.webmanifest` referenced in `layout.tsx`. No test parses or validates it (icons exist, `name`, `start_url`, `display`, MIME).                                                                                                                          | P2       |
+| G18 | HTML validation                    | `html-validate` (or `vnu`) against `out/*.html`. Catches malformed markup that axe and Lighthouse miss (unclosed tags, invalid attribute combos). Adds ~5s in CI.                                                                                           | P2       |
+| G19 | No-JS fallback                     | Static export should render core content without JS. Playwright `javaScriptEnabled: false` - assert hero, sections, social links visible. Theme defaults to system; nav still navigates via anchors.                                                        | P2       |
+| G20 | 404 page                           | Next.js generates `out/404.html` via `not-found.tsx`. Untested. Spec: `out/404.html` exists, contains brand link, theme tokens load.                                                                                                                        | P2       |
+| G21 | Service worker absence             | One-line guard in TC-00 smoke: `expect(await page.evaluate(() => navigator.serviceWorker?.getRegistrations())).toHaveLength(0)`. Catches accidental `next-pwa` install.                                                                                     | P2       |
+| G22 | `<details>` content-clip on mobile | TC-09 covers expand/collapse but not overflow within open `<details>`. Long skill-chip lists may clip silently. Assert `scrollHeight === clientHeight` after `open` on mobile viewport.                                                                     | P2       |
+| G23 | LCP element identification         | LHCI assertion `largest-contentful-paint-element` (warn level) - verifies the avatar (with `fetchPriority="high"`) is actually the LCP element. Catches regressions where another element steals LCP.                                                       | P1       |
+| G24 | OG image dimension assertion       | `og-image.jpg` referenced as `1200x630` in metadata. Postbuild Vitest: `sharp` reads the file, asserts dimensions match the Next metadata declaration.                                                                                                      | P2       |
+
+#### v2 Revised Wave Plan
+
+| Wave | Items                              | Effort    | Why                                                                                                     |
+| ---- | ---------------------------------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| 1    | G9, G4, G11(audit-only), G14, G21  | ~0.5 day  | Truly cheap. Single-line CI bump, ~10-line vitest, 1-line guards. Highest signal per minute.            |
+| 2    | G1, G2(metrics-only), G3, G10, G23 | ~2 days   | Real NFR coverage. Bundle baseline measured first. Drop composite LHCI category gates per R-02.         |
+| 3    | G5, G6(CSS+test), G15, G16, G18    | ~1.5 days | Keyboard sweep, reduced-motion (paired CSS change), JSON-LD validity, hydration guard, HTML validation. |
+| 4    | G8, G17, G19, G20, G22, G24, G13   | ~1 day    | Polish: link audit (cron), manifest, no-JS, 404, details overflow, OG dim, print suppression.           |
+| -    | G7(WebKit nightly only), G12       | dropped   | Re-evaluate only on demonstrated need.                                                                  |
+
+#### v2 CI Runtime Projection
+
+- v1 worst case: ~15-18 min (3-4x current).
+- v2 after revisions: **~9-11 min** (sub-2x current).
+- Wave 1 alone: <1 min added to PR critical path.
+
+#### v2 Tooling Summary (delta vs v1)
+
+| Need              | v1 Pick                       | v2 Pick                                         | Reason                                                            |
+| ----------------- | ----------------------------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| Contrast unit     | `wcag-contrast` + globals.css | `wcag-contrast` + `contrast-tokens.ts`          | Tailwind 4 `oklch()` tokens not parseable; TS constant decouples. |
+| SBOM              | `npm sbom` + `osv-scanner`    | dropped                                         | Personal site, six runtime deps - not a supply-chain target.      |
+| Cross-browser     | chromium+webkit+firefox       | nightly `webkit-desktop` only (optional)        | False-signal risk; CI cost outweighs portfolio audience benefit.  |
+| Visual regression | `toHaveScreenshot()`          | dropped                                         | Font-render flake on shared runners; manual QA suffices.          |
+| HTML validation   | -                             | `html-validate`                                 | Adds ~5s CI; catches malformed markup invisible to axe/LH.        |
+| JSON-LD validity  | -                             | `schema-dts` (TS types) + structural assertions | Catches regressions in required props for SEO/Person schema.      |
+
+#### v2 Footguns (record once, prevent later)
+
+- `@axe-core/playwright` >=4.10 required for React 19 hydration timing.
+- LHCI `staticDistDir` + `trailingSlash: true`: verify `/` resolves to `out/index.html` (not `out/index.html/index.html`) before merging budget gates.
+- `size-limit` budgets: set after baseline measurement, never guess.
+- Sitemap `lastmod` from `git log`: requires `fetch-depth: 0` in `actions/checkout`. Add to `deploy.yml` step that runs `npm run build` (postbuild generates sitemap).
+- `page.on("console")`: confirm filter captures both `error` AND `warning` levels for React hydration regressions.
+
+#### v2 Verdict
+
+**APPROVED to execute Wave 1 immediately.** Wave 2 onwards proceeds after Wave 1 lands and baseline (`size-limit`, LHCI metrics) is measured.
+
+#### Status note
+
+Some Wave 1 dependencies already present in `package.json` (`jest-axe`, `@types/jest-axe`, `wcag-contrast`, `@types/wcag-contrast`, `prettier-plugin-tailwindcss`, `postcss`). Plan recommends `@axe-core/playwright` for **E2E full-page WCAG sweeps** (not `jest-axe`, which targets jsdom-rendered components). Two valid uses: (a) `jest-axe` for unit-level component a11y assertions inside Vitest; (b) `@axe-core/playwright` for full-page E2E sweeps per R-01. Confirm intent before wiring specs.

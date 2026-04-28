@@ -3,6 +3,7 @@
 import { useRef, useState, useMemo } from "react";
 import type { Project } from "@/types";
 import { ProjectCard } from "./ProjectCard";
+import { TabPill } from "@/components/shared/TabPill";
 import { partitionProjects } from "@/lib/projects";
 import { FiBriefcase, FiGithub } from "react-icons/fi";
 
@@ -50,27 +51,22 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
         className="mb-8 flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
       >
         {TABS.map(({ id, label, Icon }) => (
-          <button
+          <TabPill
             key={id}
-            ref={(el) => {
+            buttonRef={(el) => {
               tabRefs.current[id] = el;
             }}
-            role="tab"
             id={`tab-${id}`}
+            active={tab === id}
             aria-selected={tab === id}
             aria-controls={`tabpanel-${id}`}
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}
             onKeyDown={(e) => handleKeyDown(e, id)}
-            className={`flex min-h-[48px] items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
-              tab === id
-                ? "bg-[var(--accent)] text-[var(--bg)]"
-                : "text-[var(--muted)] hover:text-[var(--text)]"
-            }`}
           >
             <Icon size={14} aria-hidden="true" />
             {label}
-          </button>
+          </TabPill>
         ))}
       </div>
       {TABS.map(({ id }) => {

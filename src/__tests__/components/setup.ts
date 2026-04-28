@@ -1,7 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { vi, afterEach } from "vitest";
+import { expect, vi, afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
 import { createElement } from "react";
+import { toHaveNoViolations } from "jest-axe";
+
+expect.extend(toHaveNoViolations);
+
 afterEach(cleanup);
 
 vi.mock("next/image", () => ({

@@ -41,6 +41,9 @@ jobs:
       - name: Test
         run: npm run test:ci
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Prepare static assets
         # Falls back to committed public/avatar.jpg if GitHub API returns 404.
         # Committed fallback is intentional — ensures deploy never fails on network issues.
@@ -55,6 +58,25 @@ jobs:
 
       - name: Add .nojekyll
         run: touch ./out/.nojekyll
+
+      - name: Playwright e2e on built artefact
+        run: npm run test:e2e
+        env:
+          CI: "true"
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8 # v5.0.0
+        with:
+          name: playwright-report-deploy
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Lighthouse CI (static dist)
+        run: |
+          npm install -g @lhci/cli@0.15.x
+          lhci autorun --config=.github/lighthouse/lighthouserc.json
+        continue-on-error: false
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
