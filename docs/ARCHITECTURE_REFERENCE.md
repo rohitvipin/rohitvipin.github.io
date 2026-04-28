@@ -113,16 +113,28 @@ See [DATA_STRATEGY.md](DATA_STRATEGY.md) for how to update content.
 
 ## Lib Utilities (`src/lib/`)
 
-| File          | Purpose                                                                                 |
-| ------------- | --------------------------------------------------------------------------------------- |
-| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time                      |
-| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests                      |
-| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials            |
-| `duration.ts` | `parseStartYear()`, `byStartYearDesc()` — parse and sort by `duration` field            |
-| `escape.ts`   | `escapeForJsonLdScript()` — JSON-LD `<script>` string escaping; not for HTML attributes |
-| `paths.ts`    | `resumeHref`, `avatarHref`, `avatarWebpHref` — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs |
-| `profile.ts`  | `getInitials()` — derives two-letter initials from a full name                          |
-| `projects.ts` | `isOssProject()`, `partitionProjects()` — classify and split OSS vs client              |
+| File          | Purpose                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `data.ts`     | Typed constants for every JSON file; parsed via Zod at import time                                                  |
+| `schemas.ts`  | Zod schemas for all data types; shared by `lint-data.ts` and tests                                                  |
+| `jsonld.ts`   | `buildPersonJsonLd()` — builds JSON-LD `Person` block from profile + socials                                        |
+| `duration.ts` | `parseStartYear()`, `byStartYearDesc()` — parse and sort by `duration` field                                        |
+| `escape.ts`   | `escapeForJsonLdScript()` — JSON-LD `<script>` string escaping; not for HTML attributes                             |
+| `paths.ts`    | `resumeHref`, `avatarHref`, `avatarWebpHref` — `NEXT_PUBLIC_BASE_PATH`-aware asset URLs                             |
+| `profile.ts`  | `getInitials()` — derives two-letter initials from a full name                                                      |
+| `projects.ts` | `isOssProject()`, `partitionProjects()` — classify and split OSS vs client                                          |
+| `tokens.ts`   | Canonical 12-token tuple + `CONTRAST_EXEMPT` list + `CONTRAST_PAIRS` for WCAG AA; source of truth for design system |
+
+## Design System Primitives
+
+Core shared components are extracted into canonical form:
+
+- `src/components/shared/Button.tsx` — three variants (primary, secondary, ghost); class contract snapshot-tested
+- `src/components/shared/StatusPill.tsx` — "Current" live indicator; uses `--accent-glow` for background
+- `src/components/shared/TabPill.tsx` — pill-group tab controls; accessible `role="tab"` + `aria-selected`
+- `src/components/shared/TagBadge.tsx` — lightweight tag display (profile, categories)
+
+All primitives reference `src/lib/tokens.ts` for colour values, never hardcode hex. Class contracts are verified via inline snapshots in `src/__tests__/design/primitives.test.tsx` and documented in [DESIGN.md](DESIGN.md) component patterns section. Design system tests run on every commit (`npm test -- design/`).
 
 ## Component Hierarchy
 

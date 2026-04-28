@@ -162,6 +162,19 @@ npm run test:coverage   # coverage report
 - Components: main render paths
 - Overall: 90% statements/functions/lines, 85% branches (enforced by Vitest thresholds)
 
+### Design System Tests
+
+Three design test files + one backstop rule enforce token and primitive contracts:
+
+1. **`src/__tests__/design/tokens.test.ts`** — parses `src/app/globals.css` for `:root` (dark) and `[data-theme="light"]` (light), asserts canonical 12-token set present in both, validates WCAG AA contrast pairs via `wcag-contrast` library
+2. **`src/__tests__/design/primitives.test.tsx`** — inline-snapshot className per shared primitive (Button, StatusPill, TabPill, TagBadge), anchors assertions to `toContain` patterns matching `docs/DESIGN.md` component patterns
+3. **`src/__tests__/design/a11y.test.tsx`** — jest-axe structural audit on shared primitives; contrast/target-size/focus-order disabled (jsdom limitation; owned by Playwright + Lighthouse CI in full E2E)
+4. **`src/__tests__/design/no-hardcoded-color.test.ts`** + ESLint rule — backstops hex/rgb/hsl literals in `src/components/**` and `src/app/**` (exception: `src/app/layout.tsx` for `themeColor` meta tag)
+
+**Lighthouse CI gates** (`.github/lighthouse/lighthouserc.json`) check accessibility category (100%) and specific a11y audits at CI step.
+
+Run full design suite: `npm run test -- design/`
+
 ## Favicon & Resume Generation
 
 ### Favicons

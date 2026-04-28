@@ -401,3 +401,21 @@ Key responsive patterns:
 - Nav: hamburger below `lg` (1024px)
 - Email / secondary CTA: hidden below `sm`
 - Metrics: `grid-cols-2 md:grid-cols-4`
+
+---
+
+## Design System Test Layer
+
+All design tokens, primitives, and colour contracts are validated via unit tests:
+
+- **Token contract** (`src/__tests__/design/tokens.test.ts`) — parses `globals.css` and asserts canonical 12-token set exists for both `:root` (dark) and `[data-theme="light"]` (light), validates parity and WCAG AA contrast pairs via `wcag-contrast`
+- **Primitive snapshots** (`src/__tests__/design/primitives.test.tsx`) — inline snapshot className per shared primitive (Button, StatusPill, TabPill, TagBadge), ensures class strings remain canonical across commits
+- **Accessibility (jsdom scope)** (`src/__tests__/design/a11y.test.tsx`) — jest-axe structural audit on shared primitives; contrast/target-size/focus-order rules disabled (jsdom limitation, owned by Playwright + Lighthouse CI)
+- **No hardcoded colour rule** (`src/__tests__/design/no-hardcoded-color.test.ts` + ESLint `no-restricted-syntax`) — backstops hex/rgb/hsl literals in `src/components/**` and `src/app/**` (excluding `src/app/layout.tsx` which requires literal hex for `themeColor` meta)
+- **Touch-target spec** (`e2e/all-viewports/tc-touch-targets.spec.ts`) — Playwright assertion that all interactive elements meet 48x48 px minimum hit target via `getBoundingClientRect`
+- **Lighthouse CI gates** (`.github/lighthouse/lighthouserc.json`) — categories (accessibility, best-practices, SEO) and specific a11y audits (colour contrast, target size, aria-roles)
+
+**Update both files when changing tokens or primitives:**
+
+- Token changes: update `src/lib/tokens.ts`, `src/app/globals.css`, and `src/__tests__/design/tokens.test.ts` in same commit
+- Primitive class changes: run `npm test` to auto-refresh inline snapshots, then explicitly edit `DESIGN.md` to match new class contract

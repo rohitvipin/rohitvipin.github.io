@@ -69,6 +69,14 @@ Use present tense, semantic messages:
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for examples.
 
+### Design System Tests
+
+When changing design tokens or primitives:
+
+- **Token changes:** Update `src/lib/tokens.ts` and `src/app/globals.css` together; `src/__tests__/design/tokens.test.ts` validates both dark and light theme parity + WCAG AA contrast
+- **Primitive class changes:** Run `npm test` to auto-refresh inline snapshots in `src/__tests__/design/primitives.test.tsx`, then edit `docs/DESIGN.md` component patterns to match the new class strings
+- **Touch-target validation:** `npm run test:e2e` checks all interactive elements meet 48x48 px hit target across all viewports
+
 ### Code Review
 
 Before submitting a PR, check [CODE_REVIEW.md](CODE_REVIEW.md):

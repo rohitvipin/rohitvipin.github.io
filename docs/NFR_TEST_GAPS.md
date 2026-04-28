@@ -24,7 +24,7 @@ Severity legend: P0 = block merge, P1 = fix this milestone, P2 = backlog.
 | Visual regression | none                                                                             | P2       |
 | Link integrity    | none (external URLs in projects/socials/community)                               | P1       |
 | Keyboard nav      | Mobile-drawer focus-trap only (TC-05.6); no full-page Tab order or focus-visible | P1       |
-| Color contrast    | none                                                                             | P0       |
+| Color contrast    | `src/__tests__/design/tokens.test.ts` (unit); Lighthouse CI (E2E)                | covered  |
 | Hash anchors      | none — `data/nav.json` hashes never asserted against rendered section IDs        | P1       |
 | Dependency audit  | critical-only; no licence/SBOM, no `--audit-level=high`                          | P1       |
 | Print/PDF         | resume generator unit-tested; live page print stylesheet untested                | P2       |
