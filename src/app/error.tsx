@@ -14,16 +14,16 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6">
-      <div className="text-center space-y-6">
-        <p className="text-8xl font-bold gradient-text">!</p>
+    <main className="flex min-h-screen items-center justify-center px-6">
+      <div className="space-y-6 text-center">
+        <p className="gradient-text text-8xl font-bold">!</p>
         <h1 className="text-2xl font-semibold text-[var(--text)]">Something went wrong</h1>
-        <p className="text-[var(--muted)] max-w-xs mx-auto">
+        <p className="mx-auto max-w-xs text-[var(--muted)]">
           An unexpected error occurred. Try reloading the page.
         </p>
         <button
           onClick={reset}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
         >
           Try again
         </button>

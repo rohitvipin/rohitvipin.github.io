@@ -70,19 +70,19 @@ export default function Home() {
           aria-labelledby="contact-title"
           className="section border-t border-[var(--border)]"
         >
-          <div className="max-w-6xl mx-auto px-6 text-center space-y-6">
+          <div className="mx-auto max-w-6xl space-y-6 px-6 text-center">
             {profile.open_to && (
               <h2 id="contact-title" className="text-2xl font-bold text-[var(--text)]">
                 {profile.open_to}
               </h2>
             )}
             {profile.availability_note && (
-              <p className="text-[var(--muted)] max-w-xl mx-auto">{profile.availability_note}</p>
+              <p className="mx-auto max-w-xl text-[var(--muted)]">{profile.availability_note}</p>
             )}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--accent)] text-[var(--bg)] font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 font-medium text-[var(--bg)] transition-opacity hover:opacity-90"
               >
                 <FiMail size={16} aria-hidden="true" />
                 Get in Touch
@@ -91,7 +91,7 @@ export default function Home() {
                 href={resumeHref}
                 download
                 aria-label="Download CV - Rohit Vipin Mathews resume PDF"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-[var(--border)] text-[var(--muted)] font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 <FiDownload size={16} aria-hidden="true" />
                 Download CV
@@ -102,7 +102,7 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-[var(--border)] py-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <p className="text-sm text-[var(--muted)]">
             © {new Date().getFullYear()} {profile.name}
           </p>

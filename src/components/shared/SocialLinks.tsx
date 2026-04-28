@@ -29,7 +29,7 @@ export function SocialLinks({ socials, className = "" }: SocialLinksProps) {
             href={s.url}
             {...(!isEmail && { target: "_blank", rel: "noopener noreferrer" })}
             aria-label={label}
-            className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all duration-200"
+            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--accent)]"
           >
             {iconMap[s.icon] ?? <span className="text-xs font-bold">{s.platform[0]}</span>}
           </a>

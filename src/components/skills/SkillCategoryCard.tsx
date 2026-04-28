@@ -11,8 +11,8 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
   const hidden = Math.max(0, skills.length - INITIAL_VISIBLE);
 
   return (
-    <div className="card p-6 space-y-4">
-      <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wider">
+    <div className="card space-y-4 p-6">
+      <h3 className="text-sm font-semibold tracking-wider text-[var(--text)] uppercase">
         {category}
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -24,7 +24,7 @@ export function SkillCategoryCard({ category, skills }: SkillCategoryCardProps) 
         <details className="card-details flex flex-col">
           <summary
             aria-label={`Show ${hidden} more ${category} skills`}
-            className="order-last mt-2 text-xs px-2.5 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-[background-color,color,border-color] duration-150 cursor-pointer font-mono w-fit min-h-[48px] flex items-center"
+            className="order-last mt-2 flex min-h-[48px] w-fit cursor-pointer items-center rounded-full border border-[var(--accent)] px-2.5 py-0.5 font-mono text-xs text-[var(--accent)] transition-[background-color,color,border-color] duration-150 hover:bg-[var(--accent)] hover:text-[var(--bg)]"
           >
             <span className="[details[open]_&]:hidden">+{hidden} more</span>
             <span className="hidden [details[open]_&]:inline">Show less</span>

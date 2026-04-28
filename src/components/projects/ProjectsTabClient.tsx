@@ -47,7 +47,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
       <div
         role="tablist"
         aria-label="Project categories"
-        className="flex gap-1 mb-8 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+        className="mb-8 flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
       >
         {TABS.map(({ id, label, Icon }) => (
           <button
@@ -62,7 +62,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}
             onKeyDown={(e) => handleKeyDown(e, id)}
-            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
+            className={`flex min-h-[48px] items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
               tab === id
                 ? "bg-[var(--accent)] text-[var(--bg)]"
                 : "text-[var(--muted)] hover:text-[var(--text)]"
@@ -83,7 +83,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             aria-labelledby={`tab-${id}`}
             tabIndex={tab === id ? 0 : -1}
             hidden={tab !== id}
-            className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
+            className="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
           >
             {items.map((p) => (
               <ProjectCard key={p.id ?? p.name} project={p} />

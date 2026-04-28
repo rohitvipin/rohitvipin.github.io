@@ -10,42 +10,42 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const domainColor = project.color ?? "var(--accent)";
 
   return (
-    <div className="card p-6 space-y-4 flex flex-col border-l-2 border-l-[var(--accent)]">
+    <div className="card flex flex-col space-y-4 border-l-2 border-l-[var(--accent)] p-6">
       <div>
-        <div className="flex items-start justify-between gap-3 mb-1">
+        <div className="mb-1 flex items-start justify-between gap-3">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-[var(--text)] leading-snug">{project.name}</h3>
+            <h3 className="leading-snug font-semibold text-[var(--text)]">{project.name}</h3>
             {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`GitHub repository for ${project.name}`}
-                className="inline-flex items-center justify-center min-h-[48px] min-w-[48px] text-[var(--muted)] hover:text-[var(--accent)] transition-colors shrink-0 rounded-lg"
+                className="inline-flex min-h-[48px] min-w-[48px] shrink-0 items-center justify-center rounded-lg text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
               >
                 <FiGithub size={14} aria-hidden="true" />
               </a>
             )}
           </div>
-          <span className="text-xs font-mono text-[var(--muted)] shrink-0 mt-0.5">
+          <span className="mt-0.5 shrink-0 font-mono text-xs text-[var(--muted)]">
             {project.duration}
           </span>
         </div>
-        <p className="text-xs font-medium uppercase tracking-wider" style={{ color: domainColor }}>
+        <p className="text-xs font-medium tracking-wider uppercase" style={{ color: domainColor }}>
           {project.domain}
         </p>
-        <p className="text-xs text-[var(--muted)] mt-0.5">
+        <p className="mt-0.5 text-xs text-[var(--muted)]">
           {project.role} · {project.client}
         </p>
       </div>
 
-      <p className="text-sm text-[var(--muted)] leading-relaxed">{project.description}</p>
+      <p className="text-sm leading-relaxed text-[var(--muted)]">{project.description}</p>
 
       {project.highlights?.length > 0 && (
         <ul className="space-y-1.5">
           {project.highlights.map((h) => (
-            <li key={h} className="text-xs text-[var(--muted)] flex items-start gap-2">
-              <span className="text-[var(--accent)] shrink-0 mt-0.5">▸</span>
+            <li key={h} className="flex items-start gap-2 text-xs text-[var(--muted)]">
+              <span className="mt-0.5 shrink-0 text-[var(--accent)]">▸</span>
               {h}
             </li>
           ))}
@@ -56,7 +56,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <details className="card-details">
           <summary
             aria-label={`Toggle products for ${project.name}`}
-            className="flex items-center gap-1.5 text-xs text-[var(--accent)] hover:opacity-80 transition-opacity min-h-[48px]"
+            className="flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--accent)] transition-opacity hover:opacity-80"
           >
             <FiChevronDown size={12} aria-hidden="true" className="card-details-chevron" />
             {project.products.length} product{project.products.length > 1 ? "s" : ""}
@@ -65,7 +65,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {project.products.map((p) => (
               <div key={p.name}>
                 <p className="text-xs font-semibold text-[var(--text)]">{p.name}</p>
-                <p className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">
                   {p.description}
                 </p>
               </div>
@@ -75,7 +75,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       {project.tech.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 pt-2 mt-auto">
+        <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
           {project.tech.map((t) => (
             <TechChip key={t} label={t} />
           ))}

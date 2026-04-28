@@ -9,22 +9,22 @@ export interface AwardsSectionProps {
 export function AwardsSection({ awards }: AwardsSectionProps) {
   return (
     <section id="awards" aria-labelledby="awards-heading" className="section">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeader title="Awards & Recognition" headingId="awards-heading" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {awards.map((a) => (
-            <div key={a.title} className="card p-5 space-y-2">
+            <div key={a.title} className="card space-y-2 p-5">
               <div className="flex items-start justify-between gap-3">
                 <FaTrophy
                   size={16}
-                  className="text-[var(--accent)] mt-0.5 shrink-0"
+                  className="mt-0.5 shrink-0 text-[var(--accent)]"
                   aria-hidden="true"
                 />
-                {a.year && <span className="text-xs font-mono text-[var(--muted)]">{a.year}</span>}
+                {a.year && <span className="font-mono text-xs text-[var(--muted)]">{a.year}</span>}
               </div>
-              <h3 className="font-semibold text-sm text-[var(--text)]">{a.title}</h3>
+              <h3 className="text-sm font-semibold text-[var(--text)]">{a.title}</h3>
               <p className="text-xs text-[var(--muted-2)]">{a.organization}</p>
-              <p className="text-xs text-[var(--muted)] leading-relaxed">{a.description}</p>
+              <p className="text-xs leading-relaxed text-[var(--muted)]">{a.description}</p>
             </div>
           ))}
         </div>

@@ -134,7 +134,7 @@ For entries that should default open (e.g., current role), set the `open` attrib
 <div className="mb-12">
   <h2 className="text-3xl font-bold tracking-tight text-[var(--text)]">…</h2>
   <div className="mt-2 h-0.5 w-12 rounded bg-[var(--accent)]" /> {/* accent underline bar */}
-  <p className="mt-3 text-[var(--muted)] text-base">…</p> {/* optional subtitle */}
+  <p className="mt-3 text-base text-[var(--muted)]">…</p> {/* optional subtitle */}
 </div>
 ```
 
@@ -143,12 +143,7 @@ For entries that should default open (e.g., current role), set the `open` attrib
 Pill badge for technology labels.
 
 ```tsx
-<span
-  className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono
-  border border-[var(--border)] text-[var(--muted)] bg-[var(--surface-2)]
-  hover:border-[var(--accent)] hover:text-[var(--accent)]
-  transition-all duration-150 cursor-default"
->
+<span className="inline-block cursor-default rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-0.5 font-mono text-xs text-[var(--muted)] transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]">
   {label}
 </span>
 ```
@@ -158,7 +153,7 @@ Pill badge for technology labels.
 Used on hero profile tags — lighter than TechChip, no background fill:
 
 ```tsx
-<span className="px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs text-[var(--muted-2)]">
+<span className="rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]">
   {tag}
 </span>
 ```
@@ -250,12 +245,8 @@ Icon inside is always decorative — `aria-hidden="true"` required.
 Live indicator on experience cards:
 
 ```tsx
-<span
-  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
-  bg-[var(--accent-glow)] border border-[var(--accent)]/30
-  text-xs font-medium text-[var(--accent)]"
->
-  <span className="w-1 h-1 rounded-full bg-[var(--accent)] animate-pulse" />
+<span className="inline-flex items-center gap-1 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow)] px-2 py-0.5 text-xs font-medium text-[var(--accent)]">
+  <span className="h-1 w-1 animate-pulse rounded-full bg-[var(--accent)]" />
   Current
 </span>
 ```
@@ -267,14 +258,12 @@ Used in Projects section to switch between content categories:
 ```tsx
 <div
   role="tablist"
-  className="flex gap-1 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+  className="flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
 >
   <button
     role="tab"
     aria-selected={active}
-    className="px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150
-    /* active:   */ bg-[var(--accent)] text-[var(--bg)]
-    /* inactive: */ text-[var(--muted)] hover:text-[var(--text)]"
+    className="/* active: */ /* inactive: */ min-h-[48px] rounded-md bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-[var(--bg)] text-[var(--muted)] transition-all duration-150 hover:text-[var(--text)]"
   >
     Label
   </button>

@@ -11,36 +11,36 @@ export function About({ profile }: AboutProps) {
 
   return (
     <section id="about" aria-labelledby="about-heading" className="section">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeader title="About" headingId="about-heading" />
 
         {valueProps.length > 0 && (
           <div className="mb-12">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {valueProps.map((vp) => (
-                <div key={vp.audience} className="card p-5 space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+                <div key={vp.audience} className="card space-y-2 p-5">
+                  <p className="text-xs font-semibold tracking-wider text-[var(--accent)] uppercase">
                     {vp.audience}
                   </p>
-                  <p className="text-[var(--muted)] text-sm leading-relaxed">{vp.value}</p>
+                  <p className="text-sm leading-relaxed text-[var(--muted)]">{vp.value}</p>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        <div className="grid lg:grid-cols-[3fr_2fr] gap-24 items-start">
+        <div className="grid items-start gap-24 lg:grid-cols-[3fr_2fr]">
           <div className="space-y-4">
             {paragraphs.map((para, i) => (
-              <p key={i} className="text-[var(--muted)] text-[17px] leading-[1.75]">
+              <p key={i} className="text-[17px] leading-[1.75] text-[var(--muted)]">
                 {para}
               </p>
             ))}
           </div>
 
           {profile.bio_quote && (
-            <blockquote className="hidden lg:block border-l border-[var(--border)] pl-5 py-1">
-              <p className="text-[var(--muted-2)] text-base font-normal leading-relaxed italic">
+            <blockquote className="hidden border-l border-[var(--border)] py-1 pl-5 lg:block">
+              <p className="text-base leading-relaxed font-normal text-[var(--muted-2)] italic">
                 &ldquo;{profile.bio_quote}&rdquo;
               </p>
             </blockquote>
