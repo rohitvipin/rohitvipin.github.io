@@ -22,6 +22,13 @@ const FILE_ALLOWLIST = new Set<string>(["src/app/layout.tsx"]);
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
 const FUNC = /\b(?:rgb|rgba|hsl|hsla)\s*\(/g;
 
+/**
+ * Mirror the ESLint rule's exemptions: hex-shaped strings inside `id` and
+ * `href` JSXAttributes (e.g. `<a href="#hash">`) are not colours. Strip
+ * matches inside attributes named `id=` / `href=` before scanning.
+ */
+const HREF_OR_ID_ATTR = /(?:href|id)=(?:"[^"]*"|'[^']*'|\{[^}]*\})/g;
+
 // `.tsx` files only; CSS lives in globals.css and is allowed there.
 function walk(dir: string, acc: string[] = []): string[] {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -41,7 +48,10 @@ describe("no-hardcoded-color: source files", () => {
     for (const file of walk(abs)) {
       const rel = path.relative(ROOT, file);
       if (FILE_ALLOWLIST.has(rel)) continue;
-      const src = fs.readFileSync(file, "utf8");
+      const raw = fs.readFileSync(file, "utf8");
+      // Strip href/id attributes before scanning so hash links and DOM ids
+      // with hex-shaped content are not treated as colour literals.
+      const src = raw.replace(HREF_OR_ID_ATTR, "");
       const hits = [...(src.match(HEX) ?? []), ...(src.match(FUNC) ?? [])];
       if (hits.length > 0) {
         offenders.push({ file: rel, matches: hits });

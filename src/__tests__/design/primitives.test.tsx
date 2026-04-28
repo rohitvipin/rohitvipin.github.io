@@ -78,21 +78,33 @@ describe("TabPill class contract", () => {
 
 describe("Button class contract", () => {
   it("primary variant", () => {
-    expect(buttonClassName("primary")).toMatchInlineSnapshot(
+    const cls = buttonClassName("primary");
+    expect(cls).toMatchInlineSnapshot(
       `"inline-flex min-h-[48px] items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[var(--bg)] transition-opacity hover:opacity-90 active:opacity-75"`
     );
+    expect(cls).toContain("min-h-[48px]");
+    expect(cls).toContain("bg-[var(--accent)]");
+    expect(cls).toContain("text-[var(--bg)]");
   });
 
   it("secondary variant", () => {
-    expect(buttonClassName("secondary")).toMatchInlineSnapshot(
+    const cls = buttonClassName("secondary");
+    expect(cls).toMatchInlineSnapshot(
       `"inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-[var(--accent)]/50 px-5 py-2.5 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)]/8 active:bg-[var(--accent)]/15"`
     );
+    expect(cls).toContain("min-h-[48px]");
+    expect(cls).toContain("border-[var(--accent)]/50");
+    expect(cls).toContain("text-[var(--accent)]");
   });
 
   it("ghost variant", () => {
-    expect(buttonClassName("ghost")).toMatchInlineSnapshot(
+    const cls = buttonClassName("ghost");
+    expect(cls).toMatchInlineSnapshot(
       `"inline-flex min-h-[48px] items-center gap-2 rounded-lg border border-[var(--border)] px-5 py-2.5 text-sm font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75"`
     );
+    expect(cls).toContain("min-h-[48px]");
+    expect(cls).toContain("border-[var(--border)]");
+    expect(cls).toContain("text-[var(--muted)]");
   });
 
   it("ButtonLink renders an anchor with the variant classes", () => {

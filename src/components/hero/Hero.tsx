@@ -75,13 +75,13 @@ export function Hero({ profile, socials }: HeroProps) {
               <ButtonLink variant="primary" href="#impact">
                 {profile.cta_primary ?? "See Impact"}
               </ButtonLink>
-              <a
-                href={`mailto:${profile.email}`}
-                className="hidden min-h-[48px] items-center gap-2 rounded-lg border border-[var(--accent)]/50 px-5 py-2.5 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)]/8 active:bg-[var(--accent)]/15 sm:inline-flex"
-              >
-                <FiMail size={16} aria-hidden="true" />
-                Get in Touch
-              </a>
+              {/* hidden < sm via wrapper (display:contents at sm+ keeps ButtonLink layout intact) */}
+              <div className="hidden sm:contents">
+                <ButtonLink variant="secondary" href={`mailto:${profile.email}`}>
+                  <FiMail size={16} aria-hidden="true" />
+                  Get in Touch
+                </ButtonLink>
+              </div>
               <ButtonLink
                 variant="ghost"
                 href={resumeHref}

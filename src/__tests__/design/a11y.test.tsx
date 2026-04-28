@@ -36,17 +36,17 @@ describe("design primitives — structural a11y", () => {
     const { container } = render(
       <div>
         <div role="tablist" aria-label="categories">
-          <TabPill active id="t1" aria-controls="p1">
+          <TabPill active id="design-tp-tab-1" aria-controls="design-tp-panel-1">
             A
           </TabPill>
-          <TabPill active={false} id="t2" aria-controls="p2">
+          <TabPill active={false} id="design-tp-tab-2" aria-controls="design-tp-panel-2">
             B
           </TabPill>
         </div>
-        <div role="tabpanel" id="p1" aria-labelledby="t1">
+        <div role="tabpanel" id="design-tp-panel-1" aria-labelledby="design-tp-tab-1">
           Panel A
         </div>
-        <div role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+        <div role="tabpanel" id="design-tp-panel-2" aria-labelledby="design-tp-tab-2" hidden>
           Panel B
         </div>
       </div>

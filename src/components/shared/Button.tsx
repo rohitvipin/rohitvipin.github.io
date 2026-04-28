@@ -27,9 +27,7 @@ export type ButtonLinkProps = ButtonOwnProps &
   };
 
 export type ButtonProps = ButtonOwnProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & {
-    href?: undefined;
-  };
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className">;
 
 export function ButtonLink({ variant, children, className, href, ...rest }: ButtonLinkProps) {
   return (

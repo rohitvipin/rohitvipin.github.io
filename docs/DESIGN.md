@@ -225,8 +225,8 @@ Icon: `FiArrowUp`, size `18`.
 
 **Secondary** — smaller, no card surface:
 
-- Container: `p-3 rounded-lg border border-[var(--accent)]/30`
-- Value: `text-base font-semibold text-[var(--accent)]/80`
+- Container: `p-3 rounded-lg border border-[var(--accent)]/30 transition-[border-color,box-shadow] duration-200 hover:border-[var(--accent)] hover:shadow-[0_0_24px_var(--accent-glow)]`
+- Value: `text-base font-semibold text-[var(--accent)]`
 
 ### Icon badge
 
@@ -253,24 +253,28 @@ Live indicator on experience cards:
 
 ### Tabs (pill group)
 
-Used in Projects section to switch between content categories:
+Used in Projects section to switch between content categories. Implemented as `TabPill` in `src/components/shared/TabPill.tsx`.
 
 ```tsx
 <div
   role="tablist"
   className="flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
 >
-  <button
-    role="tab"
-    aria-selected={active}
-    className="/* active: */ /* inactive: */ min-h-[48px] rounded-md bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-[var(--bg)] text-[var(--muted)] transition-all duration-150 hover:text-[var(--text)]"
-  >
+  <TabPill active={tab === id} aria-controls={`panel-${id}`} onClick={() => setTab(id)}>
     Label
-  </button>
+  </TabPill>
 </div>
 ```
 
-Requires `role="tablist"` on container, `role="tab"` + `aria-selected` on each button.
+Base class string (active vs inactive both prepend this):
+
+```
+flex min-h-[48px] items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-150 active:scale-[0.97]
+```
+
+Active suffix: `bg-[var(--accent)] text-[var(--bg)]`. Inactive suffix: `text-[var(--muted)] hover:text-[var(--text)]`.
+
+Requires `role="tablist"` on container; `role="tab"` is set internally by `TabPill`.
 
 ---
 
