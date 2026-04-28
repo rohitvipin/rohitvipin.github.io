@@ -28,11 +28,12 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-00 · Smoke
 
-| #    | Check          | Expected                       | Severity |
-| ---- | -------------- | ------------------------------ | -------- |
-| 00.1 | HTTP status    | 200                            | CRITICAL |
-| 00.2 | Page title     | Contains "Rohit Vipin Mathews" | CRITICAL |
-| 00.3 | Console errors | Zero at `error` level          | HIGH     |
+| #    | Check                   | Expected                                                                     | Severity |
+| ---- | ----------------------- | ---------------------------------------------------------------------------- | -------- |
+| 00.1 | HTTP status             | 200                                                                          | CRITICAL |
+| 00.2 | Page title              | Contains "Rohit Vipin Mathews"                                               | CRITICAL |
+| 00.3 | Console errors          | Zero at `error` level                                                        | HIGH     |
+| 00.4 | No service worker (G21) | `navigator.serviceWorker.getRegistrations()` returns empty after networkidle | HIGH     |
 
 ---
 
@@ -225,6 +226,24 @@ Verify all 10 content sections render with non-empty content.
 | 14.2 | Avatar preloaded (desktop)       | `<link rel="preload" href*="avatar">` in `<head>` — gated to `media="(min-width: 1024px)"`, desktop project only | MEDIUM   |
 | 14.3 | `fetchPriority="high"` on avatar | LCP image prioritised — desktop only (avatar hidden on mobile/tablet)                                            | MEDIUM   |
 | 14.4 | No blocking render requests      | No synchronous external scripts in `<head>` (excludes `_next/` runtime, inline bootstrap)                        | LOW      |
+
+---
+
+### TC-19 · CSP Directive Regression (G14)
+
+Spec: `e2e/all-viewports/tc-19-csp.spec.ts`. Locks the production CSP via parsed sorted-directive map snapshot. Whitespace/order-insensitive; legitimate directive changes update the inline snapshot during PR review.
+
+| #    | Check                                    | Expected                                                                  | Severity |
+| ---- | ---------------------------------------- | ------------------------------------------------------------------------- | -------- |
+| 19.1 | Production CSP directives match snapshot | `parseCSP(content)` returns the locked sorted-directive map               | HIGH     |
+| 19.2 | `unsafe-eval` excluded in production     | `script-src` does not contain `'unsafe-eval'` (dev-only per `layout.tsx`) | HIGH     |
+| 19.3 | No wildcard origins                      | No directive value list contains `*`                                      | HIGH     |
+
+**Implementation notes.**
+
+- `parseCSP` throws on duplicate directive names (real authoring bug, browsers handle inconsistently).
+- `beforeAll` guards against `NODE_ENV === "development"` — dev-server CSP differs (`'unsafe-eval'` appended).
+- Run on the `all-viewports` matrix; CSP is viewport-agnostic but the spec rides existing fixtures.
 
 ---
 

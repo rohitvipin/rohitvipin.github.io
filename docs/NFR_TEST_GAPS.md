@@ -4,7 +4,7 @@ Scope: portfolio site (Next.js 16 static export, GitHub Pages). Baseline drawn f
 
 Severity legend: P0 = block merge, P1 = fix this milestone, P2 = backlog.
 
-> **Status:** v3 — flattened after 7 reviews (critic, architect, test-engineer x2, security-reviewer, code-reviewer, verifier). Re-grounded against shipped design-system test layer (commits `b01634c`, `565554d`, `e2619dd`). Risk profile recalibrated for personal-portfolio scope (no PII, no auth, no payments). See `## Revision Log`.
+> **Status:** v3.1 — Wave 1 shipped (G9, G11, G14, G21, G25, G27). Plan flattened after 7 prior reviews (critic, architect, test-engineer x2, security-reviewer, code-reviewer, verifier) + 2 post-implementation reviews (code-reviewer + security-reviewer). Risk profile recalibrated for personal-portfolio scope (no PII, no auth, no payments). See `## Revision Log`.
 
 ---
 
@@ -510,13 +510,13 @@ Folded into G11. One-line workflow add: `actions/dependency-review-action@<sha>`
 | Wave    | Items                                                  | Effort    | Why                                                                                                                               |
 | ------- | ------------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | done    | G4 (entire), G1 (unit-level)                           | shipped   | Design-system test layer (commits `b01634c`, `565554d`, `e2619dd`).                                                               |
-| 1       | G9, G11, G14, G21, G25, G27                            | ~0.5 day  | Cheap, high-signal: lint-data rule, audit bump, gitleaks, https refinement, CSP snapshot, SW guard.                               |
+| done    | G9, G11, G14, G21, G25, G27 (Wave 1)                   | shipped   | SECTION_IDS registry + Zod refinement; gitleaks-action + dep-review; npm audit high; CSP regression snapshot; SW absence guard.   |
 | 2       | G1 (E2E sweep), G2, G3, G10, G23                       | ~2.5 days | Full-page WCAG via @axe-core/playwright; LHCI metrics + LCP element; bundle baseline; sitemap structure.                          |
 | 3       | G5, G6, G15, G16, G18, G26, G28                        | ~1.5 days | Keyboard sweep, reduced-motion test, JSON-LD validity, hydration regex, html-validate, JSON-LD escape integration, PII allowlist. |
 | 4       | G8, G13, G17, G19, G20, G22, G24                       | ~1 day    | Polish: link audit (cron), print suppression, manifest, no-JS, 404, details overflow, OG dim.                                     |
 | dropped | G7 (WebKit nightly, optional), G12 (visual regression) | —         | Re-evaluate only on demonstrated need.                                                                                            |
 
-**Total remaining:** ~5.5 days across 22 gaps + 5 dropped/deferred.
+**Total remaining:** ~5 days across 16 gaps + 5 dropped/deferred + 8 shipped.
 
 ---
 
@@ -569,6 +569,7 @@ All tools support pinned-SHA actions and reproducible CI.
 
 ## Revision Log
 
-- **v3** (current): flattened layered v1+v2 into canonical sections. Re-grounded against shipped design-system test layer (`src/__tests__/design/`, commits `b01634c`, `565554d`, `e2619dd`). Verifier corrected two false v2 premises: tokens are hex/rgba (not `oklch()`); `globals.css:118` already has the reduced-motion block. G4 marked DONE — actual implementation uses PostCSS + `@/lib/tokens` registry, cleaner than v2's proposed `contrast-tokens.ts` generator. G1 split into "unit-level shipped" + "E2E full-page sweep remaining". Coverage Snapshot rebuilt. Tooling Summary unified. Added G25-G29 from security review.
+- **v3.1** (current): Wave 1 shipped. G9 (SECTION_IDS + NavLinkSchema href refinement + tests), G11 (npm audit critical -> high; GHAS dependency-review-action pinned to v4.9.0 SHA), G14 (tc-19-csp.spec.ts: parseCSP with sorted directive map, toMatchInlineSnapshot, NODE_ENV guard, duplicate-directive throw, unsafe-eval + wildcard guards), G21 (tc-00-smoke 00.4 SW absence with networkidle wait), G25 (gitleaks-action pinned to v2.3.9 SHA + fetch-depth: 0 on checkout), G27 (already enforced by existing socialUrl + .startsWith schemas — no code change needed). Two reviewer rounds (code-reviewer REQUEST_CHANGES, security-reviewer APPROVE_WITH_CHANGES); both must-fix items addressed: pinned action SHAs, fetch-depth, pull-requests: write permission, parseCSP duplicate detection, NODE_ENV guard. CI runtime delta: +<1 min.
+- **v3**: flattened layered v1+v2 into canonical sections. Re-grounded against shipped design-system test layer (`src/__tests__/design/`, commits `b01634c`, `565554d`, `e2619dd`). Verifier corrected two false v2 premises: tokens are hex/rgba (not `oklch()`); `globals.css:118` already has the reduced-motion block. G4 marked DONE — actual implementation uses PostCSS + `@/lib/tokens` registry, cleaner than v2's proposed `contrast-tokens.ts` generator. G1 split into "unit-level shipped" + "E2E full-page sweep remaining". Coverage Snapshot rebuilt. Tooling Summary unified. Added G25-G29 from security review.
 - **v2**: 3-architect review (critic + architect + test-engineer). Demoted G7 to P2; dropped G12; trimmed G11 to audit-bump only; LHCI category gates dropped in favour of numeric metric assertions; added G14-G24 (CSP regression, JSON-LD validity, hydration, manifest, html-validate, no-JS, 404, SW, details overflow, LCP element, OG dim).
 - **v1**: initial 13-gap analysis from baseline review.
