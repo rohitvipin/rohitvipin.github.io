@@ -7,6 +7,9 @@ on:
 
 permissions:
   contents: read
+  # dependency-review-action posts a summary comment on the PR when its
+  # default `comment-summary-in-pr` flag is true; that requires write.
+  pull-requests: write
 
 jobs:
   ci:
@@ -15,17 +18,41 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # gitleaks-action below scans full git history for secrets;
+          # actions/checkout default fetch-depth=1 would limit the scan
+          # to the PR head commit only.
+          fetch-depth: 0
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: "24"
           cache: "npm"
 
+      # G29 (NFR_TEST_GAPS.md): GHAS dependency review blocks PRs that
+      # introduce known-vulnerable dependencies. Free for public repos.
+      - name: Dependency Review
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
+        with:
+          fail-on-severity: high
+
+      # G25 (NFR_TEST_GAPS.md): gitleaks scans the PR diff and full
+      # git history (requires fetch-depth: 0 above) for modern secret
+      # formats (github_pat_, sk-ant-, sk-proj-, AIza, xox[bp]-, JWT,
+      # PEM private keys) that the bespoke regex in tc-13-security.spec.ts
+      # does not cover. Free tier covers public repos.
+      - name: Gitleaks secret scan
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         run: npm ci
 
+      # G11 (NFR_TEST_GAPS.md): bumped from --audit-level=critical to high.
+      # HIGH-severity advisories must not silently land on main.
       - name: Audit dependencies
-        run: npm audit --audit-level=critical
+        run: npm audit --audit-level=high
 
       - name: Prettier
         run: npm run format:check

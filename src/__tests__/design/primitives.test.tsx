@@ -139,14 +139,17 @@ describe("primitives emit canonical class strings", () => {
     expect(tabPillClassName(false)).toBe(`${TAB_PILL_BASE} ${TAB_PILL_INACTIVE_SUFFIX}`);
   });
 
-  it("ButtonLink emits BUTTON_VARIANT_CLASSES[variant] verbatim", () => {
-    const { container } = render(
-      <ButtonLink variant="primary" href="#x">
-        Go
-      </ButtonLink>
-    );
-    expect(container.querySelector("a")?.className).toBe(BUTTON_VARIANT_CLASSES.primary);
-  });
+  it.each([["primary" as const], ["secondary" as const], ["ghost" as const]])(
+    "ButtonLink %s emits BUTTON_VARIANT_CLASSES[variant] verbatim",
+    (variant) => {
+      const { container } = render(
+        <ButtonLink variant={variant} href="#x">
+          Go
+        </ButtonLink>
+      );
+      expect(container.querySelector("a")?.className).toBe(BUTTON_VARIANT_CLASSES[variant]);
+    }
+  );
 
   it("buttonClassName helper appends extra without losing variant", () => {
     expect(buttonClassName("primary", "extra-class")).toBe(

@@ -26,10 +26,14 @@ describe("jest-axe wiring self-check", () => {
     expect(result.violations.map((v) => v.id)).toContain("image-alt");
   });
 
-  it("toHaveNoViolations matcher is registered", () => {
-    // The matcher exists on the extended expect surface. If setup.ts did
-    // not extend, this property check fails before runtime.
-    const matchers = (expect as unknown as { extend?: unknown }).extend;
-    expect(typeof matchers).toBe("function");
+  it("toHaveNoViolations passes on a structurally clean DOM (matcher round-trip)", async () => {
+    const { container } = render(
+      <main>
+        <h1>Title</h1>
+        <p>Body copy.</p>
+      </main>
+    );
+    const result = await axe(container);
+    expect(result).toHaveNoViolations();
   });
 });

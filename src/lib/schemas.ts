@@ -185,9 +185,37 @@ export const LeadershipSchema = z.object({
   sections: z.array(LeadershipSubsectionSchema).min(1),
 });
 
+/**
+ * Single registry of valid in-page section IDs. Every section id rendered
+ * by `src/app/page.tsx` and child components must appear here, and every
+ * nav.json hash href must resolve to one of these. Renaming a section
+ * without updating this list surfaces as a lint-data failure rather than a
+ * silently-broken anchor at runtime.
+ */
+export const SECTION_IDS = [
+  "about",
+  "impact",
+  "experience",
+  "expertise",
+  "projects",
+  "skills",
+  "community",
+  "awards",
+  "education",
+  "contact",
+] as const;
+
+export type SectionId = (typeof SECTION_IDS)[number];
+
 export const NavLinkSchema = z.object({
   label: z.string().min(1),
-  href: z.string().min(1).startsWith("#"),
+  href: z
+    .string()
+    .min(1)
+    .startsWith("#")
+    .refine((h) => (SECTION_IDS as readonly string[]).includes(h.slice(1)), {
+      message: `unknown section; expected one of #${SECTION_IDS.join(", #")}`,
+    }),
 });
 
 export const ImpactStorySchema = z.object({

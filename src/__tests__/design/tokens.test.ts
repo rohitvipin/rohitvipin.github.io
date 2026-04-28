@@ -34,9 +34,14 @@ function declarationsForSelector(selector: ThemeSelector): Map<string, string> {
 const dark = declarationsForSelector(":root");
 const light = declarationsForSelector('[data-theme="light"]');
 
-/** Token values must be hex, rgb()/rgba(), oklch(), hsl()/hsla(), or var(...) */
+/**
+ * Token values must be hex, a CSS colour function (incl. CSS L4: oklch, oklab,
+ * lab, lch, hwb, color, color-mix), or a var() reference (with optional
+ * fallback). Catches typos like trailing commas or empty values without being
+ * narrow enough to reject modern colour syntax.
+ */
 const VALUE_SHAPE =
-  /^(#[0-9a-fA-F]{3,8}|(?:rgb|rgba|hsl|hsla|oklch|color)\([^)]+\)|var\(--[\w-]+\))$/;
+  /^(#[0-9a-fA-F]{3,8}|(?:rgb|rgba|hsl|hsla|oklch|oklab|lab|lch|hwb|color|color-mix)\([^)]+\)|var\(--[\w-]+(?:,\s*[^)]+)?\))$/;
 
 describe("design tokens — globals.css", () => {
   it("dark theme declares exactly the canonical token set", () => {
