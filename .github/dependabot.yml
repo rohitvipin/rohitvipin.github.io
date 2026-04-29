@@ -11,6 +11,14 @@ updates:
         dependency-type: "development"
       production-dependencies:
         dependency-type: "production"
+    ignore:
+      # eslint-config-next@16.x ships eslint-plugin-react@7.37.5 whose peer
+      # range tops out at eslint@^9. ESLint 10 changed the rule context API
+      # (context.getFilename() removed), so react/display-name throws
+      # "contextOrFilename.getFilename is not a function" on load.
+      # Drop this ignore once eslint-config-next declares eslint@^10.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
