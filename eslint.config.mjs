@@ -59,8 +59,17 @@ const eslintConfig = defineConfig([
       "no-restricted-syntax": [
         "error",
         {
+          // Mirror exemptions kept in src/__tests__/design/no-hardcoded-color.test.ts.
+          // Hex-shaped strings inside id/href/aria-*/data-* JSX attributes are
+          // identifiers or anchor targets, not colour literals.
           selector:
-            "Literal[value=/#[0-9a-fA-F]{3}([0-9a-fA-F]{1,5})?\\b/]:not(JSXAttribute[name.name='id'] > Literal):not(JSXAttribute[name.name='href'] > Literal)",
+            "Literal[value=/#[0-9a-fA-F]{3}([0-9a-fA-F]{1,5})?\\b/]" +
+            ":not(JSXAttribute[name.name='id'] > Literal)" +
+            ":not(JSXAttribute[name.name='href'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-controls'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-labelledby'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-describedby'] > Literal)" +
+            ":not(JSXAttribute[name.name=/^data-/] > Literal)",
           message:
             "Hardcoded colour literal. Use a CSS custom property (e.g. var(--accent)) defined in src/app/globals.css.",
         },

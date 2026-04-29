@@ -41,7 +41,7 @@ const light = declarationsForSelector('[data-theme="light"]');
  * narrow enough to reject modern colour syntax.
  */
 const VALUE_SHAPE =
-  /^(#[0-9a-fA-F]{3,8}|(?:rgb|rgba|hsl|hsla|oklch|oklab|lab|lch|hwb|color|color-mix)\([^)]+\)|var\(--[\w-]+(?:,\s*[^)]+)?\))$/;
+  /^(#[0-9a-fA-F]{3,8}|(?:rgb|rgba|hsl|hsla|oklch|oklab|lab|lch|hwb|color|color-mix)\([^)]+\)|var\(--[\w-]+(?:,\s*\S[^)]*)?\))$/;
 
 describe("design tokens — globals.css", () => {
   it("dark theme declares exactly the canonical token set", () => {

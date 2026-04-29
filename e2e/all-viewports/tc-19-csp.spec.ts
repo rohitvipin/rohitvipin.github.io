@@ -9,7 +9,9 @@ import { test, expect } from "@playwright/test";
  *
  * Throws on duplicate directive names — duplicate directives are a real
  * authoring bug that browsers handle inconsistently. Failing loudly is
- * better than silent overwrite.
+ * better than silent overwrite. Also throws on duplicate values inside a
+ * single directive (e.g. `script-src 'self' 'self'`) which is a config
+ * smell that the snapshot would otherwise hide via dedup-on-display.
  */
 function parseCSP(content: string): Record<string, string[]> {
   const directives: Record<string, string[]> = {};
@@ -20,7 +22,12 @@ function parseCSP(content: string): Record<string, string[]> {
     if (name in directives) {
       throw new Error(`duplicate CSP directive: ${name}`);
     }
-    directives[name] = values.slice().sort();
+    const sortedValues = values.slice().sort();
+    const unique = Array.from(new Set(sortedValues));
+    if (unique.length !== sortedValues.length) {
+      throw new Error(`duplicate value in CSP directive: ${name}`);
+    }
+    directives[name] = unique;
   }
   // Re-key so JSON.stringify / inline snapshots emit sorted keys.
   const sorted: Record<string, string[]> = {};
@@ -54,6 +61,11 @@ test.describe("TC-19 · CSP directive regression", () => {
     // Snapshot intentionally locks the production directive surface. A
     // legitimate CSP change (new hash, new origin, removed directive) should
     // update this snapshot during PR review — never weaken silently.
+    //
+    // Note: 'unsafe-inline' on script-src and style-src is the *current floor*,
+    // not the target. Next.js static export emits inline runtime + style chunks
+    // without nonce/hash plumbing. A future TC-19.4 should assert their absence
+    // once nonce-based CSP is wired in.
     expect(directives).toMatchInlineSnapshot(`
       {
         "base-uri": [
