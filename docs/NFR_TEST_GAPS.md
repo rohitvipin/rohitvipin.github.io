@@ -93,7 +93,7 @@ WCAG criteria axe still cannot evaluate (record in spec comment): `2.4.7 Focus V
 
 **Gap.** TC-14 has no LCP/CLS/INP/TBT thresholds. No bundle/asset budget.
 
-**Implementation.** Lighthouse CI (`@lhci/cli`) in `.github/workflows/ci.yml` with `lighthouserc.json`:
+**Implementation.** Lighthouse CI (`@lhci/cli`, pinned in devDependencies) runs in the reusable workflow `.github/workflows/_lint-test-build.yml` when invoked with `lighthouse: true` (currently only `deploy.yml`), using `.github/lighthouse/lighthouserc.json`:
 
 ```json
 {

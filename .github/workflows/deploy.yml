@@ -13,86 +13,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Lint -> test -> prepare-assets -> build -> e2e -> lighthouse ->
+  # upload-pages-artifact. Pipeline body lives in the shared reusable
+  # workflow so PR (ci.yml) and main-deploy stay in lockstep.
   build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    name: Lint, Test & Build
+    uses: ./.github/workflows/_lint-test-build.yml
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: "24"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Audit dependencies
-        run: npm audit --audit-level=critical
-
-      - name: Prettier
-        run: npm run format:check
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm run test:ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Prepare static assets
-        # Falls back to committed public/avatar.jpg if GitHub API returns 404.
-        # Committed fallback is intentional — ensures deploy never fails on network issues.
-        uses: ./.github/actions/prepare-assets
-
-      - name: Build
-        run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: ""
-          NEXT_PUBLIC_SITE_URL: "https://rohitvipin.github.io"
-          NEXT_PUBLIC_BUILD_SHA: ${{ github.sha }}
-
-      - name: Add .nojekyll
-        run: touch ./out/.nojekyll
-
-      - name: Playwright e2e on built artefact
-        run: npm run test:e2e
-        env:
-          CI: "true"
-
-      - name: Upload Playwright report on failure
-        if: failure()
-        uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8 # v5.0.0
-        with:
-          name: playwright-report-deploy
-          path: playwright-report/
-          retention-days: 7
-
-      - name: Lighthouse CI (static dist)
-        run: npx --yes @lhci/cli@0.15.1 autorun --config=.github/lighthouse/lighthouserc.json
-        continue-on-error: false
-
-      - name: Upload Lighthouse report on failure
-        if: failure()
-        uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8 # v5.0.0
-        with:
-          name: lighthouse-report
-          path: .lighthouseci/
-          retention-days: 7
-
-      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with:
-          path: ./out
+    with:
+      audit-level: high
+      build-sha: ${{ github.sha }}
+      report-name: playwright-report-deploy
+      lighthouse: true
+      upload-pages: true
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       pages: write
       id-token: write
@@ -107,13 +46,17 @@ jobs:
   smoke-test:
     needs: deploy
     runs-on: ubuntu-latest
+    # Hard ceiling above the polling budget (10 attempts x 15s sleep + curl
+    # cost ~= 3 min). Five gives slack for a slow CDN warm-up.
+    timeout-minutes: 5
     permissions: {}
     steps:
       - name: Verify live site
         run: |
+          set -euo pipefail
           BUILD_SHA="${{ github.sha }}"
           for i in {1..10}; do
-            body=$(curl -sf https://rohitvipin.github.io/)
+            body=$(curl -sf https://rohitvipin.github.io/) || body=""
             if echo "$body" | grep -q "Rohit Vipin Mathews" && echo "$body" | grep -q "content=\"${BUILD_SHA}\""; then
               echo "Smoke test passed (build SHA confirmed)"
               exit 0
