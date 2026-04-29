@@ -16,7 +16,13 @@ updates:
       # range tops out at eslint@^9. ESLint 10 changed the rule context API
       # (context.getFilename() removed), so react/display-name throws
       # "contextOrFilename.getFilename is not a function" on load.
-      # Drop this ignore once eslint-config-next declares eslint@^10.
+      #
+      # Tracking (issues disabled on this repo):
+      #   Added: 2026-04-29
+      #   Review by: 2026-07-29 (quarterly)
+      #   Unblock when: `npm view eslint-config-next peerDependencies.eslint`
+      #     reports `^10` (currently `^9`); then delete this ignore block and
+      #     let dependabot raise the eslint major bump.
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
 
