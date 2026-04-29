@@ -58,45 +58,25 @@ test.describe("TC-19 · CSP directive regression", () => {
     expect(csp, "CSP meta tag missing").not.toBeNull();
     const directives = parseCSP(csp ?? "");
 
-    // Snapshot intentionally locks the production directive surface. A
-    // legitimate CSP change (new hash, new origin, removed directive) should
-    // update this snapshot during PR review — never weaken silently.
+    // Locked production directive surface. A legitimate CSP change (new hash,
+    // new origin, removed directive) should update this literal during PR
+    // review — never weaken silently. Playwright's `expect` does not ship
+    // `toMatchInlineSnapshot` (Vitest/Jest only), so use deep equality.
     //
     // Note: 'unsafe-inline' on script-src and style-src is the *current floor*,
     // not the target. Next.js static export emits inline runtime + style chunks
     // without nonce/hash plumbing. A future TC-19.4 should assert their absence
     // once nonce-based CSP is wired in.
-    expect(directives).toMatchInlineSnapshot(`
-      {
-        "base-uri": [
-          "'self'",
-        ],
-        "connect-src": [
-          "'self'",
-        ],
-        "default-src": [
-          "'self'",
-        ],
-        "font-src": [
-          "'self'",
-        ],
-        "img-src": [
-          "'self'",
-          "data:",
-        ],
-        "object-src": [
-          "'none'",
-        ],
-        "script-src": [
-          "'self'",
-          "'unsafe-inline'",
-        ],
-        "style-src": [
-          "'self'",
-          "'unsafe-inline'",
-        ],
-      }
-    `);
+    expect(directives).toEqual({
+      "base-uri": ["'self'"],
+      "connect-src": ["'self'"],
+      "default-src": ["'self'"],
+      "font-src": ["'self'"],
+      "img-src": ["'self'", "data:"],
+      "object-src": ["'none'"],
+      "script-src": ["'self'", "'unsafe-inline'"],
+      "style-src": ["'self'", "'unsafe-inline'"],
+    });
   });
 
   test("19.2 script-src does not contain unsafe-eval in production build", async ({ page }) => {

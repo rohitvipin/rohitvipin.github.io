@@ -50,3 +50,4 @@ test-results/
 .cody/
 .gitnexus
 .claude/skills/gitnexus/
+.github/hooks/context-mode.json
