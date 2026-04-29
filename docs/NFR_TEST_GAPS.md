@@ -26,38 +26,38 @@ This closes G4 entirely and partially closes G1 (unit-level structural a11y). E2
 
 ## Coverage Snapshot
 
-| NFR Domain              | Current Coverage                                                                                                     | Gap Tier |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- |
-| Colour contrast         | `src/__tests__/design/tokens.test.ts` (PostCSS + WCAG, both themes); ESLint `no-restricted-syntax` + Vitest backstop | covered  |
-| Structural a11y (units) | `src/__tests__/design/a11y.test.tsx` on shared primitives                                                            | covered  |
-| Accessibility (E2E)     | TC-12 manual rules (skip link, alt, labels, heading order); no integrated full-page axe sweep                        | P0       |
-| Performance             | TC-14 preload + 4xx + render-blocking only; no LCP/CLS/TBT budgets                                                   | P0       |
-| Security                | TC-13 CSP meta + referrer + 3-pattern secret regex; `npm audit --audit-level=critical`                               | P1       |
-| SEO                     | OG/Twitter/JSON-LD presence; no sitemap/robots/canonical structure tests                                             | P1       |
-| Cross-browser           | Playwright Chromium-only (no Firefox/WebKit)                                                                         | P2       |
-| Reduced motion          | `globals.css:118` has the media block; no test guards it                                                             | P1       |
-| Bundle size             | none                                                                                                                 | P1       |
-| Link integrity          | none (external URLs in projects/socials/community/awards)                                                            | P1       |
-| Keyboard nav            | Mobile-drawer focus-trap only (TC-05.6); no full-page Tab order or focus-visible                                     | P1       |
-| Hash anchors            | `data/nav.json` hashes never asserted against rendered section IDs                                                   | P1       |
-| Dependency audit        | critical-only; no high-severity gate                                                                                 | P1       |
-| CSP regression          | meta exists in `layout.tsx`; directives unwatched                                                                    | P1       |
-| JSON-LD validity        | `@type` only; no required-prop assertions                                                                            | P1       |
-| Hydration errors        | implicit via TC-00.3 `console.error`; not React 19 wording-robust                                                    | P1       |
-| LCP element             | `fetchPriority="high"` set; no test that avatar IS the LCP element                                                   | P1       |
-| Secret detection        | 3 regex patterns (AKIA/ghp\_/Bearer); modern token formats unscanned                                                 | P1       |
-| Mixed content           | no automated check that `data/*.json` URLs are `https://`                                                            | P1       |
-| Responsive/Touch        | TC-06/07 horizontal-scroll + WCAG 2.5.5 sizes                                                                        | covered  |
-| Reliability             | Vitest unit/integration + 90% coverage threshold                                                                     | covered  |
-| Web manifest            | referenced in layout; not parsed/validated                                                                           | P2       |
-| HTML validity           | none                                                                                                                 | P2       |
-| No-JS fallback          | none                                                                                                                 | P2       |
-| 404 page                | `out/404.html` generated; untested                                                                                   | P2       |
-| Service worker          | none registered; no absence guard                                                                                    | P2       |
-| Details overflow        | mobile clip risk in expanded `<details>`                                                                             | P2       |
-| OG image dim            | `1200x630` declared; not asserted at build time                                                                      | P2       |
-| Print/PDF               | resume PDF generated separately; live page print untested                                                            | P2       |
-| Visual regression       | dropped — font-render flake; manual QA via `portfolio-qa` skill suffices                                             | dropped  |
+| NFR Domain              | Current Coverage                                                                                                                 | Gap Tier |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Colour contrast         | `src/__tests__/design/tokens.test.ts` (PostCSS + WCAG, both themes); ESLint `no-restricted-syntax` + Vitest backstop             | covered  |
+| Structural a11y (units) | `src/__tests__/design/a11y.test.tsx` on shared primitives                                                                        | covered  |
+| Accessibility (E2E)     | TC-12 manual rules (skip link, alt, labels, heading order); no integrated full-page axe sweep                                    | P0       |
+| Performance             | TC-14 preload + 4xx + render-blocking only; no LCP/CLS/TBT budgets                                                               | P0       |
+| Security                | TC-13 CSP meta + referrer + 3-pattern secret regex; `npm audit --audit-level=high` + GHAS dependency-review + gitleaks (PR-only) | P1       |
+| SEO                     | OG/Twitter/JSON-LD presence; no sitemap/robots/canonical structure tests                                                         | P1       |
+| Cross-browser           | Playwright Chromium-only (no Firefox/WebKit)                                                                                     | P2       |
+| Reduced motion          | `globals.css:118` has the media block; no test guards it                                                                         | P1       |
+| Bundle size             | none                                                                                                                             | P1       |
+| Link integrity          | none (external URLs in projects/socials/community/awards)                                                                        | P1       |
+| Keyboard nav            | Mobile-drawer focus-trap only (TC-05.6); no full-page Tab order or focus-visible                                                 | P1       |
+| Hash anchors            | `data/nav.json` hashes never asserted against rendered section IDs                                                               | P1       |
+| Dependency audit        | `npm audit --audit-level=high` on PR + main; GHAS dependency-review on PRs (G11/G29 shipped)                                     | covered  |
+| CSP regression          | meta exists in `layout.tsx`; directives unwatched                                                                                | P1       |
+| JSON-LD validity        | `@type` only; no required-prop assertions                                                                                        | P1       |
+| Hydration errors        | implicit via TC-00.3 `console.error`; not React 19 wording-robust                                                                | P1       |
+| LCP element             | `fetchPriority="high"` set; no test that avatar IS the LCP element                                                               | P1       |
+| Secret detection        | TC-13 3-pattern regex (AKIA/ghp\_/Bearer) + gitleaks PR scan over diff and full history (G25 shipped)                            | covered  |
+| Mixed content           | no automated check that `data/*.json` URLs are `https://`                                                                        | P1       |
+| Responsive/Touch        | TC-06/07 horizontal-scroll + WCAG 2.5.5 sizes                                                                                    | covered  |
+| Reliability             | Vitest unit/integration + 90% coverage threshold                                                                                 | covered  |
+| Web manifest            | referenced in layout; not parsed/validated                                                                                       | P2       |
+| HTML validity           | none                                                                                                                             | P2       |
+| No-JS fallback          | none                                                                                                                             | P2       |
+| 404 page                | `out/404.html` generated; untested                                                                                               | P2       |
+| Service worker          | none registered; no absence guard                                                                                                | P2       |
+| Details overflow        | mobile clip risk in expanded `<details>`                                                                                         | P2       |
+| OG image dim            | `1200x630` declared; not asserted at build time                                                                                  | P2       |
+| Print/PDF               | resume PDF generated separately; live page print untested                                                                        | P2       |
+| Visual regression       | dropped — font-render flake; manual QA via `portfolio-qa` skill suffices                                                         | dropped  |
 
 ---
 
