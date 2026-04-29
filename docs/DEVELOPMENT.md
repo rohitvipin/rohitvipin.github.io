@@ -219,6 +219,41 @@ Push to `main` → GitHub Actions runs: audit → Prettier → lint → test →
 | `NEXT_PUBLIC_SITE_URL`  | `https://rohitvipin.github.io` | Canonical base URL used in metadata, OG tags, sitemap                     |
 | `NEXT_PUBLIC_BUILD_SHA` | set by CI                      | Git SHA embedded in `<meta name="build-sha">` for smoke-test verification |
 
+## Dependency Audit & CVE Hotfix Procedure
+
+The reusable workflow `.github/workflows/_lint-test-build.yml` runs `npm audit
+--audit-level=${{ inputs.audit-level }}` before lint/test/build. Both `ci.yml`
+and `deploy.yml` pass `audit-level: high`, so any new HIGH or CRITICAL
+transitive advisory blocks the pipeline.
+
+**When a transitive CVE blocks main and a hotfix must ship before upstream
+patches:**
+
+1. Open a PR that adds the affected package to `package.json` `overrides` with
+   a fixed version range:
+   ```json
+   "overrides": {
+     "tmp": "^0.2.4"
+   }
+   ```
+2. Run `npm install`, then `npm audit` locally to confirm the advisory clears.
+3. If overrides cannot resolve (e.g., upstream dependency hard-pins the
+   vulnerable version), open a one-commit PR that temporarily lowers the
+   threshold:
+   ```yaml
+   # ci.yml + deploy.yml
+   audit-level: critical
+   ```
+   Add a tracking issue link in the PR description and a TODO with target
+   date for revert. Do not leave `audit-level: critical` on `main` longer
+   than one release cycle.
+4. Document the temporary downgrade in the PR body with: severity, affected
+   package, blast-radius (devtool only? runtime?), and upstream tracking link.
+
+The `overrides` path is preferred because it stays scoped to one package; the
+`audit-level` downgrade silences ALL high-severity advisories, including
+unrelated ones that surface during the window.
+
 ## Troubleshooting
 
 | Issue                       | Solution                                               |
@@ -228,6 +263,7 @@ Push to `main` → GitHub Actions runs: audit → Prettier → lint → test →
 | Tests fail but pass in CI   | Check Node version (24.15.0), timezone-dependent tests |
 | Hot reload not working      | Restart dev server, clear browser cache                |
 | Favicon/resume not updating | Run generate commands, clear build cache               |
+| `npm audit` blocks CI       | See "Dependency Audit & CVE Hotfix Procedure" above    |
 
 ---
 

@@ -107,7 +107,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* 'unsafe-eval' added in dev only: React requires eval() for call-stack reconstruction in development mode */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'`}
+          content={`default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'`}
         />
         {/* X-Content-Type-Options and Permissions-Policy must be HTTP response headers — meta tags are ignored by browsers for these directives. GitHub Pages does not support custom headers. */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
