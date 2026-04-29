@@ -416,7 +416,7 @@ All design tokens, primitives, and colour contracts are validated via unit tests
 - **Primitive snapshots** (`src/__tests__/design/primitives.test.tsx`) — inline snapshot className per shared primitive (Button, StatusPill, TabPill, TagBadge), ensures class strings remain canonical across commits
 - **Accessibility (jsdom scope)** (`src/__tests__/design/a11y.test.tsx`) — jest-axe structural audit on shared primitives; contrast/target-size/focus-order rules disabled (jsdom limitation, owned by Playwright + Lighthouse CI)
 - **No hardcoded colour rule** (`src/__tests__/design/no-hardcoded-color.test.ts` + ESLint `no-restricted-syntax`) — backstops hex/rgb/hsl literals in `src/components/**` and `src/app/**` (excluding `src/app/layout.tsx` which requires literal hex for `themeColor` meta)
-- **Touch-target spec** (`e2e/all-viewports/tc-touch-targets.spec.ts`) — Playwright assertion that all interactive elements meet 48x48 px minimum hit target via `getBoundingClientRect`
+- **Touch-target spec** (`e2e/all-viewports/tc-15-touch-targets.spec.ts`) — Playwright assertion that all interactive elements meet 48x48 px minimum hit target via `getBoundingClientRect`
 - **Lighthouse CI gates** (`.github/lighthouse/lighthouserc.json`) — categories (accessibility, best-practices, SEO) and specific a11y audits (colour contrast, target size, aria-roles)
 
 **Update both files when changing tokens or primitives:**

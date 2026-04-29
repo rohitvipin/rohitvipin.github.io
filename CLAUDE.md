@@ -19,7 +19,7 @@ This file provides guidance to AI agents (Claude/Copilot) when working with code
 - **`src/`** — Next.js App Router + React components
   - `app/` — Layout, pages, global styles
   - `components/` — Section and shared components (organized by feature folder)
-  - `lib/` — `data.ts` (typed constants, one per data file), `colors.ts` (company/domain color utils), `schemas.ts` (Zod validation schemas), `jsonld.ts` (JSON-LD structured data builder)
+  - `lib/` — `data.ts` (typed constants, one per data file), `schemas.ts` (Zod validation schemas), `jsonld.ts` (JSON-LD structured data builder), `tokens.ts` (design-token registry + contrast pairs), `primitive-classes.ts` (shared primitive class strings), `duration.ts`, `escape.ts`, `paths.ts`, `profile.ts`, `projects.ts`
   - `types/` — TypeScript interfaces (must stay in sync with `data/*.json`)
   - `__tests__/` — Unit + integration tests (Vitest + React Testing Library)
 - **`utils/`** — Dev scripts (run via `tsx`)
@@ -55,7 +55,7 @@ npm run format           # Prettier write
 npm run format:check     # Prettier check only
 npm run lint:data        # Validate JSON schemas only (Zod)
 npm run test             # Run Vitest (unit + integration)
-npm run test:coverage    # Coverage report (60% threshold enforced)
+npm run test:coverage    # Coverage report (90%/85% thresholds enforced)
 npm run test:ci          # Vitest in CI mode (no watch)
 npm run generate-favicons # Rebuild favicon suite
 npm run generate-resume  # Generate PDF resume → public/
@@ -121,10 +121,10 @@ npm run generate-resume  # Generate PDF resume → public/
 
 ### 6. Static Export
 
-- **No Node.js runtime** — static export to GitHub Pages (`output: "export"` in `next.config.mjs`).
+- **No Node.js runtime** — static export to GitHub Pages (`output: "export"` in `next.config.ts`).
 - **No Node.js imports** in client code (no `fs`, `path`, etc.).
 - **All dynamic data** must exist at build time (embedded in JSON files).
-- `images: { unoptimized: true }` and `trailingSlash: true` set in `next.config.mjs`.
+- `images: { unoptimized: true }` and `trailingSlash: true` set in `next.config.ts`.
 
 ### 7. UI Validation
 
@@ -185,9 +185,12 @@ npm run generate-resume  # Generate PDF resume → public/
 **Files:**
 
 - `data.ts` — imports all JSON, exports typed constants: `profile`, `experience`, `projects`, `skills`, `education`, `socials`, `awards`, `community`, `leadership`, `navLinks`, `impact` (each parsed via Zod at import time)
-- `colors.ts` — `getCompanyColor()`, `getDomainColor()` (pure functions)
 - `schemas.ts` — Zod schemas for all data types; shared by `lint-data.ts` and test suite
 - `jsonld.ts` — `buildPersonJsonLd()` builds JSON-LD `Person` structured data from profile + socials; used by `src/app/layout.tsx`
+- `tokens.ts` — design-token registry (`TOKEN_KEYS`) and `CONTRAST_PAIRS` consumed by primitives + a11y tests
+- `primitive-classes.ts` — shared Tailwind class strings used by Button/StatusPill/TabPill/TagBadge primitives
+- `duration.ts` — `parseStartYear()` for sorting `experience.json` / `projects.json` by start date
+- `escape.ts`, `paths.ts`, `profile.ts`, `projects.ts` — small focused helpers (HTML escaping, base-path joining, profile/project derivations)
 
 **Rules:**
 

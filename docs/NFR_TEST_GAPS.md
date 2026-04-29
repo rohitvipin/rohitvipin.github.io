@@ -4,7 +4,7 @@ Scope: portfolio site (Next.js 16 static export, GitHub Pages). Baseline drawn f
 
 Severity legend: P0 = block merge, P1 = fix this milestone, P2 = backlog.
 
-> **Status:** v3.1 — Wave 1 shipped (G9, G11, G14, G21, G25, G27). Plan flattened after 7 prior reviews (critic, architect, test-engineer x2, security-reviewer, code-reviewer, verifier) + 2 post-implementation reviews (code-reviewer + security-reviewer). Risk profile recalibrated for personal-portfolio scope (no PII, no auth, no payments). See `## Revision Log`.
+> **Status:** v3.2 — Wave 1 + G2 shipped (G2, G9, G11, G14, G21, G25, G27). G2 reconciled with actual `lighthouserc.json` (composite category gates ARE enforced; numberOfRuns: 3). Coverage Snapshot rows for Performance / CSP regression / Hash anchors flipped to `covered`. See `## Revision Log`.
 
 ---
 
@@ -26,38 +26,38 @@ This closes G4 entirely and partially closes G1 (unit-level structural a11y). E2
 
 ## Coverage Snapshot
 
-| NFR Domain              | Current Coverage                                                                                                                 | Gap Tier |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Colour contrast         | `src/__tests__/design/tokens.test.ts` (PostCSS + WCAG, both themes); ESLint `no-restricted-syntax` + Vitest backstop             | covered  |
-| Structural a11y (units) | `src/__tests__/design/a11y.test.tsx` on shared primitives                                                                        | covered  |
-| Accessibility (E2E)     | TC-12 manual rules (skip link, alt, labels, heading order); no integrated full-page axe sweep                                    | P0       |
-| Performance             | TC-14 preload + 4xx + render-blocking only; no LCP/CLS/TBT budgets                                                               | P0       |
-| Security                | TC-13 CSP meta + referrer + 3-pattern secret regex; `npm audit --audit-level=high` + GHAS dependency-review + gitleaks (PR-only) | P1       |
-| SEO                     | OG/Twitter/JSON-LD presence; no sitemap/robots/canonical structure tests                                                         | P1       |
-| Cross-browser           | Playwright Chromium-only (no Firefox/WebKit)                                                                                     | P2       |
-| Reduced motion          | `globals.css:118` has the media block; no test guards it                                                                         | P1       |
-| Bundle size             | none                                                                                                                             | P1       |
-| Link integrity          | none (external URLs in projects/socials/community/awards)                                                                        | P1       |
-| Keyboard nav            | Mobile-drawer focus-trap only (TC-05.6); no full-page Tab order or focus-visible                                                 | P1       |
-| Hash anchors            | `data/nav.json` hashes never asserted against rendered section IDs                                                               | P1       |
-| Dependency audit        | `npm audit --audit-level=high` on PR + main; GHAS dependency-review on PRs (G11/G29 shipped)                                     | covered  |
-| CSP regression          | meta exists in `layout.tsx`; directives unwatched                                                                                | P1       |
-| JSON-LD validity        | `@type` only; no required-prop assertions                                                                                        | P1       |
-| Hydration errors        | implicit via TC-00.3 `console.error`; not React 19 wording-robust                                                                | P1       |
-| LCP element             | `fetchPriority="high"` set; no test that avatar IS the LCP element                                                               | P1       |
-| Secret detection        | TC-13 3-pattern regex (AKIA/ghp\_/Bearer) + gitleaks PR scan over diff and full history (G25 shipped)                            | covered  |
-| Mixed content           | no automated check that `data/*.json` URLs are `https://`                                                                        | P1       |
-| Responsive/Touch        | TC-06/07 horizontal-scroll + WCAG 2.5.5 sizes                                                                                    | covered  |
-| Reliability             | Vitest unit/integration + 90% coverage threshold                                                                                 | covered  |
-| Web manifest            | referenced in layout; not parsed/validated                                                                                       | P2       |
-| HTML validity           | none                                                                                                                             | P2       |
-| No-JS fallback          | none                                                                                                                             | P2       |
-| 404 page                | `out/404.html` generated; untested                                                                                               | P2       |
-| Service worker          | none registered; no absence guard                                                                                                | P2       |
-| Details overflow        | mobile clip risk in expanded `<details>`                                                                                         | P2       |
-| OG image dim            | `1200x630` declared; not asserted at build time                                                                                  | P2       |
-| Print/PDF               | resume PDF generated separately; live page print untested                                                                        | P2       |
-| Visual regression       | dropped — font-render flake; manual QA via `portfolio-qa` skill suffices                                                         | dropped  |
+| NFR Domain              | Current Coverage                                                                                                                  | Gap Tier |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Colour contrast         | `src/__tests__/design/tokens.test.ts` (PostCSS + WCAG, both themes); ESLint `no-restricted-syntax` + Vitest backstop              | covered  |
+| Structural a11y (units) | `src/__tests__/design/a11y.test.tsx` on shared primitives                                                                         | covered  |
+| Accessibility (E2E)     | TC-12 manual rules (skip link, alt, labels, heading order); no integrated full-page axe sweep                                     | P0       |
+| Performance             | TC-14 preload + 4xx + render-blocking; Lighthouse CI on `deploy.yml` enforces LCP/CLS/TBT + composite category gates (G2 shipped) | covered  |
+| Security                | TC-13 CSP meta + referrer + 3-pattern secret regex; `npm audit --audit-level=high` + GHAS dependency-review + gitleaks (PR-only)  | P1       |
+| SEO                     | OG/Twitter/JSON-LD presence; no sitemap/robots/canonical structure tests                                                          | P1       |
+| Cross-browser           | Playwright Chromium-only (no Firefox/WebKit)                                                                                      | P2       |
+| Reduced motion          | `globals.css:118` has the media block; no test guards it                                                                          | P1       |
+| Bundle size             | none                                                                                                                              | P1       |
+| Link integrity          | none (external URLs in projects/socials/community/awards)                                                                         | P1       |
+| Keyboard nav            | Mobile-drawer focus-trap only (TC-05.6); no full-page Tab order or focus-visible                                                  | P1       |
+| Hash anchors            | `SECTION_IDS` registry + `NavLinkSchema` href refinement + lint-data assertions (G9 shipped)                                      | covered  |
+| Dependency audit        | `npm audit --audit-level=high` on PR + main; GHAS dependency-review on PRs (G11/G29 shipped)                                      | covered  |
+| CSP regression          | `e2e/all-viewports/tc-19-csp.spec.ts` parses + snapshots directives (G14 shipped)                                                 | covered  |
+| JSON-LD validity        | `@type` only; no required-prop assertions                                                                                         | P1       |
+| Hydration errors        | implicit via TC-00.3 `console.error`; not React 19 wording-robust                                                                 | P1       |
+| LCP element             | `fetchPriority="high"` set; no test that avatar IS the LCP element                                                                | P1       |
+| Secret detection        | TC-13 3-pattern regex (AKIA/ghp\_/Bearer) + gitleaks PR scan over diff and full history (G25 shipped)                             | covered  |
+| Mixed content           | no automated check that `data/*.json` URLs are `https://`                                                                         | P1       |
+| Responsive/Touch        | TC-06/07 horizontal-scroll + WCAG 2.5.5 sizes                                                                                     | covered  |
+| Reliability             | Vitest unit/integration + 90% coverage threshold                                                                                  | covered  |
+| Web manifest            | referenced in layout; not parsed/validated                                                                                        | P2       |
+| HTML validity           | none                                                                                                                              | P2       |
+| No-JS fallback          | none                                                                                                                              | P2       |
+| 404 page                | `out/404.html` generated; untested                                                                                                | P2       |
+| Service worker          | none registered; no absence guard                                                                                                 | P2       |
+| Details overflow        | mobile clip risk in expanded `<details>`                                                                                          | P2       |
+| OG image dim            | `1200x630` declared; not asserted at build time                                                                                   | P2       |
+| Print/PDF               | resume PDF generated separately; live page print untested                                                                         | P2       |
+| Visual regression       | dropped — font-render flake; manual QA via `portfolio-qa` skill suffices                                                          | dropped  |
 
 ---
 
@@ -89,36 +89,50 @@ WCAG criteria axe still cannot evaluate (record in spec comment): `2.4.7 Focus V
 
 ---
 
-### G2 - Core Web Vitals + Lighthouse Budgets (P0)
+### G2 - Core Web Vitals + Lighthouse Budgets (SHIPPED)
 
-**Gap.** TC-14 has no LCP/CLS/INP/TBT thresholds. No bundle/asset budget.
+**Status.** Lighthouse CI shipped in `deploy.yml` via `lighthouse: true` input on the reusable workflow `.github/workflows/_lint-test-build.yml`. Runs `npx lhci autorun` against `./out` after the static export, uploads the report on failure.
 
-**Implementation.** Lighthouse CI (`@lhci/cli`, pinned in devDependencies) runs in the reusable workflow `.github/workflows/_lint-test-build.yml` when invoked with `lighthouse: true` (currently only `deploy.yml`), using `.github/lighthouse/lighthouserc.json`:
+**Config.** `.github/lighthouse/lighthouserc.json`:
 
 ```json
 {
   "ci": {
-    "collect": { "staticDistDir": "./out", "numberOfRuns": 5 },
+    "collect": {
+      "staticDistDir": "./out",
+      "numberOfRuns": 3,
+      "settings": { "preset": "desktop", "skipAudits": ["uses-http2", "redirects-http"] }
+    },
     "assert": {
       "assertions": {
-        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.9 }],
+        "categories:performance": ["warn", { "minScore": 0.9 }],
+        "categories:seo": ["error", { "minScore": 0.95 }],
+        "color-contrast": "error",
+        "image-alt": "error",
+        "label": "error",
+        "link-name": "error",
+        "button-name": "error",
+        "duplicate-id-aria": "error",
+        "heading-order": "error",
+        "tap-targets": "error",
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
         "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
-        "total-blocking-time": ["error", { "maxNumericValue": 200 }],
-        "first-contentful-paint": ["error", { "maxNumericValue": 1800 }],
-        "largest-contentful-paint-element": ["warn", { "details": true }]
+        "total-blocking-time": ["warn", { "maxNumericValue": 300 }]
       }
     }
   }
 }
 ```
 
-**No composite category gates** (`performance`, `accessibility`, `seo` scores) — sampled, flake on shared GitHub runners. A11y is covered deterministically by the design-system unit suite + G1 E2E sweep; SEO by G10.
+**Composite category gates ARE enforced.** Accessibility (>=0.95) and SEO (>=0.95) are blocking errors; best-practices (>=0.9) is blocking; performance (>=0.9) is a warning to absorb shared-runner variance. Specific a11y audits (`color-contrast`, `tap-targets`, `image-alt`, etc.) are blocking errors and are deterministic regardless of perf flake.
 
-**`numberOfRuns: 5` with median**, not 3. Static-export friendly via `staticDistDir`.
+**`numberOfRuns: 3`** chosen as runtime/signal trade-off. Bump to 5 with median if flake on `largest-contentful-paint` is observed.
 
-**Footgun.** Verify Next 16 `trailingSlash: true` resolves `/` correctly under LHCI's static server before merging budget gates — `out/index.html` vs `out/index.html/index.html`.
+**Remaining follow-up.** Bundle/asset size budget (G3) and full-page WCAG E2E sweep (G1 E2E) still open — see those gaps.
 
-**Effort.** ~1 day. CI adds ~150s.
+**Footgun.** Next 16 `trailingSlash: true` resolves `/` to `out/index.html` under LHCI's static server — verified working in `deploy.yml`.
 
 ---
 
@@ -507,16 +521,17 @@ Folded into G11. One-line workflow add: `actions/dependency-review-action@<sha>`
 
 ## Roll-Out Wave Plan
 
-| Wave    | Items                                                  | Effort    | Why                                                                                                                               |
-| ------- | ------------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| done    | G4 (entire), G1 (unit-level)                           | shipped   | Design-system test layer (commits `b01634c`, `565554d`, `e2619dd`).                                                               |
-| done    | G9, G11, G14, G21, G25, G27 (Wave 1)                   | shipped   | SECTION_IDS registry + Zod refinement; gitleaks-action + dep-review; npm audit high; CSP regression snapshot; SW absence guard.   |
-| 2       | G1 (E2E sweep), G2, G3, G10, G23                       | ~2.5 days | Full-page WCAG via @axe-core/playwright; LHCI metrics + LCP element; bundle baseline; sitemap structure.                          |
-| 3       | G5, G6, G15, G16, G18, G26, G28                        | ~1.5 days | Keyboard sweep, reduced-motion test, JSON-LD validity, hydration regex, html-validate, JSON-LD escape integration, PII allowlist. |
-| 4       | G8, G13, G17, G19, G20, G22, G24                       | ~1 day    | Polish: link audit (cron), print suppression, manifest, no-JS, 404, details overflow, OG dim.                                     |
-| dropped | G7 (WebKit nightly, optional), G12 (visual regression) | —         | Re-evaluate only on demonstrated need.                                                                                            |
+| Wave    | Items                                                  | Effort    | Why                                                                                                                                |
+| ------- | ------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| done    | G4 (entire), G1 (unit-level)                           | shipped   | Design-system test layer (commits `b01634c`, `565554d`, `e2619dd`).                                                                |
+| done    | G9, G11, G14, G21, G25, G27 (Wave 1)                   | shipped   | SECTION_IDS registry + Zod refinement; gitleaks-action + dep-review; npm audit high; CSP regression snapshot; SW absence guard.    |
+| done    | G2 (Lighthouse CI)                                     | shipped   | `.github/lighthouse/lighthouserc.json` + `lighthouse: true` in `deploy.yml`; composite category gates + numeric metric assertions. |
+| 2       | G1 (E2E sweep), G3, G10, G23                           | ~2 days   | Full-page WCAG via @axe-core/playwright; bundle baseline; sitemap structure.                                                       |
+| 3       | G5, G6, G15, G16, G18, G26, G28                        | ~1.5 days | Keyboard sweep, reduced-motion test, JSON-LD validity, hydration regex, html-validate, JSON-LD escape integration, PII allowlist.  |
+| 4       | G8, G13, G17, G19, G20, G22, G24                       | ~1 day    | Polish: link audit (cron), print suppression, manifest, no-JS, 404, details overflow, OG dim.                                      |
+| dropped | G7 (WebKit nightly, optional), G12 (visual regression) | —         | Re-evaluate only on demonstrated need.                                                                                             |
 
-**Total remaining:** ~5 days across 16 gaps + 5 dropped/deferred + 8 shipped.
+**Total remaining:** ~4.5 days across 15 gaps + 5 dropped/deferred + 9 shipped.
 
 ---
 
@@ -524,7 +539,7 @@ Folded into G11. One-line workflow add: `actions/dependency-review-action@<sha>`
 
 - Current PR critical path: ~5 min.
 - After Wave 1: +<1 min.
-- After Wave 2 (G1 E2E axe ~60s + G2 LHCI 5-run ~150s + G3 size-limit ~30s): ~9-10 min.
+- After Wave 2 (G1 E2E axe ~60s + G3 size-limit ~30s): ~7 min on PR; deploy already runs LHCI 3-run (~90s).
 - After Wave 3 (+ G18 html-validate ~5s, G5/G6/G16 specs ~30s): ~10-11 min.
 - Wave 4 link-check is cron, off PR path.
 
@@ -569,7 +584,8 @@ All tools support pinned-SHA actions and reproducible CI.
 
 ## Revision Log
 
-- **v3.1** (current): Wave 1 shipped. G9 (SECTION_IDS + NavLinkSchema href refinement + tests), G11 (npm audit critical -> high; GHAS dependency-review-action pinned to v4.9.0 SHA), G14 (tc-19-csp.spec.ts: parseCSP with sorted directive map, toMatchInlineSnapshot, NODE_ENV guard, duplicate-directive throw, unsafe-eval + wildcard guards), G21 (tc-00-smoke 00.4 SW absence with networkidle wait), G25 (gitleaks-action pinned to v2.3.9 SHA + fetch-depth: 0 on checkout), G27 (already enforced by existing socialUrl + .startsWith schemas — no code change needed). Two reviewer rounds (code-reviewer REQUEST_CHANGES, security-reviewer APPROVE_WITH_CHANGES); both must-fix items addressed: pinned action SHAs, fetch-depth, pull-requests: write permission, parseCSP duplicate detection, NODE_ENV guard. CI runtime delta: +<1 min.
+- **v3.2** (current): Doc-validator drift fix. G2 (Lighthouse CI) recognised as shipped — actual `.github/lighthouse/lighthouserc.json` enforces composite category gates (accessibility >=0.95 error, best-practices >=0.9 error, seo >=0.95 error, performance >=0.9 warn) + LCP/CLS/TBT numeric assertions + a11y audits, run via `lighthouse: true` input on `_lint-test-build.yml` from `deploy.yml`. Doc previously claimed "no composite category gates" and `numberOfRuns: 5` — both contradicted reality. Wave plan moved G2 from Wave 2 to done. Coverage Snapshot rows for Performance, CSP regression, and Hash anchors flipped to `covered` to reflect shipped G2/G14/G9.
+- **v3.1**: Wave 1 shipped. G9 (SECTION_IDS + NavLinkSchema href refinement + tests), G11 (npm audit critical -> high; GHAS dependency-review-action pinned to v4.9.0 SHA), G14 (tc-19-csp.spec.ts: parseCSP with sorted directive map, toMatchInlineSnapshot, NODE_ENV guard, duplicate-directive throw, unsafe-eval + wildcard guards), G21 (tc-00-smoke 00.4 SW absence with networkidle wait), G25 (gitleaks-action pinned to v2.3.9 SHA + fetch-depth: 0 on checkout), G27 (already enforced by existing socialUrl + .startsWith schemas — no code change needed). Two reviewer rounds (code-reviewer REQUEST_CHANGES, security-reviewer APPROVE_WITH_CHANGES); both must-fix items addressed: pinned action SHAs, fetch-depth, pull-requests: write permission, parseCSP duplicate detection, NODE_ENV guard. CI runtime delta: +<1 min.
 - **v3**: flattened layered v1+v2 into canonical sections. Re-grounded against shipped design-system test layer (`src/__tests__/design/`, commits `b01634c`, `565554d`, `e2619dd`). Verifier corrected two false v2 premises: tokens are hex/rgba (not `oklch()`); `globals.css:118` already has the reduced-motion block. G4 marked DONE — actual implementation uses PostCSS + `@/lib/tokens` registry, cleaner than v2's proposed `contrast-tokens.ts` generator. G1 split into "unit-level shipped" + "E2E full-page sweep remaining". Coverage Snapshot rebuilt. Tooling Summary unified. Added G25-G29 from security review.
 - **v2**: 3-architect review (critic + architect + test-engineer). Demoted G7 to P2; dropped G12; trimmed G11 to audit-bump only; LHCI category gates dropped in favour of numeric metric assertions; added G14-G24 (CSP regression, JSON-LD validity, hydration, manifest, html-validate, no-JS, 404, SW, details overflow, LCP element, OG dim).
 - **v1**: initial 13-gap analysis from baseline review.
