@@ -8,15 +8,15 @@ export interface LeadershipSectionProps {
 export function LeadershipSection({ leadership }: LeadershipSectionProps) {
   return (
     <section id="expertise" aria-labelledby="expertise-heading" className="section">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeader title={leadership.title} headingId="expertise-heading" />
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-6 md:grid-cols-2">
           {leadership.sections.map((sub) => (
-            <div key={sub.title} className="card p-6 space-y-3">
-              <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wider">
+            <div key={sub.title} className="card space-y-3 p-6">
+              <h3 className="text-sm font-semibold tracking-wider text-[var(--text)] uppercase">
                 {sub.title}
               </h3>
-              <p className="text-[var(--muted)] text-lg leading-relaxed whitespace-pre-line">
+              <p className="text-lg leading-relaxed whitespace-pre-line text-[var(--muted)]">
                 {sub.description}
               </p>
             </div>

@@ -1,0 +1,135 @@
+name: Lint, Test, Build (reusable)
+
+# Reusable workflow consumed by ci.yml (PR gate) and deploy.yml (main deploy).
+# Centralises the lint -> test -> prepare-assets -> build -> e2e pipeline so
+# both pipelines stay in lockstep. Caller-specific concerns (gitleaks /
+# dependency review on PRs, Pages concurrency / deploy / smoke-test on main)
+# remain in their respective callers.
+
+on:
+  workflow_call:
+    inputs:
+      audit-level:
+        description: "npm audit fail threshold (low/moderate/high/critical)"
+        type: string
+        default: high
+      build-sha:
+        description: "Commit SHA exposed via NEXT_PUBLIC_BUILD_SHA. Empty string means do not inject."
+        type: string
+        default: ""
+      report-name:
+        description: "Artifact name for the Playwright report on failure (must be unique per caller)"
+        type: string
+        required: true
+      lighthouse:
+        description: "Run Lighthouse CI against the static dist after e2e."
+        type: boolean
+        default: false
+      upload-pages:
+        description: "Append .nojekyll, configure Pages, and upload the github-pages artifact."
+        type: boolean
+        default: false
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # G11 (NFR_TEST_GAPS.md): HIGH-severity advisories must not silently
+      # land on main. Caller picks the threshold; ci.yml + deploy.yml both
+      # default to high so PR and main gates stay aligned.
+      - name: Audit dependencies
+        run: npm audit --audit-level=${{ inputs.audit-level }}
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Tests
+        run: npm run test:ci
+
+      - name: Prepare static assets
+        # Composite action: fetch-avatar, generate-favicons (incl. avatar.webp),
+        # generate-resume PDF. e2e suite asserts the avatar.webp 200, so this
+        # must precede `next build`.
+        uses: ./.github/actions/prepare-assets
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_SITE_URL: "https://rohitvipin.github.io"
+          NEXT_PUBLIC_BUILD_SHA: ${{ inputs.build-sha }}
+
+      - name: Add .nojekyll
+        if: ${{ inputs.upload-pages }}
+        run: touch ./out/.nojekyll
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ~/.cache/ms-playwright
+          # @playwright/test version pinned in package-lock.json -- any
+          # browser-bundle bump in the lockfile invalidates the cache.
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright system deps
+        # apt packages are not part of the cached path; reinstall them on
+        # cache hit so headed Chromium can launch in CI.
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Playwright e2e
+        run: npm run test:e2e
+        env:
+          CI: "true"
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8 # v5.0.0
+        with:
+          name: ${{ inputs.report-name }}
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Lighthouse CI (static dist)
+        if: ${{ inputs.lighthouse }}
+        # @lhci/cli is pinned as a devDependency; npm ci above resolves the
+        # binary so npx does not redownload per run.
+        run: npx lhci autorun --config=.github/lighthouse/lighthouserc.json
+        continue-on-error: false
+
+      - name: Upload Lighthouse report on failure
+        if: ${{ inputs.lighthouse && failure() }}
+        uses: actions/upload-artifact@de65e23aa2b7e23d713bb51fbfcb6d502f8667d8 # v5.0.0
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 7
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        if: ${{ inputs.upload-pages }}
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        if: ${{ inputs.upload-pages }}
+        with:
+          path: ./out

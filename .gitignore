@@ -48,3 +48,7 @@ test-results/
 .copilot/
 .windsurf/
 .cody/
+.gitnexus
+.claude/skills/gitnexus/
+.github/hooks/context-mode.json
+.lighthouseci/

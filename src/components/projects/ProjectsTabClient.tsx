@@ -3,6 +3,7 @@
 import { useRef, useState, useMemo } from "react";
 import type { Project } from "@/types";
 import { ProjectCard } from "./ProjectCard";
+import { TabPill } from "@/components/shared/TabPill";
 import { partitionProjects } from "@/lib/projects";
 import { FiBriefcase, FiGithub } from "react-icons/fi";
 
@@ -47,30 +48,24 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
       <div
         role="tablist"
         aria-label="Project categories"
-        className="flex gap-1 mb-8 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+        className="mb-8 flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
       >
         {TABS.map(({ id, label, Icon }) => (
-          <button
+          <TabPill
             key={id}
-            ref={(el) => {
+            buttonRef={(el) => {
               tabRefs.current[id] = el;
             }}
-            role="tab"
             id={`tab-${id}`}
-            aria-selected={tab === id}
+            active={tab === id}
             aria-controls={`tabpanel-${id}`}
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}
             onKeyDown={(e) => handleKeyDown(e, id)}
-            className={`flex items-center gap-2 px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150 active:scale-[0.97] ${
-              tab === id
-                ? "bg-[var(--accent)] text-[var(--bg)]"
-                : "text-[var(--muted)] hover:text-[var(--text)]"
-            }`}
           >
             <Icon size={14} aria-hidden="true" />
             {label}
-          </button>
+          </TabPill>
         ))}
       </div>
       {TABS.map(({ id }) => {
@@ -83,7 +78,7 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             aria-labelledby={`tab-${id}`}
             tabIndex={tab === id ? 0 : -1}
             hidden={tab !== id}
-            className="grid md:grid-cols-2 xl:grid-cols-3 gap-6"
+            className="grid gap-6 md:grid-cols-2 xl:grid-cols-3"
           >
             {items.map((p) => (
               <ProjectCard key={p.id ?? p.name} project={p} />

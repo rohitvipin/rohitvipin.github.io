@@ -1,5 +1,6 @@
 import type { ImpactStory } from "@/types";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { tagBadgeClassName } from "@/lib/primitive-classes";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
@@ -8,7 +9,7 @@ export interface ImpactSectionProps {
 export function ImpactSection({ impact }: ImpactSectionProps) {
   return (
     <section id="impact" aria-labelledby="impact-section-title" className="section">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <SectionHeader
           title="Transformations"
           headingId="impact-section-title"
@@ -19,12 +20,12 @@ export function ImpactSection({ impact }: ImpactSectionProps) {
             <article
               key={story.id}
               aria-labelledby={`${story.id}-title`}
-              className="card p-6 lg:p-8 space-y-6"
+              className="card space-y-6 p-6 lg:p-8"
             >
               <div className="space-y-3">
                 <div>
                   <span
-                    className="inline-block px-2.5 py-0.5 rounded-md border text-xs font-medium mb-2 text-[var(--muted)]"
+                    className="mb-2 inline-block rounded-md border px-2.5 py-0.5 text-xs font-medium text-[var(--muted)]"
                     style={{
                       borderColor: `color-mix(in oklch, ${story.color ?? "var(--accent)"} 27%, transparent)`,
                     }}
@@ -37,43 +38,40 @@ export function ImpactSection({ impact }: ImpactSectionProps) {
                 </div>
                 <ul
                   role="list"
-                  className="flex flex-wrap gap-2 list-none p-0 m-0"
+                  className="m-0 flex list-none flex-wrap gap-2 p-0"
                   aria-label="Key outcomes"
                 >
                   {story.metrics.map((bullet, idx) => (
-                    <li
-                      key={`${story.id}-${idx}`}
-                      className="px-2.5 py-0.5 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 text-xs font-semibold text-[var(--accent)]"
-                    >
+                    <li key={`${story.id}-${idx}`} className={tagBadgeClassName("accent")}>
                       {bullet}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <p className="text-[var(--muted)] text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
                 <span className="font-medium text-[var(--text)]">Problem: </span>
                 {story.problem}
               </p>
 
-              <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="space-y-1">
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                  <dt className="text-xs font-semibold tracking-wider text-[var(--muted)] uppercase">
                     Scope
                   </dt>
-                  <dd className="text-sm text-[var(--muted)] leading-relaxed">{story.scope}</dd>
+                  <dd className="text-sm leading-relaxed text-[var(--muted)]">{story.scope}</dd>
                 </div>
                 <div className="space-y-1">
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                  <dt className="text-xs font-semibold tracking-wider text-[var(--muted)] uppercase">
                     My Role
                   </dt>
-                  <dd className="text-sm text-[var(--muted)] leading-relaxed">{story.led}</dd>
+                  <dd className="text-sm leading-relaxed text-[var(--muted)]">{story.led}</dd>
                 </div>
                 <div className="space-y-1">
-                  <dt className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                  <dt className="text-xs font-semibold tracking-wider text-[var(--muted)] uppercase">
                     Outcome
                   </dt>
-                  <dd className="text-sm text-[var(--muted)] leading-relaxed">{story.result}</dd>
+                  <dd className="text-sm leading-relaxed text-[var(--muted)]">{story.result}</dd>
                 </div>
               </dl>
             </article>

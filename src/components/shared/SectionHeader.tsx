@@ -11,7 +11,7 @@ export function SectionHeader({ title, subtitle, headingId }: SectionHeaderProps
         {title}
       </h2>
       <div className="mt-2 h-0.5 w-12 rounded bg-[var(--accent)]" />
-      {subtitle && <p className="mt-3 text-[var(--muted)] text-base">{subtitle}</p>}
+      {subtitle && <p className="mt-3 text-base text-[var(--muted)]">{subtitle}</p>}
     </div>
   );
 }

@@ -12,8 +12,6 @@
   --text: #e2e8f0;
   --muted: #8896b8;
   --muted-2: #6b7a99;
-  --success: #22c55e;
-  --shadow-card: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="light"] {
@@ -27,8 +25,6 @@
   --text: #0f172a;
   --muted: #596680;
   --muted-2: #52627b;
-  --success: #16a34a;
-  --shadow-card: rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {

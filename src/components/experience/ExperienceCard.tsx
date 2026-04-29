@@ -1,6 +1,7 @@
 import type { ExperienceEntry } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
-import { FiChevronDown } from "react-icons/fi";
+import { StatusPill } from "@/components/shared/StatusPill";
+import { DetailsSummary } from "@/components/shared/DetailsSummary";
 
 export interface ExperienceCardProps {
   entry: ExperienceEntry;
@@ -10,16 +11,11 @@ export function ExperienceCard({ entry }: ExperienceCardProps) {
   const companyColor = entry.color ?? "var(--accent)";
 
   return (
-    <div className="card p-6 space-y-4 border-l-2" style={{ borderLeftColor: companyColor }}>
+    <div className="card space-y-4 border-l-2 p-6" style={{ borderLeftColor: companyColor }}>
       <div className="space-y-1">
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
           <h3 className="font-semibold text-[var(--text)]">{entry.role}</h3>
-          {entry.current && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--accent-glow)] border border-[var(--accent)]/30 text-xs font-medium text-[var(--accent)]">
-              <span className="w-1 h-1 rounded-full bg-[var(--accent)] animate-pulse" />
-              Current
-            </span>
-          )}
+          {entry.current && <StatusPill label="Current" />}
         </div>
         <p className="text-sm font-medium" style={{ color: companyColor }}>
           {entry.company}
@@ -29,21 +25,20 @@ export function ExperienceCard({ entry }: ExperienceCardProps) {
         </p>
       </div>
 
-      <p className="text-sm text-[var(--muted)] leading-relaxed">{entry.description}</p>
+      <p className="text-sm leading-relaxed text-[var(--muted)]">{entry.description}</p>
 
       {entry.highlights.length > 0 && (
         <details open={entry.current} className="card-details">
-          <summary
+          <DetailsSummary
+            tone="muted"
             aria-label={`Toggle highlights for ${entry.role} at ${entry.company}`}
-            className="flex items-center gap-1.5 text-xs text-[var(--muted)] hover:text-[var(--text)] transition-colors min-h-[48px]"
           >
-            <FiChevronDown size={12} aria-hidden="true" className="card-details-chevron" />
             Highlights
-          </summary>
-          <ul className="space-y-2 border-t border-[var(--border)] pt-4 mt-1">
+          </DetailsSummary>
+          <ul className="mt-1 space-y-2 border-t border-[var(--border)] pt-4">
             {entry.highlights.map((h) => (
-              <li key={h} className="text-sm text-[var(--muted)] flex items-start gap-2">
-                <span className="text-[var(--accent)] mt-0.5 shrink-0">▸</span>
+              <li key={h} className="flex items-start gap-2 text-sm text-[var(--muted)]">
+                <span className="mt-0.5 shrink-0 text-[var(--accent)]">▸</span>
                 {h}
               </li>
             ))}

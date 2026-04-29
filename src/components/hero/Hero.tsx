@@ -1,6 +1,8 @@
 import { FiDownload, FiMail, FiMapPin, FiClock } from "react-icons/fi";
 import type { Profile, Social } from "@/types";
 import { SocialLinks } from "@/components/shared/SocialLinks";
+import { ButtonLink } from "@/components/shared/Button";
+import { TagBadge } from "@/components/shared/TagBadge";
 import { resumeHref, avatarHref, avatarWebpHref } from "@/lib/paths";
 
 export interface HeroProps {
@@ -13,19 +15,14 @@ export function Hero({ profile, socials }: HeroProps) {
   const secondaryMetrics = profile.key_metrics.filter((m) => m.tier === "secondary");
 
   return (
-    <section aria-labelledby="hero-heading" className="min-h-screen flex items-center pt-14">
-      <div className="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full">
-        <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-center">
+    <section aria-labelledby="hero-heading" className="flex min-h-screen items-center pt-14">
+      <div className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
+        <div className="grid items-center gap-16 lg:grid-cols-[3fr_2fr]">
           <div className="space-y-6">
             {profile.tags && profile.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {profile.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs text-[var(--muted-2)]"
-                  >
-                    {tag}
-                  </span>
+                  <TagBadge key={tag} label={tag} />
                 ))}
               </div>
             )}
@@ -33,17 +30,17 @@ export function Hero({ profile, socials }: HeroProps) {
             <div>
               <h1
                 id="hero-heading"
-                className="text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text)] leading-tight"
+                className="text-5xl leading-tight font-bold tracking-tight text-[var(--text)] lg:text-6xl"
               >
                 {profile.name}
               </h1>
-              <p className="mt-2 text-xl font-medium gradient-text">{profile.title}</p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-2">
+              <p className="gradient-text mt-2 text-xl font-medium">{profile.title}</p>
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
                 {profile.location && (
                   <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]">
                     <FiMapPin
                       size={11}
-                      className="text-[var(--muted-2)] shrink-0"
+                      className="shrink-0 text-[var(--muted-2)]"
                       aria-hidden="true"
                     />
                     {profile.location}
@@ -53,17 +50,17 @@ export function Hero({ profile, socials }: HeroProps) {
                   <span className="flex items-center gap-1 text-xs text-[var(--muted-2)]">
                     <FiClock
                       size={11}
-                      className="text-[var(--muted-2)] shrink-0"
+                      className="shrink-0 text-[var(--muted-2)]"
                       aria-hidden="true"
                     />
                     {profile.timezone}
                   </span>
                 )}
                 {profile.email && (
-                  <span className="hidden sm:flex items-center gap-1 text-xs text-[var(--muted-2)]">
+                  <span className="hidden items-center gap-1 text-xs text-[var(--muted-2)] sm:flex">
                     <FiMail
                       size={11}
-                      className="text-[var(--muted-2)] shrink-0"
+                      className="shrink-0 text-[var(--muted-2)]"
                       aria-hidden="true"
                     />
                     {profile.email}
@@ -72,31 +69,28 @@ export function Hero({ profile, socials }: HeroProps) {
               </div>
             </div>
 
-            <p className="text-[var(--muted)] text-lg leading-relaxed">{profile.headline}</p>
+            <p className="text-lg leading-relaxed text-[var(--muted)]">{profile.headline}</p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#impact"
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg bg-[var(--accent)] text-[var(--bg)] text-sm font-semibold hover:opacity-90 active:opacity-75 transition-opacity"
-              >
+              <ButtonLink variant="primary" href="#impact">
                 {profile.cta_primary ?? "See Impact"}
-              </a>
-              <a
-                href={`mailto:${profile.email}`}
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--accent)]/50 text-[var(--accent)] text-sm font-medium hover:bg-[var(--accent)]/8 active:bg-[var(--accent)]/15 transition-colors"
-              >
-                <FiMail size={16} aria-hidden="true" />
-                Get in Touch
-              </a>
-              <a
+              </ButtonLink>
+              {/* hidden < sm via wrapper (display:contents at sm+ keeps ButtonLink layout intact) */}
+              <div className="hidden sm:contents">
+                <ButtonLink variant="secondary" href={`mailto:${profile.email}`}>
+                  <FiMail size={16} aria-hidden="true" />
+                  Get in Touch
+                </ButtonLink>
+              </div>
+              <ButtonLink
+                variant="ghost"
                 href={resumeHref}
                 download
                 aria-label={`Download CV - ${profile.name} resume PDF`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[48px] rounded-lg border border-[var(--border)] text-[var(--muted)] text-sm font-medium hover:border-[var(--accent)] hover:text-[var(--accent)] active:opacity-75 transition-colors"
               >
                 <FiDownload size={16} aria-hidden="true" />
                 <span className="hidden sm:inline">Download CV</span>
-              </a>
+              </ButtonLink>
             </div>
 
             <div className="lg:hidden">
@@ -104,9 +98,9 @@ export function Hero({ profile, socials }: HeroProps) {
             </div>
           </div>
 
-          <div className="hidden lg:flex flex-col items-end gap-5">
+          <div className="hidden flex-col items-end gap-5 lg:flex">
             <div className="flex flex-col items-center gap-5">
-              <div className="relative w-80 h-80 rounded-2xl overflow-hidden border border-[var(--border)]/50 ring-2 ring-[var(--accent)]/10 shadow-2xl">
+              <div className="relative h-80 w-80 overflow-hidden rounded-2xl border border-[var(--border)]/50 shadow-2xl ring-2 ring-[var(--accent)]/10">
                 <picture>
                   <source srcSet={avatarWebpHref} type="image/webp" />
                   <img
@@ -114,7 +108,7 @@ export function Hero({ profile, socials }: HeroProps) {
                     alt={`Profile photo of ${profile.name}`}
                     width={320}
                     height={320}
-                    className="object-cover w-full h-full"
+                    className="h-full w-full object-cover"
                     fetchPriority="high"
                   />
                 </picture>
@@ -125,12 +119,12 @@ export function Hero({ profile, socials }: HeroProps) {
         </div>
 
         {primaryMetrics.length > 0 && (
-          <dl className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <dl className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4">
             {primaryMetrics.map((m) => (
-              <div key={m.label} className="card p-4 space-y-1">
-                <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
+              <div key={m.label} className="card space-y-1 p-4">
+                <dt className="text-xs leading-tight text-[var(--muted)]">{m.label}</dt>
                 <dd
-                  className={`font-bold gradient-text ${m.value.length <= 2 ? "text-4xl" : "text-2xl"}`}
+                  className={`gradient-text font-bold ${m.value.length <= 2 ? "text-4xl" : "text-2xl"}`}
                 >
                   {m.value}
                 </dd>
@@ -141,13 +135,13 @@ export function Hero({ profile, socials }: HeroProps) {
         )}
 
         {secondaryMetrics.length > 0 && (
-          <dl className="grid grid-cols-2 md:grid-cols-4 mt-3 gap-3">
+          <dl className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
             {secondaryMetrics.map((m) => (
               <div
                 key={m.label}
-                className="p-3 space-y-0.5 rounded-lg border border-[var(--accent)]/30 transition-[border-color,box-shadow] duration-200 hover:border-[var(--accent)] hover:shadow-[0_0_24px_var(--accent-glow)]"
+                className="space-y-0.5 rounded-lg border border-[var(--accent)]/30 p-3 transition-[border-color,box-shadow] duration-200 hover:border-[var(--accent)] hover:shadow-[0_0_24px_var(--accent-glow)]"
               >
-                <dt className="text-xs text-[var(--muted)] leading-tight">{m.label}</dt>
+                <dt className="text-xs leading-tight text-[var(--muted)]">{m.label}</dt>
                 <dd className="text-base font-semibold text-[var(--accent)]">{m.value}</dd>
                 {m.detail && <dd className="text-xs text-[var(--muted-2)]">{m.detail}</dd>}
               </div>

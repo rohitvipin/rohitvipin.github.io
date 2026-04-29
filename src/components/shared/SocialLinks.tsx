@@ -1,6 +1,7 @@
 import { FaLinkedin, FaGithub, FaXTwitter, FaStackOverflow } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import type { Social } from "@/types";
+import { IconButtonLink } from "./IconButton";
 
 const iconMap: Record<string, React.ReactNode> = {
   linkedin: <FaLinkedin size={18} aria-hidden="true" />,
@@ -24,15 +25,15 @@ export function SocialLinks({ socials, className = "" }: SocialLinksProps) {
           ? "Send me an email"
           : `Visit my ${s.platform.charAt(0).toUpperCase() + s.platform.slice(1)} profile`;
         return (
-          <a
+          <IconButtonLink
             key={s.platform}
+            variant="outline-accent-hover"
             href={s.url}
             {...(!isEmail && { target: "_blank", rel: "noopener noreferrer" })}
             aria-label={label}
-            className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all duration-200"
           >
             {iconMap[s.icon] ?? <span className="text-xs font-bold">{s.platform[0]}</span>}
-          </a>
+          </IconButtonLink>
         );
       })}
     </div>

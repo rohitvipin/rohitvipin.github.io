@@ -134,7 +134,7 @@ For entries that should default open (e.g., current role), set the `open` attrib
 <div className="mb-12">
   <h2 className="text-3xl font-bold tracking-tight text-[var(--text)]">…</h2>
   <div className="mt-2 h-0.5 w-12 rounded bg-[var(--accent)]" /> {/* accent underline bar */}
-  <p className="mt-3 text-[var(--muted)] text-base">…</p> {/* optional subtitle */}
+  <p className="mt-3 text-base text-[var(--muted)]">…</p> {/* optional subtitle */}
 </div>
 ```
 
@@ -143,12 +143,7 @@ For entries that should default open (e.g., current role), set the `open` attrib
 Pill badge for technology labels.
 
 ```tsx
-<span
-  className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono
-  border border-[var(--border)] text-[var(--muted)] bg-[var(--surface-2)]
-  hover:border-[var(--accent)] hover:text-[var(--accent)]
-  transition-all duration-150 cursor-default"
->
+<span className="inline-block cursor-default rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-0.5 font-mono text-xs text-[var(--muted)] transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]">
   {label}
 </span>
 ```
@@ -158,7 +153,7 @@ Pill badge for technology labels.
 Used on hero profile tags — lighter than TechChip, no background fill:
 
 ```tsx
-<span className="px-2.5 py-0.5 rounded-md border border-[var(--border)] text-xs text-[var(--muted-2)]">
+<span className="rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]">
   {tag}
 </span>
 ```
@@ -230,8 +225,8 @@ Icon: `FiArrowUp`, size `18`.
 
 **Secondary** — smaller, no card surface:
 
-- Container: `p-3 rounded-lg border border-[var(--accent)]/30`
-- Value: `text-base font-semibold text-[var(--accent)]/80`
+- Container: `p-3 rounded-lg border border-[var(--accent)]/30 transition-[border-color,box-shadow] duration-200 hover:border-[var(--accent)] hover:shadow-[0_0_24px_var(--accent-glow)]`
+- Value: `text-base font-semibold text-[var(--accent)]`
 
 ### Icon badge
 
@@ -250,38 +245,36 @@ Icon inside is always decorative — `aria-hidden="true"` required.
 Live indicator on experience cards:
 
 ```tsx
-<span
-  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full
-  bg-[var(--accent-glow)] border border-[var(--accent)]/30
-  text-xs font-medium text-[var(--accent)]"
->
-  <span className="w-1 h-1 rounded-full bg-[var(--accent)] animate-pulse" />
+<span className="inline-flex items-center gap-1 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow)] px-2 py-0.5 text-xs font-medium text-[var(--accent)]">
+  <span className="h-1 w-1 animate-pulse rounded-full bg-[var(--accent)]" />
   Current
 </span>
 ```
 
 ### Tabs (pill group)
 
-Used in Projects section to switch between content categories:
+Used in Projects section to switch between content categories. Implemented as `TabPill` in `src/components/shared/TabPill.tsx`.
 
 ```tsx
 <div
   role="tablist"
-  className="flex gap-1 p-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] w-fit"
+  className="flex w-fit gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-1"
 >
-  <button
-    role="tab"
-    aria-selected={active}
-    className="px-4 py-1.5 min-h-[48px] rounded-md text-sm font-medium transition-all duration-150
-    /* active:   */ bg-[var(--accent)] text-[var(--bg)]
-    /* inactive: */ text-[var(--muted)] hover:text-[var(--text)]"
-  >
+  <TabPill active={tab === id} aria-controls={`panel-${id}`} onClick={() => setTab(id)}>
     Label
-  </button>
+  </TabPill>
 </div>
 ```
 
-Requires `role="tablist"` on container, `role="tab"` + `aria-selected` on each button.
+Base class string (active vs inactive both prepend this):
+
+```
+flex min-h-[48px] items-center gap-2 rounded-md px-4 py-1.5 text-sm font-medium transition-all duration-150 active:scale-[0.97]
+```
+
+Active suffix: `bg-[var(--accent)] text-[var(--bg)]`. Inactive suffix: `text-[var(--muted)] hover:text-[var(--text)]`.
+
+Requires `role="tablist"` on container; `role="tab"` is set internally by `TabPill`.
 
 ---
 
@@ -412,3 +405,21 @@ Key responsive patterns:
 - Nav: hamburger below `lg` (1024px)
 - Email / secondary CTA: hidden below `sm`
 - Metrics: `grid-cols-2 md:grid-cols-4`
+
+---
+
+## Design System Test Layer
+
+All design tokens, primitives, and colour contracts are validated via unit tests:
+
+- **Token contract** (`src/__tests__/design/tokens.test.ts`) — parses `globals.css` and asserts canonical 12-token set exists for both `:root` (dark) and `[data-theme="light"]` (light), validates parity and WCAG AA contrast pairs via `wcag-contrast`
+- **Primitive snapshots** (`src/__tests__/design/primitives.test.tsx`) — inline snapshot className per shared primitive (Button, StatusPill, TabPill, TagBadge), ensures class strings remain canonical across commits
+- **Accessibility (jsdom scope)** (`src/__tests__/design/a11y.test.tsx`) — jest-axe structural audit on shared primitives; contrast/target-size/focus-order rules disabled (jsdom limitation, owned by Playwright + Lighthouse CI)
+- **No hardcoded colour rule** (`src/__tests__/design/no-hardcoded-color.test.ts` + ESLint `no-restricted-syntax`) — backstops hex/rgb/hsl literals in `src/components/**` and `src/app/**` (excluding `src/app/layout.tsx` which requires literal hex for `themeColor` meta)
+- **Touch-target spec** (`e2e/all-viewports/tc-15-touch-targets.spec.ts`) — Playwright assertion that all interactive elements meet 48x48 px minimum hit target via `getBoundingClientRect`
+- **Lighthouse CI gates** (`.github/lighthouse/lighthouserc.json`) — categories (accessibility, best-practices, SEO) and specific a11y audits (colour contrast, target size, aria-roles)
+
+**Update both files when changing tokens or primitives:**
+
+- Token changes: update `src/lib/tokens.ts`, `src/app/globals.css`, and `src/__tests__/design/tokens.test.ts` in same commit
+- Primitive class changes: run `npm test` to auto-refresh inline snapshots, then explicitly edit `DESIGN.md` to match new class contract

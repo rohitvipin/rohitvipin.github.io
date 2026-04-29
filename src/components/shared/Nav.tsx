@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { IconButton, IconButtonLink } from "./IconButton";
 import { FiMenu, FiX } from "react-icons/fi";
 import type { NavLink } from "@/types";
 
@@ -18,15 +19,28 @@ export function Nav({ initials, navLinks }: NavProps) {
 
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.slice(1));
+    // Track each section's current intersection state so the active link
+    // clears when the user scrolls back into the hero (above the first
+    // observed section), not just when a new section enters the band.
+    const state = new Map<string, { intersecting: boolean; top: number }>();
 
     const obs = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (!visible.length) return;
-        const topmost = visible.reduce((a, b) =>
-          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
-        );
-        setActiveSection(topmost.target.id);
+        for (const e of entries) {
+          state.set(e.target.id, {
+            intersecting: e.isIntersecting,
+            top: e.boundingClientRect.top,
+          });
+        }
+        let pick = "";
+        let bestTop = Number.POSITIVE_INFINITY;
+        for (const [id, v] of state) {
+          if (v.intersecting && v.top < bestTop) {
+            bestTop = v.top;
+            pick = id;
+          }
+        }
+        setActiveSection(pick);
       },
       { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
     );
@@ -96,18 +110,19 @@ export function Nav({ initials, navLinks }: NavProps) {
   }, [mobileOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center gap-3">
-        <a
+    <header className="fixed top-0 right-0 left-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-6">
+        <IconButtonLink
+          variant="outline-accent"
           href="#"
           aria-label="Home"
-          className="shrink-0 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--accent)] text-[var(--accent)] text-sm font-bold font-mono hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+          className="shrink-0 font-mono text-sm font-bold"
         >
           {initials}
-        </a>
+        </IconButtonLink>
 
         <nav
-          className="hidden lg:flex items-center gap-4 flex-1 justify-center"
+          className="hidden flex-1 items-center justify-center gap-4 lg:flex"
           aria-label="Main navigation"
         >
           {navLinks.map((l) => {
@@ -117,26 +132,27 @@ export function Nav({ initials, navLinks }: NavProps) {
                 key={l.href}
                 href={l.href}
                 aria-current={isActive ? "location" : undefined}
-                className={`min-h-[48px] flex items-center text-sm transition-colors duration-150 relative ${
+                className={`relative flex min-h-[48px] min-w-[48px] items-center justify-center px-2 text-sm transition-colors duration-150 ${
                   isActive
-                    ? "text-[var(--accent)] font-medium"
+                    ? "font-medium text-[var(--accent)]"
                     : "text-[var(--muted)] hover:text-[var(--text)] active:opacity-70"
                 }`}
               >
                 {l.label}
                 {isActive && (
-                  <span className="absolute -bottom-[4px] left-0 right-0 h-[2px] bg-[var(--accent)]" />
+                  <span className="absolute right-0 -bottom-[4px] left-0 h-[2px] bg-[var(--accent)]" />
                 )}
               </a>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2 ml-auto shrink-0">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <ThemeToggle />
-          <button
-            ref={toggleRef}
-            className="lg:hidden min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+          <IconButton
+            variant="outline"
+            buttonRef={toggleRef}
+            className="lg:hidden"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -146,7 +162,7 @@ export function Nav({ initials, navLinks }: NavProps) {
             ) : (
               <FiMenu size={16} aria-hidden="true" />
             )}
-          </button>
+          </IconButton>
         </div>
       </div>
 
@@ -156,9 +172,9 @@ export function Nav({ initials, navLinks }: NavProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
-          className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]"
+          className="border-t border-[var(--border)] bg-[var(--bg)] lg:hidden"
         >
-          <nav className="px-6 py-4 flex flex-col gap-2" aria-label="Mobile navigation links">
+          <nav className="flex flex-col gap-2 px-6 py-4" aria-label="Mobile navigation links">
             {navLinks.map((l) => (
               <a
                 key={l.href}
@@ -168,9 +184,9 @@ export function Nav({ initials, navLinks }: NavProps) {
                   setMobileOpen(false);
                 }}
                 aria-current={activeSection === l.href.slice(1) ? "location" : undefined}
-                className={`min-h-[48px] flex items-center text-sm transition-colors ${
+                className={`flex min-h-[48px] items-center text-sm transition-colors ${
                   activeSection === l.href.slice(1)
-                    ? "text-[var(--accent)] font-medium"
+                    ? "font-medium text-[var(--accent)]"
                     : "text-[var(--muted)] hover:text-[var(--text)]"
                 }`}
               >
@@ -178,17 +194,17 @@ export function Nav({ initials, navLinks }: NavProps) {
               </a>
             ))}
           </nav>
-          <div className="px-6 pb-4 flex justify-end border-t border-[var(--border)]">
-            <button
+          <div className="flex justify-end border-t border-[var(--border)] px-6 pb-4">
+            <IconButton
+              variant="outline"
               onClick={() => {
                 setMobileOpen(false);
                 toggleRef.current?.focus();
               }}
               aria-label="Close navigation menu"
-              className="min-h-[48px] min-w-[48px] flex items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
             >
               <FiX size={16} aria-hidden="true" />
-            </button>
+            </IconButton>
           </div>
         </div>
       )}

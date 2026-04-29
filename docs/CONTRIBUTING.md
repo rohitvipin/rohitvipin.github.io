@@ -69,6 +69,14 @@ Use present tense, semantic messages:
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for examples.
 
+### Design System Tests
+
+When changing design tokens or primitives:
+
+- **Token changes:** Update `src/lib/tokens.ts` and `src/app/globals.css` together; `src/__tests__/design/tokens.test.ts` validates both dark and light theme parity + WCAG AA contrast
+- **Primitive class changes:** Run `npm test` to auto-refresh inline snapshots in `src/__tests__/design/primitives.test.tsx`, then edit `docs/DESIGN.md` component patterns to match the new class strings
+- **Touch-target validation:** `npm run test:e2e` checks all interactive elements meet 48x48 px hit target across all viewports
+
 ### Code Review
 
 Before submitting a PR, check [CODE_REVIEW.md](CODE_REVIEW.md):
@@ -87,28 +95,31 @@ Requires Node.js **24.15.0** LTS (matches CI). See [GETTING_STARTED.md](GETTING_
 
 ## CI/CD Pipeline
 
-**`ci.yml`** — triggers on PRs:
+The lint → test → build → e2e body lives in **`_lint-test-build.yml`** (`workflow_call` reusable). `ci.yml` (PR gate) and `deploy.yml` (main deploy) both call it so the pipelines stay in lockstep. PR-only concerns (dependency-review, gitleaks) stay inline in `ci.yml`; deploy-only concerns (Lighthouse, GitHub Pages upload) are gated by reusable inputs.
 
-1. **Audit** — `npm audit --audit-level=high`
+**`_lint-test-build.yml`** — reusable workflow:
+
+1. **Audit** — `npm audit --audit-level=${{ inputs.audit-level }}` (default `high`)
 2. **Prettier** — `npm run format:check`
 3. **ESLint + data validation** — `npm run lint`
 4. **Test** — `npm run test:ci` (Vitest with coverage)
-5. **Build** — Next.js static export
-
-**`deploy.yml`** — triggers on push to `main`:
-
-1. **Audit** — `npm audit --audit-level=high`
-2. **Prettier** — `npm run format:check`
-3. **ESLint + data validation** — `npm run lint`
-4. **Test** — `npm run test:ci`
-5. **Prepare assets** — composite action: fetch avatar, generate favicons, generate resume PDF
+5. **Prepare assets** — composite action: fetch avatar, generate favicons + `avatar.webp`, generate resume PDF
 6. **Build** — Next.js static export
-7. **Deploy** — GitHub Pages artifact upload + `actions/deploy-pages`
-8. **Smoke-test** — verifies live site serves correct build SHA
+7. **Cache + install Playwright** — keyed on `package-lock.json`; cache hit re-runs `install-deps` only
+8. **E2E** — `npm run test:e2e`
+9. **Lighthouse CI** _(if `lighthouse: true`)_ — `npx lhci autorun`
+10. **Pages artifact upload** _(if `upload-pages: true`)_ — `.nojekyll` + `configure-pages` + `upload-pages-artifact`
 
-**`qa.yml`** — triggers on PRs to `main`:
+**`ci.yml`** — triggers on PRs (concurrency cancels superseded runs):
 
-- Builds the site in CI then runs Playwright E2E tests (`npm run test:e2e`) against the local build
+- `quality-scans` job: `actions/dependency-review-action` + `gitleaks-action` (needs `fetch-depth: 0`).
+- `lint-test-build` job: calls reusable with `audit-level: high`, `report-name: playwright-report-ci`.
+
+**`deploy.yml`** — triggers on push to `main` (concurrency `pages`):
+
+- `build` job: calls reusable with `lighthouse: true`, `upload-pages: true`, `build-sha: ${{ github.sha }}`.
+- `deploy` job: `actions/deploy-pages` (timeout 10 min).
+- `smoke-test` job: polls live site for build SHA in meta tag (timeout 5 min, strict bash).
 
 Pipeline fails if any step fails.
 

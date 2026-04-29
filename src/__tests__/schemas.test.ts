@@ -12,6 +12,7 @@ import {
   NavLinkSchema,
   ImpactStorySchema,
   FILE_ZSCHEMAS,
+  SECTION_IDS,
 } from "@/lib/schemas";
 
 // ── ProfileSchema ─────────────────────────────────────────────────────────────
@@ -352,6 +353,18 @@ describe("NavLinkSchema", () => {
 
   it("rejects empty href", () => {
     expect(() => NavLinkSchema.parse({ label: "About", href: "" })).toThrow();
+  });
+
+  it("rejects href targeting unknown section ID", () => {
+    expect(() => NavLinkSchema.parse({ label: "Bogus", href: "#bogus" })).toThrow();
+    expect(() => NavLinkSchema.parse({ label: "Typo", href: "#expirience" })).toThrow();
+  });
+
+  it("accepts every registered SECTION_ID as href", () => {
+    for (const id of SECTION_IDS) {
+      const result = NavLinkSchema.parse({ label: id, href: `#${id}` });
+      expect(result.href).toBe(`#${id}`);
+    }
   });
 });
 

@@ -34,10 +34,17 @@ This document defines the review criteria and checklist for all PRs to ensure ar
 ### Styling & Theming
 
 - [ ] All colors use CSS custom properties (`var(--accent)`, `var(--bg)`)
-- [ ] No hardcoded hex, rgb, or named colors in JSX
+- [ ] No hardcoded hex, rgb, or named colors in JSX (ESLint `no-restricted-syntax` rule enforced; exception: `src/app/layout.tsx` only)
 - [ ] Tailwind used for layout/spacing, custom CSS for theme-specific polish
 - [ ] Dark/light mode toggle respects `next-themes` conventions
-- [ ] Color contrast meets WCAG AA minimum
+- [ ] Color contrast meets WCAG AA minimum (verified via `src/__tests__/design/tokens.test.ts` and Lighthouse CI)
+
+### Design System
+
+- [ ] Token additions require `src/lib/tokens.ts` update (canonical 12-token tuple + contrast pairs)
+- [ ] Primitive class changes require snapshot update: run `npm test -- design/primitives`, then explicitly edit `docs/DESIGN.md` component pattern section to match new class contract
+- [ ] All shared primitives (Button, StatusPill, TabPill, TagBadge) use `src/lib/tokens.ts` references, never hardcoded colour
+- [ ] Accessibility tests (`npm run test`) must remain green — jsdom-scoped axe rules cover structural issues; Playwright and Lighthouse CI handle visual/contrast assertions
 
 ### Icons
 

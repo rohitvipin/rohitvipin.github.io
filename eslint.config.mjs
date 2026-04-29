@@ -51,6 +51,53 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  // Ban hardcoded colour literals in components and app routes — tokens only.
+  // globals.css is the sole legitimate home for raw colour values.
+  {
+    files: ["src/components/**/*.{ts,tsx}", "src/app/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          // Mirror exemptions kept in src/__tests__/design/no-hardcoded-color.test.ts.
+          // Hex-shaped strings inside id/href/aria-*/data-* JSX attributes are
+          // identifiers or anchor targets, not colour literals.
+          selector:
+            "Literal[value=/#[0-9a-fA-F]{3}([0-9a-fA-F]{1,5})?\\b/]" +
+            ":not(JSXAttribute[name.name='id'] > Literal)" +
+            ":not(JSXAttribute[name.name='href'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-controls'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-labelledby'] > Literal)" +
+            ":not(JSXAttribute[name.name='aria-describedby'] > Literal)" +
+            ":not(JSXAttribute[name.name=/^data-/] > Literal)",
+          message:
+            "Hardcoded colour literal. Use a CSS custom property (e.g. var(--accent)) defined in src/app/globals.css.",
+        },
+        {
+          selector: "Literal[value=/\\b(?:rgb|rgba|hsl|hsla)\\s*\\(/]",
+          message:
+            "Hardcoded colour function. Use a CSS custom property (e.g. var(--accent-glow)) defined in src/app/globals.css.",
+        },
+        {
+          selector: "TemplateElement[value.raw=/#[0-9a-fA-F]{3}([0-9a-fA-F]{1,5})?\\b/]",
+          message:
+            "Hardcoded colour literal in template string. Use a CSS custom property defined in src/app/globals.css.",
+        },
+        {
+          selector: "TemplateElement[value.raw=/\\b(?:rgb|rgba|hsl|hsla)\\s*\\(/]",
+          message:
+            "Hardcoded colour function in template string. Use a CSS custom property defined in src/app/globals.css.",
+        },
+      ],
+    },
+  },
+  // Browser theme-color meta needs literal hex; CSS vars don't resolve in <meta>.
+  {
+    files: ["src/app/layout.tsx"],
+    rules: {
+      "no-restricted-syntax": "off",
+    },
+  },
   {
     files: ["utils/**/*.ts"],
     rules: {
