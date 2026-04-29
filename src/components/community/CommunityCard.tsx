@@ -1,5 +1,6 @@
-import { FiChevronDown, FiUsers, FiCode, FiMic, FiStar, FiBookOpen } from "react-icons/fi";
+import { FiUsers, FiCode, FiMic, FiStar, FiBookOpen } from "react-icons/fi";
 import type { CommunityEntry } from "@/types";
+import { DetailsSummary } from "@/components/shared/DetailsSummary";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   "Community Leadership": <FiUsers size={18} aria-hidden="true" />,
@@ -32,13 +33,13 @@ export function CommunityCard({ entry }: CommunityCardProps) {
 
       {entry.highlights.length > 0 && (
         <details className="card-details">
-          <summary
-            className="flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--accent)] transition-opacity hover:opacity-80"
+          <DetailsSummary
+            tone="accent"
+            chevronSize={14}
             aria-label={`Show ${entry.highlights.length} highlights`}
           >
-            <FiChevronDown size={14} aria-hidden="true" className="card-details-chevron" />
             Show {entry.highlights.length} highlights
-          </summary>
+          </DetailsSummary>
           <ul className="space-y-2 border-t border-[var(--border)] pt-1">
             {entry.highlights.map((h) => (
               <li key={h} className="flex items-start gap-2 text-xs text-[var(--muted)]">

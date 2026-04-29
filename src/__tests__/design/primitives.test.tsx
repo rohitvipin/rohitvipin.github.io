@@ -6,6 +6,8 @@ import { TagBadge } from "@/components/shared/TagBadge";
 import { StatusPill } from "@/components/shared/StatusPill";
 import { TabPill } from "@/components/shared/TabPill";
 import { ButtonLink } from "@/components/shared/Button";
+import { IconButton, IconButtonLink } from "@/components/shared/IconButton";
+import { DetailsSummary } from "@/components/shared/DetailsSummary";
 import {
   BUTTON_VARIANT_CLASSES,
   TAB_PILL_BASE,
@@ -13,9 +15,15 @@ import {
   TAB_PILL_INACTIVE_SUFFIX,
   TECH_CHIP_CLASSES,
   TAG_BADGE_CLASSES,
+  TAG_BADGE_VARIANT_CLASSES,
   STATUS_PILL_CLASSES,
+  ICON_BUTTON_VARIANT_CLASSES,
+  DETAILS_SUMMARY_TONE_CLASSES,
   buttonClassName,
+  iconButtonClassName,
   tabPillClassName,
+  tagBadgeClassName,
+  detailsSummaryClassName,
 } from "@/lib/primitive-classes";
 
 /**
@@ -84,11 +92,20 @@ describe("primitive-classes constants — canonical values", () => {
     expect(STATUS_PILL_CLASSES).toContain("text-[var(--accent)]");
   });
 
-  it("TAG_BADGE_CLASSES", () => {
+  it("TAG_BADGE_CLASSES (alias of neutral variant)", () => {
     expect(TAG_BADGE_CLASSES).toMatchInlineSnapshot(
       `"rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]"`
     );
     expect(TAG_BADGE_CLASSES).toContain("text-[var(--muted-2)]");
+    expect(TAG_BADGE_CLASSES).toBe(TAG_BADGE_VARIANT_CLASSES.neutral);
+  });
+
+  it("TAG_BADGE_VARIANT_CLASSES.accent", () => {
+    expect(TAG_BADGE_VARIANT_CLASSES.accent).toMatchInlineSnapshot(
+      `"rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-2.5 py-0.5 text-xs font-semibold text-[var(--accent)]"`
+    );
+    expect(TAG_BADGE_VARIANT_CLASSES.accent).toContain("text-[var(--accent)]");
+    expect(TAG_BADGE_VARIANT_CLASSES.accent).toContain("bg-[var(--accent)]/8");
   });
 
   it("TECH_CHIP_CLASSES", () => {
@@ -98,6 +115,48 @@ describe("primitive-classes constants — canonical values", () => {
     expect(TECH_CHIP_CLASSES).toContain("rounded-full");
     expect(TECH_CHIP_CLASSES).toContain("text-[var(--muted)]");
   });
+
+  it("ICON_BUTTON_VARIANT_CLASSES.outline", () => {
+    expect(ICON_BUTTON_VARIANT_CLASSES.outline).toMatchInlineSnapshot(
+      `"flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg transition-all duration-200 border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]"`
+    );
+    expect(ICON_BUTTON_VARIANT_CLASSES.outline).toContain("min-h-[48px]");
+    expect(ICON_BUTTON_VARIANT_CLASSES.outline).toContain("min-w-[48px]");
+    expect(ICON_BUTTON_VARIANT_CLASSES.outline).toContain("border-[var(--border)]");
+  });
+
+  it("ICON_BUTTON_VARIANT_CLASSES.outline-accent-hover", () => {
+    expect(ICON_BUTTON_VARIANT_CLASSES["outline-accent-hover"]).toMatchInlineSnapshot(
+      `"flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg transition-all duration-200 border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"`
+    );
+    expect(ICON_BUTTON_VARIANT_CLASSES["outline-accent-hover"]).toContain(
+      "hover:text-[var(--accent)]"
+    );
+  });
+
+  it("ICON_BUTTON_VARIANT_CLASSES.outline-accent", () => {
+    expect(ICON_BUTTON_VARIANT_CLASSES["outline-accent"]).toMatchInlineSnapshot(
+      `"flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg transition-all duration-200 border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)]"`
+    );
+    expect(ICON_BUTTON_VARIANT_CLASSES["outline-accent"]).toContain("border-[var(--accent)]");
+    expect(ICON_BUTTON_VARIANT_CLASSES["outline-accent"]).toContain("hover:bg-[var(--accent)]");
+  });
+
+  it("DETAILS_SUMMARY_TONE_CLASSES.accent", () => {
+    expect(DETAILS_SUMMARY_TONE_CLASSES.accent).toMatchInlineSnapshot(
+      `"flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--accent)] transition-opacity hover:opacity-80"`
+    );
+    expect(DETAILS_SUMMARY_TONE_CLASSES.accent).toContain("min-h-[48px]");
+    expect(DETAILS_SUMMARY_TONE_CLASSES.accent).toContain("text-[var(--accent)]");
+  });
+
+  it("DETAILS_SUMMARY_TONE_CLASSES.muted", () => {
+    expect(DETAILS_SUMMARY_TONE_CLASSES.muted).toMatchInlineSnapshot(
+      `"flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--muted)] transition-colors hover:text-[var(--text)]"`
+    );
+    expect(DETAILS_SUMMARY_TONE_CLASSES.muted).toContain("min-h-[48px]");
+    expect(DETAILS_SUMMARY_TONE_CLASSES.muted).toContain("text-[var(--muted)]");
+  });
 });
 
 describe("primitives emit canonical class strings", () => {
@@ -106,9 +165,19 @@ describe("primitives emit canonical class strings", () => {
     expect(container.querySelector("span")?.className).toBe(TECH_CHIP_CLASSES);
   });
 
-  it("TagBadge emits TAG_BADGE_CLASSES verbatim", () => {
+  it("TagBadge (default neutral) emits TAG_BADGE_CLASSES verbatim", () => {
     const { container } = render(<TagBadge label="TS" />);
     expect(container.querySelector("span")?.className).toBe(TAG_BADGE_CLASSES);
+  });
+
+  it("TagBadge variant=accent emits TAG_BADGE_VARIANT_CLASSES.accent", () => {
+    const { container } = render(<TagBadge label="2x" variant="accent" />);
+    expect(container.querySelector("span")?.className).toBe(TAG_BADGE_VARIANT_CLASSES.accent);
+  });
+
+  it("tagBadgeClassName helper returns canonical variant string", () => {
+    expect(tagBadgeClassName("neutral")).toBe(TAG_BADGE_VARIANT_CLASSES.neutral);
+    expect(tagBadgeClassName("accent")).toBe(TAG_BADGE_VARIANT_CLASSES.accent);
   });
 
   it("StatusPill emits STATUS_PILL_CLASSES verbatim on root span", () => {
@@ -116,22 +185,26 @@ describe("primitives emit canonical class strings", () => {
     expect((container.firstElementChild as HTMLElement).className).toBe(STATUS_PILL_CLASSES);
   });
 
-  it("TabPill (active) emits TAB_PILL_BASE + active suffix", () => {
+  it("TabPill (active) emits TAB_PILL_BASE + active suffix and aria-selected=true", () => {
     const { getByRole } = render(
       <TabPill active aria-controls="tp-1">
         x
       </TabPill>
     );
-    expect(getByRole("tab").className).toBe(`${TAB_PILL_BASE} ${TAB_PILL_ACTIVE_SUFFIX}`);
+    const tab = getByRole("tab");
+    expect(tab.className).toBe(`${TAB_PILL_BASE} ${TAB_PILL_ACTIVE_SUFFIX}`);
+    expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
-  it("TabPill (inactive) emits TAB_PILL_BASE + inactive suffix", () => {
+  it("TabPill (inactive) emits TAB_PILL_BASE + inactive suffix and aria-selected=false", () => {
     const { getByRole } = render(
       <TabPill active={false} aria-controls="tp-2">
         y
       </TabPill>
     );
-    expect(getByRole("tab").className).toBe(`${TAB_PILL_BASE} ${TAB_PILL_INACTIVE_SUFFIX}`);
+    const tab = getByRole("tab");
+    expect(tab.className).toBe(`${TAB_PILL_BASE} ${TAB_PILL_INACTIVE_SUFFIX}`);
+    expect(tab.getAttribute("aria-selected")).toBe("false");
   });
 
   it("tabPillClassName helper composes constants", () => {
@@ -155,5 +228,57 @@ describe("primitives emit canonical class strings", () => {
     expect(buttonClassName("primary", "extra-class")).toBe(
       `${BUTTON_VARIANT_CLASSES.primary} extra-class`
     );
+  });
+
+  it.each([["outline" as const], ["outline-accent-hover" as const], ["outline-accent" as const]])(
+    "IconButton %s emits ICON_BUTTON_VARIANT_CLASSES[variant] verbatim",
+    (variant) => {
+      const { container } = render(
+        <IconButton variant={variant} aria-label="test">
+          x
+        </IconButton>
+      );
+      expect(container.querySelector("button")?.className).toBe(
+        ICON_BUTTON_VARIANT_CLASSES[variant]
+      );
+    }
+  );
+
+  it("IconButtonLink outline-accent emits ICON_BUTTON_VARIANT_CLASSES['outline-accent']", () => {
+    const { container } = render(
+      <IconButtonLink variant="outline-accent" href="#x" aria-label="home">
+        x
+      </IconButtonLink>
+    );
+    expect(container.querySelector("a")?.className).toBe(
+      ICON_BUTTON_VARIANT_CLASSES["outline-accent"]
+    );
+  });
+
+  it("iconButtonClassName helper appends extra without losing variant", () => {
+    expect(iconButtonClassName("outline", "extra-class")).toBe(
+      `${ICON_BUTTON_VARIANT_CLASSES.outline} extra-class`
+    );
+  });
+
+  it.each([["accent" as const], ["muted" as const]])(
+    "DetailsSummary %s emits DETAILS_SUMMARY_TONE_CLASSES[tone] verbatim and renders chevron",
+    (tone) => {
+      const { container } = render(
+        <details>
+          <DetailsSummary tone={tone} aria-label="x">
+            label
+          </DetailsSummary>
+        </details>
+      );
+      const summary = container.querySelector("summary");
+      expect(summary?.className).toBe(DETAILS_SUMMARY_TONE_CLASSES[tone]);
+      expect(summary?.querySelector(".card-details-chevron")).not.toBeNull();
+    }
+  );
+
+  it("detailsSummaryClassName helper returns canonical tone string", () => {
+    expect(detailsSummaryClassName("accent")).toBe(DETAILS_SUMMARY_TONE_CLASSES.accent);
+    expect(detailsSummaryClassName("muted")).toBe(DETAILS_SUMMARY_TONE_CLASSES.muted);
   });
 });

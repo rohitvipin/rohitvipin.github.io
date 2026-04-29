@@ -1,5 +1,6 @@
 import type { ImpactStory } from "@/types";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { tagBadgeClassName } from "@/lib/primitive-classes";
 
 export interface ImpactSectionProps {
   impact: ImpactStory[];
@@ -41,10 +42,7 @@ export function ImpactSection({ impact }: ImpactSectionProps) {
                   aria-label="Key outcomes"
                 >
                   {story.metrics.map((bullet, idx) => (
-                    <li
-                      key={`${story.id}-${idx}`}
-                      className="rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-2.5 py-0.5 text-xs font-semibold text-[var(--accent)]"
-                    >
+                    <li key={`${story.id}-${idx}`} className={tagBadgeClassName("accent")}>
                       {bullet}
                     </li>
                   ))}

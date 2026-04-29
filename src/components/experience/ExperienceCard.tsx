@@ -1,7 +1,7 @@
 import type { ExperienceEntry } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
 import { StatusPill } from "@/components/shared/StatusPill";
-import { FiChevronDown } from "react-icons/fi";
+import { DetailsSummary } from "@/components/shared/DetailsSummary";
 
 export interface ExperienceCardProps {
   entry: ExperienceEntry;
@@ -29,13 +29,12 @@ export function ExperienceCard({ entry }: ExperienceCardProps) {
 
       {entry.highlights.length > 0 && (
         <details open={entry.current} className="card-details">
-          <summary
+          <DetailsSummary
+            tone="muted"
             aria-label={`Toggle highlights for ${entry.role} at ${entry.company}`}
-            className="flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--muted)] transition-colors hover:text-[var(--text)]"
           >
-            <FiChevronDown size={12} aria-hidden="true" className="card-details-chevron" />
             Highlights
-          </summary>
+          </DetailsSummary>
           <ul className="mt-1 space-y-2 border-t border-[var(--border)] pt-4">
             {entry.highlights.map((h) => (
               <li key={h} className="flex items-start gap-2 text-sm text-[var(--muted)]">

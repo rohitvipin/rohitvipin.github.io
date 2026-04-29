@@ -41,8 +41,49 @@ export function tabPillClassName(active: boolean): string {
 export const STATUS_PILL_CLASSES =
   "inline-flex items-center gap-1 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-glow)] px-2 py-0.5 text-xs font-medium text-[var(--accent)]";
 
-export const TAG_BADGE_CLASSES =
-  "rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]";
+export type TagBadgeVariant = "neutral" | "accent";
+
+export const TAG_BADGE_VARIANT_CLASSES: Record<TagBadgeVariant, string> = {
+  neutral: "rounded-md border border-[var(--border)] px-2.5 py-0.5 text-xs text-[var(--muted-2)]",
+  accent:
+    "rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/8 px-2.5 py-0.5 text-xs font-semibold text-[var(--accent)]",
+};
+
+export const TAG_BADGE_CLASSES = TAG_BADGE_VARIANT_CLASSES.neutral;
+
+export function tagBadgeClassName(variant: TagBadgeVariant = "neutral"): string {
+  return TAG_BADGE_VARIANT_CLASSES[variant];
+}
 
 export const TECH_CHIP_CLASSES =
   "inline-block cursor-default rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-0.5 font-mono text-xs text-[var(--muted)] transition-all duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)]";
+
+export type IconButtonVariant = "outline" | "outline-accent-hover" | "outline-accent";
+
+const ICON_BUTTON_BASE =
+  "flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg transition-all duration-200";
+
+export const ICON_BUTTON_VARIANT_CLASSES: Record<IconButtonVariant, string> = {
+  outline: `${ICON_BUTTON_BASE} border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]`,
+  "outline-accent-hover": `${ICON_BUTTON_BASE} border border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]`,
+  "outline-accent": `${ICON_BUTTON_BASE} border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)]`,
+};
+
+export function iconButtonClassName(variant: IconButtonVariant, extra?: string): string {
+  return extra
+    ? `${ICON_BUTTON_VARIANT_CLASSES[variant]} ${extra}`
+    : ICON_BUTTON_VARIANT_CLASSES[variant];
+}
+
+export type DetailsSummaryTone = "accent" | "muted";
+
+const DETAILS_SUMMARY_BASE = "flex min-h-[48px] items-center gap-1.5 text-xs";
+
+export const DETAILS_SUMMARY_TONE_CLASSES: Record<DetailsSummaryTone, string> = {
+  accent: `${DETAILS_SUMMARY_BASE} text-[var(--accent)] transition-opacity hover:opacity-80`,
+  muted: `${DETAILS_SUMMARY_BASE} text-[var(--muted)] transition-colors hover:text-[var(--text)]`,
+};
+
+export function detailsSummaryClassName(tone: DetailsSummaryTone): string {
+  return DETAILS_SUMMARY_TONE_CLASSES[tone];
+}

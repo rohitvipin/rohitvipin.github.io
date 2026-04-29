@@ -1,6 +1,7 @@
 import type { Project } from "@/types";
 import { TechChip } from "@/components/shared/TechChip";
-import { FiChevronDown, FiGithub } from "react-icons/fi";
+import { DetailsSummary } from "@/components/shared/DetailsSummary";
+import { FiGithub } from "react-icons/fi";
 
 export interface ProjectCardProps {
   project: Project;
@@ -54,13 +55,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {project.products?.length > 0 && (
         <details className="card-details">
-          <summary
-            aria-label={`Toggle products for ${project.name}`}
-            className="flex min-h-[48px] items-center gap-1.5 text-xs text-[var(--accent)] transition-opacity hover:opacity-80"
-          >
-            <FiChevronDown size={12} aria-hidden="true" className="card-details-chevron" />
+          <DetailsSummary tone="accent" aria-label={`Toggle products for ${project.name}`}>
             {project.products.length} product{project.products.length > 1 ? "s" : ""}
-          </summary>
+          </DetailsSummary>
           <div className="mt-3 space-y-3 border-t border-[var(--border)] pt-3">
             {project.products.map((p) => (
               <div key={p.name}>

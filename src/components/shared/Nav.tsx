@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { IconButton, IconButtonLink } from "./IconButton";
 import { FiMenu, FiX } from "react-icons/fi";
 import type { NavLink } from "@/types";
 
@@ -111,13 +112,14 @@ export function Nav({ initials, navLinks }: NavProps) {
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-6">
-        <a
+        <IconButtonLink
+          variant="outline-accent"
           href="#"
           aria-label="Home"
-          className="flex min-h-[48px] min-w-[48px] shrink-0 items-center justify-center rounded-lg border border-[var(--accent)] font-mono text-sm font-bold text-[var(--accent)] transition-all hover:bg-[var(--accent)] hover:text-[var(--bg)]"
+          className="shrink-0 font-mono text-sm font-bold"
         >
           {initials}
-        </a>
+        </IconButtonLink>
 
         <nav
           className="hidden flex-1 items-center justify-center gap-4 lg:flex"
@@ -147,9 +149,10 @@ export function Nav({ initials, navLinks }: NavProps) {
 
         <div className="ml-auto flex shrink-0 items-center gap-2">
           <ThemeToggle />
-          <button
-            ref={toggleRef}
-            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] transition-all hover:border-[var(--accent)] hover:text-[var(--text)] lg:hidden"
+          <IconButton
+            variant="outline"
+            buttonRef={toggleRef}
+            className="lg:hidden"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
@@ -159,7 +162,7 @@ export function Nav({ initials, navLinks }: NavProps) {
             ) : (
               <FiMenu size={16} aria-hidden="true" />
             )}
-          </button>
+          </IconButton>
         </div>
       </div>
 
@@ -192,16 +195,16 @@ export function Nav({ initials, navLinks }: NavProps) {
             ))}
           </nav>
           <div className="flex justify-end border-t border-[var(--border)] px-6 pb-4">
-            <button
+            <IconButton
+              variant="outline"
               onClick={() => {
                 setMobileOpen(false);
                 toggleRef.current?.focus();
               }}
               aria-label="Close navigation menu"
-              className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted)] transition-all hover:border-[var(--accent)] hover:text-[var(--text)]"
             >
               <FiX size={16} aria-hidden="true" />
-            </button>
+            </IconButton>
           </div>
         </div>
       )}

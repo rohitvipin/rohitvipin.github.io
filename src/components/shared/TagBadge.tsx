@@ -1,9 +1,12 @@
-import { TAG_BADGE_CLASSES } from "@/lib/primitive-classes";
+import { tagBadgeClassName, type TagBadgeVariant } from "@/lib/primitive-classes";
+
+export type { TagBadgeVariant };
 
 export interface TagBadgeProps {
   label: string;
+  variant?: TagBadgeVariant;
 }
 
-export function TagBadge({ label }: TagBadgeProps) {
-  return <span className={TAG_BADGE_CLASSES}>{label}</span>;
+export function TagBadge({ label, variant = "neutral" }: TagBadgeProps) {
+  return <span className={tagBadgeClassName(variant)}>{label}</span>;
 }
