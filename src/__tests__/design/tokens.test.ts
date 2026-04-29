@@ -98,6 +98,39 @@ describe("design tokens — globals.css", () => {
   });
 });
 
+describe("design tokens — consumption", () => {
+  // Walks src/components, src/app, src/lib for any `var(--key)` reference.
+  // A token declared in globals.css but referenced nowhere is dead weight —
+  // either delete it or wire it up. Tailwind arbitrary values (e.g.
+  // `bg-[var(--accent)]`) match too, so primitive-classes.ts covers most.
+  const SCAN_ROOT = path.resolve(__dirname, "../../..");
+  const SCAN_DIRS = ["src/components", "src/app", "src/lib"];
+
+  function readSrcCorpus(): string {
+    const buf: string[] = [];
+    function walk(dir: string) {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.isFile() && /\.(tsx?|jsx?|css)$/.test(entry.name)) {
+          buf.push(fs.readFileSync(full, "utf8"));
+        }
+      }
+    }
+    for (const d of SCAN_DIRS) {
+      const abs = path.join(SCAN_ROOT, d);
+      if (fs.existsSync(abs)) walk(abs);
+    }
+    return buf.join("\n");
+  }
+
+  it("every TOKEN_KEY is referenced via var(--key) somewhere in src/", () => {
+    const corpus = readSrcCorpus();
+    const orphans = TOKEN_KEYS.filter((key) => !corpus.includes(`var(${key})`));
+    expect(orphans, `unused tokens: ${orphans.join(", ")}`).toEqual([]);
+  });
+});
+
 describe("design tokens — WCAG contrast", () => {
   function valueFor(theme: Map<string, string>, key: TokenKey): string {
     const value = theme.get(key);

@@ -58,7 +58,6 @@ export function ProjectsTabClient({ projects }: ProjectsTabClientProps) {
             }}
             id={`tab-${id}`}
             active={tab === id}
-            aria-selected={tab === id}
             aria-controls={`tabpanel-${id}`}
             tabIndex={tab === id ? 0 : -1}
             onClick={() => setTab(id)}

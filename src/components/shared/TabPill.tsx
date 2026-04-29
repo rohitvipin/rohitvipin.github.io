@@ -11,7 +11,13 @@ export interface TabPillProps extends Omit<ButtonHTMLAttributes<HTMLButtonElemen
 
 export function TabPill({ active, children, buttonRef, ...rest }: TabPillProps) {
   return (
-    <button ref={buttonRef} role="tab" className={tabPillClassName(active)} {...rest}>
+    <button
+      ref={buttonRef}
+      role="tab"
+      aria-selected={active}
+      className={tabPillClassName(active)}
+      {...rest}
+    >
       {children}
     </button>
   );

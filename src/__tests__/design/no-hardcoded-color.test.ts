@@ -10,7 +10,7 @@ import path from "node:path";
  */
 
 const ROOT = path.resolve(__dirname, "../../..");
-const SCAN_DIRS = ["src/components", "src/app"];
+const SCAN_DIRS = ["src/components", "src/app", "src/lib"];
 
 /**
  * Browser theme-color meta requires literal hex; CSS vars are not resolved

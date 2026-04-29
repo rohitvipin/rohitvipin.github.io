@@ -33,11 +33,12 @@ test.describe("touch target sizes (WCAG 2.5.5)", () => {
         if (parseFloat(style.opacity) === 0) return false;
         const rect = (el as HTMLElement).getBoundingClientRect();
         if (rect.width <= 0 || rect.height <= 0) return false;
-        // Visually-hidden skip-links (sr-only pattern) are 1x1 in the
-        // accessibility tree and only expand to a 48x48 hit target when
-        // focused. WCAG-compliant pattern; exempt from touch-target check
-        // unless currently focused.
-        if (el.matches(".sr-only") && el !== document.activeElement) return false;
+        // Visually-hidden skip-link (sr-only anchor) is 1x1 in the
+        // accessibility tree and only expands to a 48x48 hit target when
+        // focused. WCAG-compliant pattern; exempt only the skip-link
+        // anchor specifically — any other interactive `.sr-only` element
+        // would be a real touch-target violation worth surfacing.
+        if (el.matches("a.sr-only") && el !== document.activeElement) return false;
         return true;
       };
 
