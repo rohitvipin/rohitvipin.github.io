@@ -51,3 +51,4 @@ test-results/
 .gitnexus
 .claude/skills/gitnexus/
 .github/hooks/context-mode.json
+.lighthouseci/

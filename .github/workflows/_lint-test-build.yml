@@ -85,6 +85,8 @@ jobs:
           # @playwright/test version pinned in package-lock.json -- any
           # browser-bundle bump in the lockfile invalidates the cache.
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
