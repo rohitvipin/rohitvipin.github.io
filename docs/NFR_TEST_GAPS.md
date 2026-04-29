@@ -69,7 +69,7 @@ This closes G4 entirely and partially closes G1 (unit-level structural a11y). E2
 
 **Remaining gap.** No full-page axe sweep on the rendered/integrated page. TC-12 covers ~12 hand-rolled rules only.
 
-**Implementation.** `@axe-core/playwright` (MIT, Deque, **>=4.10 required for React 19 hydration timing**). Spec: `e2e/all-viewports/tc-15-axe.spec.ts`.
+**Implementation.** `@axe-core/playwright` (MIT, Deque, **>=4.10 required for React 19 hydration timing**). Spec: `e2e/all-viewports/tc-21-axe.spec.ts` (tc-15 already used by touch-targets).
 
 ```ts
 import AxeBuilder from "@axe-core/playwright";

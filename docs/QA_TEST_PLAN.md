@@ -28,21 +28,24 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-00 · Smoke
 
+Minimal liveness check — full page-load assertions live in TC-01.
+
 | #    | Check                   | Expected                                                                     | Severity |
 | ---- | ----------------------- | ---------------------------------------------------------------------------- | -------- |
-| 00.1 | HTTP status             | 200                                                                          | CRITICAL |
-| 00.2 | Page title              | Contains "Rohit Vipin Mathews"                                               | CRITICAL |
-| 00.3 | Console errors          | Zero at `error` level                                                        | HIGH     |
+| 00.1 | h1 renders with name    | `h1` contains "Rohit Vipin Mathews"                                          | CRITICAL |
 | 00.4 | No service worker (G21) | `navigator.serviceWorker.getRegistrations()` returns empty after networkidle | HIGH     |
 
 ---
 
 ### TC-01 · Page Load
 
-| #    | Check                   | Expected             | Severity |
-| ---- | ----------------------- | -------------------- | -------- |
-| 01.1 | Console warnings        | Zero at `warn` level | MEDIUM   |
-| 01.2 | `<html lang>` attribute | `lang="en"` present  | MEDIUM   |
+| #    | Check                   | Expected                        | Severity |
+| ---- | ----------------------- | ------------------------------- | -------- |
+| 01.1 | HTTP status             | 200                             | CRITICAL |
+| 01.2 | Page title              | Matches `/Rohit Vipin Mathews/` | CRITICAL |
+| 01.3 | Console errors          | Zero at `error` level           | HIGH     |
+| 01.4 | Console warnings        | Zero at `warn` level            | MEDIUM   |
+| 01.5 | `<html lang>` attribute | `lang="en"` present             | MEDIUM   |
 
 ---
 
@@ -114,20 +117,12 @@ Run via `/portfolio-qa` skill. Artifacts saved to `.qa-reports/` (gitignored).
 
 ### TC-07 · Touch Targets
 
-All interactive elements must meet WCAG 2.5.5 (44×44px minimum).
+Spec file: `e2e/all-viewports/tc-15-touch-targets.spec.ts` (numeric prefix `tc-15-` is the file identifier; the test plan slot is TC-07). Single unified Playwright check enforces a 48×48 CSS-px floor on every visible interactive element across desktop, tablet, and mobile projects — exceeds WCAG 2.5.5 AAA (24×24 / 44×44).
 
-| #     | Check                     | Expected      | Severity |
-| ----- | ------------------------- | ------------- | -------- |
-| 07.1  | "See Impact" CTA          | Height ≥ 44px | HIGH     |
-| 07.2  | "Get in Touch" CTA        | Height ≥ 44px | HIGH     |
-| 07.3  | "Download CV" link        | Height ≥ 44px | HIGH     |
-| 07.4  | Hamburger button          | ≥ 48×48px     | HIGH     |
-| 07.5  | Desktop nav links         | Height ≥ 44px | MEDIUM   |
-| 07.6  | Social icon links         | ≥ 48×48px     | MEDIUM   |
-| 07.7  | Theme toggle              | ≥ 48×48px     | MEDIUM   |
-| 07.8  | Scroll-to-top button      | ≥ 48×48px     | MEDIUM   |
-| 07.9  | Experience expand buttons | Height ≥ 44px | MEDIUM   |
-| 07.10 | Skill "+N more" buttons   | Height ≥ 44px | MEDIUM   |
+| #    | Check                                         | Expected                                                                                                                                                                                            | Severity |
+| ---- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| 07.1 | All visible interactives ≥ 48×48 CSS px       | Iterates `button:not([disabled])`, `a[href]:not([href=""])`, `input`, `select`, `textarea`, `[role="button"]`, `[role="tab"]`. Visually-hidden skip-links (`.sr-only`, unfocused) exempted by spec. | HIGH     |
+| 07.2 | Diagnostic on failure lists offending element | `tagName` + id/class + width/height + first 60 chars of text content                                                                                                                                | LOW      |
 
 ---
 
@@ -189,20 +184,21 @@ Verify all 10 content sections render with non-empty content.
 
 ### TC-12 · Accessibility
 
-| #     | Check                   | Expected                                                              | Severity |
-| ----- | ----------------------- | --------------------------------------------------------------------- | -------- |
-| 12.1  | Skip link               | `<a href="#main-content">Skip to main content</a>` in DOM             | HIGH     |
-| 12.2  | `main#main-content`     | `<main id="main-content">` present                                    | HIGH     |
-| 12.3  | Section aria-labelledby | All `<section>` elements have `aria-labelledby` pointing to a heading | HIGH     |
-| 12.4  | JSON-LD structured data | `<script type="application/ld+json">` with `@type: "Person"`          | HIGH     |
-| 12.5  | Meta description        | `<meta name="description">` ≥ 50 chars, ≤ 160 chars                   | MEDIUM   |
-| 12.6  | OG tags complete        | `og:title`, `og:description`, `og:image` all present                  | MEDIUM   |
-| 12.7  | Twitter card tags       | `twitter:card`, `twitter:title` present                               | MEDIUM   |
-| 12.8  | Images have alt text    | No `<img>` missing `alt` attribute                                    | HIGH     |
-| 12.9  | Buttons have labels     | No `<button>` with empty accessible name                              | HIGH     |
-| 12.10 | Links have labels       | No `<a>` with empty accessible name                                   | HIGH     |
-| 12.11 | Heading hierarchy       | No skipped heading levels (h1→h2→h3)                                  | MEDIUM   |
-| 12.12 | `lang` on `<html>`      | `<html lang="en">`                                                    | MEDIUM   |
+| #     | Check                   | Expected                                                                   | Severity |
+| ----- | ----------------------- | -------------------------------------------------------------------------- | -------- |
+| 12.1  | Skip link               | `<a href="#main-content">Skip to main content</a>` in DOM                  | HIGH     |
+| 12.2  | `main#main-content`     | `<main id="main-content">` present                                         | HIGH     |
+| 12.3  | Section aria-labelledby | All `<section>` elements have `aria-labelledby` pointing to a heading      | HIGH     |
+| 12.4  | JSON-LD structured data | `<script type="application/ld+json">` with `@type: "Person"`               | HIGH     |
+| 12.5  | Meta description        | `<meta name="description">` ≥ 50 chars, ≤ 160 chars                        | MEDIUM   |
+| 12.6  | OG tags complete        | `og:title`, `og:description`, `og:image` all present                       | MEDIUM   |
+| 12.7  | Twitter card tags       | `twitter:card`, `twitter:title` present                                    | MEDIUM   |
+| 12.8  | Images have alt text    | No `<img>` missing `alt` attribute                                         | HIGH     |
+| 12.9  | Buttons have labels     | No `<button>` with empty accessible name                                   | HIGH     |
+| 12.10 | Links have labels       | No `<a>` with empty accessible name                                        | HIGH     |
+| 12.11 | Heading hierarchy       | No skipped heading levels (h1→h2→h3)                                       | MEDIUM   |
+| 12.12 | `lang` on `<html>`      | `<html lang="en">`                                                         | MEDIUM   |
+| 12.13 | JSON-LD `hasOccupation` | `Person.hasOccupation` defined; `@type === "Occupation"`; `name` is string | LOW      |
 
 ---
 
