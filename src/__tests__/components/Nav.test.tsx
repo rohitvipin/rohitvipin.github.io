@@ -51,6 +51,17 @@ describe("Nav", () => {
     });
   });
 
+  it("desktop nav links carry min-w-[48px] + justify-center for WCAG 2.5.5 width floor", () => {
+    // Short labels ("Skills", "About") would render <48px wide without an
+    // explicit min-width; tc-15-touch-targets.spec.ts caught this in CI.
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    nav.querySelectorAll("a").forEach((link) => {
+      expect(link.className).toContain("min-w-[48px]");
+      expect(link.className).toContain("justify-center");
+    });
+  });
+
   it("desktop nav is hidden below lg breakpoint class", () => {
     render(<Nav initials="R" navLinks={testNavLinks} />);
     const nav = screen.getByRole("navigation", { name: "Main navigation" });
@@ -225,6 +236,58 @@ describe("Nav", () => {
     await user.keyboard("{Escape}");
     expect(main).not.toHaveAttribute("inert");
     main.remove();
+  });
+
+  it("clears active section when all observed sections leave the band (hero regression)", () => {
+    // Regression guard: previously the IntersectionObserver callback
+    // early-returned when no entries were intersecting, so the active link
+    // stayed stuck on the last-active section as the user scrolled back
+    // into the hero. State must clear when all sections report
+    // isIntersecting=false.
+    let capturedCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(cb: (entries: IntersectionObserverEntry[]) => void) {
+          capturedCallback = cb;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      }
+    );
+
+    document.body.innerHTML = '<section id="about"></section>';
+    render(<Nav initials="R" navLinks={testNavLinks} />);
+
+    const about = document.getElementById("about") as HTMLElement;
+    const cb = capturedCallback as unknown as (entries: IntersectionObserverEntry[]) => void;
+
+    // Step 1: about enters band → About becomes active.
+    act(() => {
+      cb([
+        {
+          isIntersecting: true,
+          boundingClientRect: { top: 100 } as DOMRectReadOnly,
+          target: about,
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("aria-current", "location");
+
+    // Step 2: user scrolls back into hero → about leaves band.
+    act(() => {
+      cb([
+        {
+          isIntersecting: false,
+          boundingClientRect: { top: 900 } as DOMRectReadOnly,
+          target: about,
+        } as unknown as IntersectionObserverEntry,
+      ]);
+    });
+    screen.getAllByRole("link").forEach((link) => {
+      expect(link).not.toHaveAttribute("aria-current", "location");
+    });
   });
 
   it("marks the intersecting section as active", async () => {

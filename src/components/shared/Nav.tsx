@@ -18,15 +18,28 @@ export function Nav({ initials, navLinks }: NavProps) {
 
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.slice(1));
+    // Track each section's current intersection state so the active link
+    // clears when the user scrolls back into the hero (above the first
+    // observed section), not just when a new section enters the band.
+    const state = new Map<string, { intersecting: boolean; top: number }>();
 
     const obs = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (!visible.length) return;
-        const topmost = visible.reduce((a, b) =>
-          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
-        );
-        setActiveSection(topmost.target.id);
+        for (const e of entries) {
+          state.set(e.target.id, {
+            intersecting: e.isIntersecting,
+            top: e.boundingClientRect.top,
+          });
+        }
+        let pick = "";
+        let bestTop = Number.POSITIVE_INFINITY;
+        for (const [id, v] of state) {
+          if (v.intersecting && v.top < bestTop) {
+            bestTop = v.top;
+            pick = id;
+          }
+        }
+        setActiveSection(pick);
       },
       { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
     );
